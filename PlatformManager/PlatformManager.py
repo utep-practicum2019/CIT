@@ -2,9 +2,7 @@ import sys
 import os 
 from yapsy.PluginManager import PluginManager
 
-class PlatformManager:
-    pluginManager = PluginManager()
-    """ 
+""" 
         @authors:
             Alejandro Balderrama
             Nadia Karichev
@@ -14,9 +12,11 @@ class PlatformManager:
             This class represents the platfrom manager. 
             The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
     """
-    
+
+class PlatformManager(object):
+    pluginManager = PluginManager()
+
     def __init__(self):
-        
         print("Loading plugins")
 
     def addPlugin(self):
@@ -39,7 +39,6 @@ class PlatformManager:
 
     def associate_User_Service(self):
         print("Associating a user to a service")
-    
 
 platfromManager = PlatformManager()
 platfromManager.addPlugin()
