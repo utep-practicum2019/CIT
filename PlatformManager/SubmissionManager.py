@@ -2,7 +2,7 @@ import sys
 import os 
 from yapsy.PluginManager import PluginManager
 import abc
-from .PlatformManager import PlatformManager
+from .PlatformsManager import PlatformManager
 
 """ 
         @authors:
@@ -20,11 +20,9 @@ class SubmissionManager(PlatformManager):
     def addPlatform(self):
         print("adding plugin")
     
-    
     def removePlatform(self):
         print("removing plugin")
-    
-    
+
     def configurePlatform(self):
         print("configuring service")
     
@@ -41,7 +39,7 @@ class SubmissionManager(PlatformManager):
         print("showing services")
 
 
-platfromManager = PlatformManager()
+platfromManager =SubmissionManager()
 platfromManager.addPlatform()
 platfromManager.removePlatform()
 platfromManager.configurePlatform()
