@@ -2,6 +2,7 @@ import sys
 import os 
 from yapsy.PluginManager import PluginManager
 import abc
+from .PlatformManager import PlatformManager
 
 """ 
         @authors:
@@ -14,34 +15,36 @@ import abc
             The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
     """
 
-class PlatformManager(abc.ABC):
-    pluginManager = PluginManager()
+class SubmissionManager(PlatformManager):
     
-    @abc.abstractmethod
     def addPlatform(self):
-        pass
+        print("adding plugin")
     
-    @abc.abstractmethod
+    
     def removePlatform(self):
-        pass
+        print("removing plugin")
     
-    @abc.abstractmethod
+    
     def configurePlatform(self):
-        pass
+        print("configuring service")
     
-    @abc.abstractmethod
+    
     def startPlatform(self):
-        pass
+        print("starting a service")
     
-    @abc.abstractmethod
+    
     def stopPlatform(self):
-        pass
+        print("stopping a service")
     
-    @abc.abstractmethod
+    
     def showPlatforms(self):
-        pass
+        print("showing services")
 
 
-
-
-   
+platfromManager = PlatformManager()
+platfromManager.addPlatform()
+platfromManager.removePlatform()
+platfromManager.configurePlatform()
+platfromManager.showPlatforms()
+platfromManager.startPlatform()
+platfromManager.stopPlatform()
