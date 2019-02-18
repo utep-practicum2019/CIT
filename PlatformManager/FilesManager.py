@@ -35,7 +35,7 @@ class FilesManager(PlatformManager):
         print("showing services")
 
 
-platformManager = PlatformManager()
+platformManager = FilesManager()
 platformManager.addPlatform()
 platformManager.removePlatform()
 platformManager.configurePlatform()

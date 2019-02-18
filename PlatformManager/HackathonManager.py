@@ -35,7 +35,7 @@ class HackathonManager(PlatformManager):
         print("showing services")
 
 
-platformManager = PlatformManager()
+platformManager = HackathonManager()
 platformManager.addPlatform()
 platformManager.removePlatform()
 platformManager.configurePlatform()
