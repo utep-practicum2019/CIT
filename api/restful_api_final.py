@@ -1,10 +1,13 @@
-import sqlite3
-
+# import sqlite3
 from flask import Flask, request, make_response, jsonify
 from flask_httpauth import HTTPBasicAuth
-from flask_restful import Api, Resource, reqparse
+from flask_marshmallow import Marshmallow
+from flask_restful import Api, Resource
+from marshmallow import Schema, fields
 
 import inputValidator as inputValidator
+
+ma = Marshmallow()
 
 app = Flask(__name__)
 api = Api(app)
@@ -30,144 +33,210 @@ def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 
-class BookAPI(Resource):
+# class BookAPI(Resource):
+#
+#     def get(self):
+#
+#         query_parameters = request.args
+#
+#         id = query_parameters.get('id')
+#         published = query_parameters.get('published')
+#         author = query_parameters.get('author')
+#
+#         query = "SELECT * FROM books WHERE"
+#
+#         to_filter = []
+#
+#         if id:
+#             query += ' id=? AND'
+#             to_filter.append(id)
+#         if published:
+#             query += ' published=? AND'
+#             to_filter.append(published)
+#         if author:
+#             query += ' author=? AND'
+#             to_filter.append(author)
+#
+#         # if not (id or published or author):
+#         #     return page_not_found(404)
+#
+#         query = query[:-4] + ';'
+#         conn = sqlite3.connect('books.db')
+#         conn.row_factory = dict_factory
+#         cur = conn.cursor()
+#         results = cur.execute(query, to_filter).fetchall()
+#         return results, 404
+#
+#
+# class BookListAPI(Resource):
+#     def get(self):
+#         conn = sqlite3.connect('books.db')
+#         conn.row_factory = dict_factory
+#         cur = conn.cursor()
+#         all_books = cur.execute('SELECT * FROM books;').fetchall()
+#         return all_books
 
-    def get(self):
 
-        query_parameters = request.args
-
-        id = query_parameters.get('id')
-        published = query_parameters.get('published')
-        author = query_parameters.get('author')
-
-        query = "SELECT * FROM books WHERE"
-
-        to_filter = []
-
-        if id:
-            query += ' id=? AND'
-            to_filter.append(id)
-        if published:
-            query += ' published=? AND'
-            to_filter.append(published)
-        if author:
-            query += ' author=? AND'
-            to_filter.append(author)
-
-        # if not (id or published or author):
-        #     return page_not_found(404)
-
-        query = query[:-4] + ';'
-        conn = sqlite3.connect('books.db')
-        conn.row_factory = dict_factory
-        cur = conn.cursor()
-        results = cur.execute(query, to_filter).fetchall()
-        return results, 404
+class LoginSchema(Schema):
+    ip = fields.String(required=True)
 
 
-class BookListAPI(Resource):
-    def get(self):
-        conn = sqlite3.connect('books.db')
-        conn.row_factory = dict_factory
-        cur = conn.cursor()
-        all_books = cur.execute('SELECT * FROM books;').fetchall()
-        return all_books
+login_schema = LoginSchema()
 
 
 class LoginAPI(Resource):
     decorators = [auth.login_required]
 
-    def __init__(self):
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('ip', required=True, help="Error: No IP address provided. Please specify an IP!")
-        super(LoginAPI, self).__init__()
+    def post(self):
 
-    def get(self):
-        args = self.reqparse.parse_args()
-        if 'ip' in args:
-            if inputValidator.is_valid_ipv4_address(args['ip']):
-                return "Assigned IP: " + args['ip']
-            else:
-                return "Invalid IP address"
-        else:
-            return "Error: No IP address provided. Please specify an IP."
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = login_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+        if not inputValidator.is_valid_ipv4_address(data['ip']):
+            return {'message': 'Not a valid IP address'}, 400
+        return "Authenticated User, Assigned " + data['ip'] + " Redirect To: "
+
+
+class VMConfigSchema(Schema):
+    vmName = fields.String()
+    adpt_number = fields.String()
+    src_ip = fields.String()
+    dst_ip = fields.String()
+    src_prt = fields.String()
+    dst_prt = fields.String()
+
+
+vm_config_schema = VMConfigSchema()
 
 
 class VMConfigAPI(Resource):
 
-    def get(self):
-        args = request.args
-        results = {}
-        if 'vmName' in args:
-            results.update({'vmName': args['vmName']})
-        if 'adptNumber' in args:
-            results.update({'adptNumber': args['adptNumber']})
-        if 'src_ip' in args:
-            src_ip = args['src_ip']
-            if inputValidator.is_valid_ipv4_address(src_ip):
-                results.update({'src_ip': src_ip})
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = vm_config_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        command = ""
+        if 'vmName' in data:
+            command += "vmname " + data['vmName'] + " "
+        if 'src_ip' in data:
+            if inputValidator.is_valid_ipv4_address(data['src_ip']):
+                command += "src_ip " + data['src_ip'] + " "
             else:
-                results.update({'src_ip': "Invalid Input"})
-        if 'dst_ip' in args:
-            dst_ip = args['dst_ip']
-            if inputValidator.is_valid_ipv4_address(dst_ip):
-                results.update({'dst_ip': dst_ip})
+                return {'message': 'Not a valid IP address'}, 400
+        if 'src_prt' in data:
+            command += "src_prt" + data['src_prt'] + " "
+        if 'dst_ip' in data:
+            if inputValidator.is_valid_ipv4_address(data['src_ip']):
+                command += "dst_ip " + data['dst_ip'] + " "
             else:
-                results.update({'dst_ip': "Invalid Input"})
-        if 'srcPrt' in args:
-            results.update({'srcPrt': args['srcPrt']})
-        if 'dstPrt' in args:
-            results.update({'dstPrt': args['dstPrt']})
-        if bool(args):
-            return results
-        return "Invalid Request, No Inputs Provided"
+                return {'message': 'Not a valid IP address'}, 400
+        if 'dst_prt' in data:
+            command += "dst_prt " + data['dst_prt'] + " "
+        if 'adpt_number' in data:
+            command += "adpt_number " + data['adpt_number'] + " "
+        results = ({'config': command})
+        return results
+
+
+class VMStatusSchema(Schema):
+    vmName = fields.String(required=True)
+    mgrStatus = fields.String()
+
+
+vm_status_schema = VMStatusSchema()
+
 
 class VMStatusAPI(Resource):
 
-    def get(self):
-        args = request.args
-        if 'mgrstatus' in args:
-            return "Status: Fine!"
-        else:
-            return "Invalid Request, No Inputs Provided"
-
     def post(self):
-        args = request.args
-        if 'vmName' in args:
-            if not args['vmName']:
-                return "Invalid Request, Empty Field Provided"
-            else:
-                return {'vmName': "Capture the Flag"}
-        return "Invalid Request, No Inputs Provided"
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = vm_status_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        command = ""
+        if 'vmName' in data:
+            command += "vmname " + data['vmName'] + " "
+        if 'mgrStatus' in data:
+            command += "mgrstatus " + data['mgrStatus']
+        results = ({'status': command})
+        return results
+
+
+class VMStartSchema(Schema):
+    vmName = fields.String(required=True)
+
+
+vm_start_schema = VMStartSchema()
+
 
 class VMStartAPI(Resource):
 
-    def get(self):
-        args = request.args
-        if 'vmName' in args:
-            if not args['vmName']:
-                return "Invalid Request, Empty Field Provided"
-            else:
-                return {'vmName': "Capture the Flag"}
-        return "Invalid Request, No Inputs Provided"
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = vm_start_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        command = ""
+        if 'vmName' in data:
+            command += "vmname " + data['vmName']
+        results = ({'start': command})
+        return results
+
+
+class VMSuspendSchema(Schema):
+    vmName = fields.String(required=True)
+
+
+vm_suspend_schema = VMSuspendSchema()
+
 
 class VMSuspendAPI(Resource):
 
-    def get(self):
-        args = request.args
-        if 'vmName' in args:
-            if not args['vmName']:
-                return "Invalid Request, Empty Field Provided"
-            else:
-                return {'vmName': "Capture the Flag"}
-        return "Invalid Request, No Inputs Provided"
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
 
-api.add_resource(BookAPI, '/api/v2/resources/books')
+        data, errors = vm_suspend_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        command = ""
+        if 'vmName' in data:
+            command += "vmname " + data['vmName']
+        results = ({'suspend': command})
+        return results
+
+
+# api.add_resource(BookAPI, '/api/v2/resources/books')
+# api.add_resource(BookListAPI, '/api/v2/resources/books/all')
+
 api.add_resource(VMConfigAPI, '/api/v2/resources/vm/manage/config')
 api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/status')
-api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/start')
-api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/suspend')
-api.add_resource(BookListAPI, '/api/v2/resources/books/all')
+api.add_resource(VMStartAPI, '/api/v2/resources/vm/manage/start')
+api.add_resource(VMSuspendAPI, '/api/v2/resources/vm/manage/suspend')
 api.add_resource(LoginAPI, '/api/v2/resources/login')
 
 if __name__ == '__main__':
