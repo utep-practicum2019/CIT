@@ -3,9 +3,9 @@ from flask import Flask, request, make_response, jsonify
 from flask_httpauth import HTTPBasicAuth
 from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
-from marshmallow import Schema, fields
 
 import inputValidator as inputValidator
+from CITAPI_Schema import *
 
 ma = Marshmallow()
 
@@ -77,13 +77,6 @@ def unauthorized():
 #         return all_books
 
 
-class LoginSchema(Schema):
-    ip = fields.String(required=True)
-
-
-login_schema = LoginSchema()
-
-
 class LoginAPI(Resource):
     decorators = [auth.login_required]
 
@@ -100,18 +93,6 @@ class LoginAPI(Resource):
         if not inputValidator.is_valid_ipv4_address(data['ip']):
             return {'message': 'Not a valid IP address'}, 400
         return "Authenticated User, Assigned " + data['ip'] + " Redirect To: "
-
-
-class VMConfigSchema(Schema):
-    vmName = fields.String()
-    adpt_number = fields.String()
-    src_ip = fields.String()
-    dst_ip = fields.String()
-    src_prt = fields.String()
-    dst_prt = fields.String()
-
-
-vm_config_schema = VMConfigSchema()
 
 
 class VMConfigAPI(Resource):
@@ -149,14 +130,6 @@ class VMConfigAPI(Resource):
         return results
 
 
-class VMStatusSchema(Schema):
-    vmName = fields.String(required=True)
-    mgrStatus = fields.String()
-
-
-vm_status_schema = VMStatusSchema()
-
-
 class VMStatusAPI(Resource):
 
     def post(self):
@@ -178,13 +151,6 @@ class VMStatusAPI(Resource):
         return results
 
 
-class VMStartSchema(Schema):
-    vmName = fields.String(required=True)
-
-
-vm_start_schema = VMStartSchema()
-
-
 class VMStartAPI(Resource):
 
     def post(self):
@@ -202,13 +168,6 @@ class VMStartAPI(Resource):
             command += "vmname " + data['vmName']
         results = ({'start': command})
         return results
-
-
-class VMSuspendSchema(Schema):
-    vmName = fields.String(required=True)
-
-
-vm_suspend_schema = VMSuspendSchema()
 
 
 class VMSuspendAPI(Resource):
@@ -230,9 +189,33 @@ class VMSuspendAPI(Resource):
         return results
 
 
+class PlatformAPI(Resource):
+
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = platform_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        results = {
+            'port': '8080',
+            'links': 'placeholder',
+            'status_code': 2,
+            'comm_tunnel': 1,
+            'server_subsys_name': 'platform'
+        }
+
+        return results
+
+
 # api.add_resource(BookAPI, '/api/v2/resources/books')
 # api.add_resource(BookListAPI, '/api/v2/resources/books/all')
 
+api.add_resource(PlatformAPI, '/api/v2/resources/platform')
 api.add_resource(VMConfigAPI, '/api/v2/resources/vm/manage/config')
 api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/status')
 api.add_resource(VMStartAPI, '/api/v2/resources/vm/manage/start')
