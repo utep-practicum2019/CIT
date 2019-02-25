@@ -1,5 +1,5 @@
-class User:
-    def __init__(self, username, password, groupID, internalIP):
+class User(object):
+    def __init__(self, username, password, groupID=None, internalIP=None):
         self.username = username
         self.password = password
         self.groupID = groupID
@@ -8,35 +8,35 @@ class User:
     
     @property
     def username(self):
-        return self.username
+        return self._username
 
     @username.setter
     def username(self, username):
-        self.username = username
+        self._username = username
 
     @property
     def password(self):
-        return self.password
+        return self._password
 
     @password.setter
     def password(self, password):
-        self.password = password
+        self._password = password
 
     @property
     def groupID(self):
-        return self.groupID
+        return self._groupID
 
     @groupID.setter
     def groupID(self, groupID):
-        self.groupID = groupID
+        self._groupID = groupID
 
     @property
     def internalIP(self):
-        return self.internalIP
+        return self._internalIP
 
     @internalIP.setter
     def internalIP(self, internalIP):
-        self.internalIP = internalIP
+        self._internalIP = internalIP
 
 
     
