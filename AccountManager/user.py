@@ -1,10 +1,18 @@
 class User(object):
-    def __init__(self, username, password, groupID=None, internalIP=None):
+    def __init__(self, username, password, group_id=None, internal_ip=None):
         self.username = username
         self.password = password
-        self.groupID = groupID
-        self.internalIP = internalIP
+        self.group_id = group_id
+        self.internal_ip = internal_ip
 
+    def __repr__(self):
+        str = "User(user=%r, password=%r" % (self.username, self.password)
+        if self.group_id is not None:
+            str += ", group_id=%r" % (self.group_id)
+        if self.internal_ip is not None:
+            str += ", internal_ip=%r" % (self.internal_ip)
+        str += ")"
+        return str
     
     @property
     def username(self):
@@ -23,20 +31,20 @@ class User(object):
         self._password = password
 
     @property
-    def groupID(self):
-        return self._groupID
+    def group_id(self):
+        return self._group_id
 
-    @groupID.setter
-    def groupID(self, groupID):
-        self._groupID = groupID
+    @group_id.setter
+    def group_id(self, group_id):
+        self._group_id = group_id
 
     @property
-    def internalIP(self):
-        return self._internalIP
+    def internal_ip(self):
+        return self._internal_ip
 
-    @internalIP.setter
-    def internalIP(self, internalIP):
-        self._internalIP = internalIP
+    @internal_ip.setter
+    def internal_ip(self, internal_ip):
+        self._internal_ip = internal_ip
 
 
     
