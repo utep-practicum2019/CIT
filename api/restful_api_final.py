@@ -321,7 +321,7 @@ class GroupAPI(Resource):
             'platforms': ['P1', 'P2'],
             'members': ['M1', 'M2'],
             'chat_id': 0,
-            'required': True
+            'success': True
         }
 
         results = group_response_schema.dump(results)
@@ -338,7 +338,7 @@ class GroupAPI(Resource):
 
         # results = createGroup(data)
         results = {
-            'required': True
+            'success': True
         }
 
         results = group_response_schema.dump(results)
@@ -353,9 +353,9 @@ class GroupAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = createGroup(data)
+        # results = modifyGroup(data)
         results = {
-            'required': True
+            'success': True
         }
 
         results = group_response_schema.dump(results)
@@ -370,9 +370,9 @@ class GroupAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = createGroup(data)
+        # results = deleteGroup(data)
         results = {
-            'required': True
+            'success': True
         }
 
         results = group_response_schema.dump(results)
