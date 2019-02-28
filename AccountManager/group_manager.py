@@ -1,15 +1,10 @@
 from group import Group
  
 class GroupManager:
-    data1 = {'group_id':1, 'min_members':11, 'max_members':111}
-    data2 = {'group_id':2, 'min_members':22, 'max_members':222}
-    data3 = {'group_id':3, 'min_members':33, 'max_members':333}
-    database = {1:data1, 2:data2, 3:data3}
 
-    
     @staticmethod
     def get_group(group_id):
-        # TODO get info from the database
+        # TODO: get info from the database
         # temporary solution
         data = GroupManager.database
         
@@ -21,7 +16,7 @@ class GroupManager:
 
     @staticmethod
     def get_groups():
-        # TODO get info from database
+        # TODO: get info from database
         # temporary solution
         data = GroupManager.database
 
@@ -34,7 +29,7 @@ class GroupManager:
     def create_group(group_id, **kwargs):
         # Check if group already exists
         if GroupManager.get_group(group_id)is None:
-            # TODO store group in the database
+            # TODO: store group in the database
             # temporary solution
             data = GroupManager.database
             data[group_id] = {'group_id':group_id, **kwargs}

@@ -1,9 +1,14 @@
 from user import User
+import requests
 
 class UserManager:
+
+    user_url = "citsystem.com/api/v2/user"
+
     @staticmethod
     def get_user(username):
-        # TODO get info from database
+        r = requests.get(user)
+        # TODO: get info from database
         data = {'username':'user1', 'password':'pass1'}
 
         if data is None:
@@ -14,14 +19,14 @@ class UserManager:
 
     @staticmethod
     def get_users():
-        # TODO get info from database
+        # TODO: get info from database
         return None
 
     @staticmethod
     def create_user(username, password, **kwargs):
         # check if user exists
         if get_user(username) is None:
-            # TODO store in  database
+            # TODO: store in  database
             return User(username, password, **kwargs)
         # user already exists
         return None
