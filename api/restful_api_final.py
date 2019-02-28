@@ -315,7 +315,7 @@ class GroupAPI(Resource):
 
         # results = getGroupData(data)
         results = {
-            'group_id': 'username',
+            'group_id': 0,
             'min': 0,
             'max': 0,
             'platforms': ['P1', 'P2'],

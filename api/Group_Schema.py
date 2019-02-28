@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields
 
 class GroupRequestSchema(Schema):
-    group_id = fields.String(required=True)
+    group_id = fields.Int(required=True)
     min = fields.Int()
     max = fields.Int()
     platforms = fields.List(fields.String())
@@ -10,7 +10,7 @@ class GroupRequestSchema(Schema):
 
 
 class GroupResponseSchema(Schema):
-    group_id = fields.String()
+    group_id = fields.Int()
     min = fields.Int()
     max = fields.Int()
     platforms = fields.List(fields.String())
