@@ -8,14 +8,23 @@
         <div class="container-fluid">
             <div class="row">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
+
                             <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('indexAdminPage') }}">Managers Menu</a></button>
-                            <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('platPage') }}">Platform Manager</a></button>
-                            <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="{{ url_for('acctPage') }}">Account Manager</a></button>
+
                             <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('connectPage') }}">Connection Manager</a></button>
+
+                            <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="{{ url_for('acctPage') }}">Account Manager</a></button>
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('platPage') }}">Platform Manager</a></button>
+
+                            
+                            
                     </div>
             </div>
         </div>
         <div class="container-fluid" id="mainArea">
+
+            <b>UNDER CONSTRUCTION</b>
 
         </div>
         {% endblock %}
