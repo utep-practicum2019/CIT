@@ -23,6 +23,6 @@ def is_valid_ipv6_address(address):
 
 def is_valid_port(portNum):
     port = len(str(portNum))
-    if port >= 3:
+    if port >= 4:
         return True
     return False
