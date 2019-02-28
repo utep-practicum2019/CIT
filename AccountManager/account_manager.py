@@ -34,7 +34,7 @@ class AccountManager:
     def remove_internal_ip(username):
         return UserManager.remove_internal_ip(username)
 
- @staticmethod
+    @staticmethod
     def get_group(group_id):
         return GroupManager.get_group(group_id)
 
