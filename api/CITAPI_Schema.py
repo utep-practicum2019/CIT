@@ -1,30 +1,34 @@
+from Login_Schema import *
 from marshmallow import Schema, fields
 
+login_schema = LoginSchema()
 
-class VMSuspendSchema(Schema):
-    vmName = fields.String(required=True)
+from VMConfig_Schema import *
 
+vm_config_schema = VMConfigSchema()
 
-class VMStartSchema(Schema):
-    vmName = fields.String(required=True)
+from VMStatus_Schema import *
 
+vm_status_schema = VMStatusSchema()
 
-class VMStatusSchema(Schema):
-    vmName = fields.String(required=True)
-    mgrStatus = fields.String()
+from VMStart_Schema import *
 
+vm_start_schema = VMStartSchema()
 
-class VMConfigSchema(Schema):
-    vmName = fields.String()
-    adpt_number = fields.String()
-    src_ip = fields.String()
-    dst_ip = fields.String()
-    src_prt = fields.String()
-    dst_prt = fields.String()
+from VMSuspend_Schema import *
 
+vm_suspend_schema = VMSuspendSchema()
 
-class LoginSchema(Schema):
-    ip = fields.String(required=True)
+from User_Schema import *
+
+user_request_schema = UserRequestSchema()
+user_create_request_schema = UserCreateRequestSchema()
+user_response_schema = UserResponseSchema()
+
+from Group_Schema import *
+
+group_request_schema = GroupRequestSchema()
+group_response_schema = GroupResponseSchema()
 
 
 class PlatformSchema(Schema):
@@ -34,9 +38,4 @@ class PlatformSchema(Schema):
     task_type = fields.String(required=True)
 
 
-login_schema = LoginSchema()
-vm_config_schema = VMConfigSchema()
-vm_status_schema = VMStatusSchema()
-vm_start_schema = VMStartSchema()
-vm_suspend_schema = VMSuspendSchema()
 platform_schema = PlatformSchema()
