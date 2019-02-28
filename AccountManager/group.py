@@ -8,7 +8,6 @@ class Group:
         self.members = members
         self.chat_id = chat_id
 
-
     def __repr__(self):
         str = "Group(group_id=%r" % (self.group_id)
         if self.min_members is not None:
@@ -21,8 +20,7 @@ class Group:
             str += ", members=%r" % (self.members)
         if self.chat_id is not None:
             str += ", chat_id=%r" % (self.chat_id)
-        str += ")"
-        return str
+        return str + ")"
 
     @property
     def group_id(self):
