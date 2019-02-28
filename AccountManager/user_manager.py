@@ -2,33 +2,33 @@ from user import User
 import requests
 
 class UserManager:
-
-    user_url = "citsystem.com/api/v2/user"
+    cit_url = "http://127.0.0.1:5000"
+    users_path = "/api/v2/database/users"
+    users_url = cit_url + users_path
 
     @staticmethod
     def get_user(username):
-        r = requests.get(user)
-        # TODO: get info from database
-        data = {'username':'user1', 'password':'pass1'}
-
-        if data is None:
-            # user does not exist
-            return None
-        assert data['username'] == username
-        return User(**data)
+        # Get info from database
+        user = requests.get(UserManager.users_url + '/' + username)
+        user_js = user.json()
+        return User(**user_js)
 
     @staticmethod
     def get_users():
-        # TODO: get info from database
-        return None
+        users = requests.get(UserManager.users_url)
+        users_js = users.json()
+        return users_js
 
     @staticmethod
     def create_user(username, password, **kwargs):
+        # TODO: test user creation
         # check if user exists
-        if get_user(username) is None:
-            # TODO: store in  database
-            return User(username, password, **kwargs)
-        # user already exists
+        if UserManager.get_user(username) is None:
+            user_data = {'username':username, 'password':password, **kwargs}
+            r = requests.post(UserManager.users_url + '/' + username, json=user_data)
+            if r.status_code == requests.codes.ok:
+                return User(username, password, **kwargs)
+        # user already exists or request failed
         return None
     
     @staticmethod
