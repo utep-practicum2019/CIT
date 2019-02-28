@@ -8,16 +8,75 @@
         <div class="container-fluid">
             <div class="row">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
+
                             <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('indexAdminPage') }}">Managers Menu</a></button>
-                            <button type="button" class="btn btn-dark btn-sm menu"><a  href="{{ url_for('platPage') }}">Platform Manager</a></button>
-                            <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('acctPage') }}">Account Manager</a></button>
+
                             <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="{{ url_for('connectPage') }}">Connection Manager</a></button>
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a href="{{ url_for('acctPage') }}">Account Manager</a></button>
+
+                            
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a  href="{{ url_for('platPage') }}">Platform Manager</a></button>
+
                     </div>
             </div>
         </div>
         <div class="container-fluid" id="mainArea">
+        
+            <div class="row">
+
+                <div class="col-sm">
+                   <b> Teams Info </b>
+                </div>
+                <div class="col-sm">
+                    Time logged in:
+                </div>
+                <div class="col-sm">
+                    Bandwidth:
+                </div>
+                <div class="col-sm">
+                    IP address:
+                </div>
+                <div class="col-sm">
+                    entry used:
+                </div>
+
+            </div>
+
+            <div class="row" class="info" >
+            Team1:
+        </div>
 
         </div>
+
+        <div class="container-fluid" id="mainArea">
+            <div class="row">
+
+                <div class="col-sm">
+                 <b>  Users Info:</b>
+                </div>
+                <div class="col-sm">
+                    Time logged in:
+                </div>
+                <div class="col-sm">
+                    Bandwidth:
+                </div>
+                <div class="col-sm">
+                    IP address:
+                </div>
+                <div class="col-sm">
+                    entry used:
+                </div>
+
+            </div>
+            <div class="row" class="info" >
+            Users1
+        </div>
+
+        </div>
+
+        
         {% endblock %}
 
 {#        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
