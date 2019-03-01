@@ -1,6 +1,5 @@
 import sys
 import os 
-from yapsy.PluginManager import PluginManager
 import abc
 
 """ 
@@ -15,15 +14,6 @@ import abc
     """
 
 class PlatformManager(abc.ABC):
-    pluginManager = PluginManager()
-    
-    @abc.abstractmethod
-    def addPlatform(self):
-        pass
-    
-    @abc.abstractmethod
-    def removePlatform(self):
-        pass
     
     @abc.abstractmethod
     def configurePlatform(self):
@@ -37,9 +27,6 @@ class PlatformManager(abc.ABC):
     def stopPlatform(self):
         pass
     
-    @abc.abstractmethod
-    def showPlatforms(self):
-        pass
 
 
 

@@ -1,8 +1,8 @@
 import sys
 import os
-from yapsy.PluginManager import PluginManager
+#from yapsy.PluginManager import PluginManager
 import abc
-from .PlatformManager import PlatformManager
+from PlatformsManager import PlatformManager
 
 """ 
         @authors:
@@ -16,29 +16,18 @@ from .PlatformManager import PlatformManager
 
 class WikiManager(PlatformManager):
 
-    def addPlatform(self):
-        print("adding plugin")
-
-    def removePlatform(self):
-        print("removing plugin")
-
     def configurePlatform(self):
         print("configuring service")
 
     def startPlatform(self):
-        print("starting a service")
+        print("starting platform wiki")
+        os.system("tiddlywiki editions/tw5.com-server --listen ")
 
     def stopPlatform(self):
         print("stopping a service")
 
-    def showPlatforms(self):
-        print("showing services")
 
 
-platformManager = PlatformManager()
-platformManager.addPlatform()
-platformManager.removePlatform()
-platformManager.configurePlatform()
-platformManager.showPlatforms()
+platformManager = WikiManager()
 platformManager.startPlatform()
 platformManager.stopPlatform()
