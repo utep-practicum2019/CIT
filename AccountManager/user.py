@@ -1,19 +1,21 @@
+import json
+
 class User(object):
-    def __init__(self, username, password, group_id=None, internal_ip=None):
+    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None):
         self.username = username
-        self.password = password
-        self.group_id = group_id
-        self.internal_ip = internal_ip
+        if password is not None: self.password = password
+        if group_id is not None: self.group_id = group_id
+        if internal_ip is not None: self.internal_ip = internal_ip
+        if remote_ip is not None: self.remote_ip = remote_ip
+        if connection_type is not None: self.connection_type = connection_type
 
     def __repr__(self):
-        str = "User(user=%r, password=%r" % (self.username, self.password)
-        if self.group_id is not None:
-            str += ", group_id=%r" % (self.group_id)
-        if self.internal_ip is not None:
-            str += ", internal_ip=%r" % (self.internal_ip)
-        str += ")"
-        return str
-    
+        tmp = "User("
+        my_vars = vars(self)
+        for v in my_vars.keys():
+            tmp += '%r=%r, ' % (v, my_vars[v])
+        return tmp[:-2] + ")"
+
     @property
     def username(self):
         return self._username
@@ -24,7 +26,10 @@ class User(object):
 
     @property
     def password(self):
-        return self._password
+        try:
+            return self._password
+        except AttributeError:
+            return None
 
     @password.setter
     def password(self, password):
@@ -32,7 +37,10 @@ class User(object):
 
     @property
     def group_id(self):
-        return self._group_id
+        try:
+            return self._group_id
+        except AttributeError:
+            return None
 
     @group_id.setter
     def group_id(self, group_id):
@@ -40,11 +48,42 @@ class User(object):
 
     @property
     def internal_ip(self):
-        return self._internal_ip
+        try:
+            return self._internal_ip
+        except AttributeError:
+            return None
 
     @internal_ip.setter
     def internal_ip(self, internal_ip):
         self._internal_ip = internal_ip
 
+    @property
+    def remote_ip(self):
+        try:
+            return self._remote_ip
+        except AttributeError:
+            return None
 
-    
+    @remote_ip.setter
+    def remote_ip(self, remote_ip):
+        self._remote_ip = remote_ip
+
+
+    @property
+    def connection_type(self):
+        try:
+            return self._connection_type
+        except AttributeError:
+            return None
+
+    @connection_type.setter
+    def connection_type(self, connection_type):
+        self._connection_type = connection_type
+
+    def toJSON(self):
+        clean_vars= {}
+        my_vars = vars(self)
+        for v in my_vars.keys():
+            # remove underscore from properties
+            clean_vars[v[1:]] = my_vars[v]
+        return json.dumps(clean_vars)
