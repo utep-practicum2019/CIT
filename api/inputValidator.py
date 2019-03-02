@@ -1,5 +1,6 @@
 import socket
 
+
 def is_valid_ipv4_address(address):
     try:
         socket.inet_pton(socket.AF_INET, address)
@@ -14,15 +15,10 @@ def is_valid_ipv4_address(address):
 
     return True
 
+
 def is_valid_ipv6_address(address):
     try:
         socket.inet_pton(socket.AF_INET6, address)
     except socket.error:  # not a valid address
         return False
     return True
-
-def is_valid_port(portNum):
-    port = len(str(portNum))
-    if port >= 4:
-        return True
-    return False

@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields
 
+
 class VMConfigSchema(Schema):
     vmName = fields.String()
     adpt_number = fields.String()

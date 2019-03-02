@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields
 
+
 class UserRequestSchema(Schema):
     username = fields.String(required=True)
     password = fields.String()
@@ -20,4 +21,3 @@ class UserResponseSchema(Schema):
     internalIP = fields.String()
     connectionType = fields.String()
     success = fields.Bool(required=True)
-

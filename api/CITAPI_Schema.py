@@ -1,5 +1,4 @@
 from Login_Schema import *
-from marshmallow import Schema, fields
 
 login_schema = LoginSchema()
 
@@ -31,11 +30,22 @@ group_request_schema = GroupRequestSchema()
 group_response_schema = GroupResponseSchema()
 
 
-class PlatformSchema(Schema):
-    platform_name = fields.String(required=True)
-    username = fields.String(required=True)
-    group_identifier = fields.Int(required=True)
-    task_type = fields.String(required=True)
+from Platform_Schema import *
 
+platform_request_schema = PlatformRequestSchema()
+platform_response_schema = PlatformResponseSchema()
+platform_create_request_schema = PlatformCreateRequestSchema()
 
-platform_schema = PlatformSchema()
+from Connection_Schema import *
+
+connection_request_schema = ConnectionRequestSchema()
+connection_response_schema = ConnectionResponseSchema()
+
+# class PlatformSchema(Schema):
+#     platform_name = fields.String(required=True)
+#     username = fields.String(required=True)
+#     group_identifier = fields.Int(required=True)
+#     task_type = fields.String(required=True)
+#
+#
+# platform_schema = PlatformSchema()
