@@ -34,7 +34,7 @@
     </div>
     <div class="container">
         <h2>Users and Group </h2>
-        <table class="table table-hover" id="users&groups">
+        <table class="table table-hover" id="mainArea">
             <thead>
                 <tr>
                     <th onclick="sortTable(0)">Groups!:</th>
@@ -130,7 +130,7 @@
                 <script>
                     function sortTable(n) {
                       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                      table = document.getElementById("users&groups");
+                      table = document.getElementById("mainArea");
                       switching = true;
   //Set the sorting direction to ascending:
   dir = "asc"; 
