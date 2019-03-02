@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>Platform Manager</title>
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link href="style.css" rel="stylesheet">
@@ -23,45 +24,34 @@
             </div>
         </div>
         <div class="container-fluid" id="mainArea">
+            <h2>Platforms:</h2>
+
+            <table class="table table-hover" id="plat">
+                <thead>
+                    <tr>
+                        <th><b>List of Platforms:</b></th>
+                        <th><b>Activate</b></th>
+                        <th><b>Deactivate:</b></th>
+                    </tr>
+                        
+
+                </thead>
+                <tbody>
+                <tr>
+                    <td><div contenteditable="true">Hackathon</div></td><!--doesn't have a function sending request yet-->
+                    <td><div><button type="button">Activate</button></div></td>
+                    <td><div><button type="button">Deactivate</button></div></td>
+                </tr>
+
+                <tr>
+                    <td><div contenteditable="true">Cyber Rapid Challenge</div></td><!--doesn't have a function sending request yet-->
+                    <td><div><button type="button">Activate</button></div></td>
+                    <td><div><button type="button">Deactivate</button></div></td>
+                </tr>
+                </tbody>
 
 
-            <div class="row">
-                <div class="col-sm">
-                   <b> List of events: </b>
-                </div>
-                <div class="col-sm">
-                    Activate:
-                </div>
-                <div class="col-sm">
-                    Deactivate:
-                </div>
-            </div>
-       
-
-
-            <div class="row">
-                <div class="col-sm">
-                    Hackathon
-                </div>
-                <div class="col-sm">
-                   <button type="button">Activate event</button>
-                </div>
-                <div class="col-sm">
-                    <button type="button">Deactivate event</button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm">
-                    Cyber Rapid Challenge
-                </div>
-                <div class="col-sm">
-                   <button type="button">Activate event</button>
-                </div>
-                <div class="col-sm">
-                    <button type="button">Deactivate event</button>
-                </div>
-            </div>
+           
 
 
         </div><!-- end of main area   -->
