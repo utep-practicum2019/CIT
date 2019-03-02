@@ -21,10 +21,12 @@ class Database:
     def insert(collection_name, document_id, document):
         try:
             if Database.find(collection_name, document_id):
+                # already exists
                 return False
             Database.collection[collection_name].insert_one(document)
             return True
         except KeyError:
+            # collection does not exist
             return False
 
     @staticmethod
@@ -32,6 +34,7 @@ class Database:
         # TODO: determine if you should return just the usernames or all the user info
         try:
             if document_id is None:
+                # get all users
                 cursor = Database.collection[collection_name].find()
                 users = []
                 while True:
@@ -41,6 +44,7 @@ class Database:
                         users.append(user)
                     except StopIteration:
                         return users
+            # get a single user
             doc = Database.collection[collection_name].find_one(document_id)
             if doc is not None:
                 del doc['_id']
@@ -54,8 +58,8 @@ class Database:
             setter = {'$set': document}
             old_doc = Database.collection[collection_name].find_one_and_update(document_id, setter)
             if old_doc is not None:
-                del old_doc['_id']
-            return old_doc
+                return True
+            return False
         except KeyError:
             return False
 
@@ -65,19 +69,19 @@ class Database:
         try:
             del_doc = Database.collection[collection_name].find_one_and_delete(document_id)
             if del_doc is not None:
-                del del_doc['_id']
-            return del_doc
+                return True
+            return False
         except KeyError:
             return False
 
     @staticmethod
     def delete_collection(collection_name):
-        # TODO: implement and intergrate delete_collection with database
+        # TODO: implement and integrate delete_collection with database
         # might not actually have to implement this method
         return False
 
     @staticmethod
     def create(collection_name):
-        # TODO: implement and intergrate create with database
+        # TODO: implement and integrate create with database
         # might not actually have to implement this method
         return False
