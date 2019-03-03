@@ -34,7 +34,7 @@ class WikiManager(PlatformManager):
 
     def startWiki(self):
         print("starting platform wiki")
-        self.proc = subprocess.Popen([ "tiddlywiki editions/tw5.com-server --listen port=8081"], shell=True)
+        self.proc = subprocess.Popen([ "tiddlywiki /home/practicum/Documents/tiddlywikis/genericWiki --listen port=8081 --load /home/practicum/Documents/tiddlywikis/genericWiki/arl.html"], shell=True)
         print("procees id " + str(self.proc))
         
 
