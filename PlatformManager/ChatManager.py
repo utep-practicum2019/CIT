@@ -1,7 +1,10 @@
 import sys
 import os
-#from yapsy.PluginManager import PluginManager
+import threading
 import abc
+import time
+import subprocess
+
 from PlatformsManager import PlatformManager
 
 """ 
@@ -11,29 +14,38 @@ from PlatformsManager import PlatformManager
             Hector Cervantes
         @description
             This class represents the platfrom manager. 
-            The plugin manager will be able to start, stop, restart, and configure Chat platform.
+            The plugin manager will be able to start, stop, and configure Chat platform.
     """
 
 class ChatManager(PlatformManager):
+    proc = 0
+    def __init__(self):
+            print("Initializing Chat Class")
 
-        def configurePlatform(self):
-            print("configuring a chat service")
+    def startPlatform(self):
+            print("Initiating Chat Server")
+            thread = threading.Thread(target=self.startChat, args=())
+            thread.daemon = True
+            thread.start()
+            return thread
 
-        def startPlatform(self):
-            print("starting a Chat service")
-            os.system("service snap.rocketchat-server.rocketchat-server start")
+     def configurePlatform(self):
+            print("Configuring a chat service")
 
-        def stopPlatform(self):
+    def startChat(self):
+            print("Starting Chat platform")
+            self.proc = subprocess.Popen(["service snap.rocketchat-server.rocketchat-server start"], shell=True)
+            print("procees id " + str(self.proc))
+
+    def stopPlatform(self):
             print("stopping a chat service")
-            os.system("service snap.rocketchat-server.rocketchat-server stop")
-
-        def restartPlatform(self):
-            print("restarting a chat service")
-            os.system("service snap.rocketchat-server.rocketchat-server restart")
+            os.system("kill " + str(self.proc.pid + 1))
 
 
 platformManager = ChatManager()
-platformManager.configurePlatform()
-platformManager.startPlatform()
-platformManager.stopPlatform()
-platformManager.restartPlatform()
+thread = platformManager.startPlatform()
+time.sleep(10)
+a = input("Enter 1 to stop the Chat platform: ")
+
+if( a == '1'):
+    platformManager.stopPlatform()
