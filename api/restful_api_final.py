@@ -7,10 +7,16 @@ from flask_restful import Api, Resource
 import inputValidator as inputValidator
 from CITAPI_Schema import *
 
-ma = Marshmallow()
+g_errors = {
+    'MissingParameterError': {
+        'message': "An appropriate parameter is missing from the request",
+        'status': 422,
+    }
+}
 
+ma = Marshmallow()
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, errors=g_errors)
 auth = HTTPBasicAuth()
 
 
@@ -81,7 +87,6 @@ class LoginAPI(Resource):
     decorators = [auth.login_required]
 
     def post(self):
-
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -126,6 +131,7 @@ class VMConfigAPI(Resource):
             command += "dst_prt " + data['dst_prt'] + " "
         if 'adpt_number' in data:
             command += "adpt_number " + data['adpt_number'] + " "
+
         results = ({'config': command})
         return results
 
@@ -173,10 +179,20 @@ class VMStartAPI(Resource):
 class VMSuspendAPI(Resource):
 
     def post(self):
+        """VMSuspend view
+        ---
+        description: Suspend a VM
+        responses:
+        200:
+        content:
+            application/json:
+            schema: VMSuspendSchema
+        """
+
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-
+        print(json_data)
         data, errors = vm_suspend_schema.load(json_data)
 
         if errors:
@@ -189,32 +205,289 @@ class VMSuspendAPI(Resource):
         return results
 
 
-class PlatformAPI(Resource):
+# class PlatformAPI(Resource):
+#
+#     def post(self):
+#         json_data = request.get_json(force=True)
+#         if not json_data:
+#             return {'message': 'No input data provided'}, 400
+#
+#         data, errors = platform_schema.load(json_data)
+#
+#         if errors:
+#             return errors, 422
+#
+#         results = {
+#             'port': '8080',
+#             'links': 'placeholder',
+#             'status_code': 2,
+#             'comm_tunnel': 1,
+#             'server_subsys_name': 'platform'
+#         }
+#
+#         return results
+
+
+# User Related Requests #
+
+class UserAPI(Resource):
+
+    def get(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = user_create_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = getUser(data)
+
+        results = {
+            'username': 'username',
+            'password': 'String',
+            'group_id': 0,
+            'internalIP': 'String',
+            'connectionType': 'String',
+            'required': True
+        }
+
+        results = user_response_schema.dump(results)
+        return results
 
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-
-        data, errors = platform_schema.load(json_data)
+        data, errors = user_create_request_schema.load(json_data)
 
         if errors:
             return errors, 422
 
+        # results = createUser(data)
         results = {
-            'port': '8080',
-            'links': 'placeholder',
-            'status_code': 2,
-            'comm_tunnel': 1,
-            'server_subsys_name': 'platform'
+            'success': True
+        }
+        results = user_response_schema.dump(results)
+        return results
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = user_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = updateUser(data)
+        results = {
+            'success': True
+        }
+        results = user_response_schema.dump(results)
+        return results
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = user_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = deleteUser(data)
+
+        results = {
+            'success': True
+        }
+        results = user_response_schema.dump(results)
+        return results
+
+
+#########################
+
+# Group Related Requests #
+
+class GroupAPI(Resource):
+
+    def get(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = group_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = getGroupData(data)
+        results = {
+            'group_id': 0,
+            'min': 0,
+            'max': 0,
+            'platforms': ['P1', 'P2'],
+            'members': ['M1', 'M2'],
+            'chat_id': 0,
+            'success': True
         }
 
+        results = group_response_schema.dump(results)
+        return results
+
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = group_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = createGroup(data)
+        results = {
+            'success': True
+        }
+
+        results = group_response_schema.dump(results)
+        return results
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+
+        data, errors = group_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = modifyGroup(data)
+        results = {
+            'success': True
+        }
+
+        results = group_response_schema.dump(results)
+        return results
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = group_request_schema.load(json_data)
+
+        if errors:
+            return errors, 422
+
+        # results = deleteGroup(data)
+        results = {
+            'success': True
+        }
+
+        results = group_response_schema.dump(results)
         return results
 
 
 # api.add_resource(BookAPI, '/api/v2/resources/books')
 # api.add_resource(BookListAPI, '/api/v2/resources/books/all')
 
+class PlatformAPI(Resource):
+
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = platform_create_request_schema.load(json_data)
+
+        # results = PlatformManager.addPlatform(data)
+        results = {
+            'success': True
+        }
+        results = platform_response_schema.dump(results)
+        return results
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = platform_request_schema.load(json_data)
+
+        # results = PlatformManager.modifyPlatform(data)
+        results = {
+            'success': True
+        }
+        results = platform_response_schema.dump(results)
+        return results
+
+    def delete(self):
+
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = platform_request_schema.load(json_data)
+
+        # results = PlatformManager.deletePlatform(data[platform_id])
+        results = {
+            'success': True
+        }
+        results = platform_response_schema.dump(results)
+        return results
+
+
+class ConnectionAPI(Resource):
+
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = connection_request_schema.load(json_data)
+
+        if 'num_users' in data:
+            # results = createUserConnection(data['num_users'])
+            results = {
+                'success': True
+            }
+            results = group_response_schema.dump(results)
+            return results
+        else:
+            return {'message': "An appropriate parameter is missing from the request"}, 422
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = connection_request_schema.load(json_data)
+
+        if 'list_of_users' in data:
+            # results = deleteUserConnection(data['list_of_users'])
+            results = {
+                'success': True
+            }
+            results = group_response_schema.dump(results)
+            return results
+        else:
+            return {'message': "An appropriate parameter is missing from the request"}, 422
+
+    def put(self):
+
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = connection_request_schema.load(json_data)
+
+        if 'username' and 'password' in data:
+            # results = updateUserConnection(data['username'], data['password'])
+            results = {
+                'success': True
+            }
+            results = group_response_schema.dump(results)
+            return results
+        else:
+            return {'message': "An appropriate parameter is missing from the request"}, 422
+
+
+api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
+api.add_resource(UserAPI, '/api/v2/resources/user')
+api.add_resource(GroupAPI, '/api/v2/resources/group')
 api.add_resource(PlatformAPI, '/api/v2/resources/platform')
 api.add_resource(VMConfigAPI, '/api/v2/resources/vm/manage/config')
 api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/status')
