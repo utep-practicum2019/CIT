@@ -45,5 +45,8 @@ class WikiManager(PlatformManager):
 platformManager = WikiManager()
 thread = platformManager.startPlatform()
 time.sleep(10)
-platformManager.stopPlatform()
+a = input("Enter a 1 to stop the tiddles: ")
+
+if( a == '1'):
+    platformManager.stopPlatform()
 
