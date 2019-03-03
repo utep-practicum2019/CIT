@@ -1,7 +1,10 @@
 import sys
 import os
-#from yapsy.PluginManager import PluginManager
+import threading
 import abc
+import time
+import subprocess
+
 from PlatformsManager import PlatformManager
 
 """ 
@@ -15,19 +18,32 @@ from PlatformsManager import PlatformManager
     """
 
 class WikiManager(PlatformManager):
+    proc = 0
+    def __init__(self):
+        print("Initializing Wiki Class")
+        
+    def startPlatform(self):
+        print("Initiating Tiddly Wiki Server")
+        thread = threading.Thread(target=self.startWiki, args=())
+        thread.daemon = True
+        thread.start()
+        return thread
 
     def configurePlatform(self):
         print("configuring service")
 
-    def startPlatform(self):
+    def startWiki(self):
         print("starting platform wiki")
-        os.system("tiddlywiki editions/tw5.com-server --listen ")
+        self.proc = subprocess.Popen([ "tiddlywiki editions/tw5.com-server --listen port=8081"], shell=True)
+        print("procees id " + str(self.proc))
+        
 
     def stopPlatform(self):
         print("stopping a service")
-
-
+        os.system("kill " + str(self.proc.pid + 1))
 
 platformManager = WikiManager()
-platformManager.startPlatform()
+thread = platformManager.startPlatform()
+time.sleep(10)
 platformManager.stopPlatform()
+
