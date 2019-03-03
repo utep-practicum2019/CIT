@@ -1,37 +1,153 @@
 <!doctype html>
 <html lang="en">
-        <!-- Bootstrap core CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-        <link href="style.css" rel="stylesheet">
-  </head>
-        <div class="container-fluid">
-            <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
-            <div class="row">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
+<head>
+    <title>Account Manager</title>
 
-                            <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
 
-                            <button type="button" class="btn btn-dark btn-sm menu"><a href="connectionMan.html">Connection Manager</a></button>
 
-                            <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="accountsMan.html">Account Manager</a></button>
 
-                            <button type="button" class="btn btn-dark btn-sm menu"><a href="platMan.html">Platform Manager</a></button>
 
-                            
-                            
-                    </div>
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+        <div class="row">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a href="connectionMan.html">Connection Manager</a></button>
+
+				<button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="accountsMan.html">Account Manager</a></button>
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a  href="platMan.html">Platform Manager</a></button>
+
             </div>
         </div>
-        <div class="container-fluid" id="mainArea">
+    </div>
+    <div class="container-fluid">
+        <h2>Accounts:</h2>
+		
+		 <div class="row">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
 
-            <b>UNDER CONSTRUCTION</b>
+                <button type="button" class="btn btn-dark btn-sm menu"><a onclick="window.open('userAdd.html','popUpWindow','height=550,width=550,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');">Add</a></button>
 
+                <button type="button" class="btn btn-dark btn-sm menu"><a onclick="window.open('userDelete.html','popUpWindow','height=550,width=550,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');">Delete</a></button>
+            </div>
         </div>
-        
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+		
+        <table class="table table-hover" id="mainArea">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Username:</th>
+                    <th>Password:</th>
+                    <th onclick="sortTable(2)">Group:</th>
+                    <th>Platform</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Johnson</td>
+                    <td>123456</td>
+                    <td>Team Alpha</td>	
+					<td>H</td>	
+                    </tr>
+                        <td>Smith</td>
+                        <td>123456</td>
+                        <td>Team Beta</td>
+                        <td>LR</td>
+                        </tr>
 
-    </body>
+                        <tr>
+                            <td>Wilson</td>
+                            <td>123456</td>
+                            <td>Team Gamma</td>
+                            <td>H, LR</td>
+                            </tr>
+
+                            <tr>
+                                <td>Anderson</td>
+                                <td>654321</td>
+                                <td>Team Alpha</td>
+                                <td>LR</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <script>
+                    function sortTable(n) {
+                      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                      table = document.getElementById("mainArea");
+                      switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+      }
+  } else if (dir == "desc") {
+    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+      }
+  }
+}
+if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+  } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+    }
+}
+}
+}
+
+</script>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+</body>
 
 </html>
