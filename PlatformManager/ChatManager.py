@@ -1,8 +1,8 @@
 import sys
 import os
-from yapsy.PluginManager import PluginManager
+#from yapsy.PluginManager import PluginManager
 import abc
-from .PlatformManager import PlatformManager
+from PlatformsManager import PlatformManager
 
 """ 
         @authors:
@@ -11,34 +11,29 @@ from .PlatformManager import PlatformManager
             Hector Cervantes
         @description
             This class represents the platfrom manager. 
-            The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
+            The plugin manager will be able to start, stop, restart, and configure Chat platform.
     """
 
 class ChatManager(PlatformManager):
 
-    def addPlatform(self):
-        print("adding plugin")
+        def configurePlatform(self):
+            print("configuring a chat service")
 
-    def removePlatform(self):
-        print("removing plugin")
+        def startPlatform(self):
+            print("starting a Chat service")
+            os.system("service snap.rocketchat-server.rocketchat-server start")
 
-    def configurePlatform(self):
-        print("configuring service")
+        def stopPlatform(self):
+            print("stopping a chat service")
+            os.system("service snap.rocketchat-server.rocketchat-server stop")
 
-    def startPlatform(self):
-        print("starting a service")
-
-    def stopPlatform(self):
-        print("stopping a service")
-
-    def showPlatforms(self):
-        print("showing services")
+        def restartPlatform(self):
+            print("restarting a chat service")
+            os.system("service snap.rocketchat-server.rocketchat-server restart")
 
 
-platformManager = PlatformManager()
-platformManager.addPlatform()
-platformManager.removePlatform()
+platformManager = ChatManager()
 platformManager.configurePlatform()
-platformManager.showPlatforms()
 platformManager.startPlatform()
 platformManager.stopPlatform()
+platformManager.restartPlatform()
