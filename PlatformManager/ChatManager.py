@@ -29,7 +29,7 @@ class ChatManager(PlatformManager):
             thread.start()
             return thread
 
-     def configurePlatform(self):
+    def configurePlatform(self):
             print("Configuring a chat service")
 
     def startChat(self):
