@@ -4,7 +4,6 @@ import threading
 import abc
 import time
 import subprocess
-
 from PlatformsManager import PlatformManager
 
 """ 
@@ -34,7 +33,7 @@ class WikiManager(PlatformManager):
 
     def startWiki(self):
         print("starting platform wiki")
-        self.proc = subprocess.Popen([ "tiddlywiki /home/practicum/Documents/tiddlywikis/genericWiki --listen port=8081 --load /home/practicum/Documents/tiddlywikis/genericWiki/arl.html"], shell=True)
+        self.proc = subprocess.Popen([ "tiddlywiki /home/practicum/Documents/tiddlywikis/genericWiki --listen port=8085 host=0.0.0.0"], shell=True)
         print("procees id " + str(self.proc))
         
 
