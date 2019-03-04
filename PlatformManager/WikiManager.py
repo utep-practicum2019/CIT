@@ -17,35 +17,45 @@ from PlatformsManager import PlatformManager
     """
 
 class WikiManager(PlatformManager):
-    proc = 0
+    paltformProc = 0
+    confProc = 0
     def __init__(self):
-        print("Initializing Wiki Class")
-        
+        print("Initializing Wiki")
+
     def startPlatform(self):
-        print("Initiating Tiddly Wiki Server")
+        print("Initiating wiki Server")
         thread = threading.Thread(target=self.startWiki, args=())
         thread.daemon = True
         thread.start()
         return thread
-
+        
+        
     def configurePlatform(self):
-        print("configuring service")
+        print("Initiating Tiddly Wiki Server")
+        thread = threading.Thread(target=self.configureWiki, args=())
+        thread.daemon = True
+        thread.start()
+        return thread
+
+    def configureWiki(self):
+        self.confProc = subprocess.Popen([ "tiddlywiki /home/practicum/Documents/tiddlywikis/genericWiki  --listen port=8084 host=0.0.0.0"], shell=True)
+        
 
     def startWiki(self):
-        print("starting platform wiki")
-        self.proc = subprocess.Popen([ "tiddlywiki /home/practicum/Documents/tiddlywikis/genericWiki --listen port=8085 host=0.0.0.0"], shell=True)
-        print("procees id " + str(self.proc))
-        
+        self.platformProc = subprocess.Popen([ "http-server -a 0.0.0.0 -p 8085"], shell=True)
+         
 
     def stopPlatform(self):
         print("stopping a service")
-        os.system("kill " + str(self.proc.pid + 1))
+        if(self.platformProc.pid):
+            os.system("kill " + str(self.platformProc.pid + 1))
+        if(self.confProc):
+            os.system("kill " + str(self.confProc.pid + 1))
 
 platformManager = WikiManager()
 thread = platformManager.startPlatform()
 time.sleep(10)
-a = input("Enter a 1 to stop the tiddles: ")
-
+a = input("Enter a 1 to stop the wiki server: ")
 if( a == '1'):
     platformManager.stopPlatform()
 
