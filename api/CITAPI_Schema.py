@@ -1,42 +1,44 @@
-from Login_Schema import *
+from Schemas.Login_Schema import *
 
 login_schema = LoginSchema()
 
-from VMConfig_Schema import *
+from Schemas.VMConfig_Schema import *
 
 vm_config_schema = VMConfigSchema()
 
-from VMStatus_Schema import *
+from Schemas.VMStatus_Schema import *
 
 vm_status_schema = VMStatusSchema()
 
-from VMStart_Schema import *
+from Schemas.VMStart_Schema import *
 
 vm_start_schema = VMStartSchema()
 
-from VMSuspend_Schema import *
+from Schemas.VMSuspend_Schema import *
 
 vm_suspend_schema = VMSuspendSchema()
 
-from User_Schema import *
+from Schemas.User_Schema import *
 
+user_schema = UserSchema()
 user_request_schema = UserRequestSchema()
 user_create_request_schema = UserCreateRequestSchema()
+user_update_request_schema = UserUpdateRequestSchema()
 user_response_schema = UserResponseSchema()
 
-from Group_Schema import *
+from Schemas.Group_Schema import *
 
 group_request_schema = GroupRequestSchema()
+group_update_request_schema = GroupUpdateRequestSchema()
 group_response_schema = GroupResponseSchema()
 
-
-from Platform_Schema import *
+from Schemas.Platform_Schema import *
 
 platform_request_schema = PlatformRequestSchema()
 platform_response_schema = PlatformResponseSchema()
 platform_create_request_schema = PlatformCreateRequestSchema()
 
-from Connection_Schema import *
+from Schemas.Connection_Schema import *
 
 connection_request_schema = ConnectionRequestSchema()
 connection_response_schema = ConnectionResponseSchema()

@@ -236,7 +236,7 @@ class UserAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = user_create_request_schema.load(json_data)
+        data, errors = user_request_schema.load(json_data)
 
         if errors:
             return errors, 422
@@ -247,12 +247,12 @@ class UserAPI(Resource):
             'username': 'username',
             'password': 'String',
             'group_id': 0,
-            'internalIP': 'String',
+            'internal_ip': 'String',
+            'remote_ip': 'String',
             'connectionType': 'String',
-            'required': True
         }
 
-        results = user_response_schema.dump(results)
+        results = user_schema.dump(results)
         return results
 
     def post(self):
@@ -275,7 +275,7 @@ class UserAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = user_request_schema.load(json_data)
+        data, errors = user_update_request_schema.load(json_data)
 
         if errors:
             return errors, 422
@@ -296,8 +296,8 @@ class UserAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = deleteUser(data)
-
+        # from AccountManager import account_manager
+        # results = account_manager.AccountManager.delete_user(data['username'])
         results = {
             'success': True
         }
@@ -356,7 +356,7 @@ class GroupAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
 
-        data, errors = group_request_schema.load(json_data)
+        data, errors = group_update_request_schema.load(json_data)
 
         if errors:
             return errors, 422
