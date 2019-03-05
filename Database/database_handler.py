@@ -15,5 +15,5 @@ class DatabaseHandler:
 
     @staticmethod
     def delete(collection_name, document_id=None):
-        return Database.delete_document(collection_name, document_id)
+        return Database.delete(collection_name, document_id)
 
