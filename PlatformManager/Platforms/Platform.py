@@ -47,7 +47,7 @@ class Platform(abc.ABC):
     def get_sub_platforms(self):
         pass
     @abc.abstractmethod
-    def handleRequest(self):
+    def requestHandler(self):
         pass
 
 
