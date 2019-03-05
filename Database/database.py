@@ -1,5 +1,5 @@
 """
-    TODO: Implementation  and integration for platforms
+    TODO: Implementation and integration for platforms
     TODO: Testing with users
     TODO: Testing with groups
     Platforms shouldn't change it much because it's pretty generic.

@@ -2,12 +2,16 @@ import json
 
 class Group:
     def __init__(self, group_id, min_members=None, max_members=None, platforms=None, members=None, chat_id=None):
-        self.group_id = group_id
         if min_members is not None: self.min_members = min_members
         if max_members is not None: self.max_members = max_members
         if platforms is not None: self.platforms = platforms
-        if members is not None: self.members = members
         if chat_id is not None: self.chat_id = chat_id
+        if members is not None:
+            self.members = members
+        else:
+            self.members = []
+        self.group_id = group_id
+
 
     def __repr__(self):
         tmp = "Group("

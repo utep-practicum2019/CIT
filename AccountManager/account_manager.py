@@ -1,4 +1,5 @@
 from user_manager import UserManager
+from group import Group
 from group_manager import GroupManager
 
 class AccountManager:
@@ -7,69 +8,59 @@ class AccountManager:
         return UserManager.get_user(username)
 
     @staticmethod
-    def get_users():
-        return UserManager.get_users()
+    def create_user(group_count, users_per_group, filepath=None):
+        if filepath is not None:
+            return {'success': False}
+
+        try:
+            freader = open('next_group_id', 'r')
+            freader.close()
+        except FileNotFoundError:
+            fwriter = open('next_group_id', 'w')
+            fwriter.write('1')
+
+        for i in range(group_count):
+            freader = open('next_group_id', 'r')
+            group_id = int(freader.readline())
+            freader.close()
+
+            group = Group(group_id)
+            for j in range(users_per_group):
+                # TODO: call to Connections
+                username = 'user' + str(j) + "G" + str(group_id)
+                password = "pass1"
+                r_ip = "127.0.0.1" + str(i) + str(j)
+
+                group.members.append(username)
+                if not UserManager.create_user(username, password, remote_ip=r_ip):
+                    return {'success':False}
+            if not GroupManager.create_group(group.group_id, members=group.members):
+                return {'success':False}
+            fwriter = open('next_group_id', 'w')
+            fwriter.write(str(group_id + 1))
+            fwriter.close()
+        return {'sucess':True}
 
     @staticmethod
-    def create_user(username, password, **kwargs):
-        return UserManager.create_user(username, password, **kwargs)
+    def update_user(username, updated_user):
+        return UserManager.update_user(username, updated_user)
 
     @staticmethod
     def delete_user(username):
         return UserManager.delete_user(username)
 
     @staticmethod
-    def set_group(username, group_id):
-        return UserManager.set_group(username, group_id)
-
-    @staticmethod
-    def remove_group(username):
-        return UserManager.remove_group(username)
-
-    @staticmethod
-    def set_internal_ip(username, internal_ip):
-        return UserManager.set_internal_ip(username, internal_ip)
-
-    @staticmethod
-    def remove_internal_ip(username):
-        return UserManager.remove_internal_ip(username)
-
-    @staticmethod
     def get_group(group_id):
         return GroupManager.get_group(group_id)
 
     @staticmethod
-    def get_groups():
-        return GroupManager.get_groups()
+    def create_group(group_id, **kwargs):
+        return  GroupManager.create_group(group_id, **kwargs)
 
     @staticmethod
-    def create_group(group_id, **kwargs):
-        return GroupManager.create_group(group_id, **kwargs)
+    def update_group(group_id, updated_group):
+        return GroupManager.update_group(group_id, updated_group)
 
     @staticmethod
     def delete_group(group_id):
         return GroupManager.delete_group(group_id)
-
-    @staticmethod
-    def add_user(group_id, username):
-        return GroupManager.add_user(group_id, username)
-
-    @staticmethod
-    def remove_user(group_id, username):
-        return GroupManager.remove_user(group_id, username)
-
-    @staticmethod
-    def add_platform(group_id, platform):
-        return GroupManager.add_platform(platform)
-
-    @staticmethod
-    def remove_platform(group_id, platform):
-        return GroupManager.remove_platform(group_id, platform)
-
-    @staticmethod
-    def add_chat(group_id, chat_id):
-        return GroupManager.add_chat(group_id, chat_id)
-
-    @staticmethod
-    def remove_chat(group_id):
-        return GroupManager.remove_chat(group_id)
