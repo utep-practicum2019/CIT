@@ -14,14 +14,24 @@ import abc
     """
 
 class Platform(abc.ABC):
-    platform_Name = ""
-    platform_Start_Command = ""
+    
+    platform_name = ""
+    platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
+    port = ""
+    ip = ""
+    link = ""
     platform_id = ""
     processID = 0
     subplatforms = {}
 
+    @abc.abstractmethod
+    def getLink(self):
+        pass
+    @abc.abstractmethod
+    def getIpPort(self):
+        pass
     @abc.abstractmethod
     def getPlatformName(self):
         pass

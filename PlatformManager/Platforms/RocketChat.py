@@ -27,6 +27,18 @@ class RocketChat(Platform):
     platform_id = ""
     processID = 0
     subplatforms = {}
+    port = ""
+    ip = ""
+    link = ""
+
+
+    #returns link to connect to website
+    def getLink(self):
+        return link
+
+    #returns ip and port to connect to website
+    def getIpPort(self):
+        return self.ip + ":" + self.port
 
     #returns platform name
     def getPlatformName(self):
