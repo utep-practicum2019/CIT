@@ -8,8 +8,7 @@ from .Platform import Platform
             Hector Cervantes
 
         @description
-            This class represents the platfrom manager. 
-            The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
+            This class represents the Submission platform.
     """
 
 class Submission(Platform):

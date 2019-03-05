@@ -1,9 +1,5 @@
-import sys
-import os
-import threading
-import abc
-import time
-import subprocess
+import sys, os, threading, time, subprocess
+from .Platforms.TiddlyWiki import TiddlyWiki
 
 """ 
         @authors:
@@ -19,17 +15,19 @@ class PlatformManager:
     PlatformManagerID = 0
     Main_Platform = None
     threads = {}
+    platformProc = None
 
-    def startPlatform(self, main_platform, subplatforms):
+    #start thread to continue execution 
+    def startPlatform(self, start_command):
         print("Initiating Servers")
-        thread = threading.Thread(target=self.start, args=())
+        thread = threading.Thread(target=self.start, args=(start_command))
         thread.daemon = True
         thread.start()
         return thread
         
-        
+    #still under development 
     def configurePlatform(self, main_platform, sub_platforms):
-        print("Creating platforms and integrating them")
+        rint("Creating platforms and integrating them")
         #get list of platforms from plugin manager
         for x in plugin.platforms:
             if(x == main_platform):
@@ -38,17 +36,18 @@ class PlatformManager:
         for x in sub_platforms:
             print("instantiating subplatforms")
 
-    def startWiki(self, start_command):
+    def start(self, start_command):
         self.platformProc = subprocess.Popen([start_command], shell=True)
          
 
-    def stopPlatform(self, end_command):
+    def stop(self, end_command):
         os.system(end_command)
             
 
 #os.system("kill " + str(self.confProc.pid + 1))
 platformManager = PlatformManager()
-thread = platformManager.startPlatform()
+tiddlyWiki = TiddlyWiki()
+thread = platformManager.startPlatform(tiddlywiki.get_start_command())
 time.sleep(10)
 a = input("Enter a 1 to stop the wiki server: ")
 if( a == '1'):
