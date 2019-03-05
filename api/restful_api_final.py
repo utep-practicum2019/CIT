@@ -1,4 +1,3 @@
-# import sqlite3
 from flask import Flask, request, make_response, jsonify
 from flask_httpauth import HTTPBasicAuth
 from flask_marshmallow import Marshmallow
@@ -20,13 +19,6 @@ api = Api(app, errors=g_errors)
 auth = HTTPBasicAuth()
 
 
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
-
-
 @auth.get_password
 def get_password(username):
     if username == 'root':
@@ -37,50 +29,6 @@ def get_password(username):
 @auth.error_handler
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
-
-
-# class BookAPI(Resource):
-#
-#     def get(self):
-#
-#         query_parameters = request.args
-#
-#         id = query_parameters.get('id')
-#         published = query_parameters.get('published')
-#         author = query_parameters.get('author')
-#
-#         query = "SELECT * FROM books WHERE"
-#
-#         to_filter = []
-#
-#         if id:
-#             query += ' id=? AND'
-#             to_filter.append(id)
-#         if published:
-#             query += ' published=? AND'
-#             to_filter.append(published)
-#         if author:
-#             query += ' author=? AND'
-#             to_filter.append(author)
-#
-#         # if not (id or published or author):
-#         #     return page_not_found(404)
-#
-#         query = query[:-4] + ';'
-#         conn = sqlite3.connect('books.db')
-#         conn.row_factory = dict_factory
-#         cur = conn.cursor()
-#         results = cur.execute(query, to_filter).fetchall()
-#         return results, 404
-#
-#
-# class BookListAPI(Resource):
-#     def get(self):
-#         conn = sqlite3.connect('books.db')
-#         conn.row_factory = dict_factory
-#         cur = conn.cursor()
-#         all_books = cur.execute('SELECT * FROM books;').fetchall()
-#         return all_books
 
 
 class LoginAPI(Resource):
@@ -205,29 +153,6 @@ class VMSuspendAPI(Resource):
         return results
 
 
-# class PlatformAPI(Resource):
-#
-#     def post(self):
-#         json_data = request.get_json(force=True)
-#         if not json_data:
-#             return {'message': 'No input data provided'}, 400
-#
-#         data, errors = platform_schema.load(json_data)
-#
-#         if errors:
-#             return errors, 422
-#
-#         results = {
-#             'port': '8080',
-#             'links': 'placeholder',
-#             'status_code': 2,
-#             'comm_tunnel': 1,
-#             'server_subsys_name': 'platform'
-#         }
-#
-#         return results
-
-
 # User Related Requests #
 
 class UserAPI(Resource):
@@ -296,11 +221,13 @@ class UserAPI(Resource):
         if errors:
             return errors, 422
 
-        # from AccountManager import account_manager
-        # results = account_manager.AccountManager.delete_user(data['username'])
-        results = {
-            'success': True
-        }
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.delete_user(data['username'])
+
+        # results = {
+        #     'success': True
+        # }
+
         results = user_response_schema.dump(results)
         return results
 
@@ -328,7 +255,6 @@ class GroupAPI(Resource):
             'platforms': ['P1', 'P2'],
             'members': ['M1', 'M2'],
             'chat_id': 0,
-            'success': True
         }
 
         results = group_response_schema.dump(results)
@@ -397,7 +323,8 @@ class PlatformAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = platform_create_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         # results = PlatformManager.addPlatform(data)
         results = {
             'success': True
@@ -410,7 +337,8 @@ class PlatformAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = platform_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         # results = PlatformManager.modifyPlatform(data)
         results = {
             'success': True
@@ -424,7 +352,8 @@ class PlatformAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = platform_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         # results = PlatformManager.deletePlatform(data[platform_id])
         results = {
             'success': True
@@ -440,7 +369,8 @@ class ConnectionAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = connection_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         if 'num_users' in data:
             # results = createUserConnection(data['num_users'])
             results = {
@@ -456,7 +386,8 @@ class ConnectionAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = connection_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         if 'list_of_users' in data:
             # results = deleteUserConnection(data['list_of_users'])
             results = {
@@ -473,7 +404,8 @@ class ConnectionAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = connection_request_schema.load(json_data)
-
+        if errors:
+            return errors, 422
         if 'username' and 'password' in data:
             # results = updateUserConnection(data['username'], data['password'])
             results = {
@@ -485,6 +417,74 @@ class ConnectionAPI(Resource):
             return {'message': "An appropriate parameter is missing from the request"}, 422
 
 
+class DatabaseAPI(Resource):
+
+    def get(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = database_request_schema.load(json_data)
+        if errors:
+            return errors, 422
+        results = {
+            'roup': {
+                'group_id': 0,
+                'min': 0,
+                'max': 0,
+                'platforms': ['P1', 'P2'],
+                'members': ['M1', 'M2'],
+                'chat_id': 0,
+            }
+        }
+        error = database_document_schema.validate_at_least_one(results)
+        if error:
+            return error, 500
+        results, errors = database_document_schema.dump(results)
+        if errors:
+            return errors, 500
+        return results
+
+    def post(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = database_modify_schema.load(json_data)
+        if errors:
+            return errors, 422
+        results = {
+            'success': True
+        }
+        results = database_response_schema.dump(results)
+        return results
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = database_modify_schema.load(json_data)
+        if errors:
+            return errors, 422
+        results = {
+            'success': True
+        }
+        results = database_response_schema.dump(results)
+        return results
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = database_request_schema.load(json_data)
+        if errors:
+            return errors, 422
+        results = {
+            'success': True
+        }
+        results = database_response_schema.dump(results)
+        return results
+
+
+api.add_resource(DatabaseAPI, '/api/v2/resources/database')
 api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
 api.add_resource(UserAPI, '/api/v2/resources/user')
 api.add_resource(GroupAPI, '/api/v2/resources/group')

@@ -43,6 +43,13 @@ from Schemas.Connection_Schema import *
 connection_request_schema = ConnectionRequestSchema()
 connection_response_schema = ConnectionResponseSchema()
 
+from Schemas.DatabaseSchema import *
+
+database_document_schema = DatabaseDocumentSchema()
+database_request_schema = DatabaseRequestSchema()
+database_response_schema = DatabaseResponseSchema()
+database_modify_schema = DatabaseModifySchema()
+
 # class PlatformSchema(Schema):
 #     platform_name = fields.String(required=True)
 #     username = fields.String(required=True)
