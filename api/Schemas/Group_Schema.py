@@ -1,5 +1,5 @@
-from marshmallow import Schema, fields
-
+from marshmallow import Schema, fields, post_load
+from AccountManager.group import Group
 
 class GroupSchema(Schema):
     group_id = fields.Int()
@@ -9,6 +9,9 @@ class GroupSchema(Schema):
     members = fields.List(fields.String())
     chat_id = fields.Int()
 
+    @post_load
+    def make_group(self, data):
+        return Group(**data)
 
 class GroupRequestSchema(GroupSchema):
     group_id = fields.Int(required=True)

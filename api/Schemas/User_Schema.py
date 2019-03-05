@@ -1,4 +1,6 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_load
+
+from AccountManager.user import User
 
 
 class UserSchema(Schema):
@@ -8,6 +10,10 @@ class UserSchema(Schema):
     internal_ip = fields.String()
     remote_ip = fields.String()
     connectionType = fields.String()
+
+    @post_load
+    def make_user(self, data):
+        return User(**data)
 
 
 class UserRequestSchema(Schema):
