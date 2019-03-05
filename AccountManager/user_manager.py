@@ -12,7 +12,8 @@ class UserManager:
         # Get info from database
         doc_data = {'collection_name': 'users', 'document_id':username}
         user = requests.get(UserManager.database_url, json=doc_data)
-        return user.json()
+        user_js = user.json()
+        return User()
 
     @staticmethod
     def create_user(username, password, **kwargs):
@@ -20,21 +21,21 @@ class UserManager:
         doc_data = {'collection_name':'users', 'document_id': username, 'document':user_data}
         r = requests.post(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
-            return {'success': True}
-        return {'success': False}
+            return True
+        return False
 
     @staticmethod
     def update_user(username, updated_user):
         doc_data = {'collection_name':'users', 'document_id':username, 'document':{**updated_user}}
         r = requests.put(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
-            return {'success': True}
-        return {'success': False}
+            return True
+        return False
 
     @staticmethod
     def delete_user(username):
         doc_data = {'collection_name':'users', 'document_id':username}
         r = requests.delete(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
-            return {'success': True}
-        return {'success': False}
+            return True
+        return False

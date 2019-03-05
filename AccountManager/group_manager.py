@@ -12,7 +12,7 @@ class GroupManager:
         r = requests.get(GroupManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
             group_js = r.json()
-            return group_js
+            return Group(**group_js)
         return {}
 
     @staticmethod
@@ -22,22 +22,22 @@ class GroupManager:
             group_data = {'group_id': group_id, **kwargs}
             r = requests.post(GroupManager.database_url, json=group_data)
             if r.status_code == requests.codes.ok:
-                return {'sucess': True}
+                return True
         # group_id is already used or request failed
-        return {'success': False}
+        return False
 
     @staticmethod
     def update_group(group_id, updated_group):
         group_data = {'group_id':group_id, 'updated_group':{**updated_group}}
         r = requests.put(GroupManager.database_url, json=group_data)
         if r.status_code == requests.codes.ok:
-            return {'success':True}
-        return {'success':False}
+            return True
+        return False
 
 
     @staticmethod
     def delete_group(group_id):
         r = requests.delete(GroupManager.database_url)
         if r.status_code == requests.codes.ok:
-            return {'success': True}
-        return {'success': False}
+            return True
+        return False
