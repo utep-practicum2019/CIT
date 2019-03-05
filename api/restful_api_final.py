@@ -148,6 +148,7 @@ class VMSuspendAPI(Resource):
 
 # User Related Requests #
 
+
 class UserAPI(Resource):
 
     def get(self):
@@ -159,16 +160,8 @@ class UserAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = getUser(data)
-
-        results = {
-            'username': 'username',
-            'password': 'String',
-            'group_id': 0,
-            'internal_ip': 'String',
-            'remote_ip': 'String',
-            'connectionType': 'String',
-        }
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.get_user(data["username"])
 
         results = user_schema.dump(results)
         return results
@@ -182,11 +175,16 @@ class UserAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = createUser(data)
-        results = {
-            'success': True
-        }
+        from AccountManager.account_manager import AccountManager
+        if "filepath" in data:
+            results = AccountManager.create_groups(data["group_count"], data["users_per_group"], data["filepath"])
+        else:
+            results = AccountManager.create_groups(data["group_count"], data["users_per_group"])
+
+        results = {"success": results}
+
         results = user_response_schema.dump(results)
+
         return results
 
     def put(self):
@@ -198,10 +196,12 @@ class UserAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = updateUser(data)
-        results = {
-            'success': True
-        }
+        username = data["username"]
+        updated_user = data["updated_user"]
+
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.update_user(username, updated_user)
+
         results = user_response_schema.dump(results)
         return results
 
@@ -216,10 +216,6 @@ class UserAPI(Resource):
 
         from AccountManager.account_manager import AccountManager
         results = AccountManager.delete_user(data['username'])
-
-        # results = {
-        #     'success': True
-        # }
 
         results = user_response_schema.dump(results)
         return results
@@ -260,12 +256,15 @@ class GroupAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = createGroup(data)
-        results = {
-            'success': True
-        }
+        group_id = data["group_id"]
+        del data["group_id"]
+
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.create_group(group_id, **data)
 
         results = group_response_schema.dump(results)
+        results = {"success": results}
+
         return results
 
     def put(self):
@@ -278,10 +277,11 @@ class GroupAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = modifyGroup(data)
-        results = {
-            'success': True
-        }
+        group_id = data["group_id"]
+        updated_group = data["updated_group"]
+
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.update_group(group_id, updated_group)
 
         results = group_response_schema.dump(results)
         return results
@@ -295,12 +295,12 @@ class GroupAPI(Resource):
         if errors:
             return errors, 422
 
-        # results = deleteGroup(data)
-        results = {
-            'success': True
-        }
+        group_id = data["group_id"]
 
+        from AccountManager.account_manager import AccountManager
+        results = AccountManager.delete_group(group_id)
         results = group_response_schema.dump(results)
+
         return results
 
 
