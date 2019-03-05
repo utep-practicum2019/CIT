@@ -19,6 +19,7 @@ class Platform(abc.ABC):
     platform_end_command = ""
     platform_version = ""
     platform_id = ""
+    processID = 0
     subplatforms = {}
 
     @abc.abstractmethod

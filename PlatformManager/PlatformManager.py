@@ -36,8 +36,8 @@ class PlatformManager:
         for x in sub_platforms:
             print("instantiating subplatforms")
 
-    def start(self, start_command):
-        self.platformProc = subprocess.Popen([start_command], shell=True)
+    def start(self, platform):
+        platform. = subprocess.Popen([platform.get_start_command()], shell=True)
          
 
     def stop(self, end_command):
@@ -47,8 +47,8 @@ class PlatformManager:
 #os.system("kill " + str(self.confProc.pid + 1))
 platformManager = PlatformManager()
 tiddlyWiki = TiddlyWiki()
-thread = platformManager.startPlatform(tiddlywiki.get_start_command())
+thread = platformManager.startPlatform()
 time.sleep(10)
 a = input("Enter a 1 to stop the wiki server: ")
 if( a == '1'):
-    platformManager.stopPlatform()
+    platformManager.stopPlatform(tiddlywiki.get_end_command)
