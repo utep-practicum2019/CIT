@@ -6,16 +6,9 @@ from flask_restful import Api, Resource
 import inputValidator as inputValidator
 from CITAPI_Schema import *
 
-g_errors = {
-    'MissingParameterError': {
-        'message': "An appropriate parameter is missing from the request",
-        'status': 422,
-    }
-}
-
 ma = Marshmallow()
 app = Flask(__name__)
-api = Api(app, errors=g_errors)
+api = Api(app)
 auth = HTTPBasicAuth()
 
 
@@ -232,8 +225,6 @@ class UserAPI(Resource):
         return results
 
 
-#########################
-
 # Group Related Requests #
 
 class GroupAPI(Resource):
@@ -313,8 +304,7 @@ class GroupAPI(Resource):
         return results
 
 
-# api.add_resource(BookAPI, '/api/v2/resources/books')
-# api.add_resource(BookListAPI, '/api/v2/resources/books/all')
+# Platform Related Requests #
 
 class PlatformAPI(Resource):
 
@@ -361,6 +351,8 @@ class PlatformAPI(Resource):
         results = platform_response_schema.dump(results)
         return results
 
+
+# Connection Related Requests #
 
 class ConnectionAPI(Resource):
 
@@ -417,6 +409,8 @@ class ConnectionAPI(Resource):
             return {'message': "An appropriate parameter is missing from the request"}, 422
 
 
+# Database Related Requests #
+
 class DatabaseAPI(Resource):
 
     def get(self):
@@ -427,7 +421,7 @@ class DatabaseAPI(Resource):
         if errors:
             return errors, 422
         results = {
-            'roup': {
+            'group': {
                 'group_id': 0,
                 'min': 0,
                 'max': 0,
