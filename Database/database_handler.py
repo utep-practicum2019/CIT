@@ -14,14 +14,6 @@ class DatabaseHandler:
         return Database.update(collection_name, document_id, update)
 
     @staticmethod
-    def delete_document(collection_name, document_id):
-        # TODO: merge with delete_collection
+    def delete(collection_name, document_id=None):
         return Database.delete_document(collection_name, document_id)
 
-    @staticmethod
-    def delete_collection(collection_name):
-        return Database.delete_collection(collection_name)
-
-    @staticmethod
-    def create(collection_name):
-        return Database.create(collection_name)

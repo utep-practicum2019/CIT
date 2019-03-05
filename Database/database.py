@@ -12,9 +12,11 @@ class Database:
     __db = __client['cit']
     __users = __db['users']
     __groups = __db['groups']
+    __platforms = __db['platforms']
     collection = {
         'users': __users,
-        'groups': __groups
+        'groups': __groups,
+        'platforms': __platforms
     }
 
     @staticmethod
@@ -31,7 +33,6 @@ class Database:
 
     @staticmethod
     def find(collection_name, document_id):
-        # TODO: determine if you should return just the usernames or all the user info
         try:
             if document_id is None:
                 # get all users
@@ -64,24 +65,14 @@ class Database:
             return False
 
     @staticmethod
-    def delete_document(collection_name, document_id):
-        # TODO: merge with delete_collection()
-        try:
-            del_doc = Database.collection[collection_name].find_one_and_delete(document_id)
-            if del_doc is not None:
-                return True
-            return False
-        except KeyError:
-            return False
-
-    @staticmethod
-    def delete_collection(collection_name):
-        # TODO: implement and integrate delete_collection with database
-        # might not actually have to implement this method
-        return False
-
-    @staticmethod
-    def create(collection_name):
-        # TODO: implement and integrate create with database
-        # might not actually have to implement this method
-        return False
+    def delete(collection_name, document_id=None):
+        if None:
+            Database.collection[collection_name].drop()
+        else:
+            try:
+                del_doc = Database.collection[collection_name].find_one_and_delete(document_id)
+                if del_doc is not None:
+                    return True
+                return False
+            except KeyError:
+                return False
