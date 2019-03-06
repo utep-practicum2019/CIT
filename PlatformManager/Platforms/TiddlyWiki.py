@@ -1,6 +1,6 @@
 import sys, os, abc
 
-from Platform import Platform
+from .Platform import Platform
 
 """ 
         @authors:
@@ -15,7 +15,7 @@ class TiddlyWiki(Platform):
     # fill the values here for your specific platform
     platform_name = "tiddly wiki"
     platform_start_command = "http-server /home/practicum/Documents/tiddlywikis/genericWiki/output"
-    platform_end_command = "kill 1200"
+    platform_end_command = "kill 120"
     platform_version = "5.1.20-prerelease"
     platformInstallation = "/installation"
     port = "8085"
@@ -28,13 +28,13 @@ class TiddlyWiki(Platform):
 
     #returns link to connect to website
     def getLink(self):
-        return link 
+        return self.link 
     #returns ip and port to connect to website
     def getIpPort(self):
         return self.ip + ":" + self.port
     #returns platform name
     def getPlatformName(self):
-        return self.getPlatformName
+        return self.platform_name
     
     #returns where the platforms installation path
     def getPlatformInstallation(self):
@@ -46,10 +46,10 @@ class TiddlyWiki(Platform):
     
     #return a platformID. You can pick a random value for this field.
     def getPlatformID(self):
-        return self.platform_id
+        return int(self.platform_id)
     # return command that starts platform
     def get_start_command(self):
-        return self.platform_Start_Command + " -a " + ip + " -p " + port 
+        return self.platform_start_command + " -a " + self.ip + " -p " + self.port 
 
     #returns command to stop platform
     def get_stop_command(self):
@@ -59,11 +59,12 @@ class TiddlyWiki(Platform):
     def get_sub_platforms(self):
         return self.subplatforms
     
-    def handleRequest(self, jsonObject):
-        pass
+    def requestHandler(self, jsonObject):
+        print("Handling Request")
     
     
     #add more methods below if you need to do more tasks
-
+platform = TiddlyWiki()
+print(platform.get_start_command())
 
 

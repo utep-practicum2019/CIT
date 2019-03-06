@@ -27,18 +27,18 @@ class RapidCyber(Platform):
 
     #returns link to connect to website
     def getLink(self):
-        return link 
+        return self.link 
     #returns ip and port to connect to website
     def getIpPort(self):
         return self.ip + ":" + self.port
 
     #returns platform name
     def getPlatformName(self):
-        return self.getPlatformName
+        return self.platform_name
     
     #returns where the platforms installation path
     def getPlatformInstallation(self):
-        return self.getPlatformInstallation
+        return self.platform_id
     
     #return the version of the platform 
     def getPlatformVersion(self):
@@ -49,7 +49,7 @@ class RapidCyber(Platform):
         return self.platform_id
     # return command that starts platform
     def get_start_command(self):
-        return self.platform_Start_Command
+        return self.platform_start_command
 
     #returns command to stop platform
     def get_stop_command(self):
