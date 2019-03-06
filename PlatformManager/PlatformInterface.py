@@ -1,6 +1,6 @@
-import json
-from HackathonManager import HackathonManager
-from RapidCyberRangeManager import RapidCyberRangeManager
+import json, sys, os
+#from PlatformManager import PlatformManager
+from TiddlyWiki import TiddlyWiki
 
 """ 
         @authors:
@@ -12,9 +12,8 @@ from RapidCyberRangeManager import RapidCyberRangeManager
             The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
     """
 
-class PlatformManager():
-    hackathon = HackathonManager()
-    rcr = RapidCyberRangeManager()
+class PlatformInterface():
+    #platform_manager = PlatformManager()
     cit_IP = "http://127.0.0.1:"
         
     @staticmethod
@@ -37,62 +36,60 @@ class PlatformManager():
     
     @staticmethod
     def forward_request(json_object):
-        request = PlatformManager.parse_JSON(json_object)
+        request = PlatformInterface.parse_JSON(json_object)
         
-        if(request['type'] == "start"):
-            if(request['platform name'] == "hackathon"):
-                hackathon_response = PlatformManager.hackathon.start_platform()
-                chat_response = PlatformManager.hackathon.chat.start_platform_for_hackathon()
-                wiki_response = PlatformManager.hackathon.wiki.start_platform_for_hackathon()
-                
-                if(hackathon_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-                
-            if(request['platform name'] == "rcr"):
-                rcr_response = PlatformManager.rcr.start_platform()
-                chat_response = PlatformManager.rcr.chat.start_platform_for_rcr()
-                wiki_response = PlatformManager.rcr.wiki.start_platform_for_rcr()
-
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-
-        if(request['type'] == "stop"):
-            if(request['platform name'] == "hackathon"):
-                hackathon_response = PlatformManager.hackathon.stop_platform()
-                chat_response = PlatformManager.hackathon.chat.stop_platform()
-                wiki_response = PlatformManager.hackathon.wiki.stop_platform()
-                
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-                
-            if(request['platform name'] == "rcr"):
-                rcr_response = PlatformManager.rcr.stop_platform()
-                chat_response = PlatformManager.rcr.chat.stop_platform()
-                wiki_response = PlatformManager.rcr.wiki.stop_platform()
-
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
+        if(request['platform name'] == "chat"):
+            response = PlatformInterface.chat_handle_request(request)
         
-        if(request['type'] == "show" and request['subplatform'] == "chat"):
-            if(request['platform name'] == "hackathon"):
-                response = PlatformManager.cit_IP + str(PlatformManager.hackathon.chat.show_hackathon_chat())
-            if(request['platform name'] == "rcr"):
-                response = PlatformManager.cit_IP + str(PlatformManager.rcr.chat.show_rcr_chat())
-
-        if(request['type'] == "show" and request['subplatform'] == "wiki"):
-            if(request['platform name'] == "hackathon"):
-                response = PlatformManager.cit_IP + str(PlatformManager.hackathon.wiki.show_hackathon_wiki())
-            if(request['platform name'] == "rcr"):
-                response = PlatformManager.cit_IP + str(PlatformManager.rcr.wiki.show_rcr_wiki())
-
-        return PlatformManager.format_response(request['requester'], response)
+        if(request['platform name'] == "wiki"):
+            response = PlatformInterface.wiki_handle_request(request)
+        
+        if(request['platform name'] == "hackathon"):
+            response = PlatformInterface.hackathon_handle_request(request)
+        
+        if(request['platform name'] == "rcr"):
+            response = PlatformInterface.rcr_handle_request(request)
+                
+        return PlatformInterface.format_response(request['requester'], response)
+    
+#     @staticmethod
+#     def chat_handle_request(request):
+#         if(request['request'] == "start"):
+#             pass
+#         
+#         if(request['request'] == "stop"):
+#             pass
+#         
+#         return response
+    
+    @staticmethod
+    def wiki_handle_request(request):
+        if(request['request'] == "start"):
+            response = TiddlyWiki.get_start_command(TiddlyWiki)
+        
+        if(request['request'] == "stop"):
+            response = TiddlyWiki.get_stop_command()
+        
+        return response
+    
+#     @staticmethod
+#     def hackathon_handle_request(request):
+#         if(request['request'] == "start"):
+#             pass
+#         
+#         if(request['request'] == "stop"):
+#             pass
+#         
+#         return response
+    
+#     @staticmethod
+#     def rcr_handle_request(request):
+#         if(request['request'] == "start"):
+#             pass
+#         
+#         if(request['request'] == "stop"):
+#             pass
+#         
+#         return response
  
-#print(PlatformManager.forward_request("generic.json"))
+print(PlatformInterface.forward_request("generic.json"))
