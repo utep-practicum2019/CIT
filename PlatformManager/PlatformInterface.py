@@ -1,6 +1,6 @@
 import json, sys, os
 #from PlatformManager import PlatformManager
-from TiddlyWiki import TiddlyWiki
+from PlatformManager.Platforms.TiddlyWiki import TiddlyWiki
 
 """ 
         @authors:
