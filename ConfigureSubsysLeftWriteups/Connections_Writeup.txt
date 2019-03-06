@@ -1,0 +1,11 @@
+Kristian Villanueva
+Connections.py write-up
+
+Deiscription: Connections.py is an abstract superclass that has the basic function definition for adding users and the implementation fo the checkCurUsers function necessary for the currently utilized VPNs.
+
+Test Cases: 
+N/A 
+
+Things to add:
+1. Make sure number of users does not exceed max amount of available IP addresses.
+2. Be able to delete users utilizing the script.

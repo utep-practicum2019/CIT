@@ -1,0 +1,12 @@
+#test
+192
+
+user1 %any% : EAP "12345"
+user2 %any% : EAP 36746615
+user3 %any% : EAP 96612942
+user4 %any% : EAP 63143540
+user5 %any% : EAP 80132540
+user6 %any% : EAP 33333333
+user7 %any% : EAP 20154899
+user8 %any% : EAP 53466105
+user9 %any% : EAP 33333333
