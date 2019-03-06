@@ -21,8 +21,15 @@ class Database:
 
     @staticmethod
     def insert(collection_name, document_id, document):
+        if collection_name == 'users':
+            doc_id = {'username': document_id}
+        elif collection_name == 'groups':
+            doc_id = {'group_id': document_id}
+        elif collection_name == 'platforms':
+            doc_id = {'platforms': document_id}
+
         try:
-            if Database.find(collection_name, document_id):
+            if Database.find(collection_name, doc_id):
                 # already exists
                 return False
             Database.collection[collection_name].insert_one(document)
@@ -33,6 +40,13 @@ class Database:
 
     @staticmethod
     def find(collection_name, document_id):
+        if collection_name == 'users':
+            doc_id = {'username': document_id}
+        elif collection_name == 'groups':
+            doc_id = {'group_id': document_id}
+        elif collection_name == 'platforms':
+            doc_id = {'platforms': document_id}
+
         try:
             if document_id is None:
                 # get all users
@@ -46,7 +60,7 @@ class Database:
                     except StopIteration:
                         return users
             # get a single user
-            doc = Database.collection[collection_name].find_one(document_id)
+            doc = Database.collection[collection_name].find_one(doc_id)
             if doc is not None:
                 del doc['_id']
             return doc
@@ -55,9 +69,16 @@ class Database:
 
     @staticmethod
     def update(collection_name, document_id, document):
+        if collection_name == 'users':
+            doc_id = {'username': document_id}
+        elif collection_name == 'groups':
+            doc_id = {'group_id': document_id}
+        elif collection_name == 'platforms':
+            doc_id = {'platforms': document_id}
+
         try:
             setter = {'$set': document}
-            old_doc = Database.collection[collection_name].find_one_and_update(document_id, setter)
+            old_doc = Database.collection[collection_name].find_one_and_update(doc_id, setter)
             if old_doc is not None:
                 return True
             return False
@@ -66,11 +87,18 @@ class Database:
 
     @staticmethod
     def delete(collection_name, document_id=None):
+        if collection_name == 'users':
+            doc_id = {'username': document_id}
+        elif collection_name == 'groups':
+            doc_id = {'group_id': document_id}
+        elif collection_name == 'platforms':
+            doc_id = {'platforms': document_id}
+
         if None:
             Database.collection[collection_name].drop()
         else:
             try:
-                del_doc = Database.collection[collection_name].find_one_and_delete(document_id)
+                del_doc = Database.collection[collection_name].find_one_and_delete(doc_id)
                 if del_doc is not None:
                     return True
                 return False
