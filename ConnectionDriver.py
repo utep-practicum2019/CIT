@@ -1,7 +1,13 @@
 from ConnectionManager import ConnectionManager
 
 pp = ConnectionManager()
-pp.addUsers(1)
+list_of_users = pp.addUsers(3)
+
+for x in list_of_users:
+    print (x)
+    for u in list_of_users[x]:
+        print(u,':',list_of_users[x][u])
+
 pp.pptp_poll_connection()
 print("fsafd")
 test = pp.update_session_list()
