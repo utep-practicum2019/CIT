@@ -16,7 +16,7 @@ class DatabaseDocumentSchema(Schema):
 
 class DatabaseRequestSchema(Schema):
     collection_name = fields.String(required=True)
-    document_id = fields.Integer(required=True)
+    document_id = fields.String(required=True)
 
 
 class DatabaseModifySchema(DatabaseRequestSchema):
