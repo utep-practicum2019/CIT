@@ -57,6 +57,11 @@ class SessionTestDriver(unittest.TestCase):
         self.assertEqual(self.session[11].validity_check(), ['Invalid end time'])
         self.assertEqual(self.session[12].validity_check(), ['Invalid end time'])
 
+    def test_svc_status(self):
+        self.assertEqual(self.session[13].validity_check(), ['Invalid status'])
+        self.assertEqual(self.session[14].validity_check(), ['Invalid status'])
+        self.assertEqual(self.session[15].validity_check(), ['Invalid status'])
+
 
 if __name__ == '__main__':
     unittest.main()
