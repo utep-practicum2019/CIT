@@ -64,7 +64,7 @@ class TiddlyWiki(Platform):
     
     
     #add more methods below if you need to do more tasks
-platform = TiddlyWiki()
-print(platform.get_start_command())
+# platform = TiddlyWiki()
+# print(platform.get_start_command())
 
 
