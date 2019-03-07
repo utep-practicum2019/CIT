@@ -65,7 +65,7 @@ class ConnectionManager():
         for x in range(numberOfUsers):
             usersDictionary[x]={"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
 
-        return usersArr
+        return usersDictionary
 
 """
 if __name__ == "__main__":
