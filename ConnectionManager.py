@@ -63,7 +63,7 @@ class ConnectionManager():
         usersArr=Configure.addUsers(numberOfUsers)
         usersDictionary={}
         for x in range(numberOfUsers):
-            usersDictionary[x]=[usersArr[x].username,usersArr[x].password,usersArr[x].pptpIP]
+            usersDictionary[x]={"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
 
         return usersArr
 
