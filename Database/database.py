@@ -7,6 +7,7 @@
 
 from pymongo import MongoClient
 
+
 class Database:
     __client = MongoClient('localhost', 27017)
     __db = __client['cit']
@@ -21,15 +22,8 @@ class Database:
 
     @staticmethod
     def insert(collection_name, document_id, document):
-        if collection_name == 'users':
-            doc_id = {'username': document_id}
-        elif collection_name == 'groups':
-            doc_id = {'group_id': document_id}
-        elif collection_name == 'platforms':
-            doc_id = {'platforms': document_id}
-
         try:
-            if Database.find(collection_name, doc_id):
+            if Database.find(collection_name, document_id):
                 # already exists
                 return False
             Database.collection[collection_name].insert_one(document)
@@ -46,6 +40,8 @@ class Database:
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
             doc_id = {'platforms': document_id}
+        else:
+            doc_id = None
 
         try:
             if document_id is None:
@@ -75,6 +71,8 @@ class Database:
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
             doc_id = {'platforms': document_id}
+        else:
+            doc_id = None
 
         try:
             setter = {'$set': document}
@@ -93,6 +91,8 @@ class Database:
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
             doc_id = {'platforms': document_id}
+        else:
+            doc_id = None
 
         if None:
             Database.collection[collection_name].drop()
