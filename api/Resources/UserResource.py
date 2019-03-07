@@ -2,7 +2,7 @@
 from flask import request
 from flask_restful import Resource
 
-from CITAPI_Schema import *
+from CIT_API_Schema import *
 
 
 class UserAPI(Resource):
@@ -14,11 +14,13 @@ class UserAPI(Resource):
         data, errors = user_request_schema.load(json_data)
         if errors:
             return errors, 422
-        from AccountManager.account_manager import AccountManager
-        results = AccountManager.get_user(data["username"])
-        if not results:
+
+        from Database.database_handler import DatabaseHandler
+        results = DatabaseHandler.find('users', data["username"])
+        if results is None or not results:
             return "User Not Found", 404
-        results = user_schema.dump(results)
+        results = user_schema.dump(User(**results))
+
         return results
 
     def post(self):
