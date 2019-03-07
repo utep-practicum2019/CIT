@@ -6,8 +6,9 @@ from Session import Session
 class SessionTestDriver(unittest.TestCase):
 
     session = []
+
     """
-    Valid session that should pass all validity checks
+    Valid session that should pass all validity checks.
     """
     session.append(Session("username", "192.168.0.1", "00:34", "-", "connected", "ppp"))
 
@@ -18,18 +19,30 @@ class SessionTestDriver(unittest.TestCase):
     session.append(Session(True, "192.168.0.1", "00:34", "-", "connected", "ppp"))
     session.append(Session(1234, "192.168.0.1", "00:34", "-", "connected", "ppp"))
 
+    """
+    
+    """
     session.append(Session("username", 19216801, "00:34", "-", "connected", "ppp"))
     session.append(Session("username", "592.568.990.451", "00:34", "-", "connected", "ppp"))
     session.append(Session("username", "a.b.c.d", "00:34", "-", "connected", "ppp"))
 
+    """
+    
+    """
     session.append(Session("username", "192.168.0.1", "99:99", "-", "connected", "ppp"))
     session.append(Session("username", "192.168.0.1", "-89:34", "-", "connected", "ppp"))
     session.append(Session("username", "192.168.0.1", "aa:bb", "-", "connected", "ppp"))
 
+    """
+    
+    """
     session.append(Session("username", "192.168.0.1", "00:34", 1, "connected", "ppp"))
     session.append(Session("username", "192.168.0.1", "00:34", "55555", "connected", "ppp"))
     session.append(Session("username", "192.168.0.1", "00:34", False, "connected", "ppp"))
 
+    """
+    
+    """
     session.append(Session("username", "192.168.0.1", "00:34", "-", 1, "ppp"))
     session.append(Session("username", "192.168.0.1", "00:34", "-", "conn", "ppp"))
     session.append(Session("username", "192.168.0.1", "00:34", "-", True, "ppp"))
