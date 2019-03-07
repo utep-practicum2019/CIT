@@ -1,9 +1,8 @@
 import pyinotify
 import subprocess
-import Session
+from Session import Session
 import time
 import Configure
-from Connections import Connections
 
 
 class EventHandler(pyinotify.ProcessEvent):
@@ -38,10 +37,9 @@ class ConnectionManager():
     notifier = ""
 
     def __init__(self):
-    	pass
-        #self.path_to_file = path_to_file
+        pass
 
-    def poll_connection(self):
+    def pptp_poll_connection(self):
         wm = pyinotify.WatchManager()  # Watch Manager
         mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # flags to determine which events to watch
         handler = EventHandler(self.path_to_file)
@@ -50,9 +48,12 @@ class ConnectionManager():
         self.notifier.start()
 
     def update_session_list(self):
+        list_of_sessions = []
         with open('PPTP_session.txt', "r") as outfile:
             for line in outfile:
-                print(line)
+                s = line.split()
+                list_of_sessions.append(Session(s[0], s[1], s[2], s[3], s[4], "PPTP"))
+        return list_of_sessions
 
     def stop(self):
         self.notifier.stop()

@@ -1,3 +1,5 @@
+import re
+
 
 class Session():
 	username = ""
@@ -13,7 +15,27 @@ class Session():
 		self.start_time = start_time
 		self.end_time = end_time
 		self.status = status
-		self.connection_type
-     
+		self.connection_type = connection_type
+
 	def get_status(self):
-		return end_time == '-'
+		if self.end_time == '-':
+			self.status = "connected"
+		else:
+			self.status = "disconnected"
+		return self.status
+
+	def validity_check(self):
+		error_code = []
+		if type(self.username) != str or self.username.find("user") == -1:
+			error_code.append("Invalid username")
+		if type(self.public_ip) != str or not re.match('(([2][5][0-5]\.)|([2][0-4][0-9]\.)|([0-1]?[0-9]?[0-9]\.)){3}(([2][5][0-5])|([2][0-4][0-9])|([0-1]?[0-9]?[0-9]))', self.public_ip):
+			error_code.append("Invalid IP address")
+		if type(self.start_time) != str or not re.match('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$', self.start_time):
+			error_code.append("Invalid start time")
+		if type(self.end_time) != str or not re.match('^([0-1][0-9]|[2][0-3]):([0-5][0-9])$', self.end_time) and self.end_time != "-":
+			error_code.append("Invalid end time")
+		if type(self.status) != str or self.status != "disconnecting" and self.status != "connected":
+			error_code.append("Invalid status")
+		if type(self.connection_type) != str or self.connection_type not in "ppp":
+			error_code.append("Invalid connection type")
+		return error_code
