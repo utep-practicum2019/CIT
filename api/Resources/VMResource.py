@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource
 
 import inputValidator as inputValidator
-from CITAPI_Schema import *
+from CIT_API_Schema import *
 
 
 class VMConfigAPI(Resource):

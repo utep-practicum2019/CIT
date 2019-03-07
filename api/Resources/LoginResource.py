@@ -3,7 +3,7 @@ from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource
 
 import inputValidator as inputValidator
-from CITAPI_Schema import *
+from CIT_API_Schema import *
 
 auth = HTTPBasicAuth()
 

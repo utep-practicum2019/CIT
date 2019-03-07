@@ -50,11 +50,12 @@ database_request_schema = DatabaseRequestSchema()
 database_response_schema = DatabaseResponseSchema()
 database_modify_schema = DatabaseModifySchema()
 
-# class PlatformSchema(Schema):
-#     platform_name = fields.String(required=True)
-#     username = fields.String(required=True)
-#     group_identifier = fields.Int(required=True)
-#     task_type = fields.String(required=True)
-#
-#
-# platform_schema = PlatformSchema()
+
+class PlatformSchema(Schema):
+    platform_name = fields.String(required=True)
+    username = fields.String(required=True)
+    group_identifier = fields.Int(required=True)
+    task_type = fields.String(required=True)
+
+
+platform_schema = PlatformSchema()

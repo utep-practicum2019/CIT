@@ -2,7 +2,7 @@
 from flask import request
 from flask_restful import Resource
 
-from CITAPI_Schema import *
+from CIT_API_Schema import *
 
 
 class DatabaseAPI(Resource):
