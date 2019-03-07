@@ -1,6 +1,7 @@
-from user_manager import UserManager
-from group import Group
-from group_manager import GroupManager
+from AccountManager.group import Group
+from AccountManager.group_manager import GroupManager
+from AccountManager.user_manager import UserManager
+
 
 class AccountManager:
     @staticmethod
@@ -53,9 +54,16 @@ class AccountManager:
                 r_ip = "127.0.0.1" + str(i) + str(j)
 
                 group.members.append(username)
+                print("hello")
                 if not UserManager.create_user(username, password, remote_ip=r_ip):
+                    print("hello1")
+
                     return False
-            if not GroupManager.create_group(group.group_id, members=group.members):
+
+            document = {"group_id": group.group_id, "members": group.members}
+            document = {"document": document}
+            print(document)
+            if not GroupManager.create_group(group.group_id, **document):
                 return False
             fwriter = open('next_group_id', 'w')
             fwriter.write(str(group_id + 1))

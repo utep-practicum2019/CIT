@@ -1,5 +1,6 @@
 import json
 
+
 class User(object):
     def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None):
         self.username = username
@@ -68,7 +69,6 @@ class User(object):
     def remote_ip(self, remote_ip):
         self._remote_ip = remote_ip
 
-
     @property
     def connection_type(self):
         try:
@@ -80,10 +80,18 @@ class User(object):
     def connection_type(self, connection_type):
         self._connection_type = connection_type
 
-    def toJSON(self):
-        clean_vars= {}
+    def to_json(self):
+        clean_vars = {}
         my_vars = vars(self)
         for v in my_vars.keys():
             # remove underscore from properties
             clean_vars[v[1:]] = my_vars[v]
         return json.dumps(clean_vars)
+
+    def to_dict(self):
+        clean_vars = {}
+        my_vars = vars(self)
+        for v in my_vars.keys():
+            # remove underscore from properties
+            clean_vars[v[1:]] = my_vars[v]
+        return clean_vars

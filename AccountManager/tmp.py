@@ -1,5 +1,5 @@
-from user import User
-from group import Group
+from AccountManager.user import User
+from AccountManager.group import Group
 
 try:
     freader = open('next_group_id', 'r')

@@ -1,24 +1,36 @@
-from group import Group
-from user import User
 import requests
+
+from AccountManager.user import User
+
 
 class UserManager:
     cit_url = "http://127.0.0.1:5000"
-    database_path = "/api/v2/resources/database/"
+    database_path = "/api/v2/resources/database"
     database_url = cit_url + database_path
 
     @staticmethod
     def get_user(username):
         # Get info from database
-        doc_data = {'collection_name': 'users', 'document_id':username}
+        doc_data = {'collection_name': 'users', 'document_id': username}
         user = requests.get(UserManager.database_url, json=doc_data)
-        user_js = user.json()
-        return User()
+        if user.status_code == requests.codes.ok:
+            user_js = user.json()
+            return User(**user_js)
+        return False
 
     @staticmethod
     def create_user(username, password, **kwargs):
-        user_data = {'username':username, 'password':password, **kwargs}
-        doc_data = {'collection_name':'users', 'document_id': username, 'document':user_data}
+        print("hello2")
+        user_data = {'username': username, 'password': password, **kwargs}
+        print(user_data)
+
+        # user_data = json.dumps(user_data)
+        doc_data = {'collection_name': 'users', 'document_id': username, 'document': user_data}
+
+        # doc_data = json.dumps(doc_data)
+
+        print(doc_data)
+
         r = requests.post(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
             return True
@@ -26,7 +38,8 @@ class UserManager:
 
     @staticmethod
     def update_user(username, updated_user):
-        doc_data = {'collection_name':'users', 'document_id':username, 'document':{**updated_user}}
+        updated_user = User.to_dict(updated_user)
+        doc_data = {'collection_name': 'users', 'document_id': username, 'document': {**updated_user}}
         r = requests.put(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
             return True
@@ -34,7 +47,7 @@ class UserManager:
 
     @staticmethod
     def delete_user(username):
-        doc_data = {'collection_name':'users', 'document_id':username}
+        doc_data = {'collection_name': 'users', 'document_id': username}
         r = requests.delete(UserManager.database_url, json=doc_data)
         if r.status_code == requests.codes.ok:
             return True
