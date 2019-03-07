@@ -156,13 +156,12 @@ class UserAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = user_request_schema.load(json_data)
-
         if errors:
             return errors, 422
-
         from AccountManager.account_manager import AccountManager
         results = AccountManager.get_user(data["username"])
-
+        if not results:
+            return "User Not Found", 404
         results = user_schema.dump(results)
         return results
 
@@ -171,21 +170,18 @@ class UserAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = user_create_request_schema.load(json_data)
-
         if errors:
             return errors, 422
-
         from AccountManager.account_manager import AccountManager
         if "filepath" in data:
             results = AccountManager.create_groups(data["group_count"], data["users_per_group"], data["filepath"])
         else:
             results = AccountManager.create_groups(data["group_count"], data["users_per_group"])
 
-        results = {"success": results}
-
-        results = user_response_schema.dump(results)
-
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "User Already Exists", 409
 
     def put(self):
         json_data = request.get_json(force=True)
@@ -198,12 +194,14 @@ class UserAPI(Resource):
 
         username = data["username"]
         updated_user = data["updated_user"]
+        User.to_json(updated_user)
 
         from AccountManager.account_manager import AccountManager
         results = AccountManager.update_user(username, updated_user)
-
-        results = user_response_schema.dump(results)
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "User Not Found", 404
 
     def delete(self):
         json_data = request.get_json(force=True)
@@ -216,9 +214,10 @@ class UserAPI(Resource):
 
         from AccountManager.account_manager import AccountManager
         results = AccountManager.delete_user(data['username'])
-
-        results = user_response_schema.dump(results)
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "User Not Found", 404
 
 
 # Group Related Requests #
@@ -418,42 +417,25 @@ class DatabaseAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        # data, errors = database_request_schema.load(json_data)
-        # if errors:
-        #     return errors, 422
-
         from Database.database_handler import DatabaseHandler
         results = DatabaseHandler.find(json_data["collection_name"], json_data["document_id"])
-
-        # error = database_document_schema.validate_at_least_one(results)
-        # if error:
-        #     return error, 500
-        # results, errors = database_document_schema.dump(results)
-        # if errors:
-        #     return errors, 500
+        if results is None:
+            return "Not Found", 404
         return results
 
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-
-        # data, errors = database_modify_schema.load(json_data)
-        # if errors:
-        #     return errors, 422
-
         from Database.database_handler import DatabaseHandler
-
         collection_name = json_data["collection_name"]
         document_id = json_data["document_id"]
         document = json_data["document"]
-
         results = DatabaseHandler.insert(collection_name, document_id, document)
-        results = {
-            'success': results
-        }
-        results = database_response_schema.dump(results)
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "Document Already Exists", 409
 
     def put(self):
         json_data = request.get_json(force=True)
@@ -463,38 +445,27 @@ class DatabaseAPI(Resource):
         if errors:
             return errors, 422
         from Database.database_handler import DatabaseHandler
-
         collection_name = json_data["collection_name"]
         document_id = json_data["document_id"]
         document = json_data["document"]
-
         results = DatabaseHandler.update(collection_name, document_id, document)
-        results = {
-            'success': results
-        }
-        results = database_response_schema.dump(results)
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "Document Not Found", 404
 
     def delete(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        # data, errors = database_request_schema.load(json_data)
-        # if errors:
-        #     return errors, 422
-
         from Database.database_handler import DatabaseHandler
-
         collection_name = json_data["collection_name"]
         document_id = json_data["document_id"]
-
         results = DatabaseHandler.delete(collection_name, document_id)
-        results = {
-            'success': results
-        }
-
-        results = database_response_schema.dump(results)
-        return results
+        if results:
+            return user_response_schema.dump({"success": results})
+        else:
+            return "Document Not Found", 404
 
 
 api.add_resource(DatabaseAPI, '/api/v2/resources/database')
