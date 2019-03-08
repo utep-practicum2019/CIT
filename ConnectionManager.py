@@ -64,8 +64,14 @@ class ConnectionManager():
         usersDictionary={}
         for x in range(numberOfUsers):
             usersDictionary[x]={"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
-
         return usersDictionary
+
+    def deleteUsers(self,listOfUsers):
+        return True
+
+    def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
+        return True
+
 
 """
 if __name__ == "__main__":
