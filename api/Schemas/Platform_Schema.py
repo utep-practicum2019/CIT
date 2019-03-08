@@ -9,14 +9,33 @@ class PlatformCreateRequestSchema(Schema):
     port = fields.Int(required=True)
 
 
-# Used for Modifying or Deleting a Platform
-class PlatformRequestSchema(Schema):
-    platform_name = fields.String()
-    file_path = fields.String()
-    ip_address = fields.String()
-    port = fields.Int()
-    command = fields.String()
-    platform_id = fields.Int(required=True)
+# Used for POST requests
+class PlatformPostRequestSchema(Schema):
+    request = fields.String(required=True)
+    name = fields.String(required=True)
+    platform = fields.String()
+    username = fields.String()
+    email = fields.String()
+    password = fields.String()
+
+
+# Used for POST responses
+class PlatformPostResponseSchema(Schema):
+    destination = fields.String(required=True)
+    response = fields.String(required=True)
+
+
+# Used for GET requests
+class PlatformGetRequestSchema(Schema):
+    request = fields.String(required=True)
+    platform = fields.String()
+    requester = fields.String()
+
+
+# Used for GET responses
+class PlatformGetResponseSchema(Schema):
+    destination = fields.String(required=True)
+    response = fields.String(required=True)
 
 
 # Used for Responses
