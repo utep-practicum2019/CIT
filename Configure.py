@@ -25,6 +25,6 @@ def addUsers(numberOfUsersInput):
             #     print(str(addedUsersArr[x].username) +" "+ str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
             return addedUsersArr
         except ValueError:
-            print("Must enter integer for number of users.")
-            break
-addUsers(1)
+            # print("Must enter integer for number of users.")
+            return False
+# addUsers(1)

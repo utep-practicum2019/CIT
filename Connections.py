@@ -3,7 +3,7 @@ from random import randint
 class Connections():
     username="userx"
     password="11111111"
-    pptpIP="1.2.3.4"
+    pptpIP="192.168.0.0"
 
     def addUsers(self):
         pass

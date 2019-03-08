@@ -12,6 +12,7 @@ class IKE_ConnectionsSublcass(Connections):
 
                 ipsec.write("user"+str(userNumVar)+ " %any%"+ " : "+ "EAP "+str(randomPassword)+"\n")
                 userNumVar += 1
+                ipsec.close()
 
 # i=IKE_ConnectionsSublcass() 
 # i.ikesInput(2)

@@ -14,6 +14,7 @@ class PPTP_ConnectionsSublcass(Connections):
         chapSec.write("user"+str(userNumVar)+ " * "+str(randomPassword)+distIP+str(ipEND)+"\n")
         self.username="user"+str(userNumVar)
         self.pptpIP="192.168.0."+str(ipEND)
+        chapSec.close()
 
 # p=PPTP_ConnectionsSublcass() 
 # p.pptpInput(2)
