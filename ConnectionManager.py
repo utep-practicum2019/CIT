@@ -71,13 +71,8 @@ class ConnectionManager():
         usersArr=Configure.addUsers(numberOfUsers)
         usersDictionary={}
         for x in range(numberOfUsers):
-<<<<<<< HEAD
             usersDictionary[x] = {"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
-
-        return usersDictionary
-
-=======
-            usersDictionary[x]={"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+        
         return usersDictionary
 
     def deleteUsers(self,listOfUsers):
@@ -85,8 +80,6 @@ class ConnectionManager():
 
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
         return True
-
->>>>>>> f9a0e91cfec548cf8eecfa0f77a5927719d19713
 
 """
 if __name__ == "__main__":
