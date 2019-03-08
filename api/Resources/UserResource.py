@@ -7,7 +7,8 @@ from CIT_API_Schema import *
 
 class UserAPI(Resource):
 
-    def get(self):
+    @staticmethod
+    def get():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -18,12 +19,12 @@ class UserAPI(Resource):
         from Database.database_handler import DatabaseHandler
         results = DatabaseHandler.find('users', data["username"])
         if results is None or not results:
-            return "User Not Found", 404
-        results = user_schema.dump(User(**results))
+            results = user_response_schema.dump({"success": False})
+            return {"success": False}, 404
+        return user_schema.dump(User(**results))
 
-        return results
-
-    def post(self):
+    @staticmethod
+    def post():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -39,9 +40,10 @@ class UserAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "User Already Exists", 409
+            return {"success": results}, 409
 
-    def put(self):
+    @staticmethod
+    def put():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -59,9 +61,10 @@ class UserAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "User Not Found", 404
+            return {"success": results}, 404
 
-    def delete(self):
+    @staticmethod
+    def delete():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -75,4 +78,4 @@ class UserAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "User Not Found", 404
+            return {"success": results}, 404

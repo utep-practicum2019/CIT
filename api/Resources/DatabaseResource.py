@@ -14,7 +14,7 @@ class DatabaseAPI(Resource):
         from Database.database_handler import DatabaseHandler
         results = DatabaseHandler.find(json_data["collection_name"], json_data["document_id"])
         if results is None:
-            return "Not Found", 404
+            return {"success": False}, 404
         return results
 
     def post(self):
@@ -29,7 +29,7 @@ class DatabaseAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "Document Already Exists", 409
+            return {"success": results}, 409
 
     def put(self):
         json_data = request.get_json(force=True)
@@ -46,7 +46,7 @@ class DatabaseAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "Document Not Found", 404
+            return {"success": results}, 404
 
     def delete(self):
         json_data = request.get_json(force=True)
@@ -59,4 +59,4 @@ class DatabaseAPI(Resource):
         if results:
             return user_response_schema.dump({"success": results})
         else:
-            return "Document Not Found", 404
+            return {"success": results}, 404
