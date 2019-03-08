@@ -13,8 +13,14 @@ pp.pptp_poll_connection()
 print("\nBefore updated session:")
 test = pp.update_session_list()
 
-for t in test:
-    print(t.username, t.public_ip, t.start_time, t.end_time)
+
+for x in test:
+    print (x)
+    for u in test[x]:
+        print(u, ':', test[x][u])
+
+#for t in test:
+#    print(t.username, t.public_ip, t.start_time, t.end_time)
 
 print("After sessions print")
 

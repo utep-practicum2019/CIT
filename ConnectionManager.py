@@ -48,11 +48,19 @@ class ConnectionManager():
         self.notifier.start()
 
     def update_session_list(self):
-        list_of_sessions = []
+        list_of_sessions = {}
+        i = 0
         with open('PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
-                list_of_sessions.append(Session(s[0], s[1], s[2], s[3], s[4], "PPTP"))
+                list_of_sessions[i] = {
+                    "username": s[0],
+                    "public_ip": s[1],
+                    "start_end": s[2],
+                    "end_time": s[3],
+                    "status": s[4],
+                    "connection_type": "PPTP"}
+                i += 1
         return list_of_sessions
 
     def stop(self):
@@ -63,6 +71,12 @@ class ConnectionManager():
         usersArr=Configure.addUsers(numberOfUsers)
         usersDictionary={}
         for x in range(numberOfUsers):
+<<<<<<< HEAD
+            usersDictionary[x] = {"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+
+        return usersDictionary
+
+=======
             usersDictionary[x]={"username":usersArr[x].username,"password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
         return usersDictionary
 
@@ -72,6 +86,7 @@ class ConnectionManager():
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
         return True
 
+>>>>>>> f9a0e91cfec548cf8eecfa0f77a5927719d19713
 
 """
 if __name__ == "__main__":
