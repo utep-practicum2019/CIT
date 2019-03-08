@@ -1,9 +1,6 @@
 import sys, os, threading, time, subprocess, socket
 #Need to import entire platforms package
-from .Platforms.TiddlyWiki import TiddlyWiki
-from .Platforms.RocketChat import RocketChat
-
-from .PluginManager import PluginManager
+from PluginManager import PluginManager
 
 """ 
         @authors:
@@ -25,8 +22,13 @@ from .PluginManager import PluginManager
 '''
 class PlatformsManager:
     PlatformManagerID = 0
-    Main_Platform = None
-    
+
+    def startPlatforms(self, platform):
+        self.startPlatformThread(platform)
+        time.sleep(3)
+        for x in platform.subplatforms:
+            self.startPlatformThread(platform.subplatforms[x])
+            time.sleep(3)
 
     #start thread to continue execution 
     def startPlatformThread(self, platform):
@@ -38,15 +40,26 @@ class PlatformsManager:
         
     #still under development 
     def configurePlatform(self, main_platform, sub_platforms):
-        print("Creating platforms and integrating them")
-        #get list of platforms from plugin manager
-        
+        subplatforms = {}
+        plugin_manager = PluginManager()
+        Main_Platform = plugin_manager.loadPlatform(main_platform)
+        for x in sub_platforms:
+            subplatforms[x] = plugin_manager.loadPlatform(x)
+        Main_Platform.set_sub_platforms(subplatforms)
+        return Main_Platform
 
     def start(self, platform):
         process = subprocess.Popen([platform.get_start_command()], shell=True)
         print("process id: " + str(process.pid))
         platform.setProcessID(process.pid + 1)
         print("Platform Process ID " + str(platform.getProcessID()))
+
+    def stopPlatforms(self, platform):
+        for x in platform.subplatforms:
+            self.stop(platform.subplatforms[x])
+            time.sleep(3)
+        self.stop(platform)
+        time.sleep(3)
         
         
     def stop(self, platform):
@@ -71,14 +84,9 @@ class PlatformsManager:
 
 
 platformManager = PlatformsManager()
-tiddlywiki = TiddlyWiki()
-rocketChat = RocketChat()
-thread = platformManager.startPlatformThread(rocketChat)
-time.sleep(10)
-thread = platformManager.startPlatformThread(tiddlywiki)
-time.sleep(10)
+wiki = platformManager.configurePlatform("TiddlyWiki", {"RocketChat"})
+platformManager.startPlatforms(wiki)
+
 a = input("Enter a 1 to stop the wiki server: ")
 if( a == '1'):
-    platformManager.stop(rocketChat)
-    time.sleep(10)
-    platformManager.stop(tiddlywiki)
+    platformManager.stopPlatforms(wiki)

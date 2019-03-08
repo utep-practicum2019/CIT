@@ -1,10 +1,11 @@
 import os, sys
+import importlib
+
 
 class PluginManager():
-    platforms = {"tiddly wiki","rocket chat"}
     
     def get_Available_Platforms(self):
-        return self.platforms
+        return 0
     
     def addPlatform(self):
         print("Adding Platforms")
@@ -12,7 +13,13 @@ class PluginManager():
     def deletePlatform(self):
         print("Deleting platforms")
     
-    def loadPlatform(self):
-        print("Instantiating objects")
+    def loadPlatform(self, platform):
+        module = importlib.import_module("Platforms." + platform, ".")
+        class_ = getattr(module, platform)
+        instance = class_()
+        return instance
+
+
+
 
     
