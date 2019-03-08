@@ -26,6 +26,10 @@ class File(Platform):
     platform_id = " "
     subplatforms = {" ", " "}
 
+    #return process ID 
+    def getProcessID(self):
+        return self.processID
+
     #returns link to connect to website
     def getLink(self):
         return self.link 
@@ -58,11 +62,52 @@ class File(Platform):
     # returns list of subplatforms
     def get_sub_platforms(self):
         return self.subplatforms
+
+    #sets process ID 
+    def setProcessID(self, processID):
+        self.processID = processID
+
+    #set link to connect to website
+    def setLink(self, link):
+        self.link = link
+    
+    #set ip and port to connect to website
+    def setIpPort(self, ip, port):
+        self.ip = ip 
+        self.port = port 
+    
+    #set platform name
+    def setPlatformName(self, platform_name):
+        self.platform_name = platform_name 
+    
+    #set where the platforms installation path
+    def setPlatformInstallation(self, platformInstallation):
+        self.platformInstallation = platformInstallation 
+    
+    #sets the version of the platform 
+    def setPlatformVersion(self, platform_version):
+        self.platform_version = platform_version
+    
+    # sets a platformID. You can pick a random value for this field.
+    def setPlatformID(self, PlatformID):
+        self.platform_id = PlatformID
+    
+    # sets command that starts platform
+    def set_start_command(self, platform_start_command):
+        self.platform_start_command = platform_start_command
+
+    #set command to stop platform
+    def set_stop_command(self, platform_end_command):
+        self.platform_end_command = platform_end_command
+    
+    # set list of subplatforms
+    def set_sub_platforms(self, subplatforms):
+        self.subplatforms = subplatforms
     
     def requestHandler(self, jsonObject):
         print("Handling Request")
     
     
     #add more methods below if you need to do more tasks
-platform = Files()
+platform = File()
 print(platform.get_start_command())
