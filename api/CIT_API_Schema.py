@@ -32,16 +32,10 @@ group_request_schema = GroupRequestSchema()
 group_update_request_schema = GroupUpdateRequestSchema()
 group_response_schema = GroupResponseSchema()
 
-from Schemas.Platform_Schema import *
-
-platform_request_schema = PlatformRequestSchema()
-platform_response_schema = PlatformResponseSchema()
-platform_create_request_schema = PlatformCreateRequestSchema()
-
-from Schemas.Connection_Schema import *
-
-connection_request_schema = ConnectionRequestSchema()
-connection_response_schema = ConnectionResponseSchema()
+# from Schemas.Connection_Schema import *
+#
+# connection_request_schema = ConnectionRequestSchema()
+# connection_response_schema = ConnectionResponseSchema()
 
 from Schemas.DatabaseSchema import *
 
@@ -50,12 +44,21 @@ database_request_schema = DatabaseRequestSchema()
 database_response_schema = DatabaseResponseSchema()
 database_modify_schema = DatabaseModifySchema()
 
+from Schemas.Platform_Schema import *
 
-class PlatformSchema(Schema):
-    platform_name = fields.String(required=True)
-    username = fields.String(required=True)
-    group_identifier = fields.Int(required=True)
-    task_type = fields.String(required=True)
+platform_post_request_schema = PlatformPostRequestSchema()
+platform_post_response_schema = PlatformPostResponseSchema()
 
+platform_get_request_schema = PlatformGetRequestSchema()
+platform_get_response_schema = PlatformGetResponseSchema()
 
-platform_schema = PlatformSchema()
+platform_response_schema = PlatformResponseSchema()
+platform_create_request_schema = PlatformCreateRequestSchema()
+
+# class PlatformSchema(Schema):
+#     platform_name = fields.String(required=True)
+#     username = fields.String(required=True)
+#     group_identifier = fields.Int(required=True)
+#     task_type = fields.String(required=True)
+#
+# platform_schema = PlatformSchema()
