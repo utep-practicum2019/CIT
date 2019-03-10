@@ -1,3 +1,6 @@
+sudo apt-get update #always good to update
+sudo apt install curl -y #curl is needed
+
 mkdir wiki
 cd wiki
 git clone https://github.com/Jermolene/TiddlyWiki5
