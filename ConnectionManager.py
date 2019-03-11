@@ -81,6 +81,10 @@ class ConnectionManager():
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
         return True
 
+    def fileAddUsers(self, userList):
+        usersDictionary={}
+        return usersDictionary
+
 """
 if __name__ == "__main__":
     pp = ConnectionManager("/var/log")
