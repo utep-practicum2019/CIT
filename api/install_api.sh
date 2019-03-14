@@ -19,6 +19,7 @@ sudo chown -R $USER test_bed_environment
 
 pip install flask
 pip install flask-restful
+pip install flask-marshmallow
 
 sudo su -c "echo 127.0.0.1 citsystem.com > /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
