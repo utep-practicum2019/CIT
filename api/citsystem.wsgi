@@ -6,4 +6,4 @@ import sys
 
 sys.path.append('/var/www/cit/test/lib/python3.5/site-packages')
 
-from __init__ import app as application
+from CIT_API import app as application
