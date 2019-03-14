@@ -14,11 +14,11 @@ sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
 pip install flask
-export FLASK_APP=CIT_API
+#export FLASK_APP=CIT_API
 
 pip install flask-restful
 pip install flask-marshmallow
-flask run
+#flask run
 
 sudo su -c "echo 127.0.0.1 citsystem.com > /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
