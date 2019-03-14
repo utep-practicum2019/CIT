@@ -9,6 +9,7 @@ sudo apt-get install libapache2-mod-wsgi-py3 -y
 
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
+cd /var/www/cit
 
 sudo apt install python3-venv -y
 sudo pyvenv test_bed_environment
