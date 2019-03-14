@@ -14,6 +14,8 @@ sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
 pip install flask
+export FLASK_APP=CIT_API
+flask run
 pip install flask-restful
 pip install flask-marshmallow
 
