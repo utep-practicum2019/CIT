@@ -46,3 +46,19 @@ class Connections():
                 newfile.write(line)
         configTempFile=open(tempFile,"r+")
         configTempFile.truncate(0)
+
+    def modifyUser(self, currUsername,newUsername,newPassword,newIP):
+        # chapFile="ChappieTest.txt"
+        chapFile="/etc/ppp/chap-secrets"
+        # ikeFile="IkesTest.txt"
+        ikeFile="/etc/ipsec.secrets"
+        self.deleteUser(currUsername,chapFile)
+        self.deleteUser(currUsername,ikeFile)
+
+        # chapSec=open("ChappieTest.txt","a")
+        chapSec=open("/etc/ppp/chap-secrets","a")
+        chapSec.write(newUsername+ " * "+newPassword+" "+newIP+"\n")
+        
+        # ipsec=open("IkesTest.txt","a")
+        ipsec=open("/etc/ipsec.secrets","a")
+        ipsec.write(newUsername+ " %any%"+ " : "+ "EAP "+newPassword+"\n")

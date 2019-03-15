@@ -80,6 +80,7 @@ class ConnectionManager():
         return True
 
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
+        Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
         return True
 
     def fileAddUsers(self, userList):

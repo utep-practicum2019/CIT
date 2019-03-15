@@ -34,7 +34,11 @@ def deleteUsers(users):
         emptyConn.deleteUser(users[x],"/etc/ppp/chap-secrets")
         # emptyConn.deleteUser(users[x],"IkesTest.txt")
         emptyConn.deleteUser(users[x],"/etc/ipsec.secrets")
+def modifyUser(currUsername,newUsername,newPassword,newIP):
+    emptyConn=Connections()
+    emptyConn.modifyUser(currUsername,newUsername,newPassword,newIP)
 
 # addUsers(10)
 # users=["user2","user4","user6","user8","user10"]
 # deleteUsers(users)
+# modifyUser("user5","Mario","70099011","192.168.0.6")
