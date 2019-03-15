@@ -20,11 +20,21 @@ def addUsers(numberOfUsersInput):
                 currUserIKE=IKE_ConnectionsSublcass()
                 currUserIKE.password=currUserChappie.password
                 currUserIKE.ikesAddUser(currUserIKE.password)
-
             # for x in range(numberOfUsers):
-            #     print(str(addedUsersArr[x].username) +" "+ str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
+                # print(str(addedUsersArr[x].username) +" "+ 
+                # str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
             return addedUsersArr
         except ValueError:
             # print("Must enter integer for number of users.")
             return False
+def deleteUsers(users):
+    for x in range(len(users)):
+        emptyConn=Connections()
+        # emptyConn.deleteUser(users[x],"ChappieTest.txt")
+        emptyConn.deleteUser(users[x],"/etc/ppp/chap-secrets")
+        # emptyConn.deleteUser(users[x],"IkesTest.txt")
+        emptyConn.deleteUser(users[x],"/etc/ipsec.secrets")
+
 # addUsers(10)
+# users=["user2","user4","user6","user8","user10"]
+# deleteUsers(users)

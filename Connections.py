@@ -28,3 +28,21 @@ class Connections():
         ipEND=2+currIP_END_Counter
         # print(ipEND)
         return [userNumVar, ipEND]
+
+    def deleteUser(self, currUser,fileName):
+        tempFile="configTempFile.txt"
+        configFile=open(fileName,"r+") 
+        configTempFile=open(tempFile,"r+")
+        #https://stackoverflow.com/questions/11968998/remove-lines-that-contain-certain-string
+        with configFile as oldfile, configTempFile as newfile:
+            for line in oldfile:
+                if currUser not in line:
+                    newfile.write(line)
+        configFile=open(fileName,"r+")
+        configTempFile=open(tempFile,"r+")
+        configFile.truncate(0)
+        with configTempFile as oldfile, configFile as newfile:
+            for line in oldfile:
+                newfile.write(line)
+        configTempFile=open(tempFile,"r+")
+        configTempFile.truncate(0)
