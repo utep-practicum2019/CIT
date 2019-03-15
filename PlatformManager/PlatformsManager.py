@@ -54,19 +54,25 @@ class PlatformsManager:
         platform.setProcessID(process.pid + 1)
         print("Platform Process ID " + str(platform.getProcessID()))
 
-    def stopPlatforms(self, platform):
-        for x in platform.subplatforms:
-            self.stop(platform.subplatforms[x])
+    def stopPlatforms(self, platform, platforms):
+        if(platform.getPlatformName() in platforms):
+            for x in platform.subplatforms:
+                self.stop(platform.subplatforms[x])
+                time.sleep(3)
+            self.stop(platform)
             time.sleep(3)
-        self.stop(platform)
-        time.sleep(3)
+        else:
+            for x in platform.subplatforms:
+                if(platform.subplatforms[x].getPlatformName in platforms):
+                    self.stop(platform.subplatforms[x])
+        return "Success"
         
         
     def stop(self, platform):
         print("Platform Process ID: " + str(platform.getProcessID()))
         os.system(platform.get_stop_command())
     
-    #need to figure out if service is running on ip and port 
+    ''' NEED TO CHECK IF SERVICES ARE RUNNING 
     def serviceIsRunning(self, platform):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ip, port = platform.getIpPort().split(":")
@@ -77,6 +83,17 @@ class PlatformsManager:
             return "200"
         except:
             return "404"
+    '''
+    def requestForwarder(self, platform, JSON, platform_name):
+        response = " "
+        if(platform.getPlatformName() == platform_name):
+            response = platform.requestHandler(JSON)
+        else:
+            for x in platform.get_sub_platforms():
+                response = platform.subplatform[x].requestHandler(JSON)
+        return response
+
+
         
         
         
@@ -89,4 +106,4 @@ platformManager.startPlatforms(wiki)
 
 a = input("Enter a 1 to stop the wiki server: ")
 if( a == '1'):
-    platformManager.stopPlatforms(wiki)
+    platformManager.stopPlatforms(wiki, {})
