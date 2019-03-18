@@ -21,7 +21,7 @@ from .Platform import Platform
 
 class RocketChat(Platform):
     # fill the values here for your specific platform
-    platform_name = "Rocket.Chat"
+    platform_name = "RocketChat"
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
     platform_end_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server stop"
     platform_version = ""

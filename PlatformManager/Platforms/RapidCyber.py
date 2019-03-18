@@ -13,7 +13,7 @@ from .Platform import Platform
 
 class RapidCyber(Platform):
     # fill the values here for your specific platform
-    platform_name = ""
+    platform_name = "RapidCyber"
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
