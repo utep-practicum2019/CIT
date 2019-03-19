@@ -9,7 +9,6 @@ import os, sys, random
         in order to facilitate retrieval of platforms.
 
 '''
-
 class platformNode():
 
     def __init__(self, platform):
@@ -67,9 +66,7 @@ class PlatformTree():
             node.setLeftNode(left_node)
             node.setIsLeaf(False)
             return node 
-        
-            
-    # need to finish 
+         
     def deleteNode(self, node, platformID):
         if(node.getPlatformID() == platformID):
             if(node.getRightNode() is None and node.getLeftNode() is None):
@@ -94,7 +91,7 @@ class PlatformTree():
                 return node 
             else:
                 print("fourth case")
-                node = self.restructure(node)
+                node = self.restructureTree(node)
                 return node 
         if(platformID > node.getPlatformID()):
             node.setRightNode(self.deleteNode(node.getRightNode(), platformID))
@@ -102,7 +99,7 @@ class PlatformTree():
             node.setLeftNode(self.deleteNode(node.getLeftNode(), platformID))
         return node
     
-    def restructure(self, node):
+    def restructureTree(self, node):
         temp = node.getLeftNode()
         while(temp.getRightNode() != None):
             temp = temp.getRightNode()
@@ -122,8 +119,6 @@ class PlatformTree():
             node.setRightNode(self.removeNode(node.getRightNode()))
         return node 
         
-                
-
     def getNode(self, node, platformID):
         if(node is None):
             return None
@@ -136,10 +131,8 @@ class PlatformTree():
     
     def id_Availability(self, node, platformID):
         if(node is None):
-            ("Print returning true")
             return True
         if(platformID == node.getPlatformID()):
-            ("print returnin false")
             return False
         elif(platformID >= node.getPlatformID()):
             return self.id_Availability(node.rightNode, platformID)
@@ -181,8 +174,6 @@ class PlatformTreeManager():
     def getPlatform(self, platformID):
         return self.PlatformTree.getNode(self.root, platformID)
 
-
-    # these generate methods need work to be able to generate globally unique id's for each instance 
     def generate_main_ID(self):
         id = 0
         while(id == 0):
@@ -191,8 +182,6 @@ class PlatformTreeManager():
                 id = randID
         return id 
         
-
-    
     def generate_sub_ID(self, Main_Platform):
         id = 0
         subplatforms = Main_Platform.get_sub_platforms()
