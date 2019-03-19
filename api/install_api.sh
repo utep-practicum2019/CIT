@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 sudo apt-get update
 sudo apt-get install python3
 sudo apt-get install apache2 -y
@@ -25,3 +26,6 @@ sudo su -c "echo 127.0.0.1 citsystem.com > /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
+
+echo "CIT_API setup complete."
+echo "Please type citsystem.com in your URL."

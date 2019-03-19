@@ -19,7 +19,12 @@ class ConnectionUserSchema(Schema):
     pptpIP = fields.String()
 
 
+class ConnectionGetRequestSchema(Schema):
+    session_list = fields.Boolean()
+
+
 class ConnectionPostRequestSchema(Schema):
+    usernames = fields.List(fields.String())
     num_users = fields.Integer()
 
 
@@ -38,6 +43,7 @@ class ConnectionPutRequestSchema(Schema):
     newIP = fields.String()
 
 
+connection_get_request_schema = ConnectionGetRequestSchema()
 connection_post_request_schema = ConnectionPostRequestSchema()
 connection_post_response_schema = ConnectionPostResponseSchema()
 connection_delete_request_schema = ConnectionDeleteRequestSchema()
