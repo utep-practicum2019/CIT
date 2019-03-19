@@ -22,7 +22,7 @@ class Platform(abc.ABC):
     port = ""
     ip = ""
     link = ""
-    platform_id = ""
+    platform_id = 0
     processID = 0
     subplatforms = {}
 

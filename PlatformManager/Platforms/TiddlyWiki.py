@@ -51,7 +51,7 @@ class TiddlyWiki(Platform):
     
     #return a platformID. You can pick a random value for this field.
     def getPlatformID(self):
-        return int(self.platform_id)
+        return self.platform_id
 
     # return command that starts platform
     def get_start_command(self):

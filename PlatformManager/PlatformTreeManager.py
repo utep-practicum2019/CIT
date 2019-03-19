@@ -73,34 +73,60 @@ class PlatformTree():
     def deleteNode(self, node, platformID):
         if(node.getPlatformID() == platformID):
             if(node.getRightNode() is None and node.getLeftNode() is None):
+                print("first case")
                 node = None
                 return node
             elif(node.getRightNode() != None and node.getLeftNode() is None):
-                node = node.getRightNode()
+                print("second case")
+                temp = node.getRightNode() 
+                node.setPlatform(temp.getPlatform())
+                node.setPlatformID(temp.getPlatformID())
+                node.setRightNode(temp.getRightNode())
+                node.setLeftNode(temp.getLeftNode())
                 return node
             elif(node.getRightNode() is None and node.getLeftNode() != None):
-                node = node.getLeftNode()
-                return node
-            else:
-                node = self.restructure(node.getRightNode())
+                print("third case")
+                temp = node.getLeftNode() 
+                node.setPlatform(temp.getPlatform())
+                node.setPlatformID(temp.getPlatformID())
+                node.setRightNode(temp.getRightNode())
+                node.setLeftNode(temp.getLeftNode())
                 return node 
+            else:
+                print("fourth case")
+                node = self.restructure(node)
+                return node 
+        if(platformID > node.getPlatformID()):
+            node.setRightNode(self.deleteNode(node.getRightNode(), platformID))
+        else:
+            node.setLeftNode(self.deleteNode(node.getLeftNode(), platformID))
+        return node
     
     def restructure(self, node):
-        temp = node
-        while(temp.getLeftNode() != None):
-            temp = temp.getLeftNode()
-        node.setPlatformID(temp.left)
-             
-
+        temp = node.getLeftNode()
+        while(temp.getRightNode() != None):
+            temp = temp.getRightNode()
+        print("old platform id: " + str(node.getPlatformID()))
+        node.setPlatformID(temp.getPlatformID())
+        print("new platform id: " + str(node.getPlatformID()))
+        node.setPlatform(temp.getPlatform())
+        node.setLeftNode(self.removeNode(node.getLeftNode()))
+        return node 
+    
+    def removeNode(self, node):
+        if(node.getLeftNode() is None and node.getRightNode() is None):
+            return None
+        elif(node.getLeftNode() != None and node.getRightNode() is None):
+            return node.getLeftNode()
+        else:
+            node.setRightNode(self.removeNode(node.getRightNode()))
+        return node 
         
-        
-         
-
-            
+                
 
     def getNode(self, node, platformID):
         if(node is None):
-            return 0
+            return None
         if(platformID == node.getPlatformID()):
             return node.platform
         elif(platformID >= node.getPlatformID()):
@@ -110,13 +136,15 @@ class PlatformTree():
     
     def id_Availability(self, node, platformID):
         if(node is None):
+            ("Print returning true")
             return True
         if(platformID == node.getPlatformID()):
+            ("print returnin false")
             return False
         elif(platformID >= node.getPlatformID()):
-            return self.getNode(node.rightNode, platformID)
+            return self.id_Availability(node.rightNode, platformID)
         else:
-            return self.getNode(node.leftNode, platformID) 
+            return self.id_Availability(node.leftNode, platformID) 
     
 
 class PlatformTreeManager():
@@ -136,15 +164,19 @@ class PlatformTreeManager():
         self.printTree(node.rightNode)
     
     def add(self, platform):
-        main_id = random.randint(1, 100000)
+        main_id = self.generate_main_ID()
         subplatform_ids = {} 
         platform.setPlatformID(main_id)
         for x in platform.get_sub_platforms():
-            id = random.randint(1, 100000)
+            id = self.generate_sub_ID(platform)
             platform.subplatforms[x].setPlatformID(id)
             subplatform_ids[x] = id
         self.root = self.PlatformTree.addNode(self.root, platform)
-        return (main_id,subplatform_ids)
+        return (main_id, subplatform_ids)
+    
+    def remove(self, platformID):
+        node = self.PlatformTree.deleteNode(self.root, platformID)
+        return node 
 
     def getPlatform(self, platformID):
         return self.PlatformTree.getNode(self.root, platformID)
@@ -153,28 +185,25 @@ class PlatformTreeManager():
     # these generate methods need work to be able to generate globally unique id's for each instance 
     def generate_main_ID(self):
         id = 0
-        counter = 0
-        while(True):
-            id = random.randint(1, 100000)
-            if(self.PlatformTree.id_Availability(self.root, id)):
-                return id 
-            if(counter == 100000000):
-                break 
-            counter += 1
-        return id
-
+        while(id == 0):
+            randID = random.randint(1, 100000)
+            if(self.PlatformTree.id_Availability(self.root, randID)):
+                id = randID
+        return id 
+        
 
     
     def generate_sub_ID(self, Main_Platform):
         id = 0
-        subplatfrms = Main_Platform.get_sub_platforms()
-        while(True):
+        subplatforms = Main_Platform.get_sub_platforms()
+        while(id == 0):
             id = random.randint(1, 100000)
-            for x in subplatfrms:
-                if(subplatfrms[x].getPlatformID == id):
-                    break 
-            if(id != 0):
-                return id 
+            for x in subplatforms:
+                if(subplatforms[x].getPlatformID() == id):
+                    id = 0
+                    break
+           
+        return id 
 
         
             
