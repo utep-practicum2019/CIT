@@ -1,14 +1,16 @@
-import json
-
-
 class User(object):
     def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None):
         self.username = username
-        if password is not None: self.password = password
-        if group_id is not None: self.group_id = group_id
-        if internal_ip is not None: self.internal_ip = internal_ip
-        if remote_ip is not None: self.remote_ip = remote_ip
-        if connection_type is not None: self.connection_type = connection_type
+        if password is not None:
+            self.password = password
+        if group_id is not None:
+            self.group_id = group_id
+        if internal_ip is not None:
+            self.internal_ip = internal_ip
+        if remote_ip is not None:
+            self.remote_ip = remote_ip
+        if connection_type is not None:
+            self.connection_type = connection_type
 
     def __repr__(self):
         tmp = "User("
@@ -79,14 +81,6 @@ class User(object):
     @connection_type.setter
     def connection_type(self, connection_type):
         self._connection_type = connection_type
-
-    def to_json(self):
-        clean_vars = {}
-        my_vars = vars(self)
-        for v in my_vars.keys():
-            # remove underscore from properties
-            clean_vars[v[1:]] = my_vars[v]
-        return json.dumps(clean_vars)
 
     def to_dict(self):
         clean_vars = {}
