@@ -7,7 +7,14 @@ from CIT_API_Schema import *
 
 class DatabaseAPI(Resource):
 
-    def get(self):
+    # To do a get request
+    # Type 1
+    # {
+    #     collection_name : String
+    #     document_id : Integer
+    # }
+    @staticmethod
+    def get():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -17,7 +24,15 @@ class DatabaseAPI(Resource):
             return {"success": False}, 404
         return results
 
-    def post(self):
+    # To do a post request
+    # Type 1
+    # {
+    #     collection_name : String
+    #     document_id : Integer
+    #     document : User, Group, Platform
+    # }
+    @staticmethod
+    def post():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -31,7 +46,15 @@ class DatabaseAPI(Resource):
         else:
             return {"success": results}, 409
 
-    def put(self):
+    # To do a put request
+    # Type 1
+    # {
+    #     collection_name : String
+    #     document_id : Integer
+    #     document : User, Group, Platform
+    # }
+    @staticmethod
+    def put():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -48,7 +71,14 @@ class DatabaseAPI(Resource):
         else:
             return {"success": results}, 404
 
-    def delete(self):
+    # To do a delete request
+    # Type 1
+    # {
+    #     collection_name : String
+    #     document_id : Integer
+    # }
+    @staticmethod
+    def delete():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400

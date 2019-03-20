@@ -6,16 +6,15 @@ from Schemas.Connection_Schema import *
 
 
 class ConnectionAPI(Resource):
-
-    def __init__(self):
-        from ConnectionManager.ConnectionManager import ConnectionManager
-        self.ConnectionManager = ConnectionManager()
+    from ConnectionManager.ConnectionManager import ConnectionManager
+    ConnectionManager = ConnectionManager()
 
     # To do a get request
     # Type 1
     # {
     #     session_list : Boolean
     # }
+    @staticmethod
     def get(self):
         json_data = request.get_json(force=True)
         if not json_data:
@@ -41,6 +40,7 @@ class ConnectionAPI(Resource):
     # {
     #     num_users : Integer
     # }
+    @staticmethod
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
@@ -68,6 +68,7 @@ class ConnectionAPI(Resource):
     # {
     #     "list_of_users" : List[String]
     # }
+    @staticmethod
     def delete(self):
         json_data = request.get_json(force=True)
         if not json_data:
@@ -99,6 +100,7 @@ class ConnectionAPI(Resource):
     #     "newPassword" : String
     #     "newIP" : String
     # }
+    @staticmethod
     def put(self):
         json_data = request.get_json(force=True)
         if not json_data:
