@@ -103,9 +103,7 @@ class PlatformTree():
         temp = node.getLeftNode()
         while(temp.getRightNode() != None):
             temp = temp.getRightNode()
-        print("old platform id: " + str(node.getPlatformID()))
         node.setPlatformID(temp.getPlatformID())
-        print("new platform id: " + str(node.getPlatformID()))
         node.setPlatform(temp.getPlatform())
         node.setLeftNode(self.removeNode(node.getLeftNode()))
         return node 
@@ -190,8 +188,7 @@ class PlatformTreeManager():
             for x in subplatforms:
                 if(subplatforms[x].getPlatformID() == id):
                     id = 0
-                    break
-           
+                    break  
         return id 
 
         

@@ -9,7 +9,7 @@ from .Platform import Platform
             Hector Cervantes
         @description
             This class is a subclass of platform. This class will implement the tiddlywiki platform. 
-    """
+"""
 
 class TiddlyWiki(Platform):
     # fill the values here for your specific platform

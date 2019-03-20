@@ -106,22 +106,12 @@ class PlatformsManager:
                 if(subplatforms[x].getPlatformID() in subplatformIDs):
                     self.stop(subplatforms[x])
         return "Success"
-        
-        
+           
     def stop(self, platform):
         print("Platform Process ID: " + str(platform.getProcessID()))
         os.system(platform.get_stop_command())
 
     #need to look over this method with team 
-    """
-
-
-
-     urgent
-
-
- 
-    """
     def requestForwarder(self, platform, JSON, platform_name):
         response = " "
         if(platform.getPlatformName() == platform_name):
@@ -133,9 +123,36 @@ class PlatformsManager:
 
     def printPlatforms(self, platformid):
         main_platform = self.PlatformTree.getPlatform(platformid)
-        print("Main Platform:" + main_platform.getPlatformName() + "id: " + str(main_platform.getPlatformID()))
+        print("Main Platform: " + main_platform.getPlatformName() + " id: " + str(main_platform.getPlatformID()))
         print("Subplatforms: ")
         subplatforms = main_platform.get_sub_platforms()
         for x in subplatforms:
-            print("         " + subplatforms[x].getPlatformName()+ "id: " + str(subplatforms[x].getPlatformID()))
+            print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
+
+platformsManager = PlatformsManager()
+hackID, hackSubIDs = platformsManager.createPlatform("Hackathon", {"TiddlyWiki", "RocketChat"})
+platformsManager.printPlatforms(hackID)
+hackID, wikiSubIds = platformsManager.addPlatform(hackID, {"Submission"})
+platformsManager.printPlatforms(hackID)
+wikiID = hackSubIDs["TiddlyWiki"]
+chatID = hackSubIDs["RocketChat"]
+#platformsManager.deletePlatform(hackID, {wikiID}) 
+platformsManager.printPlatforms(hackID)
+
+platformsManager.startPlatforms(hackID, { })
+time.sleep(10)
+
+running = True
+while(running):
+    try:
+        a = input()
+        if(int(a) == 1):
+            platformsManager.stopPlatforms(hackID, {} )
+        elif(int(a) == 2):
+            platformsManager.startPlatforms(hackID, {wikiID})
+        else:
+            running = False
+    except NameError:
+        pass
+
 
