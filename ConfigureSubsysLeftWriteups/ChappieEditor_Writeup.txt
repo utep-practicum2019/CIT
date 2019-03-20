@@ -5,5 +5,4 @@ Deiscription: ChappieEditor adds users to the list in the chapsecret file.  The 
 
 Things to add:
 1. Make sure number of users does not exceed max amount of available IP addresses.
-2. Be able to delete users utilizing the script.
-3. Be able to modify usernames
+2. Fill in gaps instead of adding next max user.
