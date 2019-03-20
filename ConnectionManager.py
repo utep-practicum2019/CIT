@@ -76,13 +76,12 @@ class ConnectionManager():
         return usersDictionary
 
     def deleteUsers(self,listOfUsers):
-        Configure.deleteUsers(listOfUsers)
-        return True
+        deleteResult=Configure.deleteUsers(listOfUsers)
+        return deleteResult
 
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
-        Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
-        return True
-
+        updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
+        return updateResult
     def fileAddUsers(self, userList):
         usersDictionary={}
         return usersDictionary
