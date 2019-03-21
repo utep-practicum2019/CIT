@@ -5,8 +5,12 @@ import abc
 import time
 import subprocess
 import json
+from pprint import pprint
+from rocketchat_API.rocketchat import RocketChat
 
-from .Platform import Platform
+from pip._vendor import urllib3
+
+from Platform import Platform
 
 """ 
         @authors:
@@ -21,7 +25,7 @@ from .Platform import Platform
 
 class RocketChat(Platform):
     # fill the values here for your specific platform
-    platform_name = "RocketChat"
+    platform_name = "Rocket.Chat"
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
     platform_end_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server stop"
     platform_version = ""
@@ -30,20 +34,19 @@ class RocketChat(Platform):
     platform_id = 0
     processID = 0
     subplatforms = {}
-    port = ""
-    ip = ""
+    port = "3000"
+    ip = "0.0.0.0"
     link = ""
 
-
-    #return process ID 
+    # return process ID
     def getProcessID(self):
         return self.processID
 
-    #returns link to connect to website
+    # returns link to connect to website
     def getLink(self):
         return self.link
 
-    #returns ip and port to connect to website
+    # returns ip and port to connect to website
     def getIpPort(self):
         return self.ip + ":" + self.port
 
@@ -77,43 +80,47 @@ class RocketChat(Platform):
 
     def requestHandler(self, jsonObject):
         pass
-    #sets process ID 
+
+    # sets process ID
     def setProcessID(self, processID):
         self.processID = processID
 
-    #set link to connect to website
+    # set link to connect to website
     def setLink(self, link):
         self.link = link
-    
-    #set ip and port to connect to website
+
+    # set ip and port to connect to website
     def setIpPort(self, ip, port):
-        self.ip = ip 
-        self.port = port 
-    
-    #set platform name
+        self.ip = ip
+        self.port = port
+
+        # set platform name
+
     def setPlatformName(self, platform_name):
-        self.platform_name = platform_name 
-    
-    #set where the platforms installation path
+        self.platform_name = platform_name
+
+        # set where the platforms installation path
+
     def setPlatformInstallation(self, platformInstallation):
-        self.platformInstallation = platformInstallation 
-    
-    #sets the version of the platform 
+        self.platformInstallation = platformInstallation
+
+        # sets the version of the platform
+
     def setPlatformVersion(self, platform_version):
         self.platform_version = platform_version
-    
+
     # sets a platformID. You can pick a random value for this field.
     def setPlatformID(self, PlatformID):
         self.platform_id = PlatformID
-    
+
     # sets command that starts platform
     def set_start_command(self, platform_start_command):
         self.platform_start_command = platform_start_command
 
-    #set command to stop platform
+    # set command to stop platform
     def set_stop_command(self, platform_end_command):
         self.platform_end_command = platform_end_command
-    
+
     # set list of subplatforms
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
@@ -126,7 +133,21 @@ class RocketChat(Platform):
     login = "/api/v1/login"
     group = "/api/v1/groups.create"
 
-    def POST(self, url, fields={}, headers=None):
+    proxy_dict = {
+        "http": "http://127.0.0.0:3000",
+        "https": "https://127.0.0.0:3000",
+    }
+
+    rocket = RocketChat('user', 'pass', server_url='https://chat.service', proxies=proxy_dict)
+    pprint(rocket.me().json())
+    pprint(rocket.channels_list().json())
+    pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
+    pprint(rocket.channels_history('GENERAL', count=5).json())
+
+
+
+
+    '''def POST(self, url, fields={}, headers=None):
         if not headers:
             headers = self.headers
         http = urllib3.PoolManager()
@@ -140,6 +161,8 @@ class RocketChat(Platform):
             print(r.data)
         return d
 
+
+
     def hackathon_register_user(self, hackathon_base_url, register, username, email, passw, name):
         url = hackathon_base_url + register
         data = {
@@ -150,7 +173,7 @@ class RocketChat(Platform):
         }
         headers = {'Content-type': 'application/json'}
         d = self.POST(url, data, headers)
-        print(d['_id'])
+        print(d['_id', 'success'])
 
     def hackathon_login_user(self, hackathon_base_url, login, user, password):
         url = hackathon_base_url + login
@@ -179,3 +202,4 @@ class RocketChat(Platform):
             raise ("Error Creating Channel")
         else:
             return True
+    '''
