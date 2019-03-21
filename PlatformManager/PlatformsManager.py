@@ -29,10 +29,13 @@ class PlatformsManager:
         subplatforms = {}
         plugin_manager = PluginManager()
         Main_Platform = plugin_manager.loadPlatform(platform)
+        
         for x in sub_platforms:
             subplatforms[x] = plugin_manager.loadPlatform(x)
+            
         Main_Platform.set_sub_platforms(subplatforms)
         Main_PlatformID, SubplatformIDs = self.PlatformTree.add(Main_Platform)
+        
         return (Main_PlatformID, SubplatformIDs)
     
     #argument takes a string id and a list of strings of ID's
@@ -42,12 +45,14 @@ class PlatformsManager:
         Main_Platform = self.PlatformTree.getPlatform(platformID)
         subplatforms = Main_Platform.get_sub_platforms()
         sub_platformIDs = {}
+        
         for x in sub_platforms:
             id = self.PlatformTree.generate_sub_ID(Main_Platform)
             sPlatform = plugin_manager.loadPlatform(x)
             sPlatform.setPlatformID(id)
             sub_platformIDs[x] = id 
             subplatforms[x] = sPlatform
+        
         return (Main_Platform.getPlatformID(), sub_platformIDs)
     
     def deletePlatform(self, platformID, subplatformIdentifiers):
@@ -69,6 +74,7 @@ class PlatformsManager:
         Main_Platform = self.PlatformTree.getPlatform(platformID)
         subplatforms = Main_Platform.get_sub_platforms()
         self.startPlatformThread(Main_Platform)
+        
         if(subplatformsIDs == { }):
             time.sleep(3)
             for x in subplatforms:
@@ -83,9 +89,11 @@ class PlatformsManager:
     #start thread to continue execution 
     def startPlatformThread(self, platform):
         print("Initiating Servers")
+        
         thread = threading.Thread(target=self.start, args=(platform, ))
         thread.daemon = True
         thread.start()
+        
         return thread
 
     def start(self, platform):
@@ -95,6 +103,7 @@ class PlatformsManager:
     def stopPlatforms(self, platformID, subplatformIDs):
         Main_Platform = self.PlatformTree.getPlatform(platformID)
         subplatforms = Main_Platform.get_sub_platforms()
+        
         if(subplatformIDs == {}):
             for x in subplatforms:
                 self.stop(subplatforms[x])
@@ -105,27 +114,34 @@ class PlatformsManager:
             for x in subplatforms:
                 if(subplatforms[x].getPlatformID() in subplatformIDs):
                     self.stop(subplatforms[x])
+        
         return "Success"
            
     def stop(self, platform):
         print("Platform Process ID: " + str(platform.getProcessID()))
+        
         os.system(platform.get_stop_command())
 
     #need to look over this method with team 
     def requestForwarder(self, platform, JSON, platform_name):
         response = " "
+        
         if(platform.getPlatformName() == platform_name):
             response = platform.requestHandler(JSON)
         else:
             for x in platform.get_sub_platforms():
                 response = platform.subplatform[x].requestHandler(JSON)
+        
         return response
 
     def printPlatforms(self, platformid):
         main_platform = self.PlatformTree.getPlatform(platformid)
+        
         print("Main Platform: " + main_platform.getPlatformName() + " id: " + str(main_platform.getPlatformID()))
         print("Subplatforms: ")
+        
         subplatforms = main_platform.get_sub_platforms()
+        
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
 

@@ -34,7 +34,7 @@ class platformNode():
         return self.getIsLeaf
     
     def setPlatformID(self, platformID):
-         self.platformID = platformID
+        self.platformID = platformID
     
     def setPlatform(self, platform):
         self.platform = platform
