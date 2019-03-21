@@ -144,31 +144,31 @@ class PlatformsManager:
         
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
-
-platformsManager = PlatformsManager()
-hackID, hackSubIDs = platformsManager.createPlatform("Hackathon", {"TiddlyWiki", "RocketChat"})
-platformsManager.printPlatforms(hackID)
-hackID, wikiSubIds = platformsManager.addPlatform(hackID, {"Submission"})
-platformsManager.printPlatforms(hackID)
-wikiID = hackSubIDs["TiddlyWiki"]
-chatID = hackSubIDs["RocketChat"]
-#platformsManager.deletePlatform(hackID, {wikiID}) 
-platformsManager.printPlatforms(hackID)
-
-platformsManager.startPlatforms(hackID, { })
-time.sleep(10)
-
-running = True
-while(running):
-    try:
-        a = input()
-        if(int(a) == 1):
-            platformsManager.stopPlatforms(hackID, {} )
-        elif(int(a) == 2):
-            platformsManager.startPlatforms(hackID, {wikiID})
-        else:
-            running = False
-    except NameError:
-        pass
+# 
+# platformsManager = PlatformsManager()
+# hackID, hackSubIDs = platformsManager.createPlatform("Hackathon", {"TiddlyWiki", "RocketChat"})
+# platformsManager.printPlatforms(hackID)
+# hackID, wikiSubIds = platformsManager.addPlatform(hackID, {"Submission"})
+# platformsManager.printPlatforms(hackID)
+# wikiID = hackSubIDs["TiddlyWiki"]
+# chatID = hackSubIDs["RocketChat"]
+# #platformsManager.deletePlatform(hackID, {wikiID}) 
+# platformsManager.printPlatforms(hackID)
+# 
+# platformsManager.startPlatforms(hackID, { })
+# time.sleep(10)
+# 
+# running = True
+# while(running):
+#     try:
+#         a = input()
+#         if(int(a) == 1):
+#             platformsManager.stopPlatforms(hackID, {} )
+#         elif(int(a) == 2):
+#             platformsManager.startPlatforms(hackID, {wikiID})
+#         else:
+#             running = False
+#     except NameError:
+#         pass
 
 
