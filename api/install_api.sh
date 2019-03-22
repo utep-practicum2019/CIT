@@ -25,6 +25,11 @@ pip install flask-marshmallow
 pip install flask-httpauth
 pip install pymongo
 pip install pyinotify
+pip install apispec
+pip install apispec-webframeworks
+pip install sockets
+pip install requests
+pip install jsonify
 #flask run
 
 sudo su -c "echo 127.0.0.1 citsystem.com > /etc/hosts"
