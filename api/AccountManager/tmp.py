@@ -1,45 +1,48 @@
-from AccountManager.user import User
-from AccountManager.group import Group
+# from AccountManager.user import User
+# from AccountManager.group import Group
+#
+#     @staticmethod
+#     def get_users():
+#         doc_data = {'collection_name':'users'}
+#         users = requests.get(UserManager.database_url, json=doc_data)
+#         return users.json()
+#
+#     @staticmethod
+#     def get_groups():
+#         r = requests.get(GroupManager.database_url)
+#         if r.status_code == requests.codes.ok:
+#             groups_js = r.json()
+#             return groups_js
+#         return False
+#
+#     @staticmethod
+#     def detach_platform(platform_name):
+#         cursor = Database.collection['groups'].find({'platforms': platform_name})
+#         while True:
+#             groups = []
+#             try:
+#                 current = cursor.next()
+#                 print(repr(current))
+#                 current['platforms'].remove(platform_name)
+#                 print(repr(current))
+#                 groups.append(current['group_id'])
+#             except StopIteration:
+#                 return True
+#             except KeyError:
+#                 return False
+#
 
-try:
-    freader = open('next_group_id', 'r')
-    freader.close()
-except FileNotFoundError:
-    fwriter = open('next_group_id', 'w')
-    fwriter.write('1')
-
-for i in range(3):
-    freader = open('next_group_id', 'r')
-    group_id = int(freader.readline())
-    print(group_id)
-    freader.close()
-    if group_id is not None:
-        group = Group(group_id)
-        for j in range(4):
-            # call to Connections
-            username = 'user' + str(j) + "G" + str(group_id)
-            password = "pass1"
-            remote_ip = "127.0.0.1" + str(i) + str(j)
-            user = User(username, password, remote_ip)
-            group.members.append(username)
-            # TODO: Store user in database
-            print(repr(user))
-        # TODO: Store group in database
-        print(repr(group))
-    fwriter = open('next_group_id', 'w')
-    fwriter.write(str(group_id + 1))
-    fwriter.close()
-
-    @staticmethod
-    def get_users():
-        doc_data = {'collection_name':'users'}
-        users = requests.get(UserManager.database_url, json=doc_data)
-        return users.json()
-
-    @staticmethod
-    def get_groups():
-        r = requests.get(GroupManager.database_url)
-        if r.status_code == requests.codes.ok:
-            groups_js = r.json()
-            return groups_js
-        return False
+file_content = [
+    "user01 user02 user03\n",
+    "user04 user05\n"
+]
+start_id = 0
+group_count = 2
+connection_url = 'http://127.0.0.1:5000/api/v2/resources/connection'
+test_filepath = 'tmp.txt'
+group_id_filepath = 'next_group_id.txt'
+from AccountManager.group_manager import GroupManager, get_next_id
+with open(test_filepath, 'w') as f:
+    f.writelines(file_content)
+start_id = get_next_id()
+GroupManager.create_groups(filepath=test_filepath)

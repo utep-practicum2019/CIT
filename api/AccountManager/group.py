@@ -1,23 +1,26 @@
-import json
-
 class Group:
-    def __init__(self, group_id, min_members=None, max_members=None, platforms=None, members=None, chat_id=None):
-        if min_members is not None: self.min_members = min_members
-        if max_members is not None: self.max_members = max_members
-        if platforms is not None: self.platforms = platforms
-        if chat_id is not None: self.chat_id = chat_id
+    def __init__(self, group_id, min=None, max=None, platforms=None, members=None, chat_id=None):
+        if min is not None:
+            self.min = min
+        if max is not None:
+            self.max = max
+        if chat_id is not None:
+            self.chat_id = chat_id
+        if platforms is not None:
+            self.platforms = platforms
+        else:
+            self.platforms = []
         if members is not None:
             self.members = members
         else:
             self.members = []
         self.group_id = group_id
 
-
     def __repr__(self):
         tmp = "Group("
         my_vars = vars(self)
         for v in my_vars.keys():
-            tmp += '%r=%r, ' %(v, my_vars[v])
+            tmp += '%r=%r, ' % (v, my_vars[v])
         return tmp[:-2] + ")"
 
     @property
@@ -29,26 +32,26 @@ class Group:
         self._group_id = group_id
 
     @property
-    def min_members(self):
+    def min(self):
         try:
-            return self._min_members
+            return self._min
         except AttributeError:
             return None
 
-    @min_members.setter
-    def min_members(self, min_members):
-        self._min_members = min_members
+    @min.setter
+    def min(self, min):
+        self._min = min
 
     @property
-    def max_members(self):
+    def max(self):
         try:
-            return self._max_members
+            return self._max
         except AttributeError:
             return None
 
-    @max_members.setter
-    def max_members(self, max_members):
-        self._max_members = max_members
+    @max.setter
+    def max(self, max):
+        self._max = max
 
     @property
     def platforms(self):
@@ -72,21 +75,10 @@ class Group:
     def members(self, members):
         self._members = members
 
-    @property
-    def chat_id(self):
-        try:
-            return self._chat_id
-        except AttributeError:
-            return None
-
-    @chat_id.setter
-    def chat_id(self, chat_id):
-        self._chat_id = chat_id
-
-    def toJSON(self):
+    def to_dict(self):
         clean_vars = {}
         my_vars = vars(self)
         for v in my_vars.keys():
             # remove underscore from properties
             clean_vars[v[1:]] = my_vars[v]
-        return json.dumps(clean_vars)
+        return clean_vars
