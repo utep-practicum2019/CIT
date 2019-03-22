@@ -17,8 +17,11 @@ sudo chown -R $USER test_bed_environment
 
 #install dependencies for request handler
 
-pip install wheel
+
 pip install flask
+
+
+pip install wheel
 
 pip install flask-restful
 pip install flask-marshmallow
