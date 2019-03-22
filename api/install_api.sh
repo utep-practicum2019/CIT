@@ -16,9 +16,9 @@ sudo chown -R $USER test_bed_environment
 
 
 #install dependencies for request handler
-pip install flask
 
-#export FLASK_APP=CIT_API
+pip install wheel
+pip install flask
 
 pip install flask-restful
 pip install flask-marshmallow
