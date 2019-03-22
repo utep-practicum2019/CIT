@@ -6,7 +6,8 @@ import time
 import subprocess
 import json
 from pprint import pprint
-from rocketchat_API.rocketchat import RocketChat
+#from rocketchat_API.rocketchat import RocketChat
+from rocketchat.api import RocketChatAPI
 
 from pip._vendor import urllib3
 
@@ -133,19 +134,49 @@ class RocketChat(Platform):
     login = "/api/v1/login"
     group = "/api/v1/groups.create"
 
-    proxy_dict = {
-        "http": "http://127.0.0.0:3000",
-        "https": "https://127.0.0.0:3000",
-    }
 
-    rocket = RocketChat('user', 'pass', server_url='https://chat.service', proxies=proxy_dict)
-    pprint(rocket.me().json())
-    pprint(rocket.channels_list().json())
-    pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
-    pprint(rocket.channels_history('GENERAL', count=5).json())
+    api = RocketChatAPI(settings={'username': 'utep.practicum2019@chat.service', 'password': 'chat.service',
+                                  'domain': 'https://myrockethchatdomain.com'})
 
+    api.create_user('email',
+                    'name',
+                    'password',
+                    'username',
+                    active=True,
+                    roles=['user'],
+                    join_default_channels=True,
+                    require_password_change=False,
+                    send_welcome_email=False,
+                    verified=False,
+                    customFields=None)
 
+    api.send_message('message', 'room_id')
 
+    api.get_private_rooms()
+
+    #api.get_private_room_history('room_id', oldest=date)
+
+    api.get_public_rooms()
+
+    api.get_room_info('room_id')
+
+    api.get_private_room_info('room_id')
+
+    api.get_room_history('room_id')
+
+    api.create_public_room('room_name',
+                           members=[],
+                           read_only=False)
+
+    api.delete_public_room('room_id')
+
+    api.get_my_info()
+
+    api.get_users()
+
+    api.get_user_info('user_id')
+
+    api.delete_user('user_id')
 
     '''def POST(self, url, fields={}, headers=None):
         if not headers:
