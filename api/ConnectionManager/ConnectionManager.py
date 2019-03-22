@@ -1,14 +1,14 @@
 import pyinotify
 import subprocess
-from Session import Session
-import time
-import Configure
+# from Session import Session
+# import time
+from . import Configure
 
 
 class EventHandler(pyinotify.ProcessEvent):
     path_to_file = "/var/log"
 
-    def __init__(self, path_to_file):
+    def __init__(self, path_to_file, **kargs):
         self.path_to_file = path_to_file
 
     def process_IN_CREATE(self, event):
@@ -83,7 +83,7 @@ class ConnectionManager():
         updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
         return updateResult
     def fileAddUsers(self, userList):
-        usersDictionary={}
+        usersDictionary=[]
         return usersDictionary
 
 """

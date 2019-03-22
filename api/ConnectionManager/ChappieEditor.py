@@ -1,5 +1,5 @@
 from random import randint
-from Connections import Connections
+from .Connections import Connections
 
 class PPTP_ConnectionsSublcass(Connections):
     def pptpAddUser(self, randomPassword):

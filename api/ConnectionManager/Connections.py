@@ -30,7 +30,7 @@ class Connections():
         return [userNumVar, ipEND]
 
     def deleteUser(self, currUser,fileName):
-        tempFile="configTempFile.txt"
+        tempFile="ConnectionManager/configTempFile.txt"
         configFile=open(fileName,"r+") 
         configTempFile=open(tempFile,"r+")
         #https://stackoverflow.com/questions/11968998/remove-lines-that-contain-certain-string

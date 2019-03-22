@@ -1,5 +1,7 @@
-import requests
 import re
+
+import requests
+
 from AccountManager.group import Group
 from AccountManager.user_manager import UserManager, get_user, create_user
 
@@ -35,8 +37,9 @@ def create_group(group_id, users, **kwargs):
     # create group and add members
     group = Group(group_id)
     for user in users:
-        group.members.append(user[0])
-        if not create_user(user[0], user[1], remote_ip=user[2], group_id=group_id):
+        group.members.append(user["username"])
+        print(user["username"])
+        if not create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id):
             return False
 
     # put data in the correct format
@@ -98,7 +101,7 @@ def get_next_id():
         next_id = 1
         while get_group(next_id) is not None:
             next_id += 1
-        set_next_id(next_id+1)
+        set_next_id(next_id + 1)
         return next_id
 
 
@@ -138,6 +141,7 @@ def create_with_count(group_count, users_per_group):
             return False
         # unpack data
         json_data = r.json()
+        json_data = json_data["usersDictionary"]
         users = [json_data[k] for k in json_data.keys()]
         # create and store group
         if not create_group(group_id, users):
@@ -252,6 +256,3 @@ class GroupManager:
     def detach_platform(platform_name):
         # TODO: Figure out how to implement this >.<
         pass
-
-
-

@@ -1,5 +1,5 @@
 import unittest
-from Session import Session
+from .Session import Session
 #from ConnectionManager import ConnectionManager
 
 

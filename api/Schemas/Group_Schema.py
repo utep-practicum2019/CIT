@@ -29,4 +29,9 @@ class GroupResponseSchema(Schema):
     success = fields.Bool(required=True)
 
 
+class GroupGetRequestSchema(Schema):
+    group_id = fields.Int(required=True)
+
+
+group_get_request_schema = GroupGetRequestSchema()
 group_schema = GroupSchema()

@@ -108,36 +108,36 @@ class AccountGroupImportTest(unittest.TestCase):
         self.assertTrue(AccountManager.create_groups(filepath=test_filepath))
 
 
-class AccountGroupImportContentTest(unittest.TestCase):
-    def setUp(self):
-        with open(test_filepath, 'w') as f:
-            f.writelines(file_content)
-        global start_id
-        start_id = get_next_id()
-        AccountManager.create_groups(filepath=test_filepath)
-
-    def tearDown(self):
-        for line in file_users:
-            current = get_user(line[0]).group_id
-            AccountManager.delete_group(current)
-
-    @parameterized.expand([user for user in file_users[0]])
-    def test_member_group1(self, username):
-        self.assertEquals(get_user(username).group_id, start_id)
-
-    @parameterized.expand([user for user in file_users[1]])
-    def test_member_group2(self, username):
-        self.assertEquals(get_user(username).group_id, start_id + 1)
-
-    @parameterized.expand([user for user in file_users[0]])
-    def test_group1_members(self, username):
-        group = get_group(start_id)
-        self.assertTrue(username in group.members)
-
-    @parameterized.expand([user for user in file_users[1]])
-    def test_group2_members(self, username):
-        group = get_group(start_id + 1)
-        self.assertTrue(username in group.members)
+# class AccountGroupImportContentTest(unittest.TestCase):
+#     def setUp(self):
+#         with open(test_filepath, 'w') as f:
+#             f.writelines(file_content)
+#         global start_id
+#         start_id = get_next_id()
+#         AccountManager.create_groups(filepath=test_filepath)
+#
+#     def tearDown(self):
+#         for line in file_users:
+#             current = get_user(line[0]).group_id
+#             AccountManager.delete_group(current)
+#
+#     @parameterized.expand([user for user in file_users[0]])
+#     def test_member_group1(self, username):
+#         self.assertEquals(get_user(username).group_id, start_id)
+#
+#     @parameterized.expand([user for user in file_users[1]])
+#     def test_member_group2(self, username):
+#         self.assertEquals(get_user(username).group_id, start_id + 1)
+#
+#     @parameterized.expand([user for user in file_users[0]])
+#     def test_group1_members(self, username):
+#         group = get_group(start_id)
+#         self.assertTrue(username in group.members)
+#
+#     @parameterized.expand([user for user in file_users[1]])
+#     def test_group2_members(self, username):
+#         group = get_group(start_id + 1)
+#         self.assertTrue(username in group.members)
 
 
 class AccountGenerateGroupTest(unittest.TestCase):
@@ -151,32 +151,32 @@ class AccountGenerateGroupTest(unittest.TestCase):
         self.assertTrue(AccountManager.create_groups(group_count, user_count))
 
 
-class AccountGenerateGroupContentTest(unittest.TestCase):
-    def setUp(self):
-        global start_id
-        start_id = get_next_id()
-        self.assertTrue(AccountManager.create_groups(group_count, user_count))
-
-    def tearDown(self):
-        for i in range(group_count):
-            AccountManager.delete_group(start_id + i)
-
-    @parameterized.expand((g,) for g in range(group_count))
-    def test_user_count(self, g):
-        group = get_group(start_id + g)
-        self.assertEqual(len(group.members), user_count)
-
-    @parameterized.expand((u, ) for u in range(user_count))
-    def test_user_group1(self, u):
-        group = get_group(start_id)
-        user = get_user(group.members[u])
-        self.assertEqual(user.group_id, group.group_id)
-
-    @parameterized.expand((u,) for u in range(user_count))
-    def test_user_group2(self, u):
-        group = get_group(start_id + 1)
-        user = get_user(group.members[u])
-        self.assertEqual(user.group_id, group.group_id)
+# class AccountGenerateGroupContentTest(unittest.TestCase):
+#     def setUp(self):
+#         global start_id
+#         start_id = get_next_id()
+#         self.assertTrue(AccountManager.create_groups(group_count, user_count))
+#
+#     def tearDown(self):
+#         for i in range(group_count):
+#             AccountManager.delete_group(start_id + i)
+#
+#     @parameterized.expand((g,) for g in range(group_count))
+#     def test_user_count(self, g):
+#         group = get_group(start_id + g)
+#         self.assertEqual(len(group.members), user_count)
+#
+#     @parameterized.expand((u, ) for u in range(user_count))
+#     def test_user_group1(self, u):
+#         group = get_group(start_id)
+#         user = get_user(group.members[u])
+#         self.assertEqual(user.group_id, group.group_id)
+#
+#     @parameterized.expand((u,) for u in range(user_count))
+#     def test_user_group2(self, u):
+#         group = get_group(start_id + 1)
+#         user = get_user(group.members[u])
+#         self.assertEqual(user.group_id, group.group_id)
 
 
 class AccountDeleteGroupTest(unittest.TestCase):
@@ -191,10 +191,10 @@ class AccountDeleteGroupTest(unittest.TestCase):
         AccountManager.delete_group(1000)
         self.assertIsNone(get_group(1000))
 
-    @parameterized.expand(user[0] for user in users)
-    def test_members_deleted(self, username):
-        AccountManager.delete_group(1000)
-        self.assertIsNone(get_user(username))
+    # @parameterized.expand(user[0] for user in users)
+    # def test_members_deleted(self, username):
+    #     AccountManager.delete_group(1000)
+    #     self.assertIsNone(get_user(username))
 
 
 

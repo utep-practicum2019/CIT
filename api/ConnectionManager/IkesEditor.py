@@ -1,5 +1,5 @@
 from random import randint
-from Connections import Connections
+from .Connections import Connections
 
 class IKE_ConnectionsSublcass(Connections):
         def ikesAddUser(self,randomPassword):

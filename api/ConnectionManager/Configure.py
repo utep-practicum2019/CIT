@@ -1,6 +1,6 @@
-from ChappieEditor import PPTP_ConnectionsSublcass
-from IkesEditor import IKE_ConnectionsSublcass
-from Connections import Connections
+from .ChappieEditor import PPTP_ConnectionsSublcass
+from .IkesEditor import IKE_ConnectionsSublcass
+from .Connections import Connections
 #Input number of users to add
 def addUsers(numberOfUsersInput):
     addedUsersArr=[]

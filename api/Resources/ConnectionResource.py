@@ -15,7 +15,7 @@ class ConnectionAPI(Resource):
     #     session_list : Boolean
     # }
     @staticmethod
-    def get(self):
+    def get():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -24,7 +24,7 @@ class ConnectionAPI(Resource):
             return errors, 422
         results = ""
         if data["session_list"]:
-            results = self.ConnectionManager.update_session_list()
+            results = ConnectionAPI.ConnectionManager.update_session_list()
             results = {"usersDictionary": results}
             results, errors = connection_post_response_schema.validate(results)
             if errors:
@@ -41,7 +41,7 @@ class ConnectionAPI(Resource):
     #     num_users : Integer
     # }
     @staticmethod
-    def post(self):
+    def post():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -51,16 +51,22 @@ class ConnectionAPI(Resource):
 
         results = ""
         if "usernames" in data:
-            results = self.ConnectionManager.fileAddUsers(data["usernames"])
+            results = ConnectionAPI.ConnectionManager.fileAddUsers(data["usernames"])
         elif "num_users" in data:
-            results = self.ConnectionManager.addUsers(data["num_users"])
+            results = ConnectionAPI.ConnectionManager.addUsers(data["num_users"])
 
-        results = {"usersDictionary": results}
-        results, errors = connection_post_response_schema.validate(results)
+        formatted_results = []
+        for k in results.keys():
+            formatted_results.append(results[k])
+
+        formatted_results = {"usersDictionary": formatted_results}
+        errors = connection_post_response_schema.validate(formatted_results)
 
         if errors:
+            print(errors)
             return {"success": False}, 503
 
+        results = {"usersDictionary": results}
         return results
 
     # To do a delete request
@@ -69,7 +75,7 @@ class ConnectionAPI(Resource):
     #     "list_of_users" : List[String]
     # }
     @staticmethod
-    def delete(self):
+    def delete():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -77,7 +83,7 @@ class ConnectionAPI(Resource):
         if errors:
             return errors, 422
 
-        results = self.ConnectionManager.deleteUsers(data["list_of_users"])
+        results = ConnectionAPI.ConnectionManager.deleteUsers(data["list_of_users"])
 
         if results:
             return {"success": True}
@@ -101,7 +107,7 @@ class ConnectionAPI(Resource):
     #     "newIP" : String
     # }
     @staticmethod
-    def put(self):
+    def put():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -112,13 +118,13 @@ class ConnectionAPI(Resource):
         if "command" in data:
             results = True
             if data["command"] == "start":
-                self.ConnectionManager.pptp_poll_connection()
+                ConnectionAPI.ConnectionManager.pptp_poll_connection()
             elif data["command"] == "stop":
-                self.ConnectionManager.stop()
+                ConnectionAPI.ConnectionManager.stop()
             else:
                 results = False
         else:
-            results = self.ConnectionManager.updateUserConnection(data["currUsername"], data["newUsername"],
+            results = ConnectionAPI.ConnectionManager.updateUserConnection(data["currUsername"], data["newUsername"],
                                                                   data["newPassword"], data["newIP"])
         if results:
             return {"success": True}

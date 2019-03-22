@@ -58,9 +58,10 @@ class DatabaseAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = database_modify_schema.load(json_data)
-        if errors:
-            return errors, 422
+        # data, errors = database_modify_schema.load(json_data)
+        # if errors:
+        #     print(errors)
+        #     return errors, 422
         from Database.database_handler import DatabaseHandler
         collection_name = json_data["collection_name"]
         document_id = json_data["document_id"]

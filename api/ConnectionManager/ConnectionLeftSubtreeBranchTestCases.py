@@ -1,7 +1,8 @@
-from ChappieEditor import PPTP_ConnectionsSublcass
-from IkesEditor import IKE_ConnectionsSublcass
-from Connections import Connections
-import Configure
+from .ChappieEditor import PPTP_ConnectionsSublcass
+from .IkesEditor import IKE_ConnectionsSublcass
+from .Connections import Connections
+from . import Configure
+
 #Configure.py test cases
 print("Configure.py test cases")
 #Adds users to ChappieTest.txt and IkesTest.txt

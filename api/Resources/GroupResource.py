@@ -17,7 +17,7 @@ class GroupAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = group_request_schema.load(json_data)
+        data, errors = group_get_request_schema.load(json_data)
         if errors:
             return errors, 422
 
@@ -92,7 +92,7 @@ class GroupAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = group_request_schema.load(json_data)
+        data, errors = group_get_request_schema.load(json_data)
 
         if errors:
             return errors, 422
