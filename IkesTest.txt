@@ -1,9 +1,4 @@
-#test
-192
-
-user1 %any% : EAP "12345"
-user7 %any% : EAP 12381170
-user9 %any% : EAP 71455824
-user11 %any% : EAP 86513235
-yoshi %any% : EAP 42320716
-Mario %any% : EAP 70099011
+user1 %any% : EAP 32083015
+Bowser %any% : EAP 33333333
+Ganon %any% : EAP 33333333
+user4 %any% : EAP 33333333

@@ -38,6 +38,8 @@ class Connections():
             for line in oldfile:
                 if currUser not in line:
                     newfile.write(line)
+        configFile.close()
+        configTempFile.close()
         configFile=open(fileName,"r+")
         configTempFile=open(tempFile,"r+")
         configFile.truncate(0)
@@ -46,6 +48,8 @@ class Connections():
                 newfile.write(line)
         configTempFile=open(tempFile,"r+")
         configTempFile.truncate(0)
+        configFile.close()
+        configTempFile.close()
 
     def modifyUser(self, currUsername,newUsername,newPassword,newIP):
         # chapFile="ChappieTest.txt"
@@ -58,7 +62,9 @@ class Connections():
         # chapSec=open("ChappieTest.txt","a")
         chapSec=open("/etc/ppp/chap-secrets","a")
         chapSec.write(newUsername+ " * "+newPassword+" "+newIP+"\n")
-        
+        chapSec.close()
+
         # ipsec=open("IkesTest.txt","a")
         ipsec=open("/etc/ipsec.secrets","a")
         ipsec.write(newUsername+ " %any%"+ " : "+ "EAP "+newPassword+"\n")
+        ipsec.close()
