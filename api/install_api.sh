@@ -14,7 +14,10 @@ source test_bed_environment/bin/activate
 sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
+
+pip install pymango
 pip install flask
+
 #export FLASK_APP=CIT_API
 
 pip install flask-restful
