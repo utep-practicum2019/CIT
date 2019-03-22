@@ -1,6 +1,6 @@
 import unittest
 
-from Database.database_handler import DatabaseHandler
+from database_handler import DatabaseHandler
 
 
 class TestDatabaseMethods(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestDatabaseMethods(unittest.TestCase):
         self.assertTrue(DatabaseHandler.insert(collection_name, document_id, document))
 
     def test_insert_existing_group(self):
-		collection_name = "groups"
+        collection_name = "groups"
         document_id = "1"
         document = {"group_id": "1"}
         DatabaseHandler.insert(collection_name, document_id, document)
@@ -85,8 +85,8 @@ class TestDatabaseMethods(unittest.TestCase):
         document = {"platforms": "Rocketchat"}
         DatabaseHandler.insert(collection_name, document_id, document)
         self.assertFalse(DatabaseHandler.insert(collection_name, document_id, document))
-		
-	def test_update_user(self):
+
+    def test_update_user(self):
         collection_name = "users"
         document_id = "Pedro"
         document = {"username": "Pedro"}
@@ -99,20 +99,20 @@ class TestDatabaseMethods(unittest.TestCase):
         document = {"username": "Pedro"}
         self.assertFalse(DatabaseHandler.update(collection_name, document_id, document))
 
-	def test_update_group(self):
-		collection_name = "groups"
+    def test_update_group(self):
+        collection_name = "groups"
         document_id = "1"
         document = {"group_id": "1"}
         DatabaseHandler.insert(collection_name, document_id, document)
         self.assertTrue(DatabaseHandler.update(collection_name, document_id, document))
 
     def test_update_missing_group(self):
-		collection_name = "groups"
+        collection_name = "groups"
         document_id = "1"
         document = {"group_id": "1"}
         self.assertFalse(DatabaseHandler.update(collection_name, document_id, document))
 
-	def test_update_platform(self):
+    def test_update_platform(self):
         collection_name = "platforms"
         document_id = "Rocketchat"
         document = {"platforms": "Rocketchat"}
@@ -145,14 +145,14 @@ class TestDatabaseMethods(unittest.TestCase):
         self.assertFalse(DatabaseHandler.delete(collection_name, document_id))
 
     def test_delete_group(self):
-		collection_name = "groups"
+        collection_name = "groups"
         document_id = "1"
         document = {"group_id": "1"}
         DatabaseHandler.insert(collection_name, document_id, document)
         self.assertTrue(DatabaseHandler.delete(collection_name, document_id))
 
     def test_delete_missing_group(self):
- 		collection_name = "groups"
+        collection_name = "groups"
         document_id = "1"
         document = {"group_id": "1"}
         self.assertFalse(DatabaseHandler.delete(collection_name, document_id))

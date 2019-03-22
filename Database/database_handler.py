@@ -1,4 +1,4 @@
-from Database.database import Database
+from database import Database
 
 class DatabaseHandler:
     @staticmethod
@@ -17,3 +17,6 @@ class DatabaseHandler:
     def delete(collection_name, document_id=None):
         return Database.delete(collection_name, document_id)
 
+    @staticmethod
+    def groupCheck(document_id):
+        return Database.groupCheck(document_id)
