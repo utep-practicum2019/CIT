@@ -1,6 +1,6 @@
 import json
-from HackathonManager import HackathonManager
-from RapidCyberRangeManager import RapidCyberRangeManager
+from Platforms.TiddlyWiki import TiddlyWiki
+from Platforms.RocketChat import RocketChat
 
 """ 
         @authors:
@@ -12,9 +12,7 @@ from RapidCyberRangeManager import RapidCyberRangeManager
             The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
     """
 
-class PlatformManager():
-    hackathon = HackathonManager()
-    rcr = RapidCyberRangeManager()
+class PlatformInterface():
     cit_IP = "http://127.0.0.1:"
         
     @staticmethod
@@ -28,71 +26,103 @@ class PlatformManager():
     def format_response(destination, response):
         data = {
                 "destination": destination,
-                "response": response
+                "response": response[0]
                 }
         
         json_string = json.dumps(data)
         
         return json_string
     
+    #Create
     @staticmethod
-    def forward_request(json_object):
-        request = PlatformManager.parse_JSON(json_object)
+    def post(json_object):
+        pass
+    
+    #Read
+    @staticmethod
+    def get(json_object):
+        request = PlatformInterface.parse_JSON(json_object)
+        response = []
         
-        if(request['type'] == "start"):
-            if(request['platform name'] == "hackathon"):
-                hackathon_response = PlatformManager.hackathon.start_platform()
-                chat_response = PlatformManager.hackathon.chat.start_platform_for_hackathon()
-                wiki_response = PlatformManager.hackathon.wiki.start_platform_for_hackathon()
+        if(request['request'] == "start"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.get_start_command(RocketChat))
                 
-                if(hackathon_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-                
-            if(request['platform name'] == "rcr"):
-                rcr_response = PlatformManager.rcr.start_platform()
-                chat_response = PlatformManager.rcr.chat.start_platform_for_rcr()
-                wiki_response = PlatformManager.rcr.wiki.start_platform_for_rcr()
-
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-
-        if(request['type'] == "stop"):
-            if(request['platform name'] == "hackathon"):
-                hackathon_response = PlatformManager.hackathon.stop_platform()
-                chat_response = PlatformManager.hackathon.chat.stop_platform()
-                wiki_response = PlatformManager.hackathon.wiki.stop_platform()
-                
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
-                
-            if(request['platform name'] == "rcr"):
-                rcr_response = PlatformManager.rcr.stop_platform()
-                chat_response = PlatformManager.rcr.chat.stop_platform()
-                wiki_response = PlatformManager.rcr.wiki.stop_platform()
-
-                if(rcr_response == 200 and chat_response == 200 and wiki_response == 200):
-                    response = 200
-                else:
-                    response = 0
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.get_start_command(TiddlyWiki))
         
-        if(request['type'] == "show" and request['subplatform'] == "chat"):
-            if(request['platform name'] == "hackathon"):
-                response = PlatformManager.cit_IP + str(PlatformManager.hackathon.chat.show_hackathon_chat())
-            if(request['platform name'] == "rcr"):
-                response = PlatformManager.cit_IP + str(PlatformManager.rcr.chat.show_rcr_chat())
-
-        if(request['type'] == "show" and request['subplatform'] == "wiki"):
-            if(request['platform name'] == "hackathon"):
-                response = PlatformManager.cit_IP + str(PlatformManager.hackathon.wiki.show_hackathon_wiki())
-            if(request['platform name'] == "rcr"):
-                response = PlatformManager.cit_IP + str(PlatformManager.rcr.wiki.show_rcr_wiki())
-
-        return PlatformManager.format_response(request['requester'], response)
- 
-#print(PlatformManager.forward_request("generic.json"))
+        if(request['request'] == "stop"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.get_stop_command(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.get_stop_command(TiddlyWiki))
+                
+        if(request['request'] == "name"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getPlatformName(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getPlatformName(TiddlyWiki))
+                
+        if(request['request'] == "installation"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getPlatformInstallation(RocketChat))
+                
+            if(request['platform'] == "installation"):
+                response.append(TiddlyWiki.getPlatformInstallation(TiddlyWiki))
+                
+        if(request['request'] == "version"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getPlatformVersion(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getPlatformVersion(TiddlyWiki))
+                
+        if(request['request'] == "id"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getPlatformID(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getPlatformID(TiddlyWiki))
+                
+        if(request['request'] == "name"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getPlatformName(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getPlatformName(TiddlyWiki))
+                
+        if(request['request'] == "ip/port"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getIpPort(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getIpPort(TiddlyWiki))
+                
+        if(request['request'] == "link"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.getLink(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.getLink(TiddlyWiki))
+                
+        if(request['request'] == "subplatforms"):
+            if(request['platform'] == "chat"):
+                response.append(RocketChat.get_sub_platforms(RocketChat))
+                
+            if(request['platform'] == "wiki"):
+                response.append(TiddlyWiki.get_sub_platforms(TiddlyWiki))
+                
+        return PlatformInterface.format_response(request['requester'], response)
+    
+    #Update
+    @staticmethod
+    def put(json_object):
+        pass
+    
+    @staticmethod
+    def delete(json_object):
+        pass
+     
+#print(PlatformInterface.get("Tests/JSON_Test_Files/test.json"))

@@ -22,16 +22,22 @@ class Platform(abc.ABC):
     port = ""
     ip = ""
     link = ""
-    platform_id = ""
+    platform_id = 0
     processID = 0
     subplatforms = {}
 
     @abc.abstractmethod
+    def getProcessID(self):
+        pass
+
+    @abc.abstractmethod
     def getLink(self):
         pass
+
     @abc.abstractmethod
     def getIpPort(self):
         pass
+
     @abc.abstractmethod
     def getPlatformName(self):
         pass
@@ -57,11 +63,48 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def get_sub_platforms(self):
         pass
+
+    @abc.abstractmethod
+    def setProcessID(self, processID):
+        pass
+
+    @abc.abstractmethod
+    def setLink(self, link):
+        pass
+    
+    @abc.abstractmethod
+    def setIpPort(self, ip, port):
+        pass
+    
+    @abc.abstractmethod
+    def setPlatformName(self, platform_name):
+        pass
+    
+    @abc.abstractmethod
+    def setPlatformInstallation(self, platformInstallation):
+        pass
+    
+    @abc.abstractmethod
+    def setPlatformVersion(self, platform_version):
+        pass
+    
+    @abc.abstractmethod
+    def setPlatformID(self, PlatformID):
+        pass
+    
+    @abc.abstractmethod
+    def set_start_command(self, platform_start_command):
+        pass
+
+    @abc.abstractmethod
+    def set_stop_command(self, platform_end_command):
+        pass
+    
+    @abc.abstractmethod
+    def set_sub_platforms(self, subplatforms):
+        pass
+
     @abc.abstractmethod
     def requestHandler(self):
         pass
-
-
-
-
    
