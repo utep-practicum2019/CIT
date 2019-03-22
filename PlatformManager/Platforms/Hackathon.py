@@ -13,7 +13,7 @@ from .Platform import Platform
 
 class Hackathon(Platform):
     # fill the values here for your specific platform
-    platform_name = "hacakthon"
+    platform_name = "Hackathon"
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
