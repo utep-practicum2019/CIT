@@ -15,7 +15,7 @@ sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
 
-
+#install dependencies for request handler
 pip install flask
 
 #export FLASK_APP=CIT_API
