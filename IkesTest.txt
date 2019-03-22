@@ -1,4 +1,0 @@
-user1 %any% : EAP 32083015
-Bowser %any% : EAP 33333333
-Ganon %any% : EAP 33333333
-user4 %any% : EAP 33333333
