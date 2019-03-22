@@ -36,7 +36,7 @@ class PlatformsManager:
         Main_Platform.set_sub_platforms(subplatforms)
         Main_PlatformID, SubplatformIDs = self.PlatformTree.add(Main_Platform)
         
-        return (Main_PlatformID, SubplatformIDs)
+        return Main_Platform
     
     #argument takes a string id and a list of strings of ID's
     #implement some try and catches
@@ -53,20 +53,20 @@ class PlatformsManager:
             sub_platformIDs[x] = id 
             subplatforms[x] = sPlatform
         
-        return (Main_Platform.getPlatformID(), sub_platformIDs)
+        return Main_Platform
     
     def deletePlatform(self, platformID, subplatformIdentifiers):
         #removing a platform will consist of stopping a platform and then removing the instance 
         if(subplatformIdentifiers == { }):
             Main_Platform = self.PlatformTree.remove(platformID)
-            return (platformID, "success")
+            return (None, "Success")
         else:
             Main_Platform = self.PlatformTree.getPlatform(platformID)
             subPlatforms = Main_Platform.get_sub_platforms()
             for x in list(subPlatforms):
                 if(subPlatforms[x].getPlatformID() in subplatformIdentifiers):
                     del subPlatforms[x] 
-            return (platformID, "success")
+            return (Main_Platform, "Success")
             
 
     #This method will start up the specific services
@@ -84,6 +84,7 @@ class PlatformsManager:
             for x in subplatforms:
                 if(subplatforms[x].getPlatformID() in subplatformsIDs):
                     self.startPlatformThread(subplatforms[x])
+        return "Succes"
 
 
     #start thread to continue execution 
