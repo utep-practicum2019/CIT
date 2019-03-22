@@ -1,0 +1,8 @@
+Kristian Villanueva
+ChappieEditor.py write-up
+
+Deiscription: ChappieEditor adds users to the list in the chapsecret file.  The file is read by calling CheckUsers() in the superclass Connections, and the script then adds the next user in numerical order (e.g. Adding user2 after user1). The password is an seven to eight digit randomly generated password, and finally the distributed IP address proceeds in numerical order similar to that of the user (e.g. 192.168.0.2 followed by 192.168.0.3)
+
+Things to add:
+1. Make sure number of users does not exceed max amount of available IP addresses.
+2. Fill in gaps instead of adding next max user.

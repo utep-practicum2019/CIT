@@ -1,0 +1,8 @@
+Kristian Villanueva
+IkesEditor.py write-up
+
+Deiscription: IkesEditor adds users to the list in the ipsec.secret file. The file is read by calling CheckUsers() in the superclass Connections, and the script then adds the next user in numerical order (e.g. Adding user2 after user1). The password is an seven to eight digit randomly generated password.
+
+Things to add:
+1. Make sure number of users does not exceed max amount of available IP addresses.
+2. Fill in gaps instead of adding next max user.
