@@ -83,7 +83,7 @@ class PlatformInterface():
     
     def startPlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
-        subplatforms = Main_Platform.get_sub_platforms()
+        subplatforms = Main_Platform[0].get_sub_platforms()
         response = set()
         
         if (subplatform_IDs != { }):
