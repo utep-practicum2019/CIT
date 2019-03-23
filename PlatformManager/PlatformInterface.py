@@ -137,9 +137,11 @@ class PlatformInterface():
 #         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         
-        ########################## TEST: startPlatform #############################
+        ################### TEST: startPlatform/stopPlatform #####################
         main_p = self.platformManager.createPlatform("Hackathon", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
+        
+        print(self.stopPlatform(main_p.getPlatformID, {}))
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
