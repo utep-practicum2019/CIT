@@ -1,7 +1,7 @@
 import sys, os, threading, time, subprocess, socket, random 
 #Need to import entire platforms package
 from PluginManager import PluginManager
-from PlatformTreeManager import PlatformTreeManager
+from PlatformTreeManager import PlatformTreeManager, PlatformTree
 
 """ 
         @authors:
@@ -20,10 +20,10 @@ from PlatformTreeManager import PlatformTreeManager
 
 """
 class PlatformsManager:
+    
     def __init__(self):
         self.PlatformTree = PlatformTreeManager()
        
-
     # argument takes string and list of strings
     def createPlatform(self, platform, sub_platforms):
         subplatforms = {}
@@ -55,16 +55,19 @@ class PlatformsManager:
         
         return Main_Platform
     
-    def deletePlatform(self, platformID, subplatformIdentifiers):
+    def deletePlatform(self, platformID, subplatformIDs):
         #removing a platform will consist of stopping a platform and then removing the instance 
-        if(subplatformIdentifiers == { }):
+#         print (type(platformID))
+#         print(subplatformIDs)
+        print(self.PlatformTree.printTree(self.PlatformTree.getRoot()))
+        if(subplatformIDs == { }):
             Main_Platform = self.PlatformTree.remove(platformID)
             return (None, "Success")
         else:
             Main_Platform = self.PlatformTree.getPlatform(platformID)
             subPlatforms = Main_Platform.get_sub_platforms()
             for x in list(subPlatforms):
-                if(subPlatforms[x].getPlatformID() in subplatformIdentifiers):
+                if(subPlatforms[x].getPlatformID() in subplatformIDs):
                     del subPlatforms[x] 
             return (Main_Platform, "Success")
             
@@ -84,7 +87,7 @@ class PlatformsManager:
             for x in subplatforms:
                 if(subplatforms[x].getPlatformID() in subplatformsIDs):
                     self.startPlatformThread(subplatforms[x])
-        return "Succes"
+        return (Main_Platform, "Success")
 
 
     #start thread to continue execution 

@@ -5,16 +5,15 @@ import abc
 import time
 import subprocess
 import json
+import requests
 from pprint import pprint
-#from rocketchat_API.rocketchat import RocketChat
-from rocketchat.api import RocketChatAPI
-
-from pip._vendor import urllib3
-
 from Platform import Platform
+
+from rocketchat_API.rocketchat import RocketChat
 
 """ 
         @authors:
+
             Alejandro Balderrama
             Nadia Karichev
             Hector Cervantes
@@ -22,9 +21,7 @@ from Platform import Platform
             This class represents the platfrom manager. 
             The plugin manager will be able to start, stop, and configure Chat platform.
     """
-
-
-class RocketChat(Platform):
+class Rocketchat(Platform):
     # fill the values here for your specific platform
     platform_name = "Rocket.Chat"
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
@@ -36,8 +33,8 @@ class RocketChat(Platform):
     processID = 0
     subplatforms = {}
     port = "3000"
-    ip = "0.0.0.0"
-    link = ""
+    ip = "129.108.7.17"
+    link = "http://www.chat.service"
 
     # return process ID
     def getProcessID(self):
@@ -128,109 +125,99 @@ class RocketChat(Platform):
 
     # add more methods below if you need to do more tasks
 
-    hackathon_base_url = "http://localhost:3000"
-    rcr_base_url = "http://localhost:3001"
-    register = "/api/v1/users.register"
-    login = "/api/v1/login"
-    group = "/api/v1/groups.create"
+user = 'Admin'
+passw = 'chat.service'
+user_email = 'UserTest2@mail'
+user_name = 'User33'
+user_pass = '123456'
+user_nick = 'User33'
+userID = 'XCZn2BmsKd7fdXEJd'
+channelName = 'TestChannel'
+groupName = 'Team17'
+roomID = 'wnnSNozP3qhGxM3Jq'
+announce = 'It is announcement'
 
 
-    api = RocketChatAPI(settings={'username': 'utep.practicum2019@chat.service', 'password': 'chat.service',
-                                  'domain': 'https://myrockethchatdomain.com'})
+proxy_dict = {
+              "http"  : "http://localhost:3000",
+              "https" : "https://localhost:3001",
+            }
+# Create a RocketChat object and login on the specified server:
+rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
 
-    api.create_user('email',
-                    'name',
-                    'password',
-                    'username',
-                    active=True,
-                    roles=['user'],
-                    join_default_channels=True,
-                    require_password_change=False,
-                    send_welcome_email=False,
-                    verified=False,
-                    customFields=None)
+# Users:
+# Register a new user:
+#pprint(rocket.users_register(user_email, user_name, user_pass, user_nick).json())
 
-    api.send_message('message', 'room_id')
+# Login a user:
+#pprint(rocket.login(user_name, user_pass).json())
 
-    api.get_private_rooms()
+# Get User info:
+#pprint(rocket.users_info(userID, user_name).json())
 
-    #api.get_private_room_history('room_id', oldest=date)
+# Delete a user:
+#pprint(rocket.users_delete(userID).json())
 
-    api.get_public_rooms()
-
-    api.get_room_info('room_id')
-
-    api.get_private_room_info('room_id')
-
-    api.get_room_history('room_id')
-
-    api.create_public_room('room_name',
-                           members=[],
-                           read_only=False)
-
-    api.delete_public_room('room_id')
-
-    api.get_my_info()
-
-    api.get_users()
-
-    api.get_user_info('user_id')
-
-    api.delete_user('user_id')
-
-    '''def POST(self, url, fields={}, headers=None):
-        if not headers:
-            headers = self.headers
-        http = urllib3.PoolManager()
-        r = http.request(
-            "POST", url,
-            body=json.dumps(fields),
-            headers=headers)
-        try:
-            d = json.loads(r.data.decode('utf8'))
-        except:
-            print(r.data)
-        return d
+# List all users and related info: 
+pprint(rocket.users_list().json())
 
 
 
-    def hackathon_register_user(self, hackathon_base_url, register, username, email, passw, name):
-        url = hackathon_base_url + register
-        data = {
-            "username": username,
-            "email": email,
-            "pass": passw,
-            "name": name
-        }
-        headers = {'Content-type': 'application/json'}
-        d = self.POST(url, data, headers)
-        print(d['_id', 'success'])
+# Public Channels:
 
-    def hackathon_login_user(self, hackathon_base_url, login, user, password):
-        url = hackathon_base_url + login
-        data = {"user": user,
-                "password": password}
+# Create a new public channel optionally adding users:
+#pprint(rocket.channels_create(channelName).json())
 
-        headers = {'Content-Type': 'application/json'}
-        d = self.POST(url, data, headers)
-        userId = d['data']['userId']
-        authToken = d['data']['authToken']
-        headers = {
-            "X-Auth-Token": authToken,
-            "X-User-Id": userId
-        }
-        return headers
+# Delete a public channel:
+#pprint(rocket.channels_delete(roomID).json())
 
-    # @staticmethod
-    def hackathon_group_user(self, hackathon_base_url, group, name, members):
-        url = hackathon_base_url + group
-        data = {"name": name,
-                "members": members}
+# List all public channels:
+pprint(rocket.channels_list().json())
 
-        d = self.POST(url, fields=data)
-        if d['success'] is True:
-            print(d)
-            raise ("Error Creating Channel")
-        else:
-            return True
-    '''
+# List a public channel's memebers:
+# pprint(rocket.channels_members(roomID).json())
+
+# Get a public channel information:
+#pprint(rocket.channels_info(roomID).json())
+
+# Get public channel history:
+#pprint(rocket.channels_history(roomID, count=5).json())
+
+# Set announcement for channel:
+#pprint(rocket.channels_set_announcement(roomID, announce).json())
+
+
+
+# Private Groups:
+
+# Create a new private group, optionally including users
+#pprint(rocket.groups_create(groupName).json())
+
+# Delete a privare group:
+#pprint(rocket.groups_delete(roomID).json())
+
+# List all private groups with related information:
+#pprint(rocket.groups_list_all().json())
+
+# Get private group history:
+#pprint(rocket.groups_history(roomID, count=5).json())
+
+# Add user to a private group:
+#pprint(rocket.groups_invite(roomID, userID).json())
+
+# Remove user from a private group:
+#pprint(rocket.groups_kick(roomID, userID).json())
+
+# Get a private group information:
+#pprint(rocket.groups_info(roomID).json())
+
+# List of memebers of a private group:
+#pprint(rocket.groups_memebers(roomID).json())
+
+# Other:
+
+# Display Information about the Rocket.Chat server:
+#pprint(rocket.info().json())
+
+#Post a new Chat message:
+#pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
