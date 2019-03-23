@@ -9,9 +9,9 @@ class PluginManager():
         platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
-            if(plugin != "Platform"):
-                platforms.append(plugin)
+            platforms.append(plugin)
         platforms.remove("__init__")
+        platforms.remove("Platform")
         return platforms  
     
     def addPlatform(self, path):
