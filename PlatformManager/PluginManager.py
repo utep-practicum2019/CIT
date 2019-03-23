@@ -4,7 +4,7 @@ import importlib
 
 class PluginManager():
     
-    def get_Available_Platforms(self):
+    def getAvailablePlugins(self):
         return 0
     
     def addPlatform(self):

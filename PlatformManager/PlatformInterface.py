@@ -18,65 +18,84 @@ class PlatformInterface():
     def __init__(self):
         self.platformManager = PlatformsManager()
         
-    def parse_JSON(self, json_object):
-        with open(json_object, "r") as j_object:
-            parsed_input = json.load(j_object)
-        
-        return parsed_input
-    
-    def format_request(self, destination, response):
-        data = {
-                "destination": destination,
-                "response": response[0]
-                }
-        
-        json_string = json.dumps(data)
-        
-        return json_string
+#     def parse_JSON(self, json_object):
+#         with open(json_object, "r") as j_object:
+#             parsed_input = json.load(j_object)
+#         
+#         return parsed_input
+#     
+#     def format_request(self, destination, request):
+#         data = {
+#                 "destination": destination,
+#                 "request": request[0]
+#                 }
+#         
+#         json_string = json.dumps(data)
+#         
+#         return json_string
     
     ##### Platform Manager #####
     
-    def configurePlatform(self, main_platform, subplatforms): #subplatforms is a set
-        platform = self.platformManager.createPlatform(main_platform, subplatforms)
+    def createPlatform(self, main_platform, subplatforms): #subplatforms is a set
+        Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
+        Subplatforms = Main_Platform.get_sub_platforms()
+        sub_keys = list(Subplatforms.keys())
+        
         response = False
         
-        if (1 <= platform[0] < 100000):
-            for x in platform[1]:
-                if (1 <= platform[1][x] < 100000):
+        if (1 <= Main_Platform.getPlatformID() < 100000):
+            for x in range(0, len(sub_keys)):
+                
+                print(Subplatforms[sub_keys[x]].getPlatformID())###TEST(Remove)###
+                
+                if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
                     response = True
+                    
+        return {response}
+     
+    def deletePlatform(self, platform_ID, subplatform_IDs): 
+        Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
+        
+        if (subplatform_IDs != { }):
+            response = {Main_Platform[1], Main_Platform[0].getPlatformID()}
+            
+        else:
+            response = {Main_Platform[1]}
                     
         return response
     
-#     def getPlatformName(platform_ID): 
-#         pass
-#     
-#     def getPlatformID(platform_name): 
-#         pass
-#     
-#     def getPlatformProcessID(platform_ID): 
-#         pass
-    
-    def getSubplatforms(self, platform_ID): 
-        pass
-    
-    def start(self, platform_ID, subplatform_IDs): 
-        platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
+    def addPlatform(self, platform_ID, subplatforms): 
+        Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
+        Subplatforms = Main_Platform.get_sub_platforms()
+        sub_keys = list(Subplatforms.keys())
+        
         response = False
         
-        #How can I get the ip:port of a platform if I don't know the name
+        if (1 <= Main_Platform.getPlatformID() < 100000):
+            for x in range(0, len(sub_keys)):
+                
+                print(Subplatforms[sub_keys[x]].getPlatformID())###TEST(Remove)###
+                
+                if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
+                    response = True
+                    
+        return {response}
+    
+    def startPlatform(self, platform_ID, subplatform_IDs): 
+        Main_Platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
+        subplatforms = Main_Platform.get_sub_platforms()
+        response = set()
         
+        if (subplatform_IDs != { }):
+            for x in subplatforms:
+                response.add(subplatforms[x].getIpPort())
+            
+        response.add(Main_Platform[0].getIpPort())
+            
         return response
     
-    def stop(self, platform_ID, subplatform_IDs): 
+    def stopPlatform(self, platform_ID, subplatform_IDs): 
         pass
-        
-#     def setPlatformName(platform_ID, new_name): 
-#         pass
-
-    def removePlatform(self, platform_ID, subplatform_IDs): 
-        platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        
-        print(platform)
     
     ##### End Platform Manager #####
     
@@ -85,38 +104,59 @@ class PlatformInterface():
     def addPlugin(self, path): 
         pass
     
-    def removePlugin(self, plugin_Name): 
+    def deletePlugin(self, plugin_Name): 
         pass
     
     def getAvailablePlugins(self): 
         pass
     
-    def getPluginName(self, plugin_ID): 
-        pass
-    
-#     def getPluginID(self, plugin_Name): 
-#         pass
-
-    def getPluginStartCommand(self, plugin_Name): 
-        pass
-    
-    def getPluginStopCommand(self, plugin_Name): 
-        pass
-    
-    def getPluginVersion(self, plugin_Name): 
-        pass
-    
-    def getPluginIpPort(self, plugin_Name): 
-        pass
-    
-    def getPluginLink(self, plugin_Name): 
+    def loadPlatform(self):
         pass
     
     ##### End Plugin Manager #####
     
-p = PlatformsManager()
-p_ID, s_IDs = p.createPlatform("Hackathon", {"TiddlyWiki"})
-PlatformInterface.removePlatform(p_ID, s_IDs)
+    def test(self):
+        ###################### TEST: deletePlatform ##############################
+#         main_p = self.platformManager.createPlatform("Hackathon", {"TiddlyWiki"})
+#         print(main_p)
+#          
+#         print(self.deletePlatform(main_p.getPlatformID(), main_p.get_sub_platforms()))
+        ##########################################################################
+        
+        #################### TEST: deletePlatform(no subs) #######################
+#         main_p = self.platformManager.createPlatform("Hackathon", {})
+#         print(main_p)
+#           
+#         print(self.deletePlatform(main_p.getPlatformID(), {}))
+        ##########################################################################
+        
+        ########################## TEST: addPlatform #############################
+#         main_p = self.platformManager.createPlatform("Hackathon", {})
+#         print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
+#         
+#         #print(self.deletePlatform(main_p.getPlatformID(), {}))
+        ##########################################################################
+        
+        ########################## TEST: startPlatform #############################
+        main_p = self.platformManager.createPlatform("Hackathon", {})
+        print(self.startPlatform(main_p.getPlatformID(), {}))
+         
+        #print(self.deletePlatform(main_p.getPlatformID(), {}))
+        ##########################################################################
+        
+                
+pi = PlatformInterface()
+pi.test()
+#print(main_p)
+# print(main_p.getIpPort())
+#print(type(main_p.getPlatformID()))
+# sub_p = main_p.get_sub_platforms()
+# sub_keys = list(sub_p.keys())
+# print(sub_keys[0])
+# print("Platform ID: "+ str(sub_p[sub_keys[0]].getPlatformID()))
 
+# ###Test createPlatform###
+# pi = PlatformInterface()
+# print(pi.createPlatform("Hackathon", {"TiddlyWiki"}))
      
 #print(PlatformInterface.get("Tests/JSON_Test_Files/test.json"))
