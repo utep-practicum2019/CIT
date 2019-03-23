@@ -143,7 +143,7 @@ class PlatformInterface():
         main_p = self.platformManager.createPlatform("Hackathon", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
         
-        print(self.stopPlatform(main_p.getPlatformID, {}))
+        print(self.stopPlatform(main_p.getPlatformID(), {}))
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
