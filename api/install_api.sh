@@ -15,7 +15,7 @@ sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
 
-pip install pymango
+pip install pymongo
 pip install flask
 
 #export FLASK_APP=CIT_API
@@ -25,7 +25,7 @@ pip install flask-marshmallow
 pip install flask-httpauth
 #flask run
 
-sudo su -c "echo 127.0.0.1 citsystem.com > /etc/hosts"
+sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
