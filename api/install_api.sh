@@ -25,6 +25,16 @@ pip install flask
 pip install flask-restful
 pip install flask-marshmallow
 pip install flask-httpauth
+pip install flask-api
+pip install pymongo
+pip install pyinotify
+pip install apispec
+pip install apispec-webframeworks
+pip install sockets
+pip install requests
+pip install jsonify
+pip install resource
+pip install schemas
 #flask run
 
 
