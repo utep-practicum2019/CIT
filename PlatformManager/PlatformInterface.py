@@ -95,7 +95,9 @@ class PlatformInterface():
         return response
     
     def stopPlatform(self, platform_ID, subplatform_IDs): 
-        pass
+        status = self.platformManager.stopPlatforms(platform_ID, subplatform_IDs)
+        
+        return status
     
     ##### End Platform Manager #####
     
