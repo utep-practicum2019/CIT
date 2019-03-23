@@ -135,6 +135,12 @@ class PlatformsManager:
         
         return response
 
+    def check_server(platformID, subplatformIDs):
+        s = socket.socket(AF_INET,  )
+    
+    def getPlatform(self, platformID):
+        return self.PlatformTree.getPlatform(platformID)
+    
     def printPlatforms(self, platformid):
         main_platform = self.PlatformTree.getPlatform(platformid)
         
