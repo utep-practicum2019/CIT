@@ -98,6 +98,24 @@ class PlatformInterface():
         status = self.platformManager.stopPlatforms(platform_ID, subplatform_IDs)
         
         return status
+
+
+    def getPlatform(self, platform_ID, subplatform_IDs): 
+        Main_Platform = self.platformManager.getPlatform(platform_ID)
+        subplatforms = Main_Platform[0].get_sub_platforms()
+        response = {}
+        info = []
+        info.append({"name" : Main_Platform.getPlatformName(),
+                    "ip:port" : Main_Platform.getIPPort()})
+
+        if (subplatform_IDs != { }):
+            for x in subplatforms:
+                info.append({"name" : subplatform_IDs[x].getPlatformName(),
+                            "ip:port" : subplatform_IDs[x].getIpPort()})
+
+        response = {info}
+                    
+        return response
     
     ##### End Platform Manager #####
     
