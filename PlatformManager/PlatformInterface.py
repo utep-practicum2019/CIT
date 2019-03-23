@@ -140,7 +140,7 @@ class PlatformInterface():
         ##########################################################################
         
         ################### TEST: startPlatform/stopPlatform #####################
-        main_p = self.platformManager.createPlatform("Hackathon", {})
+        main_p = self.platformManager.createPlatform("TiddlyWiki", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
         
         print(self.stopPlatform(main_p.getPlatformID(), {}))
