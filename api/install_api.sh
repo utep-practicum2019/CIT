@@ -33,7 +33,8 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD7
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 sudo apt-get update
 
-sudo apt-get install -y mongodb-org --allow-unauthenticated
+sudo apt-get install -y mongodb-org
+#sudo apt-get install -y mongodb-org --allow-unauthenticated
 sudo service mongod start
 sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
