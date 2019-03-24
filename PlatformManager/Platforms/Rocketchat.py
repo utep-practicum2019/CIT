@@ -125,12 +125,14 @@ class Rocketchat(Platform):
 
     # add more methods below if you need to do more tasks
 
+#users = {useremail1: (userpass, usernick, ), useremail2}
+
 user = 'Admin'
 passw = 'chat.service'
-user_email = 'UseygggrrTefstt352@mail'
-user_name = 'Userygggrft352'
+user_email = ['Usser222@mail']
+user_name = 'Usser222'
 user_pass = '123456'
-user_nick = 'Usegygrrgft352'
+user_nick = 'Usser222'
 userID = 'APBySZjFA38KEiBxM'
 channelName = 'TestChfannel2'
 groupName = 'Teagm17'
@@ -143,7 +145,7 @@ proxy_dict = {
               "https" : "https://localhost:3001",
             }
 
-# Create a RocketChat object and login on the specified server:
+#Create a RocketChat object and login on the specified server:
 rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
 
 
@@ -158,7 +160,9 @@ def registerUser(self, user_email, user_name, user_pass, user_nick):
 def loginUser(self, user_name, user_pass):
     data = rocket.login(user_name, user_pass).json()
     status = data["success"]
-    return status
+    authToken = data["data"]["authToken"]
+    return (status, authToken)
+
 
 # Get User info:
 def getUserInfo(self, userID, user_name):
@@ -215,7 +219,6 @@ def userToken(roomID, announce):
     status = data["success"]
     token = data["data"]["authToken"]
     return (status, token) 
-
 
 ################################# TO DO IF NEEDED #############################################
 

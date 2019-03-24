@@ -27,10 +27,3 @@ class PluginManager():
         instance = class_()
         return instance
 
-
-
-p = PluginManager()
-
-plugins = p.getAvailablePlugins()
-
-print(plugins)

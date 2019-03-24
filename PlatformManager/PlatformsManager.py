@@ -68,7 +68,6 @@ class PlatformsManager:
             
     def getPlatform(self, platformID):
         Main_Platform = self.PlatformTree.getPlatform(platformID)
-
         return Main_Platform
 
         
@@ -92,8 +91,6 @@ class PlatformsManager:
 
     #start thread to continue execution 
     def startPlatformThread(self, platform):
-        print("Initiating Servers")
-        
         thread = threading.Thread(target=self.start, args=(platform, ))
         thread.daemon = True
         thread.start()
@@ -122,7 +119,6 @@ class PlatformsManager:
         return "Success"
            
     def stop(self, platform):
-        print("Platform Process ID: " + str(platform.getProcessID()))
         
         os.system(platform.get_stop_command())
 
@@ -145,40 +141,42 @@ class PlatformsManager:
         if(subplatformIDs == {}):
             serviceUp = self.check_service(main_platform)
             if(serviceUp == False):
-                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "UP")
+                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
             else:
-                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "DOWN")
+                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
             subps = main_platform.get_sub_platforms()
             for x in subps:
                 serviceUp = self.check_service(subps[x])
                 if(serviceUp):
-                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "UP")
+                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                 else:
-                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "Down")
+                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "DOWN")
             return ServiceStatus
         else:
             serviceUp = self.check_service(main_platform)
             if(serviceUp == False):
-                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "UP")
+                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
             else:
-                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "DOWN")
+                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
             subps = main_platform.get_sub_platforms()
             for x in subps:
                 if(subps[x].getPlatformID() in subplatformIDs):
                      serviceUp = self.check_service(subps[x])
                 if(serviceUp):
-                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "UP")
+                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                 else:
-                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "Down")
+                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "Down")
             return ServiceStatus
 
-    def check_service(platform):
+    def check_service(self, platform):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         address = platform.getIpPort()
         ip, port = address.split(":")
         port = int(port)
+        print(ip + str(port))
         try:
             s.connect((ip, port))
+            s.close()
             return True
         except:
             return False 
@@ -195,6 +193,31 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
  
+
+
+
+
+
+
+
+A = PlatformsManager()
+Main_Platform = A.createPlatform("Hackathon", { "TiddlyWiki", "Rocketchat"})
+MainID = Main_Platform.getPlatformID()
+
+sub_platforms = Main_Platform.get_sub_platforms()
+subIDs = []
+for x in sub_platforms:
+    subIDs.append(sub_platforms[x].getPlatformID())
+print(subIDs[1])
+B = A.startPlatforms(MainID, {})
+time.sleep(10)
+status = A.checkPlatformStatus(MainID, {})
+print(str(status))
+time.sleep(10)
+C = A.stopPlatforms(MainID, {})
+
+
+
  
 
 
