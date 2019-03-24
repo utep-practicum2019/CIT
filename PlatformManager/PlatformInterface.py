@@ -158,10 +158,10 @@ class PlatformInterface():
         ##########################################################################
         
         ################### TEST: startPlatform/stopPlatform #####################
-        main_p = self.platformManager.createPlatform("TiddlyWiki", {})
-        print(self.startPlatform(main_p.getPlatformID(), {}))
+        # main_p = self.platformManager.createPlatform("TiddlyWiki", {})
+        # print(self.startPlatform(main_p.getPlatformID(), {}))
         
-        print(self.stopPlatform(main_p.getPlatformID(), {}))
+        # print(self.stopPlatform(main_p.getPlatformID(), {}))
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
@@ -169,16 +169,3 @@ class PlatformInterface():
                 
 pi = PlatformInterface()
 pi.test()
-#print(main_p)
-# print(main_p.getIpPort())
-#print(type(main_p.getPlatformID()))
-# sub_p = main_p.get_sub_platforms()
-# sub_keys = list(sub_p.keys())
-# print(sub_keys[0])
-# print("Platform ID: "+ str(sub_p[sub_keys[0]].getPlatformID()))
-
-# ###Test createPlatform###
-# pi = PlatformInterface()
-# print(pi.createPlatform("Hackathon", {"TiddlyWiki"}))
-     
-#print(PlatformInterface.get("Tests/JSON_Test_Files/test.json"))
