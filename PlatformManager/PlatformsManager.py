@@ -71,7 +71,12 @@ class PlatformsManager:
                     del subPlatforms[x] 
             return (Main_Platform, "Success")
             
+    def getPlatform(self, platformID):
+        Main_Platform = self.PlatformTree.getPlatform(platformID)
 
+        return Main_Platform
+
+        
     #This method will start up the specific services
     def startPlatforms(self, platformID, subplatformsIDs):
         Main_Platform = self.PlatformTree.getPlatform(platformID)

@@ -127,14 +127,14 @@ class Rocketchat(Platform):
 
 user = 'Admin'
 passw = 'chat.service'
-user_email = 'UserTest2@mail'
-user_name = 'User33'
+user_email = 'UseygggrrTefstt352@mail'
+user_name = 'Userygggrft352'
 user_pass = '123456'
-user_nick = 'User33'
-userID = 'XCZn2BmsKd7fdXEJd'
-channelName = 'TestChannel'
-groupName = 'Team17'
-roomID = 'wnnSNozP3qhGxM3Jq'
+user_nick = 'Usegygrrgft352'
+userID = 'APBySZjFA38KEiBxM'
+channelName = 'TestChfannel2'
+groupName = 'Teagm17'
+roomID = '7n6ZedzGPmt6us8R7'
 announce = 'It is announcement'
 
 
@@ -142,40 +142,88 @@ proxy_dict = {
               "http"  : "http://localhost:3000",
               "https" : "https://localhost:3001",
             }
+
 # Create a RocketChat object and login on the specified server:
 rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
 
-# Users:
+
 # Register a new user:
-#pprint(rocket.users_register(user_email, user_name, user_pass, user_nick).json())
+def registerUser(self, user_email, user_name, user_pass, user_nick):
+    data = rocket.users_register(user_email, user_name, user_pass, user_nick).json()
+    status = data['success'] 
+    uId = data['user']['_id']
+    return (status, uId)
 
 # Login a user:
-#pprint(rocket.login(user_name, user_pass).json())
+def loginUser(self, user_name, user_pass):
+    data = rocket.login(user_name, user_pass).json()
+    status = data["success"]
+    return status
 
 # Get User info:
-#pprint(rocket.users_info(userID, user_name).json())
+def getUserInfo(self, userID, user_name):
+    data = rocket.users_info(userID, user_name).json()
+    status = data["success"]
+    uId = data['user']['_id']
+    email = data['user']['emails'][0]['address']
+    userName = data['user']['name']
+    userNick = data['user']['username']
+    return (status, uID, email, userName, userNick)
 
 # Delete a user:
-#pprint(rocket.users_delete(userID).json())
-
-# List all users and related info: 
-pprint(rocket.users_list().json())
-
-
-
-# Public Channels:
+def deleteUser(self, userID):
+    data = rocket.users_delete(userID).json()
+    status = data["success"]
+    return status
 
 # Create a new public channel optionally adding users:
-#pprint(rocket.channels_create(channelName).json())
+def createChannel(self, channelName):
+    data = rocket.channels_create(channelName).json()
+    status = data["success"]
+    roomId = data["channel"]['_id']
+    return (status, roomId)
 
 # Delete a public channel:
-#pprint(rocket.channels_delete(roomID).json())
+def deleteChannel(self, roomId):
+    data = rocket.channels_delete(roomID).json()
+    status = data["success"]
+    return status
+
+# Create a new private group, optionally including users
+def createPrivateGroup(self, groupName):
+    data=rocket.groups_create(groupName).json()
+    status = data["success"]
+    roomId = data["group"]['_id']
+    return (status, roomId)
+
+# Delete a private group:
+def deletePrivateGroup(self, roomId):
+    data = rocket.groups_delete(roomID).json()
+    status = data["success"]
+    return status
+
+# Set announcement for channel:
+def postNewMessage(self, roomID, announce):
+    data = rocket.channels_set_announcement(roomID, announce).json()
+    status = data["success"]
+    msg = data["announcement"]
+    return (status, msg) 
+
+# Create User Token:
+def userToken(roomID, announce):
+    data = rocket.users_create_token(userID, user_name).json()
+    status = data["success"]
+    token = data["data"]["authToken"]
+    return (status, token) 
+
+
+################################# TO DO IF NEEDED #############################################
 
 # List all public channels:
-pprint(rocket.channels_list().json())
+#pprint(rocket.channels_list().json())
 
 # List a public channel's memebers:
-# pprint(rocket.channels_members(roomID).json())
+#pprint(rocket.channels_members(roomID).json())
 
 # Get a public channel information:
 #pprint(rocket.channels_info(roomID).json())
@@ -183,19 +231,9 @@ pprint(rocket.channels_list().json())
 # Get public channel history:
 #pprint(rocket.channels_history(roomID, count=5).json())
 
-# Set announcement for channel:
-#pprint(rocket.channels_set_announcement(roomID, announce).json())
-
-
-
-# Private Groups:
-
-# Create a new private group, optionally including users
-#pprint(rocket.groups_create(groupName).json())
-
-# Delete a privare group:
-#pprint(rocket.groups_delete(roomID).json())
-
+# List all users and related info: 
+#pprint(rocket.users_list().json())
+ 
 # List all private groups with related information:
 #pprint(rocket.groups_list_all().json())
 
@@ -213,8 +251,6 @@ pprint(rocket.channels_list().json())
 
 # List of memebers of a private group:
 #pprint(rocket.groups_memebers(roomID).json())
-
-# Other:
 
 # Display Information about the Rocket.Chat server:
 #pprint(rocket.info().json())
