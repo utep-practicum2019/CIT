@@ -21,6 +21,14 @@ class TestServer(unittest.TestCase):
             email=self.email, name=self.user, password=self.password, username=self.user)
         self.rocket = RocketChat(self.user, self.password)
 
+    proxy_dict = {
+        "http": "http://localhost:3000",
+        "https": "https://localhost:3001",
+    }
+
+    # Create a RocketChat object and login on the specified server:
+    rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
+
     def test_login_user(self):
         login = self.rocket.login(self.user, self.password).json()
         with self.assertRaises(RocketAuthenticationException):
