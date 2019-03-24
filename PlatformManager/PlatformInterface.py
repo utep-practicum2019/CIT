@@ -99,7 +99,6 @@ class PlatformInterface():
         
         return status
 
-
     def getPlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform[0].get_sub_platforms()
@@ -154,7 +153,6 @@ class PlatformInterface():
         print(status)
         print(userID)
                 
-    
     def rocketChatLoginUser(self, platform_ID, subPlatform_ID, username, user_pass):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
@@ -310,9 +308,9 @@ class PlatformInterface():
     ##### Rocket Chat End #####
     
     def test(self):
-        
+        pass
         ###################### TEST: createPlatform ##############################
-        print(self.createPlatform("Hackathon", {"TiddlyWiki"}))
+        #print(self.createPlatform("Hackathon", {"TiddlyWiki"}))
         ##########################################################################
 
         ###################### TEST: deletePlatform ##############################
@@ -344,7 +342,6 @@ class PlatformInterface():
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
-        
         
 pi = PlatformInterface()
 pi.test()
