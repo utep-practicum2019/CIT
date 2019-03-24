@@ -157,7 +157,6 @@ def loginUser(self, user_name, user_pass):
     status = data["success"]
     authToken = data["data"]["authToken"]
     return (status, authToken)
-    return status
 
 
 # Get User info:
@@ -217,11 +216,13 @@ def postNewMessage(self, roomID, announce):
 
 
 # Create User Token:
-def userToken(roomID, announce):
+def userToken(self, userID, user_name):
     data = rocket.users_create_token(userID, user_name).json()
     status = data["success"]
     token = data["data"]["authToken"]
     return (status, token)
+
+
 
 ################################# TO DO IF NEEDED #############################################
 
