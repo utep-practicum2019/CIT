@@ -134,6 +134,40 @@ class PlatformInterface():
         pass
     
     ##### End Plugin Manager #####
+
+    ##### Rocket Chat #####
+    
+    def rocketChatRegisterUser(self, platform_ID, subPlatform_ID, user_email, username, user_pass, user_nick):
+        pass
+    
+    def rocketChatLoginUser(self, platform_ID, subPlatform_ID, username, user_pass):
+        pass
+    
+    def rocketChatGetUserInfo(self, platform_ID, subPlatform_ID, userID, username): 
+        pass
+    
+    def rocketChatDeleteUser(self, platform_ID, subPlatform_ID, userID):
+        pass
+
+    def rocketChatCreateChannel(self, platform_ID, subPlatform_ID, channel_name):
+        pass
+
+    def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, room_ID):
+        pass
+
+    def rocketChatCreatePrivateGroup(self, platform_ID, subPlatform_ID, group_name):
+        pass
+
+    def rocketChatDeletePrivateGroup(self, platform_ID, subPlatform_ID, room_ID):
+        pass
+
+    def postNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
+        pass
+
+    def rocketChatCreateUserToken(self, platform_ID, subPlatform_ID, user_ID, username):
+        pass
+
+    ##### Rocket Chat End #####
     
     def test(self):
         ###################### TEST: deletePlatform ##############################
