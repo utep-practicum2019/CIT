@@ -4,11 +4,25 @@ sudo apt-get install python3
 sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
+sudo apt-get install curl -y #curl is needed
 
 
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
 cd /var/www/cit
+
+mkdir wiki
+cd wiki
+git clone https://github.com/Jermolene/TiddlyWiki5
+
+
+cd ..
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
+
+
+sudo apt-get install -y nodejs
+
+
 
 sudo apt install python3-venv -y
 sudo pyvenv test_bed_environment
