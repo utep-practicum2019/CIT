@@ -11,7 +11,7 @@ sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
 cd /var/www/cit
 
-mkdir wiki
+mkdir /var/www/cit/wiki
 cd wiki
 git clone https://github.com/Jermolene/TiddlyWiki5
 
