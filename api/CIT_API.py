@@ -28,4 +28,4 @@ api.add_resource(VMSuspendAPI, '/api/v2/resources/vm/manage/suspend')
 api.add_resource(LoginAPI, '/api/v2/resources/login')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="citsystem.com", port=80)
