@@ -138,34 +138,64 @@ class PlatformInterface():
     ##### Rocket Chat #####
     
     def rocketChatRegisterUser(self, platform_ID, subPlatform_ID, user_email, username, user_pass, user_nick):
-        pass
+        Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, userID = Main_Platform.registerUser(user_email, username, user_pass, user_nick)
     
     def rocketChatLoginUser(self, platform_ID, subPlatform_ID, username, user_pass):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, authToken = Main_Platform.loginUser(username, user_pass)
     
-    def rocketChatGetUserInfo(self, platform_ID, subPlatform_ID, userID, username): 
-        pass
+    def rocketChatGetUserInfo(self, platform_ID, subPlatform_ID, user_ID, username): 
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, userID, email, userName, userNick = Main_Platform.getUserInfo(user_ID, username)
     
-    def rocketChatDeleteUser(self, platform_ID, subPlatform_ID, userID):
-        pass
+    def rocketChatDeleteUser(self, platform_ID, subPlatform_ID, user_ID):
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status = Main_Platform.deleteUser(user_ID)
 
     def rocketChatCreateChannel(self, platform_ID, subPlatform_ID, channel_name):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, roomID = Main_Platform.createChannel(channel_name)
 
     def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, room_ID):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status = Main_Platform.deleteChannel(room_ID)
 
     def rocketChatCreatePrivateGroup(self, platform_ID, subPlatform_ID, group_name):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, roomID = Main_Platform.createPrivateGroup(group_name)
 
     def rocketChatDeletePrivateGroup(self, platform_ID, subPlatform_ID, room_ID):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status = Main_Platform.deletePrivateGroup(room_ID)
 
     def postNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, message = Main_Platform.postNewMessage(room_ID, announcement)
 
     def rocketChatCreateUserToken(self, platform_ID, subPlatform_ID, user_ID, username):
-        pass
+         Main_Platform = self.platformManager.getPlatform(platform_ID)
+
+        if (Main_Platform.getPlatformID == platform_ID):
+            status, token = Main_Platform.userToken(user_ID, username)
 
     ##### Rocket Chat End #####
     
