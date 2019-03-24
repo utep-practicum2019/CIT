@@ -24,7 +24,7 @@ class PlatformsManager:
     def __init__(self):
         self.PlatformTree = PlatformTreeManager()
        
-    # argument takes string and list of strings
+    
     def createPlatform(self, platform, sub_platforms):
         subplatforms = {}
         plugin_manager = PluginManager()
@@ -38,8 +38,6 @@ class PlatformsManager:
         
         return Main_Platform
     
-    #argument takes a string id and a list of strings of ID's
-    #implement some try and catches
     def addPlatform(self, platformID, sub_platforms):
         plugin_manager = PluginManager()
         Main_Platform = self.PlatformTree.getPlatform(platformID)
@@ -56,9 +54,6 @@ class PlatformsManager:
         return Main_Platform
     
     def deletePlatform(self, platformID, subplatformIDs):
-        #removing a platform will consist of stopping a platform and then removing the instance 
-#         print (type(platformID))
-#         print(subplatformIDs)
         print(self.PlatformTree.printTree(self.PlatformTree.getRoot()))
         if(subplatformIDs == { }):
             Main_Platform = self.PlatformTree.remove(platformID)
@@ -143,41 +138,63 @@ class PlatformsManager:
         
         return response
 
+    def checkPlatformStatus(self, platformID, subplatformIDs):
+        serviceUp = True 
+        main_platform = self.PlatformTree.getPlatform(platformID)
+        ServiceStatus = {}
+        if(subplatformIDs == {}):
+            serviceUp = self.check_service(main_platform)
+            if(serviceUp == False):
+                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "UP")
+            else:
+                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "DOWN")
+            subps = main_platform.get_sub_platforms()
+            for x in subps:
+                serviceUp = self.check_service(subps[x])
+                if(serviceUp):
+                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "UP")
+                else:
+                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "Down")
+            return ServiceStatus
+        else:
+            serviceUp = self.check_service(main_platform)
+            if(serviceUp == False):
+                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "UP")
+            else:
+                ServiceStatus[main_platform.getPlatformName] = (main_platform.getPlatformID(), "DOWN")
+            subps = main_platform.get_sub_platforms()
+            for x in subps:
+                if(subps[x].getPlatformID() in subplatformIDs):
+                     serviceUp = self.check_service(subps[x])
+                if(serviceUp):
+                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "UP")
+                else:
+                    ServiceStatus[subps[x].getPlatformName] = (subps[x].getPlatformID(), "Down")
+            return ServiceStatus
+
+    def check_service(platform):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        address = platform.getIpPort()
+        ip, port = address.split(":")
+        port = int(port)
+        try:
+            s.connect((ip, port))
+            return True
+        except:
+            return False 
+
+    
+    def getPlatform(self, platformID):
+        return self.PlatformTree.getPlatform(platformID)
+    
     def printPlatforms(self, platformid):
-        main_platform = self.PlatformTree.getPlatform(platformid)
-        
+        main_platform = self.PlatformTree.getPlatform(platformid) 
         print("Main Platform: " + main_platform.getPlatformName() + " id: " + str(main_platform.getPlatformID()))
         print("Subplatforms: ")
-        
         subplatforms = main_platform.get_sub_platforms()
-        
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
-# 
-# platformsManager = PlatformsManager()
-# hackID, hackSubIDs = platformsManager.createPlatform("Hackathon", {"TiddlyWiki", "RocketChat"})
-# platformsManager.printPlatforms(hackID)
-# hackID, wikiSubIds = platformsManager.addPlatform(hackID, {"Submission"})
-# platformsManager.printPlatforms(hackID)
-# wikiID = hackSubIDs["TiddlyWiki"]
-# chatID = hackSubIDs["RocketChat"]
-# #platformsManager.deletePlatform(hackID, {wikiID}) 
-# platformsManager.printPlatforms(hackID)
-# 
-# platformsManager.startPlatforms(hackID, { })
-# time.sleep(10)
-# 
-# running = True
-# while(running):
-#     try:
-#         a = input()
-#         if(int(a) == 1):
-#             platformsManager.stopPlatforms(hackID, {} )
-#         elif(int(a) == 2):
-#             platformsManager.startPlatforms(hackID, {wikiID})
-#         else:
-#             running = False
-#     except NameError:
-#         pass
+ 
+ 
 
 

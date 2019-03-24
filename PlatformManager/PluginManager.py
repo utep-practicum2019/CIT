@@ -1,17 +1,25 @@
-import os, sys
-import importlib
-
+import os, sys, importlib, glob
+MODULE_EXTENSIONS = ('.py')
 
 class PluginManager():
     
+   
     def getAvailablePlugins(self):
-        return 0
+        os.chdir("./Platforms")
+        platforms = []
+        for file in glob.glob("*.py"):
+            plugin, ext = file.split(".py")
+            platforms.append(plugin)
+        platforms.remove("__init__")
+        platforms.remove("Platform")
+        return platforms  
     
-    def addPlatform(self):
-        print("Adding Platforms")
+    def addPlatform(self, path):
+        print("cp" + path + " " + "./Platforms")
     
-    def deletePlatform(self):
-        print("Deleting platforms")
+    def deletePlatform(self, plugin):
+        pluginFile = plugin + ".py"
+        os.sys("rm " + pluginFile)
     
     def loadPlatform(self, platform):
         module = importlib.import_module("Platforms." + platform, ".")
@@ -21,5 +29,8 @@ class PluginManager():
 
 
 
+p = PluginManager()
 
-    
+plugins = p.getAvailablePlugins()
+
+print(plugins)
