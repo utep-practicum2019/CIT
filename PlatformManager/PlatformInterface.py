@@ -273,7 +273,7 @@ class PlatformInterface():
         
         print(status)
 
-    def postNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
+    def rocketChatPostNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
