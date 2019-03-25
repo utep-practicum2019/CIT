@@ -2,7 +2,7 @@
 import json
 import requests
 from pprint import pprint
-from Platform import Platform
+from .Platform import Platform
 
 from rocketchat_API.rocketchat import RocketChat
 
@@ -121,10 +121,7 @@ class Rocketchat(Platform):
 
     # add more methods below if you need to do more tasks
 
-<<<<<<< HEAD
 #users = {useremail1: (userpass, usernick, ), useremail2}
-=======
->>>>>>> cbbcfd4f665e751f7553b570c2062a037040e137
 
 user = 'Admin'
 passw = 'chat.service'
@@ -143,14 +140,8 @@ proxy_dict = {
     "https": "https://localhost:3001",
 }
 
-<<<<<<< HEAD
 #Create a RocketChat object and login on the specified server:
 rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
-=======
-# Create a RocketChat object and login on the specified server:
-rocket = RocketChat(user, passw, server_url='http://www.chat.service', proxies=None)
->>>>>>> cbbcfd4f665e751f7553b570c2062a037040e137
-
 
 # Register a new user:
 def registerUser(self, user_email, user_name, user_pass, user_nick):
