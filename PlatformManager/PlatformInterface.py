@@ -56,18 +56,16 @@ class PlatformInterface():
                     
         return {response}
 
-     
-     
-     
-     
-     (“Success”, { “Main_Platform”: {“Hackathon”: 38902} , 
-     “Subplatforms”: {“TiddlyWiki”: 67000, “Rocketchat”: 6703 } )
+    def createResponse(Main_Platform):
+        dictionary = {"Main_Platform": {}, "Subplatforms": {}}
+        platform = Main_Platform[1]
+        dictionary["Main_Platform"] = {platform.getPlatformName, platform.getPlatformID}
+        subplatforms = platform.get_sub_platforms
+        for x in subplatforms:
+            name = subplatforms[x].getPlatformName()
+            dictionary["Subplatforms"][name] = platform.getPlatformID()
+        return dictionary
 
-
-
-
-
-     
     def deletePlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
         
@@ -169,6 +167,8 @@ class PlatformInterface():
 
         print(status)
         print(userID)
+        
+        return(status, userID)
                 
     def rocketChatLoginUser(self, platform_ID, subPlatform_ID, username, user_pass):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -186,6 +186,8 @@ class PlatformInterface():
 
         print(status)
         print(authToken)
+
+        return (status, authToken)
     
     def rocketChatGetUserInfo(self, platform_ID, subPlatform_ID, user_ID, username): 
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -206,6 +208,8 @@ class PlatformInterface():
         print(email)
         print(userName)
         print(userNick)
+
+        return(status, userID, email, userName, userNick)
     
     def rocketChatDeleteUser(self, platform_ID, subPlatform_ID, user_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -221,6 +225,8 @@ class PlatformInterface():
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status = Subplatforms[sub_keys[x]].deleteUser(user_ID)
         print(status)
+
+        return status
 
     def rocketChatCreateChannel(self, platform_ID, subPlatform_ID, channel_name):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -239,6 +245,8 @@ class PlatformInterface():
         print(status)
         print(channelID)
 
+        return (status, channelID) 
+
     def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, channel_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
@@ -254,6 +262,8 @@ class PlatformInterface():
                     status = Subplatforms[sub_keys[x]].deleteChannel(channel_ID)
         
         print(status)
+
+        return status 
 
     def rocketChatCreatePrivateGroup(self, platform_ID, subPlatform_ID, group_name):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -271,6 +281,7 @@ class PlatformInterface():
         
         print(status)
         print(roomID)
+        return (status, roomID) 
 
     def rocketChatDeletePrivateGroup(self, platform_ID, subPlatform_ID, room_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -287,6 +298,7 @@ class PlatformInterface():
                     status = Subplatforms[sub_keys[x]].deletePrivateGroup(room_ID)
         
         print(status)
+        return status
 
     def rocketChatPostNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -305,6 +317,8 @@ class PlatformInterface():
         print(status)
         print(message)
 
+        return (status, message)
+
     def rocketChatCreateUserToken(self, platform_ID, subPlatform_ID, user_ID, username):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
@@ -321,6 +335,8 @@ class PlatformInterface():
         
         print(status)
         print(token)
+
+        return (status, token) 
 
     ##### Rocket Chat End #####
     
