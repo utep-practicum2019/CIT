@@ -1,4 +1,4 @@
-import json, time
+import json
 from PlatformsManager import PlatformsManager
 from PluginManager import PluginManager
 
@@ -50,15 +50,29 @@ class PlatformInterface():
                 if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
                     status = "Success"
                     
+<<<<<<< HEAD
         return (status, response)
+=======
+        return {response}
+
+    def createResponse(Main_Platform):
+        dictionary = {"Main_Platform": {}, "Subplatforms": {}}
+        platform = Main_Platform[1]
+        dictionary["Main_Platform"] = {platform.getPlatformName, platform.getPlatformID}
+        subplatforms = platform.get_sub_platforms
+        for x in subplatforms:
+            name = subplatforms[x].getPlatformName()
+            dictionary["Subplatforms"][name] = platform.getPlatformID()
+        return dictionary
+>>>>>>> 1b99283c7a7b1d603b0d740813caec1965f11917
 
     def deletePlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        #response = self.createResponse(Main_Platform[0])
+        response = self.createResponse(Main_Platform[0])
             
         status = Main_Platform[1]
                         
-        return status
+        return (status, response)
 
     def addPlatform(self, platform_ID, subplatforms): 
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
@@ -360,8 +374,7 @@ class PlatformInterface():
         # # #print(main_p)
          
         # print("Deleting: ")
-        # #subplatforms = main_p.get_sub_platforms()
-        # print(self.deletePlatform(main_p.getPlatformID(),{}))
+        # print(self.deletePlatform(main_p.getPlatformID(), main_p.get_sub_platforms()))
         ##########################################################################
         
         #################### TEST: deletePlatform(no subs) #######################
@@ -372,8 +385,8 @@ class PlatformInterface():
         ##########################################################################
         
         ########################## TEST: addPlatform #############################
-        # main_p = self.platformManager.createPlatform("Hackathon", {})
-        # print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
+        main_p = self.platformManager.createPlatform("Hackathon", {})
+        print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
         
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
@@ -385,15 +398,6 @@ class PlatformInterface():
         # print(self.stopPlatform(main_p.getPlatformID(), {}))
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
-        ##########################################################################
-
-        ######################## TEST: registerUser ##############################
-        main_p = self.platformManager.createPlatform("RocketChat", {})
-        print(self.startPlatform(main_p.getPlatformID(), {}))
-        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "USER001@mail.com", "USER001", "Q1W2E3", "Bobby"))
-        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "USER001", "Q1W2E3"))
-        time.sleep(30)
-        print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         
 pi = PlatformInterface()
