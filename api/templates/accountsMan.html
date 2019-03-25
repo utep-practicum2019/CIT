@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Account Manager</title>
+<style>
+	#mainArea{
+		width: 100%
+		height: 100%
+	}
+	
+	#groupArea{
+		width: 100%;
+		height: 100%
+	}
+</style>
+
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+visible = 1; //var that keeps track of which table is visible (1 or 2)
+function change_table() {
+	var x = document.getElementById("MySelect").value;
+	t1 = document.getElementById("groupArea");	  
+	t2 = document.getElementById("mainArea");
+  if(visible == 1) {
+    visible = 2;
+    t1.style.display = 'none';
+	t2.style.display = 'block';
+  } else {
+    visible = 1;
+    t1.style.display = 'block';
+    t2.style.display = 'none';
+  }
+}
+
+
+</script>
+
+
+
+<body onload="javascript:change_table()">
+    <div class="container-fluid">
+        <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+        <div class="row">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a href="connectionMan.html">Connection Manager</a></button>
+
+				<button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="accountsMan.html">Account Manager</a></button>
+
+                <button type="button" class="btn btn-dark btn-sm menu"><a  href="platMan.html">Platform Manager</a></button>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h2>Accounts:</h2>
+		
+		 <div class="row">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                <button type="button" class="btn btn-dark btn-sm menu" data-toggle="modal" data-target="#addModal">
+				Add Users
+				</button>
+
+                <button type="button" class="btn btn-dark btn-sm menu"data-toggle="modal" data-target="#importModal">
+				Import Users
+				</button>
+				
+				<button type="button" class="btn btn-dark btn-sm menu">
+				Edit
+				</button>
+				
+				<select id="MySelect" onchange="change_table()" class="btn btn-dark btn-sm menu">
+					  <option value="user_table">User table</option>
+					  <option value="group_table">Group table</option>
+				</select>
+				
+				<button type="button" class="btn btn-dark btn-sm menu"data-toggle="modal" data-target="#deleteUsersModal">
+				Delete Users
+				</button>
+				
+				<button type="button" class="btn btn-dark btn-sm menu"data-toggle="modal" data-target="#deleteGroupModal">
+				Delete Groups
+				</button>
+				
+	
+			
+            </div>
+        </div>
+	<div class = "table-responsive" id="mainArea">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+					<th>Select:</th>
+                    <th onclick="sortTable(0)">Username:</th>
+                    <th>Password:</th>
+                    <th onclick="sortTable(2)">Group:</th>
+                    <th>Platform</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+					<td><input type="checkbox" aria-label="Checkbox for following text input" value ="{{ username }}"></td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user['password'] }}</td>
+                    <td>{{ user['group_id'] }}</td>
+					<td>H</td>	
+                    </tr>
+            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+	</div>
+	
+	<div class = "container-fluid" id="groupArea">
+		<table class="table table-hover">
+            <thead>
+                <tr>
+					<th>Select:</th>
+                    <th onclick="sortTable(0)">Group id:</th>
+                    <th onclick="sortTable(1)">Members</th>
+                    <th>Platform</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+            {% for group in groups %}
+                <tr>
+					<td><input type="checkbox" aria-label="Checkbox for following text input" value ="{{ username }}"></td>
+                    <td>{{ group['group_id'] }}</td>
+                    <td>{{ group['members'] }}</td>
+                    <td>{{ group['platforms'] }}</td>
+                    </tr>
+            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+		</div>
+				
+<!-- Delete Users Modal -->
+      <div class="modal fade" id="deleteUsersModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+     <form method = 'POST'>
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+              </button>
+	    </div>
+	    <div class="modal-body">
+	      All user information will be deleted. This action cannot be undone.
+	    </div>
+          <input name="group_num" type="hidden" value="99" id="group_num">
+          <input name="users_group" type="hidden" value="99" id="users_group">
+          <input name="username" type="hidden" value="99" id="username">
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+	    </div>
+	  </div>
+      </form>
+	</div>
+      </div>
+	  
+	  <!-- Delete Users Modal -->
+      <div class="modal fade" id="deleteGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+              </button>
+	    </div>
+	    <div class="modal-body">
+	      All users information in the group will be deleted. This action cannot be undone.
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" name="username">Delete</button>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <!-- Import Modal -->
+      <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Import Users</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+              </button>
+	    </div>
+	    <div class="modal-body">
+	      Your file must be structured in the following manner:<br>
+	      user1 group1<br>
+	      user2 group1<br>
+	      user3 group2<br>
+	      user4 group2<br>
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Import</button>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      
+      <!-- Add Users Modal -->
+      <div class="modal fade" id="addModal" name ="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Users</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+              </button>
+	    </div>
+	    <div class="modal-footer">
+            <div class="modal-body">
+
+            <form method = "POST">
+                    <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Number of groups:</span>
+                    </div>
+                    <input type="text" id="group_count" class="form-control" aria-describedby="basic-addon1" name ="group_num">
+                      </div>
+                      <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Users per group:</span>
+                    </div>
+                    <input aria-describedby="basic-addon1" class="form-control" id="users_per_group" name="users_group"
+                           type="text">
+                      </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnAddUsers">Add Users</button>
+
+            </form>
+
+
+	    </div>
+	  </div>
+	</div>
+      </div>
+                <script>
+                    function sortTable(n) {
+                      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                      table = document.getElementById("mainArea");
+                      switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+      }
+  } else if (dir == "desc") {
+    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+      }
+  }
+}
+if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+  } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+    }
+}
+}
+}
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

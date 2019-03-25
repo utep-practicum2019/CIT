@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Platform Manager</title>
+        <!-- Bootstrap core CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link href="style.css" rel="stylesheet">
+  </head>
+
+        <div class="container-fluid">
+             <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+            <div class="row">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a href="connectionMan.html">Connection Manager</a></button>
+
+                            <button type="button" class="btn btn-dark btn-sm menu"><a href="accountsMan.html">Account Manager</a></button>
+                            
+                            <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="platMan.html">Platform Manager</a></button>
+                           
+                    </div>
+            </div>
+        </div>
+        <div class="container-fluid" >
+            <h2>Platforms:</h2>
+
+            <table class="table table-hover" id="mainArea">
+                <thead>
+                    <tr>
+                        <th>List of Platforms:</th>
+                        <th>Activate</th>
+                        <th>Deactivate:</th>
+                    </tr>
+                        
+
+                </thead>
+                <tbody>
+                <tr>
+            {% for platform in platforms %}
+                    <td><div contenteditable="true">{{ platform['platform_name'] }}</div></td><!--doesn't have a function sending request yet-->
+                    <td><div><button type="button">Activate</button></div></td>
+                    <td><div><button type="button">Deactivate</button></div></td>
+                </tr>
+            {% endfor %}
+                </tbody>
+
+
+           
+
+
+        </div><!-- end of main area   -->
+
+        </div>
+       
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    </body>
+
+</html>
