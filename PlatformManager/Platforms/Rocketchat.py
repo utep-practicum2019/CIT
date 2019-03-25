@@ -29,7 +29,7 @@ class Rocketchat(Platform):
     processID = 0
     subplatforms = {}
     port = "3000"
-    ip = "129.108.7.17"
+    ip = "129.108.7.17:"
     link = "http://www.chat.service"
 
     # return process ID
