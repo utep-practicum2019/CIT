@@ -420,11 +420,13 @@ class PlatformInterface():
         # print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
 
-        ##################### TEST: registerUser/deleteUser ######################
+        ############## TEST: registerUser/getUserInfo/deleteUser #################
         main_p = self.platformManager.createPlatform("Rocketchat", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
         time.sleep(10)
         status, USERID = self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "bozosrevengeII@mail.com", "BozosRevengeII", "Q1W2E5", "BozosRevengeII")
+        time.sleep(10)
+        print(self.rocketChatGetUserInfo(main_p.getPlatformID(), 0, USERID, "BozosRevengeII"))
         time.sleep(60)
         print(self.rocketChatDeleteUser(main_p.getPlatformID(), 0, USERID))
         time.sleep(10)
