@@ -109,18 +109,11 @@ class Database:
     @staticmethod
     def groupCheck(document_id):
 
-        collection_name = 'platforms'
-
         try:
-            if document_id is None:
-                # get all users
-                cursor = Database.collection[collection_name].find()
-                users = []  # type: List[Any]
-                return users
             # get a single user
-            doc = Database.collection[collection_name].find_one(doc_id)
+            doc = Database.groups.find(platform_Id:document_id).limit(1)
             if doc is not None:
                 del doc['_id']
             return doc
         except KeyError:
-            return False
+             return False
