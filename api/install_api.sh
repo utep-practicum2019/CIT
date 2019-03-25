@@ -62,5 +62,5 @@ sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
 
-echo "CIT_API setup complete."
-echo "Please type citsystem.com in your URL."
+echo "CIT_server setup complete."
+echo "Please type citsystem.com/cit in your URL."
