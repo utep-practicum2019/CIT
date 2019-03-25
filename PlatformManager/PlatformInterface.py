@@ -164,8 +164,8 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-        status = ' '
-        userID = ' '
+        status = ''
+        userID = ''
 
         if (Main_Platform.getPlatformID() == platform_ID):
             status, userID = Main_Platform.registerUser(user_email, username, user_pass, user_nick)
@@ -186,7 +186,8 @@ class PlatformInterface():
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
         status = ''
-        authToken = ' '
+        authToken = ''
+
         if (Main_Platform.getPlatformID() == platform_ID):
             status, authToken = Main_Platform.loginUser(username, user_pass)
         else:
@@ -205,7 +206,12 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-
+        status = ''
+        userID = ''
+        email = ''
+        userName = ''
+        userNick = ''
+        
         if (Main_Platform.getPlatformID() == platform_ID):
             status, userID, email, userName, userNick = Main_Platform.getUserInfo(user_ID, username)
         else:
@@ -227,6 +233,7 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status = Main_Platform.deleteUser(user_ID)
@@ -244,6 +251,8 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
+        channelID = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status, channelID = Main_Platform.createChannel(channel_name)
@@ -263,6 +272,7 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status = Main_Platform.deleteChannel(channel_ID)
@@ -281,6 +291,8 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
+        roomID = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status, roomID = Main_Platform.createPrivateGroup(group_name)
@@ -293,12 +305,14 @@ class PlatformInterface():
         
         print(status)
         print(roomID)
+        
         return (status, roomID) 
 
     def rocketChatDeletePrivateGroup(self, platform_ID, subPlatform_ID, room_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status = Main_Platform.deletePrivateGroup(room_ID)
@@ -310,12 +324,15 @@ class PlatformInterface():
                     status = Subplatforms[sub_keys[x]].deletePrivateGroup(room_ID)
         
         print(status)
+        
         return status
 
     def rocketChatPostNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
+        message = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status, message = Main_Platform.postNewMessage(room_ID, announcement)
@@ -335,6 +352,8 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ''
+        token = ''
 
         if (Main_Platform.getPlatformID == platform_ID):
             status, token = Main_Platform.userToken(user_ID, username)
@@ -390,13 +409,24 @@ class PlatformInterface():
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
 
-        ######################## TEST: registerUser ##############################
+        ##################### TEST: registerUser/loginUser #######################
+        # main_p = self.platformManager.createPlatform("Rocketchat", {})
+        # print(self.startPlatform(main_p.getPlatformID(), {}))
+        # time.sleep(10)
+        # print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "bozosrevenge@mail.com", "BozosRevenge", "Q1W2E5", "BozosRevenge"))
+        # time.sleep(10)
+        # print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "BozosRevenge", "Q1W2E5"))
+        # time.sleep(10)
+        # print(self.stopPlatform(main_p.getPlatformID(), {}))
+        ##########################################################################
+
+        ##################### TEST: registerUser/deleteUser ######################
         main_p = self.platformManager.createPlatform("Rocketchat", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
         time.sleep(10)
-        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "bozosrevenge@mail.com", "BozosRevenge", "Q1W2E5", "BozosRevenge"))
-        time.sleep(10)
-        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "BozosRevenge", "Q1W2E5"))
+        status, USERID = self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "bozosrevengeII@mail.com", "BozosRevengeII", "Q1W2E5", "BozosRevengeII")
+        time.sleep(60)
+        print(self.rocketChatDeleteUser(main_p.getPlatformID(), 0, USERID))
         time.sleep(10)
         print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
