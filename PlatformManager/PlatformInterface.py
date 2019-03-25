@@ -387,10 +387,10 @@ class PlatformInterface():
         ##########################################################################
         
         #################### TEST: deletePlatform(no subs) #######################
-        #  main_p = self.platformManager.createPlatform("Hackathon", {})
-        #  print(main_p)
+        # main_p = self.platformManager.createPlatform("Hackathon", {})
+        # print(main_p)
            
-        #  print(self.deletePlatform(main_p.getPlatformID(), {}))
+        # print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         
         ########################## TEST: addPlatform #############################
