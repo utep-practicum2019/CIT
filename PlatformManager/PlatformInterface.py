@@ -390,9 +390,16 @@ class PlatformInterface():
         ######################## TEST: registerUser ##############################
         main_p = self.platformManager.createPlatform("RocketChat", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
+<<<<<<< HEAD
         print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "USER004@mail.com", "USER004", "Q1W2E6", "Bob"))
         print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "USER004", "Q1W2E6"))
         time.sleep(60)
+=======
+        time.sleep(60)
+        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "USER001@mail.com", "USER001", "Q1W2E3", "Bobby"))
+        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "USER001", "Q1W2E3"))
+        time.sleep(30)
+>>>>>>> 9a4643a3bbf9d98b97e16e66ee9aed5f3b224887
         print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         
