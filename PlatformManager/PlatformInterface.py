@@ -164,8 +164,10 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        status = ' '
+        userID = ' '
 
-        if (Main_Platform.getPlatformID == platform_ID):
+        if (Main_Platform.getPlatformID() == platform_ID):
             status, userID = Main_Platform.registerUser(user_email, username, user_pass, user_nick)
         else:
             for x in range(0, len(sub_keys)):
@@ -183,8 +185,9 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-
-        if (Main_Platform.getPlatformID == platform_ID):
+        status = ''
+        authToken = ' '
+        if (Main_Platform.getPlatformID() == platform_ID):
             status, authToken = Main_Platform.loginUser(username, user_pass)
         else:
             for x in range(0, len(sub_keys)):
@@ -203,7 +206,7 @@ class PlatformInterface():
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
 
-        if (Main_Platform.getPlatformID == platform_ID):
+        if (Main_Platform.getPlatformID() == platform_ID):
             status, userID, email, userName, userNick = Main_Platform.getUserInfo(user_ID, username)
         else:
             for x in range(0, len(sub_keys)):
@@ -388,12 +391,13 @@ class PlatformInterface():
         ##########################################################################
 
         ######################## TEST: registerUser ##############################
-        main_p = self.platformManager.createPlatform("RocketChat", {})
+        main_p = self.platformManager.createPlatform("Rocketchat", {})
         print(self.startPlatform(main_p.getPlatformID(), {}))
-        
-        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "USER005@mail.com", "USER005", "Q1W2E5", "Bob"))
-        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "USER005", "Q1W2E5"))
-        time.sleep(60)
+        time.sleep(10)
+        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "bozosrevenge@mail.com", "BozosRevenge", "Q1W2E5", "BozosRevenge"))
+        time.sleep(10)
+        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "BozosRevenge", "Q1W2E5"))
+        time.sleep(10)
         print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         

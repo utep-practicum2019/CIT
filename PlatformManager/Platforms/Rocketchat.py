@@ -19,7 +19,7 @@ from rocketchat_API.rocketchat import RocketChat
 
 class Rocketchat(Platform):
     # fill the values here for your specific platform
-    platform_name = "Rocket.Chat"
+    platform_name = "Rocketchat"
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
     platform_end_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server stop"
     platform_version = ""
@@ -29,7 +29,7 @@ class Rocketchat(Platform):
     processID = 0
     subplatforms = {}
     port = "3000"
-    ip = "129.108.7.17:"
+    ip = "129.108.7.17"
     link = "http://www.chat.service"
 
     # return process ID
@@ -121,106 +121,108 @@ class Rocketchat(Platform):
 
     # add more methods below if you need to do more tasks
 
+    user = 'Admin'
+    passw = 'chat.service'
+    user_email = ['Usser222@mail']
+    user_name = 'Usser222'
+    user_pass = '123456'
+    user_nick = 'Usser222'
+    userID = 'APBySZjFA38KEiBxM'
+    channelName = 'TestChfannel2'
+    groupName = 'Teagm17'
+    roomID = '7n6ZedzGPmt6us8R7'
+    announce = 'It is announcement'
+
+    proxy_dict = {
+        "http": "http://localhost:3000",
+        "https": "https://localhost:3001",
+    }
+
+    #Create a RocketChat object and login on the specified server:
+    rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
+
+
 #users = {useremail1: (userpass, usernick, ), useremail2}
-
-user = 'Admin'
-passw = 'chat.service'
-user_email = ['Usser222@mail']
-user_name = 'Usser222'
-user_pass = '123456'
-user_nick = 'Usser222'
-userID = 'APBySZjFA38KEiBxM'
-channelName = 'TestChfannel2'
-groupName = 'Teagm17'
-roomID = '7n6ZedzGPmt6us8R7'
-announce = 'It is announcement'
-
-proxy_dict = {
-    "http": "http://localhost:3000",
-    "https": "https://localhost:3001",
-}
-
-#Create a RocketChat object and login on the specified server:
-rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
-
-# Register a new user:
-def registerUser(self, user_email, user_name, user_pass, user_nick):
-    data = rocket.users_register(user_email, user_name, user_pass, user_nick).json()
-    status = data['success']
-    uId = data['user']['_id']
-    return (status, uId)
+    
+    def registerUser(self, user_email, user_name, user_pass):
+        data = self.rocket.users_register(user_email, user_name, user_pass, user_name).json()
+        status = data['success']
+        uId = data['user']['_id']
+        return (status, uId)
 
 
-# Login a user:
-def loginUser(self, user_name, user_pass):
-    data = rocket.login(user_name, user_pass).json()
-    status = data["success"]
-    authToken = data["data"]["authToken"]
-    return (status, authToken)
+# Login a user: 
+    def loginUser(self, user_name, user_pass):
+        print(user_name + " " + user_pass)
+        data = self.rocket.login(user_name, user_pass).json()
+        status = data["status"]
+        authToken = data["data"]["authToken"]
+        print(status + " " + authToken)
+        return (status, authToken)
 
 
 # Get User info:
-def getUserInfo(self, userID, user_name):
-    data = rocket.users_info(userID, user_name).json()
-    status = data["success"]
-    uId = data['user']['_id']
-    email = data['user']['emails'][0]['address']
-    userName = data['user']['name']
-    userNick = data['user']['username']
-    return (status, uId, email, userName, userNick)
+    def getUserInfo(self, userID, user_name):
+        data = self.rocket.users_info(userID, user_name).json()
+        status = data["success"]
+        uId = data['user']['_id']
+        email = data['user']['emails'][0]['address']
+        userName = data['user']['name']
+        userNick = data['user']['username']
+        return (status, uId, email, userName, userNick)
 
 
 # Delete a user:
-def deleteUser(self, userID):
-    data = rocket.users_delete(userID).json()
-    status = data["success"]
-    return status
+    def deleteUser(self, userID):
+        data = self.rocket.users_delete(userID).json()
+        status = data["success"]
+        return status
 
 
 # Create a new public channel optionally adding users:
-def createChannel(self, channelName):
-    data = rocket.channels_create(channelName).json()
-    status = data["success"]
-    roomId = data["channel"]['_id']
-    return (status, roomId)
+    def createChannel(self, channelName):
+        data = self.rocket.channels_create(channelName).json()
+        status = data["success"]
+        roomId = data["channel"]['_id']
+        return (status, roomId)
 
 
 # Delete a public channel:
-def deleteChannel(self, roomId):
-    data = rocket.channels_delete(roomID).json()
-    status = data["success"]
-    return status
+    def deleteChannel(self, roomId):
+        data = self.rocket.channels_delete(roomID).json()
+        status = data["success"]
+        return status
 
 
 # Create a new private group, optionally including users
-def createPrivateGroup(self, groupName):
-    data = rocket.groups_create(groupName).json()
-    status = data["success"]
-    roomId = data["group"]['_id']
-    return (status, roomId)
+    def createPrivateGroup(self, groupName):
+        data = self.rocket.groups_create(groupName).json()
+        status = data["success"]
+        roomId = data["group"]['_id']
+        return (status, roomId)
 
 
 # Delete a private group:
-def deletePrivateGroup(self, roomId):
-    data = rocket.groups_delete(roomID).json()
-    status = data["success"]
-    return status
+    def deletePrivateGroup(self, roomId):
+        data = self.rocket.groups_delete(roomID).json()
+        status = data["success"]
+        return status
 
 
 # Set announcement for channel:
-def postNewMessage(self, roomID, announce):
-    data = rocket.channels_set_announcement(roomID, announce).json()
-    status = data["success"]
-    msg = data["announcement"]
-    return (status, msg)
+    def postNewMessage(self, roomID, announce):
+        data = self.rocket.channels_set_announcement(roomID, announce).json()
+        status = data["success"]
+        msg = data["announcement"]
+        return (status, msg)
 
 
 # Create User Token:
-def userToken(self, userID, user_name):
-    data = rocket.users_create_token(userID, user_name).json()
-    status = data["success"]
-    token = data["data"]["authToken"]
-    return (status, token)
+    def userToken(self, userID, user_name):
+        data = self.rocket.users_create_token(userID, user_name).json()
+        status = data["success"]
+        token = data["data"]["authToken"]
+        return (status, token)
 
 
 ################################# TO DO IF NEEDED #############################################
@@ -263,3 +265,4 @@ def userToken(self, userID, user_name):
 
 # Post a new Chat message:
 # pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
+

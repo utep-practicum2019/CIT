@@ -200,21 +200,21 @@ class PlatformsManager:
 
 
 
-A = PlatformsManager()
-Main_Platform = A.createPlatform("Hackathon", { "TiddlyWiki", "Rocketchat"})
-MainID = Main_Platform.getPlatformID()
+# A = PlatformsManager()
+# Main_Platform = A.createPlatform("Hackathon", { "TiddlyWiki", "Rocketchat"})
+# MainID = Main_Platform.getPlatformID()
 
-sub_platforms = Main_Platform.get_sub_platforms()
-subIDs = []
-for x in sub_platforms:
-    subIDs.append(sub_platforms[x].getPlatformID())
-print(subIDs[1])
-B = A.startPlatforms(MainID, {})
-time.sleep(10)
-status = A.checkPlatformStatus(MainID, {})
-print(str(status))
-time.sleep(10)
-C = A.stopPlatforms(MainID, {})
+# sub_platforms = Main_Platform.get_sub_platforms()
+# subIDs = []
+# for x in sub_platforms:
+#     subIDs.append(sub_platforms[x].getPlatformID())
+# print(subIDs[1])
+# B = A.startPlatforms(MainID, {})
+# time.sleep(10)
+# status = A.checkPlatformStatus(MainID, {})
+# print(str(status))
+# time.sleep(10)
+# C = A.stopPlatforms(MainID, {})
 
 
 
