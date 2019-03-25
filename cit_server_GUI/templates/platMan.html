@@ -38,16 +38,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><div contenteditable="true">Hackathon</div></td><!--doesn't have a function sending request yet-->
+            {% for platform in platforms %}
+                    <td><div contenteditable="true">{{ platform['platform_name'] }}</div></td><!--doesn't have a function sending request yet-->
                     <td><div><button type="button">Activate</button></div></td>
                     <td><div><button type="button">Deactivate</button></div></td>
                 </tr>
-
-                <tr>
-                    <td><div contenteditable="true">Cyber Rapid Challenge</div></td><!--doesn't have a function sending request yet-->
-                    <td><div><button type="button">Activate</button></div></td>
-                    <td><div><button type="button">Deactivate</button></div></td>
-                </tr>
+            {% endfor %}
                 </tbody>
 
 
