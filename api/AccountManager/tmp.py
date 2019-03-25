@@ -31,18 +31,19 @@
 #             except KeyError:
 #                 return False
 #
+#
+# file_content = [
+#     "user01 user02 user03\n",
+#     "user04 user05\n"
+# ]
+# start_id = 0
+# group_count = 2
+# connection_url = 'http://127.0.0.1:5000/api/v2/resources/connection'
+# test_filepath = 'tmp.txt'
+# group_id_filepath = 'next_group_id.txt'
+# from AccountManager.group_manager import GroupManager, get_next_id
+# with open(test_filepath, 'w') as f:
+#     f.writelines(file_content)
+# start_id = get_next_id()
+# GroupManager.create_groups(filepath=test_filepath)
 
-file_content = [
-    "user01 user02 user03\n",
-    "user04 user05\n"
-]
-start_id = 0
-group_count = 2
-connection_url = 'http://127.0.0.1:5000/api/v2/resources/connection'
-test_filepath = 'tmp.txt'
-group_id_filepath = 'next_group_id.txt'
-from AccountManager.group_manager import GroupManager, get_next_id
-with open(test_filepath, 'w') as f:
-    f.writelines(file_content)
-start_id = get_next_id()
-GroupManager.create_groups(filepath=test_filepath)

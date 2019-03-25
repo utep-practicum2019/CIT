@@ -36,7 +36,6 @@ group_response_schema = GroupResponseSchema()
 #
 # connection_request_schema = ConnectionRequestSchema()
 # connection_response_schema = ConnectionResponseSchema()
-
 from Schemas.DatabaseSchema import *
 
 database_document_schema = DatabaseDocumentSchema()
@@ -46,7 +45,7 @@ database_modify_schema = DatabaseModifySchema()
 
 from Schemas.Platform_Schema import *
 
-platform_post_request_schema = PlatformPostRequestSchema()
+platform_post_request_schema = PlatformPOSTRequestSchema()
 platform_post_response_schema = PlatformPostResponseSchema()
 
 platform_get_request_schema = PlatformGetRequestSchema()
