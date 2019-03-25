@@ -1,4 +1,4 @@
-import json
+import json, time
 from PlatformsManager import PlatformsManager
 from PluginManager import PluginManager
 
@@ -54,11 +54,11 @@ class PlatformInterface():
 
     def deletePlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        response = self.createResponse(Main_Platform[0])
+        #response = self.createResponse(Main_Platform[0])
             
         status = Main_Platform[1]
                         
-        return (status, response)
+        return status
 
     def addPlatform(self, platform_ID, subplatforms): 
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
@@ -360,7 +360,8 @@ class PlatformInterface():
         # # #print(main_p)
          
         # print("Deleting: ")
-        # print(self.deletePlatform(main_p.getPlatformID(), main_p.get_sub_platforms()))
+        # #subplatforms = main_p.get_sub_platforms()
+        # print(self.deletePlatform(main_p.getPlatformID(),{}))
         ##########################################################################
         
         #################### TEST: deletePlatform(no subs) #######################
@@ -384,6 +385,15 @@ class PlatformInterface():
         # print(self.stopPlatform(main_p.getPlatformID(), {}))
          
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
+        ##########################################################################
+
+        ######################## TEST: registerUser ##############################
+        main_p = self.platformManager.createPlatform("RocketChat", {})
+        print(self.startPlatform(main_p.getPlatformID(), {}))
+        print(self.rocketChatRegisterUser(main_p.getPlatformID(), 0, "USER001@mail.com", "USER001", "Q1W2E3", "Bobby"))
+        print(self.rocketChatLoginUser(main_p.getPlatformID(), 0, "USER001", "Q1W2E3"))
+        time.sleep(30)
+        print(self.stopPlatform(main_p.getPlatformID(), {}))
         ##########################################################################
         
 pi = PlatformInterface()
