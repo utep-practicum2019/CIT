@@ -8,12 +8,12 @@ from PluginManager import PluginManager
             Nadia Karichev
             Hector Cervantes
         @description
-            This class represents the platfrom manager. 
-            The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
-    """
+            This class represents the platfrom interface. 
+            The platform interface provides callable functions within the platform manager subsystem.
+"""
 
 class PlatformInterface():
-    cit_IP = "http://127.0.0.1:"
+    #cit_IP = "http://127.0.0.1:"
     
     def __init__(self):
         self.platformManager = PlatformsManager()
@@ -37,7 +37,7 @@ class PlatformInterface():
     
     ##### Platform Manager #####
     
-    def createPlatform(self, main_platform, subplatforms): #subplatforms is a set
+    def createPlatform(self, main_platform, subplatforms): 
         Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
@@ -138,7 +138,7 @@ class PlatformInterface():
         
         return dictionary
 
-    ##### Utility End #####
+    ##### End Utility #####
     
     ##### Plugin Manager #####
     
@@ -369,7 +369,7 @@ class PlatformInterface():
 
         return (status, token) 
 
-    ##### Rocket Chat End #####
+    ##### End Rocket Chat #####
     
     def test(self):
         pass
