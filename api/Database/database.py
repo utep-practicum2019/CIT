@@ -6,7 +6,7 @@
 """
 
 from pymongo import MongoClient
-from typing import List, Any
+
 
 
 class Database:
@@ -111,9 +111,11 @@ class Database:
 
         try:
             # get a single user
-            doc = Database.groups.find({platform_Id:document_id}).limit(1)
+            doc = Database.collection['groups'].find_one({'platforms':document_id})
             if doc is not None:
                 del doc['_id']
             return doc
         except KeyError:
              return False
+
+
