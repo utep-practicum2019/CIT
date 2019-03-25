@@ -21,7 +21,7 @@ sudo apt-get install python3-pip -y
 sudo chown -R $USER test_bed_environment
 
 #wiki installer
-mkdir /var/www/cit/wiki
+sudo mkdir /var/www/cit/wiki
 cd wiki
 git clone https://github.com/Jermolene/TiddlyWiki5
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
