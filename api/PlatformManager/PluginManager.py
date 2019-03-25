@@ -1,5 +1,5 @@
 import os, sys, importlib, glob
-from Platforms import Rocketchat
+from .Platforms import Rocketchat
 MODULE_EXTENSIONS = ('.py')
 
 

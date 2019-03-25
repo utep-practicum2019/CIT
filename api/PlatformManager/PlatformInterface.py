@@ -1,6 +1,6 @@
 import json, time
-from PlatformsManager import PlatformsManager
-from PluginManager import PluginManager
+from .PlatformsManager import PlatformsManager
+from .PluginManager import PluginManager
 
 """ 
         @authors:
