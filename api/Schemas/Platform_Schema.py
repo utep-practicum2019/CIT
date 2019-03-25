@@ -1,43 +1,28 @@
 from marshmallow import Schema, fields
 
 
-# Used for Creating a Platform
-class PlatformCreateRequestSchema(Schema):
-    platform_name = fields.String(required=True)
-    file_path = fields.String(required=True)
-    ip_address = fields.String(required=True)
-    port = fields.Int(required=True)
+class PlatformPOSTRequestSchema(Schema):
+    main_platform = fields.String()
+    subplatforms = fields.List(fields.String())
 
 
-# Used for POST requests
-class PlatformPostRequestSchema(Schema):
-    request = fields.String(required=True)
-    name = fields.String(required=True)
-    platform = fields.String()
-    username = fields.String()
-    email = fields.String()
-    password = fields.String()
+class PlatformADDRequestSchema(Schema):
+    platform_ID = fields.Integer()
+    subplatforms = fields.List(fields.String())
 
 
-# Used for POST responses
-class PlatformPostResponseSchema(Schema):
-    destination = fields.String(required=True)
-    response = fields.String(required=True)
+class PlatformCOMMANDRequestSchema(Schema):
+    command = fields.String()
+    platform_ID = fields.Integer()
+    subplatforms_IDS = fields.List(fields.Integer())
 
 
-# Used for GET requests
-class PlatformGetRequestSchema(Schema):
-    request = fields.String(required=True)
-    platform = fields.String()
-    requester = fields.String()
+class PlatformDELETERequestSchema(Schema):
+    platform_ID = fields.Integer()
+    subplatforms_IDS = fields.List(fields.Integer())
 
 
-# Used for GET responses
-class PlatformGetResponseSchema(Schema):
-    destination = fields.String(required=True)
-    response = fields.String(required=True)
-
-
-# Used for Responses
-class PlatformResponseSchema(Schema):
-    success = fields.Bool()
+platform_post_request_schema = PlatformPOSTRequestSchema()
+platform_add_request_schema = PlatformADDRequestSchema()
+platform_command_request_schema = PlatformCOMMANDRequestSchema()
+platform_delete_request_schema = PlatformDELETERequestSchema()
