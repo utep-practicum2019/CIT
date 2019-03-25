@@ -17,6 +17,7 @@ class PlatformInterface():
     
     def __init__(self):
         self.platformManager = PlatformsManager()
+        self.pluginManager = PluginManager()
         
 #     def parse_JSON(self, json_object):
 #         with open(json_object, "r") as j_object:
@@ -40,8 +41,10 @@ class PlatformInterface():
         Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
+        response = {"Main Platform" : {}, "Subplatforms" : {}}
+        response["Main Platform"][Main_Platform.getPlatformName()] = Main_Platform.getPlatformID()
         
-        response = False
+        status = "Failure"
         
         if (1 <= Main_Platform.getPlatformID() < 100000):
             for x in range(0, len(sub_keys)):
@@ -49,9 +52,21 @@ class PlatformInterface():
                 print(Subplatforms[sub_keys[x]].getPlatformID())###TEST(Remove)###
                 
                 if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
-                    response = True
+                    status = "Success"
                     
         return {response}
+
+     
+     
+     
+     
+     (“Success”, { “Main_Platform”: {“Hackathon”: 38902} , 
+     “Subplatforms”: {“TiddlyWiki”: 67000, “Rocketchat”: 6703 } )
+
+
+
+
+
      
     def deletePlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
@@ -127,7 +142,9 @@ class PlatformInterface():
         pass
     
     def getAvailablePlugins(self): 
-        pass
+        available_plugins = self.pluginManager.getAvailablePlugins()
+
+        return {available_plugins}
     
     def loadPlatform(self):
         pass
@@ -136,7 +153,7 @@ class PlatformInterface():
 
     ##### Rocket Chat #####
     
-    def rocketChatRegisterUser(self, platform_ID, subPlatform_ID, user_email, username, user_pass, user_nick):
+    def rocketChatRegisterUser(self, platform_ID, subplatform_ID, user_email, username, user_pass, user_nick):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
@@ -147,7 +164,7 @@ class PlatformInterface():
             for x in range(0, len(sub_keys)):
                 print(Subplatforms[sub_keys[x]].getPlatformID())
 
-                if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
+                if (Subplatforms[sub_keys[x]].getPlatformID() == subplatform_ID):
                     status, userID = Subplatforms[sub_keys[x]].registerUser(user_email, username, user_pass, user_nick)
 
         print(status)
@@ -211,30 +228,30 @@ class PlatformInterface():
         sub_keys = list(Subplatforms.keys())
 
         if (Main_Platform.getPlatformID == platform_ID):
-            status, roomID = Main_Platform.createChannel(channel_name)
+            status, channelID = Main_Platform.createChannel(channel_name)
         else:
             for x in range(0, len(sub_keys)):
                 print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
-                    status, roomID = Subplatforms[sub_keys[x]].createChannel(channel_name)
+                    status, channelID = Subplatforms[sub_keys[x]].createChannel(channel_name)
         
         print(status)
-        print(roomID)
+        print(channelID)
 
-    def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, room_ID):
+    def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, channel_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
 
         if (Main_Platform.getPlatformID == platform_ID):
-            status = Main_Platform.deleteChannel(room_ID)
+            status = Main_Platform.deleteChannel(channel_ID)
         else:
             for x in range(0, len(sub_keys)):
                 print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
-                    status = Subplatforms[sub_keys[x]].deleteChannel(room_ID)
+                    status = Subplatforms[sub_keys[x]].deleteChannel(channel_ID)
         
         print(status)
 
