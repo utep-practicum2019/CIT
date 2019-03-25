@@ -21,13 +21,12 @@ class test_ConnectionAPI(unittest.TestCase):
 
     def test_add_users(self):
         print('Test add users | (POST) Input  <required fields>')
-        data = {'num_users': 3}
+        data = {'users_per_group' : 3,
+                'group_count' : 1}
         local_url = "http://localhost:5000/api/v2/resources/group"
         r = requests.post(local_url, json=data)
         print(r.text)
-        self.assertIn("user", r.text)
-        self.assertIn("password", r.text)
-        self.assertIn("pptpIP", r.text)
+        self.assertIn("true", r.text)
 
     def test_delete_users_no_input(self):
         print('Test delete users | (DELETE) No input')
@@ -35,12 +34,11 @@ class test_ConnectionAPI(unittest.TestCase):
         local_url = "http://localhost:5000/api/v2/resources/connection"
         r = requests.delete(local_url, json=data)
         print(r.text)
-        self.assertIn("false", r.text)
+        self.assertIn("No input data provided", r.text)
 
     def test_delete_user(self):
         print('Test delete user | (DELETE) Input <required fields>')
-        data = {'users_list': {['username1'], ['user2'], ['user3']}
-                }
+        data = {'list_of_users': ["user267", "user268"]}
         local_url = "http://localhost:5000/api/v2/resources/connection"
         r = requests.delete(local_url, json=data)
         print(r.text)
@@ -56,10 +54,10 @@ class test_ConnectionAPI(unittest.TestCase):
 
     def test_update_user_connection(self):
         print('Test update user connection| (PUT) Input  <required fields>')
-        data = {'curr_username' : 'user1',
-                'new_user' : 'user10',
-                'new_password' : 'password10',
-                'new_IP' : '192.168.1.1'}
+        data = {'currUsername' : "user269",
+                'newUsername' : "user500",
+                'newPassword' : "password10",
+                'newIP' : "192.168.1.1"}
         local_url = "http://localhost:5000/api/v2/resources/connection"
         r = requests.put(local_url, json=data)
         print(r.text)
@@ -83,7 +81,7 @@ class test_ConnectionAPI(unittest.TestCase):
 
     def test_file_add_users(self):
         print('Test file add users | (POST) Input  <required fields>')
-        data = {'users_list': {['username1'], ['user2'], ['user3']}}
+        data = {'usernames': ["user1", "user2","user3"]}
         local_url = "http://localhost:5000/api/v2/resources/connection"
         r = requests.post(local_url, json=data)
         print(r.text)
