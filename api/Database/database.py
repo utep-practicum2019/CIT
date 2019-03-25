@@ -111,7 +111,7 @@ class Database:
 
         try:
             # get a single user
-            doc = Database.groups.find(platform_Id:document_id).limit(1)
+            doc = Database.groups.find({platform_Id:document_id}).limit(1)
             if doc is not None:
                 del doc['_id']
             return doc
