@@ -50,21 +50,7 @@ class PlatformInterface():
                 if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
                     status = "Success"
                     
-<<<<<<< HEAD
         return (status, response)
-=======
-        return {response}
-
-    def createResponse(Main_Platform):
-        dictionary = {"Main_Platform": {}, "Subplatforms": {}}
-        platform = Main_Platform[1]
-        dictionary["Main_Platform"] = {platform.getPlatformName, platform.getPlatformID}
-        subplatforms = platform.get_sub_platforms
-        for x in subplatforms:
-            name = subplatforms[x].getPlatformName()
-            dictionary["Subplatforms"][name] = platform.getPlatformID()
-        return dictionary
->>>>>>> 1b99283c7a7b1d603b0d740813caec1965f11917
 
     def deletePlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
@@ -385,8 +371,8 @@ class PlatformInterface():
         ##########################################################################
         
         ########################## TEST: addPlatform #############################
-        main_p = self.platformManager.createPlatform("Hackathon", {})
-        print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
+        # main_p = self.platformManager.createPlatform("Hackathon", {})
+        # print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
         
         #print(self.deletePlatform(main_p.getPlatformID(), {}))
         ##########################################################################
