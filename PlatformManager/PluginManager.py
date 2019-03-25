@@ -1,5 +1,7 @@
 import os, sys, importlib, glob
+from Platforms import Rocketchat
 MODULE_EXTENSIONS = ('.py')
+
 
 class PluginManager():
     
@@ -23,7 +25,7 @@ class PluginManager():
     
     def loadPlatform(self, platform):
         print(platform)
-        module = importlib.import_module("Platforms." + platform, "./")
+        module = importlib.import_module("Platforms." + platform, ".")
         class_ = getattr(module, platform)
         instance = class_()
         return instance
