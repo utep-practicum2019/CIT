@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-sudo apt-get update
-sudo apt-get install python3
+sudo apt-get update -y
+sudo apt-get install python3 -y
 sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
@@ -52,7 +52,7 @@ pip install schemas
 pip install pymongo
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-sudo apt-get update
+sudo apt-get update -y
 
 sudo apt-get install -y mongodb-org
 #sudo apt-get install -y mongodb-org --allow-unauthenticated
