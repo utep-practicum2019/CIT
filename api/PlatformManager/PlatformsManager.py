@@ -1,7 +1,7 @@
 import sys, os, threading, time, subprocess, socket, random 
 #Need to import entire platforms package
-from PluginManager import PluginManager
-from PlatformTreeManager import PlatformTreeManager, PlatformTree
+from .PluginManager import PluginManager
+from .PlatformTreeManager import PlatformTreeManager, PlatformTree
 
 """ 
         @authors:

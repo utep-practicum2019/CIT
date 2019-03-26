@@ -45,8 +45,6 @@ class UserAPI(Resource):
 
         username = data["username"]
         updated_user = data["updated_user"]
-        import json
-        updated_user = json.dumps(User.to_dict(updated_user))
 
         from AccountManager.account_manager import AccountManager
         results = AccountManager.update_user(username, updated_user)

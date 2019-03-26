@@ -43,16 +43,6 @@ database_request_schema = DatabaseRequestSchema()
 database_response_schema = DatabaseResponseSchema()
 database_modify_schema = DatabaseModifySchema()
 
-from Schemas.Platform_Schema import *
-
-platform_post_request_schema = PlatformPOSTRequestSchema()
-platform_post_response_schema = PlatformPostResponseSchema()
-
-platform_get_request_schema = PlatformGetRequestSchema()
-platform_get_response_schema = PlatformGetResponseSchema()
-
-platform_response_schema = PlatformResponseSchema()
-platform_create_request_schema = PlatformCreateRequestSchema()
 
 # class PlatformSchema(Schema):
 #     platform_name = fields.String(required=True)

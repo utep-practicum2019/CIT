@@ -6,9 +6,7 @@ from Schemas.Platform_Schema import *
 
 
 class PlatformAPI(Resource):
-    from PlatformManager.PlatformInterface import PlatformInterface
-
-    PlatformInterface = PlatformInterface()
+    import PlatformManager.PlatformInterface as PlatformInterface
 
     @staticmethod
     def post():
@@ -18,7 +16,7 @@ class PlatformAPI(Resource):
         data, errors = platform_post_request_schema.load(json_data)
         if errors:
             return errors, 422
-        results = PlatformAPI.PlatformInterface.createPlatform(data["main_platform"], data["subplatforms"])
+        results = PlatformAPI.PlatformInterface.pi.createPlatform(data["main_platform"], data["subplatforms"])
         if results is None:
             results = {"success": False}
         return results
@@ -34,16 +32,16 @@ class PlatformAPI(Resource):
             if errors:
                 return errors, 422
             if json_data["command"] == "start":
-                results = PlatformAPI.PlatformInterface.startPlatform(data["platform_ID"], data["subplatforms_IDS"])
+                results = PlatformAPI.PlatformInterface.pi.startPlatform(data["platform_ID"], data["subplatforms_IDS"])
             elif json_data["command"] == "stop":
-                results = PlatformAPI.PlatformInterface.stopPlatform(data["platform_ID"], data["subplatforms_IDS"])
+                results = PlatformAPI.PlatformInterface.pi.stopPlatform(data["platform_ID"], data["subplatforms_IDS"])
             else:
                 results = {"success": False}
         else:
             data, errors = platform_add_request_schema.load(json_data)
             if errors:
                 return errors, 422
-            results = PlatformAPI.PlatformInterface.addPlatform(data["platform_ID"], data["subplatforms"])
+            results = PlatformAPI.PlatformInterface.pi.addPlatform(data["platform_ID"], data["subplatforms"])
         if results is None:
             results = {"success": False}
         return results
@@ -56,7 +54,7 @@ class PlatformAPI(Resource):
         data, errors = platform_delete_request_schema.load(json_data)
         if errors:
             return errors, 422
-        results = PlatformAPI.PlatformInterface.deletePlatform(json_data["main_platform"], json_data["subplatforms"])
+        results = PlatformAPI.PlatformInterface.pi.deletePlatform(json_data["main_platform"], json_data["subplatforms"])
         if results is None:
             results = {"success": False}
         return results

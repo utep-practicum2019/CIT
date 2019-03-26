@@ -70,12 +70,16 @@ class GroupAPI(Resource):
 
         if errors:
             return errors, 422
-
-        group_id = data["group_id"]
-        updated_group = data["updated_group"]
-
         from AccountManager.account_manager import AccountManager
-        results = AccountManager.update_group(group_id, updated_group)
+
+        results = False
+        if "command" in data and "platform_name" in data:
+            if data["command"] == "attach":
+                results = AccountManager.attach_platform(data["group_id"], data["platform_name"])
+            elif data["command"] == "detach":
+                results = AccountManager.detach_platform(data["platform_name"])
+        else:
+            results = AccountManager.update_group(data["group_id"], data["updated_group"])
 
         if results:
             return group_response_schema.dump({"success": results})
