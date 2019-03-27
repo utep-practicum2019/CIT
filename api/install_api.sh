@@ -63,4 +63,4 @@ sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
 
 echo "CIT_server setup complete."
-echo "Please type citsystem.com/cit in your URL."
+echo "Please type citsystem.com/citsystem in your URL."
