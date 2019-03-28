@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+sudo apt-get install -f #for those vanilla versions without apt-get.  If installed it should simply move forward
 sudo apt-get update -y
 sudo apt-get install python3 -y
 sudo apt-get install apache2 -y
@@ -63,4 +64,4 @@ sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
 
 echo "CIT_server setup complete."
-echo "Please type citsystem.com/cit in your URL."
+echo "Please type citsystem.com/citsystem in your URL."
