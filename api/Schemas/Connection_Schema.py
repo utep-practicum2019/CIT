@@ -36,11 +36,13 @@ class ConnectionDeleteRequestSchema(Schema):
     list_of_users = fields.List(fields.String())
 
 
+
+
 class ConnectionPutRequestSchema(Schema):
-    currUsername = fields.String()
-    newUsername = fields.String()
-    newPassword = fields.String()
-    newIP = fields.String()
+    curr_username = fields.String()
+    updated_username = fields.String()
+    new_password = fields.String()
+    new_ip = fields.String()
 
 
 connection_get_request_schema = ConnectionGetRequestSchema()

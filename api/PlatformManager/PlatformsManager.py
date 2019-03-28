@@ -26,97 +26,136 @@ class PlatformsManager:
        
     
     def createPlatform(self, platform, sub_platforms):
-        subplatforms = {}
-        plugin_manager = PluginManager()
-        Main_Platform = plugin_manager.loadPlatform(platform)
+        try:
+            subplatforms = {}
+            plugin_manager = PluginManager()
+            Main_Platform = plugin_manager.loadPlatform(platform)
         
-        for x in sub_platforms:
-            subplatforms[x] = plugin_manager.loadPlatform(x)
+            for x in sub_platforms:
+                subplatforms[x] = plugin_manager.loadPlatform(x)
+                
             
-        Main_Platform.set_sub_platforms(subplatforms)
-        Main_PlatformID, SubplatformIDs = self.PlatformTree.add(Main_Platform)
+            Main_Platform.set_sub_platforms(subplatforms)
+
+            Main_PlatformID, SubplatformIDs = self.PlatformTree.add(Main_Platform)
         
-        return Main_Platform
+            return Main_Platform
+        except Exception as ex:
+            print(ex)
+            print("Platform not created. Platform Creation Failed")
+            return False
     
     def addPlatform(self, platformID, sub_platforms):
-        plugin_manager = PluginManager()
-        Main_Platform = self.PlatformTree.getPlatform(platformID)
-        subplatforms = Main_Platform.get_sub_platforms()
-        sub_platformIDs = {}
+        try:
+            plugin_manager = PluginManager()
+            Main_Platform = self.PlatformTree.getPlatform(platformID)
+            subplatforms = Main_Platform.get_sub_platforms()
+            sub_platformIDs = {}
         
-        for x in sub_platforms:
-            id = self.PlatformTree.generate_sub_ID(Main_Platform)
-            sPlatform = plugin_manager.loadPlatform(x)
-            sPlatform.setPlatformID(id)
-            sub_platformIDs[x] = id 
-            subplatforms[x] = sPlatform
+            for x in sub_platforms:
+                id = self.PlatformTree.generate_sub_ID(Main_Platform)
+                sPlatform = plugin_manager.loadPlatform(x)
+                sPlatform.setPlatformID(id)
+                sub_platformIDs[x] = id
+                subplatforms[x] = sPlatform
         
-        return Main_Platform
+            return Main_Platform
+        except Exception as ex:
+            print(ex)
+            print("Platform not Added. Platform Creation Failed")
+            return False
     
     def deletePlatform(self, platformID, subplatformIDs):
-        print(self.PlatformTree.printTree(self.PlatformTree.getRoot()))
-        if(subplatformIDs == { }):
-            Main_Platform = self.PlatformTree.remove(platformID)
-            return (None, "Success")
-        else:
-            Main_Platform = self.PlatformTree.getPlatform(platformID)
-            subPlatforms = Main_Platform.get_sub_platforms()
-            for x in list(subPlatforms):
-                if(subPlatforms[x].getPlatformID() in subplatformIDs):
-                    del subPlatforms[x] 
-            return (Main_Platform, "Success")
-            
-    def getPlatform(self, platformID):
-        Main_Platform = self.PlatformTree.getPlatform(platformID)
-        return Main_Platform
+        try:
+            if(subplatformIDs == { }):
+                Main_Platform = self.PlatformTree.remove(platformID)
+                return (None, "Success")
+            else:
+                Main_Platform = self.PlatformTree.getPlatform(platformID)
+                subPlatforms = Main_Platform.get_sub_platforms()
+                for x in list(subPlatforms):
+                    if(subPlatforms[x].getPlatformID() in subplatformIDs):
+                        del subPlatforms[x]
+                return (Main_Platform, "Success")
+        except Exception as ex:
+            print(ex)
+            print("Platforms Deletion Failed")
+            return False
 
-        
+    def getPlatform(self, platformID):
+        try:
+            Main_Platform = self.PlatformTree.getPlatform(platformID)
+            return Main_Platform
+        except Exception as ex:
+            print(ex)
+            print("Platform not found with ID:" + str(platformID))
+            return False
+
     #This method will start up the specific services
     def startPlatforms(self, platformID, subplatformsIDs):
-        Main_Platform = self.PlatformTree.getPlatform(platformID)
-        subplatforms = Main_Platform.get_sub_platforms()
-        self.startPlatformThread(Main_Platform)
+        try:
+            Main_Platform = self.PlatformTree.getPlatform(platformID)
+            subplatforms = Main_Platform.get_sub_platforms()
+            self.startPlatformThread(Main_Platform)
         
-        if(subplatformsIDs == { }):
-            time.sleep(3)
-            for x in subplatforms:
-                self.startPlatformThread(subplatforms[x])
+            if(subplatformsIDs == { }):
                 time.sleep(3)
-        else:
-            for x in subplatforms:
-                if(subplatforms[x].getPlatformID() in subplatformsIDs):
+                for x in subplatforms:
                     self.startPlatformThread(subplatforms[x])
-        return (Main_Platform, "Success")
+                    time.sleep(3)
+            else:
+                for x in subplatforms:
+                    if(subplatforms[x].getPlatformID() in subplatformsIDs):
+                        self.startPlatformThread(subplatforms[x])
+            return (Main_Platform, "Success")
+        except Exception as ex:
+            print(ex)
+            print("Platforms startup failed for Platform" + Main_Platform.getPlatformName() + " " + platformID)
+            return "Failure"
 
-
-    #start thread to continue execution 
+    #start thread to continue execution
     def startPlatformThread(self, platform):
-        thread = threading.Thread(target=self.start, args=(platform, ))
-        thread.daemon = True
-        thread.start()
-        
-        return thread
+        try:
+            thread = threading.Thread(target=self.start, args=(platform, ))
+            thread.daemon = True
+            thread.start()
+            return thread
+        except Exception as ex:
+            print(ex)
+            print("Platform:" + platform.getPlatformName() + " Thread failed")
+            return "Failure"
+
 
     def start(self, platform):
-        process = subprocess.Popen([platform.get_start_command()], shell=True)
-        platform.setProcessID(process.pid + 1)
+        try:
+            process = subprocess.Popen([platform.get_start_command()], shell=True)
+            platform.setProcessID(process.pid + 1)
+        except Exception as ex:
+            print(ex)
+            print("Platform:" + platform.getPlatformName() + " Startup Failed")
+            return "Failure"
 
     def stopPlatforms(self, platformID, subplatformIDs):
-        Main_Platform = self.PlatformTree.getPlatform(platformID)
-        subplatforms = Main_Platform.get_sub_platforms()
+        try:
+            Main_Platform = self.PlatformTree.getPlatform(platformID)
+            subplatforms = Main_Platform.get_sub_platforms()
         
-        if(subplatformIDs == {}):
-            for x in subplatforms:
-                self.stop(subplatforms[x])
-                time.sleep(3)
-            self.stop(Main_Platform)
-            time.sleep(3)
-        else:
-            for x in subplatforms:
-                if(subplatforms[x].getPlatformID() in subplatformIDs):
+            if(subplatformIDs == {}):
+                for x in subplatforms:
                     self.stop(subplatforms[x])
+                    time.sleep(3)
+                self.stop(Main_Platform)
+                time.sleep(3)
+            else:
+                for x in subplatforms:
+                    if(subplatforms[x].getPlatformID() in subplatformIDs):
+                        self.stop(subplatforms[x])
         
-        return "Success"
+            return "Success"
+        except Exception as ex:
+            print(ex)
+            print("Platform:" + str(platformID) + " Thread failed")
+            return "Failure"
            
     def stop(self, platform):
         
@@ -135,38 +174,42 @@ class PlatformsManager:
         return response
 
     def checkPlatformStatus(self, platformID, subplatformIDs):
-        serviceUp = True 
-        main_platform = self.PlatformTree.getPlatform(platformID)
-        ServiceStatus = {}
-        if(subplatformIDs == {}):
-            serviceUp = self.check_service(main_platform)
-            if(serviceUp == False):
-                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
-            else:
-                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
-            subps = main_platform.get_sub_platforms()
-            for x in subps:
-                serviceUp = self.check_service(subps[x])
-                if(serviceUp):
-                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
+        try:
+            serviceUp = True
+            main_platform = self.PlatformTree.getPlatform(platformID)
+            ServiceStatus = {}
+            if(subplatformIDs == {}):
+                serviceUp = self.check_service(main_platform)
+                if(serviceUp == False):
+                    ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
-                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "DOWN")
-            return ServiceStatus
-        else:
-            serviceUp = self.check_service(main_platform)
-            if(serviceUp == False):
-                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
+                    ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
+                subps = main_platform.get_sub_platforms()
+                for x in subps:
+                    serviceUp = self.check_service(subps[x])
+                    if(serviceUp):
+                        ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
+                    else:
+                        ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "DOWN")
+                return ServiceStatus
             else:
-                ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
-            subps = main_platform.get_sub_platforms()
-            for x in subps:
-                if(subps[x].getPlatformID() in subplatformIDs):
-                     serviceUp = self.check_service(subps[x])
-                if(serviceUp):
-                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
+                serviceUp = self.check_service(main_platform)
+                if(serviceUp == False):
+                    ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
-                    ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "Down")
-            return ServiceStatus
+                    ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
+                subps = main_platform.get_sub_platforms()
+                for x in subps:
+                    if(subps[x].getPlatformID() in subplatformIDs):
+                         serviceUp = self.check_service(subps[x])
+                    if(serviceUp):
+                        ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
+                    else:
+                        ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "Down")
+                return ServiceStatus
+        except Exception as ex:
+            print(ex)
+            return "Failure"
 
     def check_service(self, platform):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -179,11 +222,15 @@ class PlatformsManager:
             s.close()
             return True
         except:
-            return False 
-
+            return False
     
     def getPlatform(self, platformID):
-        return self.PlatformTree.getPlatform(platformID)
+        try:
+            return self.PlatformTree.getPlatform(platformID)
+        except Exception as ex:
+            print(ex)
+            print("Platform:" + str(platformID) + " Thread failed")
+            return False
     
     def printPlatforms(self, platformid):
         main_platform = self.PlatformTree.getPlatform(platformid) 
@@ -193,8 +240,6 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName()+ " id: " + str(subplatforms[x].getPlatformID()))
  
-
-
 
 
 

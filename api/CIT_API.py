@@ -1,11 +1,10 @@
 from flask import Flask
+# client gui
+from flask import render_template, request
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
 
-# client gui
-from flask import render_template, redirect, url_for, request, session, send_file
 from Database.database_handler import DatabaseHandler
-
 from Resources.ConnectionResource import ConnectionAPI
 from Resources.DatabaseResource import DatabaseAPI
 from Resources.GroupResource import GroupAPI
@@ -33,7 +32,6 @@ api.add_resource(VMStartAPI, '/api/v2/resources/vm/manage/start')
 api.add_resource(VMSuspendAPI, '/api/v2/resources/vm/manage/suspend')
 
 api.add_resource(LoginAPI, '/api/v2/resources/login')
-
 
 """------- USER WEB APP -------"""
 from UserGUI import user_gui
@@ -75,7 +73,8 @@ def accountsMan():
     groups = DatabaseHandler.find('groups', None)
     print(groups)
     if request.method == 'POST':
-        if request.form['group_num'] == '99' and request.form['users_group'] == '99' and request.form['username'] == '99':
+        if request.form['group_num'] == '99' and request.form['users_group'] == '99' and request.form[
+            'username'] == '99':
             print("Delete is working")
         elif request.form['group_num'] is not None and request.form['users_group'] is not None:
             print("POST is working")
@@ -83,9 +82,10 @@ def accountsMan():
             print(int(request.form['users_group']))
             x = AccountManager.create_groups(int(request.form['group_num']), int(request.form['users_group']))
             y = AccountManager.create_groups(int(request.form['group_num']), int(request.form['users_group']))
-            print("hello "+str(y))
+            print("hello " + str(y))
             # print("Username: " + request.form['username'])
-    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', users=users, groups=groups)
+    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', users=users,
+                           groups=groups)
 
 
 @app.route('/connectionMan.html')
@@ -136,5 +136,6 @@ def formexample():
 
 
 if __name__ == '__main__':
-    #app.run(host="citsystem.com", port=80)
-    app.run(host="0.0.0.0", port=80)
+    # app.run(host="citsystem.com", port=80)
+    app.run(host="0.0.0.0", port=5001)
+    # app.run()

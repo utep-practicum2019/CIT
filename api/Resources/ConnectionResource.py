@@ -101,10 +101,10 @@ class ConnectionAPI(Resource):
     # }
     # Type 3
     # {
-    #     "currUsername" : String
-    #     "newUsername" : String
-    #     "newPassword" : String
-    #     "newIP" : String
+    #     "curr_username" : String
+    #     "updated_username" : String
+    #     "new_password" : String
+    #     "new_ip" : String
     # }
     @staticmethod
     def put():
@@ -124,8 +124,9 @@ class ConnectionAPI(Resource):
             else:
                 results = False
         else:
-            results = ConnectionAPI.ConnectionManager.updateUserConnection(data["currUsername"], data["newUsername"],
-                                                                  data["newPassword"], data["newIP"])
+            results = ConnectionAPI.ConnectionManager.updateUserConnection(data["curr_username"],
+                                                                           data["updated_username"],
+                                                                           data["new_password"], data["new_ip"])
         if results:
             return {"success": True}
         else:
