@@ -4,7 +4,8 @@ import sys
 #with open(activate_this) as file:
 #  exec(file_.read(), dict(__init__=activate_this))
 
-sys.path.append('/var/www/cit/test_bed_environment/lib/python3.5/site-packages')
+#sys.path.append('/var/www/cit/test_bed_environment/lib/python3.6/site-packages')#Uncomment this line for Ubuntu 18.04
+sys.path.append('/var/www/cit/test_bed_environment/lib/python3.5/site-packages')#Uncomment this line for Ubuntu 16.04
 sys.path.append('/var/www/cit')
 
 from app import app as application
