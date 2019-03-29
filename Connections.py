@@ -68,3 +68,6 @@ class Connections():
         ipsec=open("/etc/ipsec.secrets","a")
         ipsec.write(newUsername+ " %any%"+ " : "+ "EAP "+newPassword+"\n")
         ipsec.close()
+
+    def fileAddUsers(self, userList):
+        pass

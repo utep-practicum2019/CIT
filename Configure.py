@@ -14,12 +14,12 @@ def addUsers(numberOfUsersInput):
                 #Call ChappieEditor.py and create user object
                 currUserChappie=PPTP_ConnectionsSublcass()
                 currUserChappie.createPassword()
-                currUserChappie.pptpAddUser(currUserChappie.password)
+                currUserChappie.pptpAddUser(currUserChappie.password,True)
                 addedUsersArr.append(currUserChappie)
                 # Call IkesEditor.py
                 currUserIKE=IKE_ConnectionsSublcass()
                 currUserIKE.password=currUserChappie.password
-                currUserIKE.ikesAddUser(currUserIKE.password)
+                currUserIKE.ikesAddUser(currUserIKE.password,True)
             # for x in range(numberOfUsers):
                 # print(str(addedUsersArr[x].username) +" "+ 
                 # str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
@@ -39,6 +39,21 @@ def modifyUser(currUsername,newUsername,newPassword,newIP):
     emptyConn=Connections()
     emptyConn.modifyUser(currUsername,newUsername,newPassword,newIP)
     return True
+def fileAddUsers(userList):
+    addedUsersArr=[]
+    for x in range(len(userList)):
+        #Call ChappieEditor.py and create user object
+        currUserChappie=PPTP_ConnectionsSublcass()
+        currUserChappie.username=userList[x]
+        currUserChappie.createPassword()
+        currUserChappie.pptpAddUser(currUserChappie.password,False)
+        addedUsersArr.append(currUserChappie)
+        # Call IkesEditor.py
+        currUserIKE=IKE_ConnectionsSublcass()
+        currUserIKE.username=userList[x]
+        currUserIKE.password=currUserChappie.password
+        currUserIKE.ikesAddUser(currUserIKE.password,False)
+    return addedUsersArr
 
 # addUsers(10)
 # users=["user2","user4","user6","user8","user10"]
@@ -46,3 +61,5 @@ def modifyUser(currUsername,newUsername,newPassword,newIP):
 # deleteUsers(users)
 # modifyUser("Link","Mario","70099011","192.168.0.6")
 # modifyUser("","Yoshi","70099011","192.168.0.6")
+# users=["Mario","Yoshi","Luigi","Peach","Toad"]
+# fileAddUsers(users)

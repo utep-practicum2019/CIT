@@ -82,8 +82,14 @@ class ConnectionManager():
     def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
         updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
         return updateResult
+
     def fileAddUsers(self, userList):
+        usersArr=[]
+        usersArr=Configure.fileAddUsers(userList)
         usersDictionary={}
+        for x in range(len(userList)):
+            usersDictionary[x] = {"username":usersArr[x].username,
+            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
         return usersDictionary
 
 """
