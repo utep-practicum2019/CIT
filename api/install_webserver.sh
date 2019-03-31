@@ -5,7 +5,7 @@ sudo apt-get install python3 -y
 sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
-sudo apt-get install curl -y #curl is needed
+sudo apt-get install curl -y 
 
 
 sudo mkdir /var/www/cit
