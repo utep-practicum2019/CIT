@@ -58,10 +58,7 @@ sudo apt-get update -y
 sudo apt-get install -y mongodb-org
 #sudo apt-get install -y mongodb-org --allow-unauthenticated
 sudo service mongod start
-sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
-sudo mv citsystem.com.conf /etc/apache2/sites-available
-sudo a2ensite citsystem.com.conf
-sudo /etc/init.d/apache2 restart
+
 
 #configuring the VPN
 sudo cat >> /etc/pptpd.conf<< END
@@ -99,6 +96,11 @@ sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
 sudo iptables -A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
 sudo service pptpd restart
+
+sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
+sudo mv citsystem.com.conf /etc/apache2/sites-available
+sudo a2ensite citsystem.com.conf
+sudo /etc/init.d/apache2 restart
 
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
