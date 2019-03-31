@@ -35,4 +35,4 @@ sudo sysctl -p
 sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
 sudo iptables -A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
-service pptpd restart
+sudo service pptpd restart
