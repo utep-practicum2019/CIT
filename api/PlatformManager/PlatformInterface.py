@@ -1,5 +1,4 @@
-import time
-#TEST#
+import time, json, requests
 
 from .PlatformsManager import PlatformsManager
 from .PluginManager import PluginManager
@@ -13,103 +12,135 @@ from .PluginManager import PluginManager
             This class represents the platform interface. 
             The platform interface provides callable functions within the platform manager subsystem.
 """
-
 class PlatformInterface():
-    # cit_IP = "http://127.0.0.1:"
-
+    
     def __init__(self):
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        
-#     def parse_JSON(self, json_object):
-#         with open(json_object, "r") as j_object:
-#             parsed_input = json.load(j_object)
-#         
-#         return parsed_input
-#     
-#     def format_request(self, destination, request):
-#         data = {
-#                 "destination": destination,
-#                 "request": request[0]
-#                 }
-#         
-#         json_string = json.dumps(data)
-#         
-#         return json_string
-    
+        self.cit_url = 'http://127.0.0.1:5000'
+        self.database_path = '/api/v2/resources/database'
+        self.database_url = self.cit_url + self.database_path
+          
     ##### Platform Manager #####
     
     def createPlatform(self, main_platform, subplatforms): 
         Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
-        Subplatforms = Main_Platform.get_sub_platforms()
-        sub_keys = list(Subplatforms.keys())
         status = "Failure"
+
+        if (Main_Platform != False):
+            if ((Main_Platform.get_sub_platforms() == { }) and (subplatforms != { })):
+                print("Error in subplatform creation")
+            else:    
+                Subplatforms = Main_Platform.get_sub_platforms()
+                sub_keys = list(Subplatforms.keys())
         
-        if ((1 <= Main_Platform.getPlatformID() < 100000) and (subplatforms != { })):
-            for x in range(0, len(sub_keys)):
-                if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
-                    status = "Success"
-        elif (1 <= Main_Platform.getPlatformID() < 100000):
-            status = "Success"
+            if ((1 <= Main_Platform.getPlatformID() < 100000) and (len(sub_keys) != 0)):
+                for x in range(0, len(sub_keys)):
+                    if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
+                        status = "Success"
+                    else:
+                        status = "Failure"
+                        break
+            elif (1 <= Main_Platform.getPlatformID() < 100000):
+                status = "Success"
                     
-        response = self.createResponse(Main_Platform, status, 0)
-        
-        return response
+            if (status != "Failure"):
+                response = self.createResponse(Main_Platform, status, 0)
+
+                request_result = self.formatRequest(Main_Platform, "post")
+
+                return response
+            else:
+                return {"Status" : status, "Response" : {}}
+        else:
+            return {"Status" : status, "Response" : {}}
 
     def deletePlatform(self, platform_ID, subplatform_IDs):
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        status = Main_Platform[1]
+        
+        if (Main_Platform != False):
+            status = Main_Platform[1]
+        else:
+            status = "Failure"
 
         return status
 
     def addPlatform(self, platform_ID, subplatforms):
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
-        Subplatforms = Main_Platform.get_sub_platforms()
-        sub_keys = list(Subplatforms.keys())
         status = "Failure"
 
-        if (1 <= Main_Platform.getPlatformID() < 100000):
-            for x in range(0, len(sub_keys)):
-                if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
-                    status = "Success"
+        if (Main_Platform != False):
+            Subplatforms = Main_Platform.get_sub_platforms()
+            sub_keys = list(Subplatforms.keys())
 
-        response = self.createResponse(Main_Platform, status, 0)
+            if (1 <= Main_Platform.getPlatformID() < 100000):
+                for x in range(0, len(sub_keys)):
+                    if (1 <= Subplatforms[sub_keys[x]].getPlatformID() < 100000):
+                        status = "Success"
+                    else:
+                        status = "Failure"
+                        break
+            
+            if (status != "Failure"):
+                response = self.createResponse(Main_Platform, status, 0)
                     
-        return response
+                return response
+            else:
+                return {"Status" : status, "Response" : {}}
+        else:
+            return {"Status" : status, "Response" : {}}
     
     def startPlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
-        Subplatforms = Main_Platform[0].get_sub_platforms()
-        status = "Success"
+        status = "Failure"
+        
+        if (Main_Platform != "Failure"):
+            Subplatforms = Main_Platform[0].get_sub_platforms()
+            
+            if (Main_Platform[1] == "Success"):
+                status = "Success"
+                time.sleep(5)
 
-        if (Main_Platform[1] == "Success"):
-            time.sleep(5)
+            if (self.platformManager.check_service(Main_Platform[0]) == True):
+                for x in Subplatforms:
+                    if(self.platformManager.check_service(Subplatforms[x]) == False):
+                        status = "Failure"
+                        break
+            
+            if (status != "Failure"):
+                response = self.createResponse(Main_Platform, status, 1)
 
-        if (self.platformManager.check_service(Main_Platform) == True):
-            for x in Subplatforms:
-                if(self.platformManager.check_service(Subplatforms[x]) == False):
-                    status = "Failure"
-
-        response = self.createResponse(Main_Platform, status, 1)
-
-        return response
+                return response
+            else:
+                return {"Status" : status, "Response" : {}}
+        else:
+            return {"Status" : status, "Response" : {}}
 
     def stopPlatform(self, platform_ID, subplatform_IDs): 
         Main_Platform = self.platformManager.stopPlatforms(platform_ID, subplatform_IDs)
-        Subplatforms = Main_Platform[0].get_sub_platforms()
-        status = "Success"
+        status = "Failure"
+
+        if (Main_Platform != "Failure"):
+            Subplatforms = Main_Platform[0].get_sub_platforms()
         
-        if (Main_Platform[1] == "Success"):
-            time.sleep(5)
+            if (Main_Platform[1] == "Success"):
+                status = "Success"
+                time.sleep(5)
 
-        if (self.platformManager.check_service(Main_Platform) == False):
-            for x in Subplatforms:
-                if(self.platformManager.check_service(Subplatforms[x]) == True):
-                    status = "Failure"
+            if (self.platformManager.check_service(Main_Platform) == False):
+                for x in Subplatforms:
+                    if(self.platformManager.check_service(Subplatforms[x]) == True):
+                        status = "Failure"
+                        break
 
-        response = self.createResponse(Main_Platform, status, 1)
+            if (status != "Failure"):
+                response = self.createResponse(Main_Platform, status, 1)
 
-        return response
+                return response
+            else:
+                return {"Status" : status, "Response" : {}}
+        else:
+            return {"Status" : status, "Response" : {}}
 
     # def getPlatform(self, platform_ID, subplatform_IDs): 
     #     Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -158,6 +189,30 @@ class PlatformInterface():
         else:
             return response1
 
+    def formatRequest(self, main_platform, request):
+        if (request == "post"):
+            Subplatforms = main_platform.get_sub_platforms()
+
+            platform_data = {
+                "main" : {"id" : main_platform.getPlatformID(),
+                        "ip_port" : main_platform.getIpPort(),
+                        "name" : main_platform.getPlatformName()},
+                'subplatforms': []
+            }
+        
+            for x in Subplatforms:
+                platform_data["subplatforms"].append({"id" : Subplatforms[x].getPlatformID(),
+                                                    "ip_port" : Subplatforms[x].getIpPort(),
+                                                    "name" : Subplatforms[x].getPlatformName()
+                                                    }) 
+        
+            r = requests.post(self.database_url, json=platform_data)
+    
+            if r.status_code == requests.codes.ok:
+                return True
+
+        return False
+
     ##### End Utility #####
 
     ##### Plugin Manager #####
@@ -171,7 +226,7 @@ class PlatformInterface():
     def getAvailablePlugins(self): 
         available_plugins = self.pluginManager.getAvailablePlugins()
 
-        return {available_plugins}
+        return {"Plugins" : available_plugins}
 
     def loadPlatform(self):
         pass
