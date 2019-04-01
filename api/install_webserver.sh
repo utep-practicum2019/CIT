@@ -30,11 +30,7 @@ sudo apt-get install -y nodejs
 sudo npm install http-server
 cd ..
 
-#rocketChat portion
-sudo snap install rocketchat-server
-sudo mv Rocket.Chat.conf /etc/apache2/sites-available
-sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
-sudo a2ensite Rocket.Chat
+
 
 pip install flask
 
