@@ -299,12 +299,10 @@ class PlatformInterface():
             status, userID = Main_Platform.registerUser(user_email, username, user_pass)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
-
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subplatform_ID):
                     status, userID = Subplatforms[sub_keys[x]].registerUser(user_email, username, user_pass, user_nick)
 
-        return {status, userID}
+        return {"Status" : status, "User_ID" : userID}
                 
     def rocketChatLoginUser(self, platform_ID, subPlatform_ID, username, user_pass):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -317,12 +315,10 @@ class PlatformInterface():
             status, authToken = Main_Platform.loginUser(username, user_pass)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
-
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status, authToken = Subplatforms[sub_keys[x]].loginUser(username, user_pass)
 
-        return {status, authToken}
+        return {"Status" : status, "Auth_Token" : authToken}
     
     def rocketChatGetUserInfo(self, platform_ID, subPlatform_ID, user_ID, username): 
         Main_Platform = self.platformManager.getPlatform(platform_ID)
@@ -338,28 +334,27 @@ class PlatformInterface():
             status, userID, email, userName, userNick = Main_Platform.getUserInfo(user_ID, username)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
-
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status, userID, email, userName, userNick = Subplatforms[sub_keys[x]].getUserInfo(user_ID, username)
 
-        return {status, userID, email, userName, userNick}
+        return {"Status" : status, "User_ID" : userID, "Email" : email, "Username" : userName, "Nickname" : userNick}
     
     def rocketChatDeleteUser(self, platform_ID, subPlatform_ID, user_ID):
-        print(user_ID)
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-        status = ''
+        status = "Failure"
+        result = False
 
         if (Main_Platform.getPlatformID() == platform_ID):
-            status = Main_Platform.deleteUser(user_ID)
+            result = Main_Platform.deleteUser(user_ID)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
-
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
-                    status = Subplatforms[sub_keys[x]].deleteUser(user_ID)
+                    result = Subplatforms[sub_keys[x]].deleteUser(user_ID)
+
+        if (result == True):
+            status = "Success"
 
         return status
 
@@ -379,23 +374,27 @@ class PlatformInterface():
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status, channelID = Subplatforms[sub_keys[x]].createChannel(channel_name)
         
-        return {status, channelID} 
+        return {"Status" : status, "Channel_ID" : channelID} 
 
     def rocketChatDeleteChannel(self, platform_ID, subPlatform_ID, channel_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-        status = ''
+        status = "Failure"
+        result = False
 
         if (Main_Platform.getPlatformID() == platform_ID):
-            status = Main_Platform.deleteChannel(channel_ID)
+            result = Main_Platform.deleteChannel(channel_ID)
         else:
             for x in range(0, len(sub_keys)):
                 print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
-                    status = Subplatforms[sub_keys[x]].deleteChannel(channel_ID)
+                    result = Subplatforms[sub_keys[x]].deleteChannel(channel_ID)
         
+        if (result == True):
+            status = "Success"
+
         return status 
 
     def rocketChatCreatePrivateGroup(self, platform_ID, subPlatform_ID, group_name):
@@ -414,23 +413,27 @@ class PlatformInterface():
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status, roomID = Subplatforms[sub_keys[x]].createPrivateGroup(group_name)
         
-        return {status, roomID} 
+        return {"Status" : status, "Room_ID" : roomID} 
 
     def rocketChatDeletePrivateGroup(self, platform_ID, subPlatform_ID, room_ID):
         Main_Platform = self.platformManager.getPlatform(platform_ID)
         Subplatforms = Main_Platform.get_sub_platforms()
         sub_keys = list(Subplatforms.keys())
-        status = ''
+        status = "Failure"
+        result = False
 
         if (Main_Platform.getPlatformID() == platform_ID):
-            status = Main_Platform.deletePrivateGroup(room_ID)
+            result = Main_Platform.deletePrivateGroup(room_ID)
         else:
             for x in range(0, len(sub_keys)):
                 print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
-                    status = Subplatforms[sub_keys[x]].deletePrivateGroup(room_ID)
+                    result = Subplatforms[sub_keys[x]].deletePrivateGroup(room_ID)
         
+        if (result == True):
+            status = "Success"
+
         return status
 
     def rocketChatPostNewMessage(self, platform_ID, subPlatform_ID, room_ID, announcement):
@@ -449,7 +452,7 @@ class PlatformInterface():
                 if (Subplatforms[sub_keys[x]].getPlatformID() == subPlatform_ID):
                     status, message = Subplatforms[sub_keys[x]].postNewMessage(room_ID, announcement)
 
-        return {status, message}
+        return {"Status" : status, "Message" : message}
 
     # def rocketChatCreateUserToken(self, platform_ID, subPlatform_ID, user_ID, username):
     #     Main_Platform = self.platformManager.getPlatform(platform_ID)
