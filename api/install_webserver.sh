@@ -31,7 +31,7 @@ sudo npm install http-server
 cd ..
 
 #rocketChat portion
-snap install rocketchat-server
+sudo snap install rocketchat-server
 sudo mv Rocket.Chat.conf /etc/apache2/sites-available
 sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
 sudo a2ensite Rocket.Chat
@@ -107,6 +107,13 @@ sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
+
+#rocketChat portion
+sudo snap install rocketchat-server
+sudo mv Rocket.Chat.conf /etc/apache2/sites-available
+sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
+sudo a2ensite Rocket.Chat
+sudo service apache2 relaod
 
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
