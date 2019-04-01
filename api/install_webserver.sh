@@ -63,12 +63,12 @@ sudo service mongod start
 
 
 #configuring the VPN
-sudo cat >> /etc/pptpd.conf<< END
+sudo su -c" cat >> /etc/pptpd.conf<< END
 localip 10.10.0.1
 remoteip 10.10.0.2-100
-END
+END"
 
-sudo cat >> /etc/ppp/pptpd-options<< END
+sudo su -c " cat >> /etc/ppp/pptpd-options<< END
 name pptpd
  refuse-pap
  refuse-chap
@@ -83,15 +83,15 @@ name pptpd
  nobsdcomp
  mu 1490
  mru 1490
-END
+END"
 
-sudo cat >> /etc/ppp/chap-secrets << END
+sudo -c " cat >> /etc/ppp/chap-secrets << END
 tempusr pptpd temppass *
-END
+END"
 #*allows for all IP
-sudo cat >> /etc/sysctl.conf << END
+sudo -c " cat >> /etc/sysctl.conf << END
 net.ipv4.ip_forward=1
-END
+END"
 sudo sysctl -p
 
 sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
