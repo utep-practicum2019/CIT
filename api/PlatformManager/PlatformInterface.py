@@ -47,7 +47,7 @@ class PlatformInterface():
             if (status != "Failure"):
                 response = self.createResponse(Main_Platform, status, 0)
 
-                request_result = self.formatRequest(Main_Platform, "post")
+                request_result = self.formatCreateRequest(Main_Platform)
 
                 return response
             else:
@@ -57,19 +57,31 @@ class PlatformInterface():
 
     def deletePlatform(self, platform_ID, subplatform_IDs):
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        
+        deletions = []
+
         if (Main_Platform != False):
             status = Main_Platform[1]
+
+            if (subplatform_IDs == { }):
+                deletions.append(platform_ID)
+                request_result = self.formatDeleteRequest(platform_ID, deletions)
+            else:
+                for x in subplatform_IDs:
+                    deletions.append(x)
+                    request_result = self.formatDeleteRequest(platform_ID, deletions)
         else:
             status = "Failure"
 
         return status
 
     def addPlatform(self, platform_ID, subplatforms):
+        before_add = self.getIDs(platform_ID)
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
         status = "Failure"
 
         if (Main_Platform != False):
+            after_add = self.getIDs(platform_ID)
+            additions = list(set(before_add) - set(after_add))
             Subplatforms = Main_Platform.get_sub_platforms()
             sub_keys = list(Subplatforms.keys())
 
@@ -83,6 +95,8 @@ class PlatformInterface():
             
             if (status != "Failure"):
                 response = self.createResponse(Main_Platform, status, 0)
+
+                request_result = self.formatUpdateRequest(platform_ID, additions)
                     
                 return response
             else:
@@ -189,29 +203,68 @@ class PlatformInterface():
         else:
             return response1
 
-    def formatRequest(self, main_platform, request):
-        if (request == "post"):
-            Subplatforms = main_platform.get_sub_platforms()
+    def formatCreateRequest(self, main_platform):
+        Subplatforms = main_platform.get_sub_platforms()
 
-            platform_data = {
-                "main" : {"id" : main_platform.getPlatformID(),
+        platform_data = {"main" : {"id" : main_platform.getPlatformID(),
                         "ip_port" : main_platform.getIpPort(),
                         "name" : main_platform.getPlatformName()},
-                'subplatforms': []
-            }
+                        "subplatforms": []
+                        }
         
-            for x in Subplatforms:
-                platform_data["subplatforms"].append({"id" : Subplatforms[x].getPlatformID(),
-                                                    "ip_port" : Subplatforms[x].getIpPort(),
-                                                    "name" : Subplatforms[x].getPlatformName()
-                                                    }) 
+        for x in Subplatforms:
+            platform_data["subplatforms"].append({"id" : Subplatforms[x].getPlatformID(),
+                                                "ip_port" : Subplatforms[x].getIpPort(),
+                                                "name" : Subplatforms[x].getPlatformName()
+                                                }) 
         
-            r = requests.post(self.database_url, json=platform_data)
+        r = requests.post(self.database_url, json=platform_data)
     
-            if r.status_code == requests.codes.ok:
-                return True
+        if r.status_code == requests.codes.ok:
+            return True
 
         return False
+
+    def formatDeleteRequest(self, main_ID, deletions):
+        deleted_platform_data = {"main" : main_ID,
+                                "deletions" : deletions}
+        
+        r = requests.delete(self.database_url, json=deleted_platform_data)
+    
+        if r.status_code == requests.codes.ok:
+            return True
+
+        return False
+
+    def formatUpdateRequest(self, main_ID, additions):
+        added_platform_data = {"main" : main_ID,
+                                "additions" : []}
+        
+        for x in additions:
+            platform = self.platformManager.getPlatform(x)
+            
+            added_platform_data["additions"].append({"id" : platform.getPlatformID(),
+                                                    "ip_port" : platform.getIpPort(),
+                                                    "name" : platform.getPlatformName()
+                                                    })
+        
+        r = requests.put(self.database_url, json=added_platform_data)
+    
+        if r.status_code == requests.codes.ok:
+            return True
+
+        return False
+
+    def getIDs(self, main_platform_ID):
+        ids = []
+        Main_Platform = self.platformManager.getPlatform(main_platform_ID)
+        Subs = Main_Platform.get_sub_platforms()
+
+        ids.append(Main_Platform.getPlatformID())
+        for x in Subs:
+            ids.append(Subs[x].getPlatformID())
+        
+        return ids
 
     ##### End Utility #####
 
