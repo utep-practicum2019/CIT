@@ -212,16 +212,16 @@ class PlatformInterface():
                         "subplatforms": []
                         }
 
-        request_data = {"collection_name" : "platforms", 
-                        "document_id" : platform_data["main"]["id"], 
-                        "document" : platform_data
-                        }
-        
         for x in Subplatforms:
             platform_data["subplatforms"].append({"id" : Subplatforms[x].getPlatformID(),
                                                 "ip_port" : Subplatforms[x].getIpPort(),
                                                 "name" : Subplatforms[x].getPlatformName()
                                                 }) 
+        
+        request_data = {"collection_name" : "platforms", 
+                        "document_id" : platform_data["main"]["id"], 
+                        "document" : platform_data
+                        }
         
         r = requests.post(self.database_url, json=request_data)
     
