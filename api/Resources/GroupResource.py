@@ -2,7 +2,8 @@
 from flask import request
 from flask_restful import Resource
 
-from CIT_API_Schema import *
+from Schemas.Group_Schema import *
+from Schemas.User_Schema import *
 
 
 class GroupAPI(Resource):
@@ -96,17 +97,20 @@ class GroupAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = group_get_request_schema.load(json_data)
+        data, errors = group_delete_request_schema.load(json_data)
 
         if errors:
             return errors, 422
 
-        group_id = data["group_id"]
-
         from AccountManager.account_manager import AccountManager
-        results = AccountManager.delete_group(group_id)
+        errors = []
+        for group in data['list_of_groups']:
+            try:
+                AccountManager.delete_group(group)
+            except ValueError as e:
+                errors.append("Error deleting group " + group + ": " + str(e))
+        if errors:
+            print(errors)
+            return {"success": False, "errors": errors}, 200
 
-        if results:
-            return group_response_schema.dump({"success": results})
-        else:
-            return {"success": False}, 409
+        return {"success": True}, 200

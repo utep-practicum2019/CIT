@@ -1,8 +1,9 @@
 from flask import Flask
 # client gui
-from flask import render_template, request
+from flask import render_template, request, redirect
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
+from flask_cors import CORS
 
 from Database.database_handler import DatabaseHandler
 from Resources.ConnectionResource import ConnectionAPI
@@ -12,12 +13,12 @@ from Resources.LoginResource import LoginAPI
 from Resources.PlatformResource import PlatformAPI
 from Resources.RocketChatResource import RocketChatAPI
 from Resources.UserResource import UserAPI
-from Resources.VMResource import VMConfigAPI, VMStartAPI, VMStatusAPI, VMSuspendAPI
-
 ma = Marshmallow()
 app = Flask(__name__)
 app.secret_key = "turtles are the best!"
 api = Api(app)
+CORS(app)
+
 
 api.add_resource(DatabaseAPI, '/api/v2/resources/database')
 api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
@@ -25,11 +26,6 @@ api.add_resource(UserAPI, '/api/v2/resources/user')
 api.add_resource(GroupAPI, '/api/v2/resources/group')
 api.add_resource(PlatformAPI, '/api/v2/resources/platform')
 api.add_resource(RocketChatAPI, '/api/v2/resources/platform/rocketchat')
-
-api.add_resource(VMConfigAPI, '/api/v2/resources/vm/manage/config')
-api.add_resource(VMStatusAPI, '/api/v2/resources/vm/manage/status')
-api.add_resource(VMStartAPI, '/api/v2/resources/vm/manage/start')
-api.add_resource(VMSuspendAPI, '/api/v2/resources/vm/manage/suspend')
 
 api.add_resource(LoginAPI, '/api/v2/resources/login')
 
@@ -68,24 +64,11 @@ def main():
 
 @app.route('/accountsMan.html', methods=['GET', 'POST'])
 def accountsMan():
-    users = DatabaseHandler.find('users', None)
-    print(users)
-    groups = DatabaseHandler.find('groups', None)
-    print(groups)
     if request.method == 'POST':
-        if request.form['group_num'] == '99' and request.form['users_group'] == '99' and request.form[
-            'username'] == '99':
-            print("Delete is working")
-        elif request.form['group_num'] is not None and request.form['users_group'] is not None:
-            print("POST is working")
-            print(int(request.form['group_num']))
-            print(int(request.form['users_group']))
-            x = AccountManager.create_groups(int(request.form['group_num']), int(request.form['users_group']))
-            y = AccountManager.create_groups(int(request.form['group_num']), int(request.form['users_group']))
-            print("hello " + str(y))
-            # print("Username: " + request.form['username'])
-    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', users=users,
-                           groups=groups)
+        return redirect("api/v2/resources/group", code=307)
+    users = DatabaseHandler.find('users', None)
+    groups = DatabaseHandler.find('groups', None)
+    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', group_id = '1', users=users,groups=groups)
 
 
 @app.route('/connectionMan.html')
@@ -99,7 +82,7 @@ def platMan():
 
 
 @app.route('/indexAdmin.html')
-def indexAdmin():
+def index_admin():
     return render_template('indexAdmin.html')
 
 
@@ -135,7 +118,6 @@ def formexample():
             </form>'''
 
 
+
 if __name__ == '__main__':
-    # app.run(host="citsystem.com", port=80)
     app.run(host="0.0.0.0", port=5001)
-    # app.run()

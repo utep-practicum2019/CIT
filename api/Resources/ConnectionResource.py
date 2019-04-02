@@ -26,9 +26,9 @@ class ConnectionAPI(Resource):
         if data["session_list"]:
             results = ConnectionAPI.ConnectionManager.update_session_list()
             results = {"usersDictionary": results}
-            results, errors = connection_post_response_schema.validate(results)
-            if errors:
-                return {"success": False}, 503
+            # results, errors = connection_post_response_schema.validate(results)
+            # if errors:
+            #     return {"success": False}, 503
         return results
 
     # To do a post request

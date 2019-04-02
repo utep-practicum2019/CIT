@@ -7,7 +7,14 @@ from Schemas.Platform_Schema import *
 
 class PlatformAPI(Resource):
     from .PlatformManagerInstance import PlatformManagerInstance
-    platform_interface = PlatformManagerInstance.getInstance().platform_interface
+    platform_interface = PlatformManagerInstance.get_instance().platform_interface
+
+    @staticmethod
+    def get():
+        results = PlatformAPI.platform_interface.getAvailablePlugins()
+        if results is None:
+            results = {"success": False}
+        return results
 
     @staticmethod
     def post():

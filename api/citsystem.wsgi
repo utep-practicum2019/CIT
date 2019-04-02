@@ -8,5 +8,5 @@ sys.path.append('/var/www/cit/test_bed_environment/lib/python3.6/site-packages')
 sys.path.append('/var/www/cit/test_bed_environment/lib/python3.5/site-packages')#this line for Ubuntu 16.04
 sys.path.append('/var/www/cit')
 
-#from app import app as application
-from CIT_API import app as application
+from app import app as application
+#from CIT_API import app as application

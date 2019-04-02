@@ -34,5 +34,13 @@ class GroupGetRequestSchema(Schema):
     group_id = fields.Int(required=True)
 
 
+class GroupDELETERequestSchema(Schema):
+    list_of_groups = fields.List(fields.Integer())
+
+
 group_get_request_schema = GroupGetRequestSchema()
 group_schema = GroupSchema()
+group_request_schema = GroupRequestSchema()
+group_update_request_schema = GroupUpdateRequestSchema()
+group_response_schema = GroupResponseSchema()
+group_delete_request_schema = GroupDELETERequestSchema()

@@ -4,194 +4,196 @@
     <title>Connection Manager</title>
 
 
-
-
-
     <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
 </head>
 
 
 <body>
-    <div class="container-fluid">
-        <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
-        <div class="row">
-            <div class="btn-group mr-2" role="group" aria-label="First group">
+<div class="container-fluid">
+    <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+    <div class="row">
+        <div aria-label="First group" class="btn-group mr-2" role="group">
 
-                <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
 
-                <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="connectionMan.html">Connection Manager</a></button>
+            <button class="btn btn-dark btn-sm menu active" type="button"><a href="connectionMan.html" id="pressed">Connection
+                Manager</a></button>
 
-                <button type="button" class="btn btn-dark btn-sm menu"><a href="accountsMan.html">Account Manager</a></button>
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="accountsMan.html">Account Manager</a>
+            </button>
 
 
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="platMan.html">Platform Manager</a></button>
 
-                <button type="button" class="btn btn-dark btn-sm menu"><a  href="platMan.html">Platform Manager</a></button>
-
-            </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <h2>Users and Group:</h2>
-        <table class="table table-hover" id="mainArea">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Groups:</th>
-                    <th onclick="sortTable(1)">Users:</th>
-                    <th>Time Logged in:</th>
-                    <th>Bandwidth:</th>
-                    <th>IP address:</th>
-                    <th>Entry used:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Mongoose</td>
-                    <td>        </td>
-                    <td>16:04</td>
-                    <td>100 Mbit/s</td>
-                    <td>8.8.8.8</td>
-                    <td>
-                        <div class ="dropdown">
-                            <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">PPTP</a></li>
-                                    <li><a href="#">L2TP</a></li>
-                                    <li><a href="#">OpenVPN</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>       </td>
-                        <td>Stan Lee</td>
-                        <td>16:04</td>
-                        <td>100 Mbit/s</td>
-                        <td>8.8.8.8</td>
-                        <td>
-                            <div class ="dropdown">
-                                <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">PPTP</a></li>
-                                        <li><a href="#">L2TP</a></li>
-                                        <li><a href="#">OpenVPN</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>       </td>
-                            <td>Frank Castle</td>
-                            <td>16:04</td>
-                            <td>100 Mbit/s</td>
-                            <td>8.8.8.8</td>
-                            <td>
-                                <div class ="dropdown">
-
-                                    <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown">Type of entry
-                                        <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">PPTP</a></li>
-                                            <li><a href="#">L2TP</a></li>
-                                            <li><a href="#">OpenVPN</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Avengers</td>
-                                <td></td>
-                                <td>16:04</td>
-                                <td>100 Mbit/s</td>
-                                <td>8.8.8.8</td>
-                                <td>
-                                    <div class ="dropdown">
-                                        <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                            <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">PPTP</a></li>
-                                                <li><a href="#">L2TP</a></li>
-                                                <li><a href="#">OpenVPN</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </div>
-                            </tr>
-
-                        </tbody>
-                    </table>
+</div>
+<div class="container-fluid">
+    <h2>Users and Group:</h2>
+    <table class="table table-hover" id="mainArea">
+        <thead>
+        <tr>
+            <th onclick="sortTable(0)">Groups:</th>
+            <th onclick="sortTable(1)">Users:</th>
+            <th>Time Logged in:</th>
+            <th>Bandwidth:</th>
+            <th>IP address:</th>
+            <th>Entry used:</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Mongoose</td>
+            <td></td>
+            <td>16:04</td>
+            <td>100 Mbit/s</td>
+            <td>8.8.8.8</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btm-primary dropdown-toggle" data-toggle="dropdown" type="button"> Type of entry
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">PPTP</a></li>
+                        <li><a href="#">L2TP</a></li>
+                        <li><a href="#">OpenVPN</a></li>
+                    </ul>
                 </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Stan Lee</td>
+            <td>16:04</td>
+            <td>100 Mbit/s</td>
+            <td>8.8.8.8</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btm-primary dropdown-toggle" data-toggle="dropdown" type="button"> Type of entry
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">PPTP</a></li>
+                        <li><a href="#">L2TP</a></li>
+                        <li><a href="#">OpenVPN</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
 
-                <script>
-                    function sortTable(n) {
-                      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                      table = document.getElementById("mainArea");
-                      switching = true;
-  //Set the sorting direction to ascending:
-  dir = "asc"; 
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-      }
-  } else if (dir == "desc") {
-    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-      }
-  }
-}
-if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;      
-  } else {
-      /*If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again.*/
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
+        <tr>
+            <td></td>
+            <td>Frank Castle</td>
+            <td>16:04</td>
+            <td>100 Mbit/s</td>
+            <td>8.8.8.8</td>
+            <td>
+                <div class="dropdown">
+
+                    <button class="btn btm-primary dropdown-toggle" data-toggle="dropdown" type="button">Type of entry
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">PPTP</a></li>
+                        <li><a href="#">L2TP</a></li>
+                        <li><a href="#">OpenVPN</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Avengers</td>
+            <td></td>
+            <td>16:04</td>
+            <td>100 Mbit/s</td>
+            <td>8.8.8.8</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btm-primary dropdown-toggle" data-toggle="dropdown" type="button"> Type of entry
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">PPTP</a></li>
+                        <li><a href="#">L2TP</a></li>
+                        <li><a href="#">OpenVPN</a></li>
+                    </ul>
+                </div>
+            </td>
+</div>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("mainArea");
         switching = true;
+        //Set the sorting direction to ascending:
+        dir = "asc";
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /*check if the two rows should switch place,
+                based on the direction, asc or desc:*/
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /*If a switch has been marked, make the switch
+                and mark that a switch has been done:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                //Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /*If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again.*/
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
     }
-}
-}
-}
 
 </script>
 
 
-
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
 </body>
 

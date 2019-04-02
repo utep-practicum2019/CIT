@@ -1,7 +1,7 @@
 import requests
 from AccountManager.user import User
 
-cit_url = 'http://127.0.0.1:5000'
+cit_url = 'http://127.0.0.1:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
 connection_path = '/api/v2/resources/connection'
