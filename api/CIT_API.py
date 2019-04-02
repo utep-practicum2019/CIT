@@ -1,9 +1,9 @@
 from flask import Flask
 # client gui
 from flask import render_template, request, redirect
+from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
-from flask_cors import CORS
 
 from Database.database_handler import DatabaseHandler
 from Resources.ConnectionResource import ConnectionAPI
@@ -13,12 +13,13 @@ from Resources.LoginResource import LoginAPI
 from Resources.PlatformResource import PlatformAPI
 from Resources.RocketChatResource import RocketChatAPI
 from Resources.UserResource import UserAPI
+
 ma = Marshmallow()
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static',
+            template_folder='templates')
 app.secret_key = "turtles are the best!"
 api = Api(app)
 CORS(app)
-
 
 api.add_resource(DatabaseAPI, '/api/v2/resources/database')
 api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
@@ -54,7 +55,6 @@ def logout():
 
 
 """------- ADMIN WEB APP -------"""
-from AccountManager.account_manager import AccountManager
 
 
 @app.route('/admin')
@@ -68,7 +68,8 @@ def accountsMan():
         return redirect("api/v2/resources/group", code=307)
     users = DatabaseHandler.find('users', None)
     groups = DatabaseHandler.find('groups', None)
-    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', group_id = '1', users=users,groups=groups)
+    return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', group_id='1',
+                           users=users, groups=groups)
 
 
 @app.route('/connectionMan.html')
@@ -116,7 +117,6 @@ def formexample():
                 Framework: <input type="text" name"framework"><br>
                 <input type="submit" value="Submit"><br>
             </form>'''
-
 
 
 if __name__ == '__main__':

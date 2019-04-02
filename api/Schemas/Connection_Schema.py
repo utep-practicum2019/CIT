@@ -26,6 +26,7 @@ class ConnectionGetRequestSchema(Schema):
 class ConnectionPostRequestSchema(Schema):
     usernames = fields.List(fields.String())
     num_users = fields.Integer()
+    command = fields.String()
 
 
 class ConnectionPostResponseSchema(Schema):

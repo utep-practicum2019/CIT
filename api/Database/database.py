@@ -119,3 +119,14 @@ class Database:
              return False
 
 
+    @staticmethod
+    def find_all(collection_name):
+        try:
+            data = []
+            cursor = Database.collection[collection_name].find()
+            for doc in cursor:
+                del doc['_id']
+                data.append(doc)
+            print(data)
+        except KeyError:
+            return False

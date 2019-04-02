@@ -11,6 +11,11 @@ class PlatformAPI(Resource):
 
     @staticmethod
     def get():
+
+        from Database.database_handler import DatabaseHandler
+
+        results = DatabaseHandler.find_all("users")
+
         results = PlatformAPI.platform_interface.getAvailablePlugins()
         if results is None:
             results = {"success": False}
