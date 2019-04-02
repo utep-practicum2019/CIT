@@ -211,6 +211,11 @@ class PlatformInterface():
                         "name" : main_platform.getPlatformName()},
                         "subplatforms": []
                         }
+
+        request_data = {"collection_name" : "platforms", 
+                        "document_id" : platform_data["main"]["id"], 
+                        "document" : platform_data
+                        }
         
         for x in Subplatforms:
             platform_data["subplatforms"].append({"id" : Subplatforms[x].getPlatformID(),
@@ -218,7 +223,7 @@ class PlatformInterface():
                                                 "name" : Subplatforms[x].getPlatformName()
                                                 }) 
         
-        r = requests.post(self.database_url, json=platform_data)
+        r = requests.post(self.database_url, json=request_data)
     
         if r.status_code == requests.codes.ok:
             return True
@@ -228,8 +233,13 @@ class PlatformInterface():
     def formatDeleteRequest(self, main_ID, deletions):
         deleted_platform_data = {"main" : main_ID,
                                 "deletions" : deletions}
+
+        request_data = {"collection_name" : "platforms", 
+                        "document_id" : deleted_platform_data["main"], 
+                        "document" : deleted_platform_data
+                        }
         
-        r = requests.delete(self.database_url, json=deleted_platform_data)
+        r = requests.delete(self.database_url, json=request_data)
     
         if r.status_code == requests.codes.ok:
             return True
@@ -248,7 +258,12 @@ class PlatformInterface():
                                                     "name" : platform.getPlatformName()
                                                     })
         
-        r = requests.put(self.database_url, json=added_platform_data)
+        request_data = {"collection_name" : "platforms", 
+                        "document_id" : added_platform_data["main"], 
+                        "document" : added_platform_data
+                        }
+
+        r = requests.put(self.database_url, json=request_data)
     
         if r.status_code == requests.codes.ok:
             return True
