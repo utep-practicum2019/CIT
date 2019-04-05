@@ -104,6 +104,8 @@ class PlatformsManager:
                 subPlatforms = Main_Platform.get_sub_platforms()
                 for x in list(subPlatforms):
                     if (subPlatforms[x].getPlatformID() in subplatformIDs):
+                        if self.check_service(subPlatforms[x]):
+                            self.stop(subPlatforms[x])
                         self.stop(subPlatforms[x])
                         del subPlatforms[x]
                 return (Main_Platform, "Success")
