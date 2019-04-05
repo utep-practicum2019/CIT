@@ -4,9 +4,9 @@ import subprocess
 import threading
 import time
 
-from .PlatformTreeManager import PlatformTreeManager
+from PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
-from .PluginManager import PluginManager
+from PluginManager import PluginManager
 
 """ 
         @authors:
@@ -60,7 +60,8 @@ class PlatformsManager:
     def addPlatform(self, platformID, sub_platforms):
 
         try:
-            available_plugins = self.plugin_manager.getAvailablePlatfomrs()
+            available_plugins = self.plugin_manager.getAvailablePlugins()
+            print(available_plugins)
 
             Main_Platform = self.PlatformTree.getPlatform(platformID)
             if Main_Platform is None:
@@ -106,7 +107,6 @@ class PlatformsManager:
                     if (subPlatforms[x].getPlatformID() in subplatformIDs):
                         if self.check_service(subPlatforms[x]):
                             self.stop(subPlatforms[x])
-                        self.stop(subPlatforms[x])
                         del subPlatforms[x]
                 return (Main_Platform, "Success")
         except Exception as ex:

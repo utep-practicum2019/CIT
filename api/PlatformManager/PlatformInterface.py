@@ -79,7 +79,7 @@ class PlatformInterface():
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
         status = "Failure"
 
-        if (Main_Platform != False):
+        if (Main_Platform != "Failure"):
             after_add = self.getIDs(platform_ID)
             additions = list(set(before_add) - set(after_add))
             Subplatforms = Main_Platform.get_sub_platforms()
@@ -96,7 +96,7 @@ class PlatformInterface():
             if (status != "Failure"):
                 response = self.createResponse(Main_Platform, status, 0)
 
-                request_result = self.formatUpdateRequest(platform_ID, additions)
+                # request_result = self.formatUpdateRequest(platform_ID, additions)
                     
                 return response
             else:
@@ -499,15 +499,12 @@ class PlatformInterface():
         # time.sleep(3)
         # print(self.createPlatform("TiddlyWiki", {}))
 
-        main_p = self.createPlatform("Hackathon", {"TiddlyWiki"})
-        print(main_p)
-        time.sleep(3)
-        # subs = main_p.get_sub_platforms()
-        # print(main_p["Response"]["Main_Platform"]["Hackathon"])
-        # print([main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
-        main_p2, status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
-        print(main_p2.get_sub_platforms())
-        print(status)
+        # main_p = self.createPlatform("Hackathon", {"TiddlyWiki", "Rocketchat"})
+        # print(main_p)
+        # time.sleep(3)
+        # main_p2, status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
+        # print(main_p2.get_sub_platforms())
+        # print(status)
         ##########################################################################
 
         ###################### TEST: deletePlatform ##############################
@@ -516,7 +513,7 @@ class PlatformInterface():
          
         # print("Deleting: ")
         # #subplatforms = main_p.get_sub_platforms()
-        # print(self.deletePlatform(main_p.getPlatformID(),{}))
+        # print(self.deletePlatform(main_p.getPlatformID(),[]))
         ##########################################################################
         
         #################### TEST: deletePlatform(no subs) #######################
@@ -527,10 +524,10 @@ class PlatformInterface():
         ##########################################################################
         
         ########################## TEST: addPlatform #############################
-        # main_p = self.platformManager.createPlatform("Hackathon", {})
-        # print(self.addPlatform(main_p.getPlatformID(), {"TiddlyWiki"}))
+        main_p = self.platformManager.createPlatform("Hackathon", {})
+        print(self.addPlatform(main_p.getPlatformID(), ["TiddlyWiki"]))
         
-        # print(self.deletePlatform(main_p.getPlatformID(), {}))
+        print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
         
         ################### TEST: startPlatform/stopPlatform #####################
