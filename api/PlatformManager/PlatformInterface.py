@@ -1,7 +1,7 @@
 import time, json, requests
 
-from .PlatformsManager import PlatformsManager
-from .PluginManager import PluginManager
+from PlatformsManager import PlatformsManager
+from PluginManager import PluginManager
 
 """ 
         @authors:
@@ -27,7 +27,7 @@ class PlatformInterface():
         Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
         status = "Failure"
 
-        if (Main_Platform != False):
+        if (Main_Platform != "Failure"):
             if ((Main_Platform.get_sub_platforms() == { }) and (subplatforms != { })):
                 print("Error in subplatform creation")
             else:    
@@ -47,7 +47,7 @@ class PlatformInterface():
             if (status != "Failure"):
                 response = self.createResponse(Main_Platform, status, 0)
 
-                request_result = self.formatCreateRequest(Main_Platform)
+                #request_result = self.formatCreateRequest(Main_Platform)
 
                 return response
             else:
@@ -59,20 +59,20 @@ class PlatformInterface():
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
         deletions = []
 
-        if (Main_Platform != False):
+        if (Main_Platform != False or Main_Platform != None):
             status = Main_Platform[1]
 
-            if (subplatform_IDs == { }):
+            if (subplatform_IDs == []):
                 deletions.append(platform_ID)
-                request_result = self.formatDeleteRequest(platform_ID, deletions)
+                #request_result = self.formatDeleteRequest(platform_ID, deletions)
             else:
                 for x in subplatform_IDs:
                     deletions.append(x)
-                    request_result = self.formatDeleteRequest(platform_ID, deletions)
+                    #request_result = self.formatDeleteRequest(platform_ID, deletions)
         else:
             status = "Failure"
 
-        return status
+        return Main_Platform[0], status
 
     def addPlatform(self, platform_ID, subplatforms):
         before_add = self.getIDs(platform_ID)
@@ -496,6 +496,18 @@ class PlatformInterface():
         pass
         ###################### TEST: createPlatform ##############################
         # print(self.createPlatform("Hackathon", {"TiddlyWiki"}))
+        # time.sleep(3)
+        # print(self.createPlatform("TiddlyWiki", {}))
+
+        main_p = self.createPlatform("Hackathon", {"TiddlyWiki"})
+        print(main_p)
+        time.sleep(3)
+        # subs = main_p.get_sub_platforms()
+        # print(main_p["Response"]["Main_Platform"]["Hackathon"])
+        # print([main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
+        main_p2, status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
+        print(main_p2.get_sub_platforms())
+        print(status)
         ##########################################################################
 
         ###################### TEST: deletePlatform ##############################
