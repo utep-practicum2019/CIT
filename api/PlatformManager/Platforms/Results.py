@@ -1,4 +1,4 @@
-import os, sys, time
+import os, sys, time, mmap
 
 from Platform import Platform
 
@@ -137,18 +137,6 @@ class Results(Platform):
     def init(self):
         return self.getFilesFromDir()
 
-    #     fileList = open("list_of_initial_files.txt",'r')
-    #     list_of_initial_files = []
-    #     for line in fileList:
-    #         fileName = path+""+line.strip()
-    #         f = open(fileName, 'r')
-    #         list_of_initial_files.append( f )
-    #         print(f)
-    #         time.sleep(1)
-    #     print(list_of_initial_files)
-    # #    list_of_initial_files.sort()
-    #     return list_of_initial_files
-
     def diff(self, list1, list2):
         diff_list = []
         for item in list1:
@@ -156,24 +144,73 @@ class Results(Platform):
                 diff_list.append(item)
         return diff_list
 
-    def writeToFile(name, list):
+    def writeToFile(self, name, list):
         f = open(name, 'w')
         for x in list:
             f.write(x + "\n")
         f.close()
 
+    def compareWithBest(self):
+        path = 'tmp/'
+        reportPath = path + "stats/"
+        files = []
+        reportsFiles = []
+        currentMAXWinner = 0
+        currentFileWinner = ' '
+
+        for root, dirs, filenames in os.walk(reportPath):
+            for f in filenames:
+                files.append(os.path.relpath(os.path.join(root, f), reportPath))
+        for f in files:
+            if f.startswith('report_for_'):
+                reportsFiles.append(f)
+
+        for report in reportsFiles:
+            ff = open(reportPath + report, 'r')
+            num = int(ff.readline())
+            print("Processing:\t", report, " with: ", num, "\twarnings")
+            if int(currentMAXWinner) < int(num):
+                currentMAXWinner = int(num)
+                currentFileWinner = str(report)
+            print("Winner is ", currentFileWinner, " with ", currentMAXWinner, " warnings.")
+
+    def checkForWarnings(self, inF, out):
+        path = 'tmp/'
+        reportPath = path + "stats/"
+        inF = str(path + inF)
+        stringToMatch = 'Analyzed'
+        matchedLine = ''
+        with open(inF, 'r') as file:
+            for line in file:
+                if stringToMatch in line:
+                    matchedLine = line
+                    break
+        with open(reportPath + out, 'w') as file:
+            print(matchedLine)
+            file.write(str(matchedLine.split()[1]))
+            file.close()
+
+    def inspectFile(self, nf):
+        reportFile = "report_for_" + nf
+        self.checkForWarnings(nf, reportFile)
+
     def run(self):
         # Initial files in directory
         initial_curr_dir = self.init()
         print("Listening for new alerts...")
+        status = True
         while 1:
             tmp = self.getFilesFromDir()
-            if len(self.diff(tmp, initial_curr_dir)) != 0:
+            if (len(self.diff(tmp, initial_curr_dir)) != 0):
                 state = self.diff(tmp, initial_curr_dir)
                 for newAlert in state:
-                    print("ALERT: ", newAlert, " was added to folder")
-                option = input("What do you want to do? ")
-            time.sleep(2)
+                    print("******* ALERT: ", newAlert, " was added to folder ********")
+                    self.inspectFile(newAlert)
+                    self.compareWithBest()
+                    initial_curr_dir = self.init()
+                    print("*********************************************************************\n")
+                    #            option = input("What do you want to do? ")
+                    time.sleep(2)
 
 if __name__ == "__main__":
     app = Results()
