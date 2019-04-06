@@ -75,7 +75,7 @@ class TiddlyWiki(Platform):
     #set ip and port to connect to website
     def setIpPort(self, ip, port):
         self.ip = ip 
-        self.port = port 
+        self.port = port
     
     #set platform name
     def setPlatformName(self, platform_name):

@@ -56,10 +56,12 @@ class PlatformInterface():
             return {"Status" : status, "Response" : {}}
 
     def deletePlatform(self, platform_ID, subplatform_IDs):
+        print(platform_ID)
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
+        print(Main_Platform)
         deletions = []
 
-        if (Main_Platform != False or Main_Platform != None):
+        if (Main_Platform != False or Main_Platform[0] != None):
             status = Main_Platform[1]
 
             if (subplatform_IDs == []):
@@ -117,12 +119,13 @@ class PlatformInterface():
 
             if (self.platformManager.check_service(Main_Platform[0]) == True):
                 for x in Subplatforms:
+                    time.sleep(5)
                     if(self.platformManager.check_service(Subplatforms[x]) == False):
                         status = "Failure"
                         break
             
             if (status != "Failure"):
-                response = self.createResponse(Main_Platform, status, 1)
+                response = self.createResponse(Main_Platform[0], status, 1)
 
                 return response
             else:
@@ -141,14 +144,14 @@ class PlatformInterface():
                 status = "Success"
                 time.sleep(5)
 
-            if (self.platformManager.check_service(Main_Platform) == False):
+            if (self.platformManager.check_service(Main_Platform[0]) == False):
                 for x in Subplatforms:
                     if(self.platformManager.check_service(Subplatforms[x]) == True):
                         status = "Failure"
                         break
 
             if (status != "Failure"):
-                response = self.createResponse(Main_Platform, status, 1)
+                response = self.createResponse(Main_Platform[0], status, 1)
 
                 return response
             else:
@@ -187,7 +190,7 @@ class PlatformInterface():
                         }
         else:
             response1 = {"Status" : status, 
-                        "Response" : {platform.getPlatformName() : {platform.getPlatformID(), platform.getIpPort}}
+                        "Response" : {platform.getPlatformName() : {platform.getPlatformID(), platform.getIpPort()}}
                         }
     
         for x in Subplatforms:
@@ -280,6 +283,29 @@ class PlatformInterface():
             ids.append(Subs[x].getPlatformID())
         
         return ids
+
+    def requestHandler(self, mainid, subplatformid, command):
+        Main_Platform = self.platformManager.getPlatform(mainid)
+        if(Main_Platform is None):
+            return "Failure"
+        if(subplatformid == 0):
+            Main_Platform.requestHandler(command)
+        else:
+            subplatform = None
+            subplatforms = Main_Platform.get_sub_platforms()
+            for x in subplatforms:
+                if(subplatformid == subplatforms[x].getPlatformID()):
+                    subplatform = subplatforms[x]
+                    break
+            if(subplatform is None):
+                print("subplatform not found")
+                return "Failure"
+            else:
+                 subplatform.requestHandler(command)
+
+            
+            
+        
 
     ##### End Utility #####
 
@@ -493,17 +519,20 @@ class PlatformInterface():
     ##### End Rocket Chat #####
     
     def test(self):
+        # main = self.createPlatform("Hackathon", ["Rocketchat"])
+        # print(str(main))
+        # self.requestHandler(main["Response"]["Main_Platform"]["Hackathon"], main["Response"]["Subplatforms"]["Rocketchat"], {"command": "chat_command", "Parameters": "File.pcap"})
         pass
         ###################### TEST: createPlatform ##############################
         # print(self.createPlatform("Hackathon", {"TiddlyWiki"}))
         # time.sleep(3)
         # print(self.createPlatform("TiddlyWiki", {}))
 
-        # main_p = self.createPlatform("Hackathon", {"TiddlyWiki", "Rocketchat"})
+        # main_p = self.createPlatform("Hackathon", {"TiddlyWiki"})
         # print(main_p)
         # time.sleep(3)
         # main_p2, status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
-        # print(main_p2.get_sub_platforms())
+        # print(str(main_p2.get_sub_platforms()))
         # print(status)
         ##########################################################################
 
@@ -520,23 +549,24 @@ class PlatformInterface():
         # main_p = self.platformManager.createPlatform("Hackathon", {})
         # print(main_p)
            
-        # print(self.deletePlatform(main_p.getPlatformID(), {}))
+        # print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
         
         ########################## TEST: addPlatform #############################
-        main_p = self.platformManager.createPlatform("Hackathon", {})
-        print(self.addPlatform(main_p.getPlatformID(), ["TiddlyWiki"]))
+        # main_p = self.platformManager.createPlatform("Hackathon", {})
+        # print(self.addPlatform(main_p.getPlatformID(), ["TiddlyWiki"]))
         
-        print(self.deletePlatform(main_p.getPlatformID(), []))
+        # print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
         
         ################### TEST: startPlatform/stopPlatform #####################
-        # main_p = self.platformManager.createPlatform("TiddlyWiki", {})
-        # print(self.startPlatform(main_p.getPlatformID(), {}))
-        
-        # print(self.stopPlatform(main_p.getPlatformID(), {}))
+        main_p = self.platformManager.createPlatform("TiddlyWiki", ["Rocketchat"])
+        print(self.startPlatform(main_p.getPlatformID(), []))
+        time.sleep(5)
+        input("whenever: \n")
+        # print(self.stopPlatform(main_p.getPlatformID(), []))
          
-        #print(self.deletePlatform(main_p.getPlatformID(), {}))
+        print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
 
         ##################### TEST: registerUser/loginUser #######################

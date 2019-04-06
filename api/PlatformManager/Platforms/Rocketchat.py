@@ -29,7 +29,7 @@ class Rocketchat(Platform):
     processID = 0
     subplatforms = {}
     port = "3000"
-    ip = "129.108.7.17"
+    ip = "0.0.0.0"
     link = "http://www.chat.service"
 
     def __init__(self):
@@ -83,7 +83,9 @@ class Rocketchat(Platform):
         return self.subplatforms
 
     def requestHandler(self, jsonObject):
-        pass
+        if jsonObject['command'] == 'chat_command':
+            print("Success")
+            return True
 
     # sets process ID
     def setProcessID(self, processID):
