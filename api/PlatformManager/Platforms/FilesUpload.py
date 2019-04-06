@@ -13,7 +13,7 @@ from .Platform import Platform
 
 class FilesUpload(Platform):
     # fill the values here for your specific platform
-    platform_name = "FilesDownload"
+    platform_name = "FilesUpload"
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
@@ -53,11 +53,11 @@ class FilesUpload(Platform):
         return int(self.platform_id)
     # return command that starts platform
     def get_start_command(self):
-        return self.platform_start_command + " -a " + self.ip + " -p " + self.port 
+       return  ""
 
     #returns command to stop platform
     def get_stop_command(self):
-        return self.platform_end_command + str(self.processID + 1)
+        return "" 
     
     # returns list of subplatforms
     def get_sub_platforms(self):
@@ -103,13 +103,12 @@ class FilesUpload(Platform):
     # set list of subplatforms
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
-    
-    def requestHandler(self, jsonObject):
-        fileMethods = {
-        "addFile": self.addFile,
-        "delFile" : self.delFile
+    fileMethods = {
+        "addFile": FilesUpload.addFile,
+        "delFile" : FilesUpload.delFile
         }
-        return fileMethods[jsonObject["command"]](jsonObject["parameters"])
+    def requestHandler(self, jsonObject):
+        return FilesUpload.fileMethods[jsonObject["command"]](jsonObject["parameters"])
     
     def addFile(self, parameters):
         print("addFiles" + str(parameters))

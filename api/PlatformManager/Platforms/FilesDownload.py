@@ -104,12 +104,13 @@ class FilesDownload(Platform):
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
     
-    def requestHandler(self, jsonObject):
-        fileMethods = {
-        "addFile": self.addFile,
-        "delFile" : self.delFile
+    fileMethods = {
+        "addFile": FilesDownload.addFile,
+        "delFile" : FilesDownload.delFile
         }
-        return fileMethods[jsonObject["command"]](jsonObject["parameters"])
+    
+    def requestHandler(self, jsonObject):
+        return FilesDownload.fileMethods[jsonObject["command"]](jsonObject["parameters"])
     
     def addFile(self, parameters):
         print("addFiles" + str(parameters))
