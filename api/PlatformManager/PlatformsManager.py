@@ -340,9 +340,11 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
-# A = PlatformsManager()
-# Main_Platform = A.createPlatform("Hackathon", ["Rocketchat", "TiddlyWiki"])
-# MainID = Main_Platform.getPlatformID()
+A = PlatformsManager()
+Main_Platform = A.createPlatform("FilesDownload", [])
+print(Main_Platform)
+#MainID = Main_Platform.getPlatformID()
+Main_Platform.requestHandler({"command": "addFile", "parameters": [10, 11 ,13]})
 # sub_platforms = Main_Platform.get_sub_platforms()
 # subIDs = []
 # for x in sub_platforms:
