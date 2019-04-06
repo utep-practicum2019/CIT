@@ -1,4 +1,4 @@
-import os, sys, time, mmap
+import os,  time
 
 from Platform import Platform
 
@@ -186,7 +186,6 @@ class Results(Platform):
                     matchedLine = line
                     break
         with open(reportPath + out, 'w') as file:
-            print(matchedLine)
             file.write(str(matchedLine.split()[1]))
             file.close()
 
@@ -204,7 +203,7 @@ class Results(Platform):
             if (len(self.diff(tmp, initial_curr_dir)) != 0):
                 state = self.diff(tmp, initial_curr_dir)
                 for newAlert in state:
-                    print("******* ALERT: ", newAlert, " was added to folder ********")
+                    print('Status:', status, "\n ******* ALERT: ", newAlert, " was added to folder ********")
                     self.inspectFile(newAlert)
                     self.compareWithBest()
                     initial_curr_dir = self.init()
