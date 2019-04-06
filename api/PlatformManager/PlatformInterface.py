@@ -56,9 +56,7 @@ class PlatformInterface():
             return {"Status" : status, "Response" : {}}
 
     def deletePlatform(self, platform_ID, subplatform_IDs):
-        print(platform_ID)
         Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
-        print(Main_Platform)
         deletions = []
 
         if (Main_Platform != False or Main_Platform[0] != None):
@@ -74,7 +72,7 @@ class PlatformInterface():
         else:
             status = "Failure"
 
-        return Main_Platform[0], status
+        return status
 
     def addPlatform(self, platform_ID, subplatforms):
         before_add = self.getIDs(platform_ID)
@@ -234,45 +232,44 @@ class PlatformInterface():
         return False
 
     def formatDeleteRequest(self, main_ID, deletions):
-        deleted_platform_data = {"main" : main_ID,
-                                "deletions" : deletions}
-
-        request_data = {"collection_name" : "platforms", 
-                        "document_id" : deleted_platform_data["main"], 
-                        "document" : deleted_platform_data
-                        }
-        
-        r = requests.delete(self.database_url, json=request_data)
+        if (len(deletions) == 0):
+            request_data = {
+                "collection_name" : "platforms",
+                "document_id" : main_ID
+            }
+            r = requests.delete(self.database_url, json=request_data)
     
-        if r.status_code == requests.codes.ok:
-            return True
+            if r.status_code == requests.codes.ok:
+                return True
+            return False
+        else:
+            for to_delete in deletions:
+                request_data = {
+                    "collection_name" : "platforms",
+                    "document_id" : to_delete
+                }
+                r = requests.delete(self.database_url, json=request_data)
 
-        return False
+                if r.status_code != requests.codes.ok:
+                    return False
+            return True
 
     def formatUpdateRequest(self, main_ID, additions):
-        added_platform_data = {"main" : main_ID,
-                                "additions" : []}
-        
-        for x in additions:
-            platform = self.platformManager.getPlatform(x)
-            
-            added_platform_data["additions"].append({"id" : platform.getPlatformID(),
-                                                    "ip_port" : platform.getIpPort(),
-                                                    "name" : platform.getPlatformName()
-                                                    })
-        
-        request_data = {"collection_name" : "platforms", 
-                        "document_id" : added_platform_data["main"], 
-                        "document" : added_platform_data
-                        }
+        if (len(additions) != 0):
+            for to_add in additions:
+                request_data = {
+                    "collection_name" : "platforms",
+                    "document_id" : to_add
+                }
+                r = requests.delete(self.database_url, json=request_data)
 
-        r = requests.put(self.database_url, json=request_data)
-    
-        if r.status_code == requests.codes.ok:
+                if r.status_code != requests.codes.ok:
+                    return False
             return True
-
-        return False
-
+        else:
+            print("Nothing to be added")
+            return True
+        
     def getIDs(self, main_platform_ID):
         ids = []
         Main_Platform = self.platformManager.getPlatform(main_platform_ID)
@@ -284,19 +281,23 @@ class PlatformInterface():
         
         return ids
 
-    def requestHandler(self, mainid, subplatformid, command):
-        Main_Platform = self.platformManager.getPlatform(mainid)
+    def requestHandler(self, main_ID, subplatform_ID, command):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
+        
         if(Main_Platform is None):
             return "Failure"
-        if(subplatformid == 0):
+        
+        if(subplatform_ID == 0):
             Main_Platform.requestHandler(command)
         else:
             subplatform = None
             subplatforms = Main_Platform.get_sub_platforms()
+            
             for x in subplatforms:
-                if(subplatformid == subplatforms[x].getPlatformID()):
+                if(subplatform_ID == subplatforms[x].getPlatformID()):
                     subplatform = subplatforms[x]
                     break
+            
             if(subplatform is None):
                 print("subplatform not found")
                 return "Failure"
@@ -531,14 +532,14 @@ class PlatformInterface():
         # main_p = self.createPlatform("Hackathon", {"TiddlyWiki"})
         # print(main_p)
         # time.sleep(3)
-        # main_p2, status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
-        # print(str(main_p2.get_sub_platforms()))
+        # status = self.deletePlatform(main_p["Response"]["Main_Platform"]["Hackathon"], [main_p["Response"]["Subplatforms"]["TiddlyWiki"]])
         # print(status)
         ##########################################################################
 
         ###################### TEST: deletePlatform ##############################
         # main_p = self.platformManager.createPlatform("Hackathon", {"TiddlyWiki"})
         # # #print(main_p)
+        # input("go\n")
          
         # print("Deleting: ")
         # #subplatforms = main_p.get_sub_platforms()
@@ -554,19 +555,21 @@ class PlatformInterface():
         
         ########################## TEST: addPlatform #############################
         # main_p = self.platformManager.createPlatform("Hackathon", {})
+        # print(main_p)
+        # input("go\n")
         # print(self.addPlatform(main_p.getPlatformID(), ["TiddlyWiki"]))
         
         # print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
         
         ################### TEST: startPlatform/stopPlatform #####################
-        main_p = self.platformManager.createPlatform("TiddlyWiki", ["Rocketchat"])
-        print(self.startPlatform(main_p.getPlatformID(), []))
-        time.sleep(5)
-        input("whenever: \n")
-        # print(self.stopPlatform(main_p.getPlatformID(), []))
+        # main_p = self.platformManager.createPlatform("TiddlyWiki", ["Rocketchat"])
+        # print(self.startPlatform(main_p.getPlatformID(), []))
+        # time.sleep(5)
+        # input("whenever: \n")
+        # # print(self.stopPlatform(main_p.getPlatformID(), []))
          
-        print(self.deletePlatform(main_p.getPlatformID(), []))
+        # print(self.deletePlatform(main_p.getPlatformID(), []))
         ##########################################################################
 
         ##################### TEST: registerUser/loginUser #######################
