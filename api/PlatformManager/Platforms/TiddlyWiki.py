@@ -25,6 +25,15 @@ class TiddlyWiki(Platform):
     processID = 0
     platform_id = 0
     subplatforms = {}
+    started = False
+
+    
+    def setPlatformStatus(self, status):
+        self.started = status 
+    
+    
+    def getPlatformStatus(self):
+        return self.started 
 
     
     #return process ID 

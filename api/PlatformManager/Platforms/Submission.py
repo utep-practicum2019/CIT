@@ -27,6 +27,8 @@ class Submission(Platform):
     platform_id = 0
     subplatforms = {" ", " "}
 
+
+
     #return process ID 
     def getProcessID(self):
         return self.processID

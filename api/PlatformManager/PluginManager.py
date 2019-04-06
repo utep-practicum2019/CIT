@@ -26,7 +26,6 @@ class PluginManager():
         os.system("rm " + pluginFile)
 
     def loadPlatform(self, platform):
-        print(platform)
         # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
         module = importlib.import_module("Platforms." + platform, "./")
         class_ = getattr(module, platform)

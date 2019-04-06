@@ -31,7 +31,8 @@ class PlatformsManager:
     def __init__(self):
         self.PlatformTree = PlatformTreeManager()
         self.plugin_manager = PluginManager()
-        self.PlatformStarted = {}
+        self.PlatformTracker = {}
+        
 
     def createPlatform(self, platform, sub_platforms):
         try:
@@ -62,8 +63,6 @@ class PlatformsManager:
 
         try:
             available_plugins = self.plugin_manager.getAvailablePlugins()
-            print(available_plugins)
-
             Main_Platform = self.PlatformTree.getPlatform(platformID)
             if Main_Platform is None:
                 print("No such Platform with PlatformID: " + platformID)
@@ -91,7 +90,6 @@ class PlatformsManager:
     def deletePlatform(self, platformID, subplatformIDs):
         try:
             if subplatformIDs == []:
-                print("first")
                 Main_Platform = self.PlatformTree.getPlatform(platformID)
                 if (Main_Platform is None):
                     print("No such Platform with ID:" + str(platformID))
@@ -100,7 +98,6 @@ class PlatformsManager:
                 self.PlatformTree.remove(platformID)
                 return (None, "Success")
             else:
-                print("second")
                 Main_Platform = self.PlatformTree.getPlatform(platformID)
                 if (Main_Platform is None):
                     print("No such Platform with ID:" + str(platformID))
@@ -136,38 +133,54 @@ class PlatformsManager:
                 print("No such Platform with ID: " + str(platformID))
                 return "Failure"
 
+            main_id = Main_Platform.getPlatformID()
             subplatforms = Main_Platform.get_sub_platforms()
-
-            if not self.check_service(Main_Platform):
-                self.startPlatformThread(Main_Platform)
-            else:
-                newIP, newPort = self.getPort(Main_Platform)
-                print("New IPport: " + newIP + ":" + str(newPort))
-                Main_Platform.setIpPort(newIP, str(newPort))
-                self.startPlatformThread(Main_Platform)
-
+            platformTracker = self.PlatformTracker.keys()
+            if  main_id not in platformTracker:
+                if not self.check_service(Main_Platform):
+                    self.PlatformTracker[main_id] = []
+                    self.startPlatformThread(Main_Platform)
+                else:
+                    newIP, newPort = self.getPort(Main_Platform)
+                    self.PlatformTracker[main_id] = []
+                    Main_Platform.setIpPort(newIP, str(newPort))
+                    self.startPlatformThread(Main_Platform)
+            subTracker = self.PlatformTracker[main_id]
             if subplatformsIDs == []:
                 time.sleep(3)
                 for x in subplatforms:
-                    if not self.check_service(subplatforms[x]):
-                        self.startPlatformThread(subplatforms[x])
-                        time.sleep(3)
-                    else:
-                        newIP, newPort = self.getPort(subplatforms[x])
-                        subplatforms[x].setIpPort(newIP, newPort)
-                        self.startPlatformThread(Main_Platform)
-                        time.sleep(3)
-            else:
-                for x in subplatforms:
-                    if subplatforms[x].getPlatformID() in subplatformsIDs:
+                    sub_id = subplatforms[x].getPlatformID()
+                    if sub_id not in subTracker: 
                         if not self.check_service(subplatforms[x]):
+                            subTracker.append(sub_id)
                             self.startPlatformThread(subplatforms[x])
                             time.sleep(3)
                         else:
                             newIP, newPort = self.getPort(subplatforms[x])
                             subplatforms[x].setIpPort(newIP, newPort)
+                            subTracker.append(sub_id)
                             self.startPlatformThread(Main_Platform)
                             time.sleep(3)
+            else:
+                for x in subplatforms:
+                    sub_id = subplatforms[x].getPlatformID()
+                    if sub_id in subplatformsIDs:
+                        sub_id in subplatformsIDs
+                        if sub_id not in subTracker: 
+                            if not self.check_service(subplatforms[x]):
+                                
+                                subTracker.append(sub_id)
+                                self.startPlatformThread(subplatforms[x])
+                                time.sleep(3)
+                            else:
+                                
+                                newIP, newPort = self.getPort(subplatforms[x])
+                                subTracker.append(sub_id)
+                                subplatforms[x].setIpPort(newIP, newPort)
+                                self.startPlatformThread(Main_Platform)
+                                time.sleep(3)
+
+                              
             return Main_Platform, "Success"
         except Exception as ex:
             print(ex)
@@ -202,22 +215,29 @@ class PlatformsManager:
                 print("No such Platform with ID: " + str(platformID))
                 return (None, "Failure")
             subplatforms = Main_Platform.get_sub_platforms()
-
+            platformTracker = self.PlatformTracker.keys()
             if not subplatformIDs:
                 for x in subplatforms:
                     if self.check_service(subplatforms[x]):
                         self.stop(subplatforms[x])
                         time.sleep(3)
-                if self.check_service(Main_Platform):
+                
+                if self.check_service(Main_Platform) or platformID in platformTracker:
+                    del self.PlatformTracker[platformID]
+                    
                     self.stop(Main_Platform)
                     time.sleep(3)
             else:
+                subTracker = self.PlatformTracker[platformID]
                 for x in subplatforms:
+                    subplatformID = subplatforms[x].getPlatformID()
                     if subplatforms[x].getPlatformID() in subplatformIDs:
-                        if self.check_service(subplatforms[x]):
+                        if self.check_service(subplatforms[x]) or subplatformID in subTracker[platformID]:
+                            del self.PlatformTracker[platformID][subplatformID]
+                            
                             self.stop(subplatforms[x])
                             time.sleep(3)
-
+            
             return (Main_Platform, "Success")
         except Exception as ex:
             print(ex)
@@ -227,7 +247,6 @@ class PlatformsManager:
     def stop(self, platform):
         try:
             os.system(platform.get_stop_command())
-            print("here")
         except Exception as ex:
             print(ex)
             
@@ -307,7 +326,7 @@ class PlatformsManager:
     def getPort(self, platform):
         IPport = platform.getIpPort()
         ip, port = IPport.split(":")
-        randPort = random.randint(1, 65000)
+        randPort = random.randint(10000, 65000)
         while(self.check_IPport(ip, randPort)):
             randPort = random.randint(1, 65000)
         return (ip, randPort)
@@ -321,33 +340,26 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
-A = PlatformsManager()
-Main_Platform = A.createPlatform("TiddlyWiki", [])
-MainID = Main_Platform.getPlatformID()
-Main_PlatformTwo = A.createPlatform("TiddlyWiki", [])
-MainIDTwo = Main_PlatformTwo.getPlatformID()
-sub_platforms = Main_Platform.get_sub_platforms()
-subIDs = {}
-for x in sub_platforms:
-    subIDs[sub_platforms[x].getPlatformName()] = sub_platforms[x].getPlatformID()
+# A = PlatformsManager()
+# Main_Platform = A.createPlatform("Hackathon", ["Rocketchat", "TiddlyWiki"])
+# MainID = Main_Platform.getPlatformID()
+# sub_platforms = Main_Platform.get_sub_platforms()
+# subIDs = []
+# for x in sub_platforms:
+#     subIDs.append(sub_platforms[x].getPlatformID())
+# C = A.startPlatforms(MainID, subIDs)
+# input("whenever bruh")
+# # status = A.checkPlatformStatus(MainID, [])
+# # B = A.addPlatform(MainID, {"TiddlyWiki"})
+# # C = A.startPlatforms(MainID, [])
+# # input("whenever bruh")
+# # status = A.checkPlatformStatus(MainID, [])
+# # print("status" + str(status))
+# # input("whenever bruh")
+# # time.sleep(5)
+# A.stopPlatforms(MainID, [] )
+# input("whenever bruh")
 
-C = A.startPlatforms(MainID, [])
-B = A.startPlatforms(MainIDTwo, [])
-# # time.sleep(20)
-input("whenever bruh")
-# status = A.checkPlatformStatus(MainID, [])
-# B = A.addPlatform(MainID, {"TiddlyWiki"})
-# C = A.startPlatforms(MainID, [])
-# input("whenever bruh")
-# status = A.checkPlatformStatus(MainID, [])
-# print("status" + str(status))
-# input("whenever bruh")
-# time.sleep(5)
-A.stopPlatforms(MainID, [])
-input("whenever bruh")
-A.stopPlatforms(MainIDTwo, [])
-# status = A.checkPlatformStatus(MainID, [])
-# print("status" + str(status))
 
 
 

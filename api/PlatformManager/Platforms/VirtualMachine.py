@@ -24,7 +24,7 @@ class VirtualMachine(Platform):
     processID = 0
     platform_id = 0
     subplatforms = {" ", " "}
-
+    
     # return process ID
     def getProcessID(self):
         return self.processID
