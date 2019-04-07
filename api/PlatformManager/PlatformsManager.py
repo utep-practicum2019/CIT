@@ -37,7 +37,7 @@ class PlatformsManager:
     def createPlatform(self, platform, sub_platforms):
         try:
             available_plugins = self.plugin_manager.getAvailablePlugins()
-            # print("available plugins" + str(available_plugins))
+            print("available plugins" + str(available_plugins))
             if platform not in available_plugins:
                 print("Failure: No Such Plugin: " + platform)
                 return "Failure"
@@ -341,10 +341,10 @@ class PlatformsManager:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
 A = PlatformsManager()
-Main_Platform = A.createPlatform("FilesDownload", [])
-print(Main_Platform)
-#MainID = Main_Platform.getPlatformID()
-Main_Platform.requestHandler({"command": "addFile", "parameters": [10, 11 ,13]})
+Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
+MainID = Main_Platform.getPlatformID()
+Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
+Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
 # sub_platforms = Main_Platform.get_sub_platforms()
 # subIDs = []
 # for x in sub_platforms:
@@ -359,7 +359,7 @@ Main_Platform.requestHandler({"command": "addFile", "parameters": [10, 11 ,13]})
 # # print("status" + str(status))
 # # input("whenever bruh")
 # # time.sleep(5)
-# A.stopPlatforms(MainID, [] )
+#A.stopPlatforms(MainID, [] )
 # input("whenever bruh")
 
 

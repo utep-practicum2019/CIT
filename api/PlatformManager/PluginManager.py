@@ -8,14 +8,15 @@ MODULE_EXTENSIONS = ('.py')
 class PluginManager():
 
     def getAvailablePlugins(self):
-        os.chdir("Platforms")
+        a = os.getcwd()
+        os.chdir("./Platforms")
         platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
             platforms.append(plugin)
         platforms.remove("__init__")
         platforms.remove("Platform")
-        os.chdir('..')
+        os.chdir(a)
         return platforms
 
     def addPlatform(self, path):
@@ -26,6 +27,7 @@ class PluginManager():
         os.system("rm " + pluginFile)
 
     def loadPlatform(self, platform):
+        print(platform)
         # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
         module = importlib.import_module("Platforms." + platform, "./")
         class_ = getattr(module, platform)
