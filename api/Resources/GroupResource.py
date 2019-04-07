@@ -74,11 +74,11 @@ class GroupAPI(Resource):
         from AccountManager.account_manager import AccountManager
 
         results = False
-        if "command" in data and "platform_name" in data:
+        if "command" in data and "platform_id" in data:
             if data["command"] == "attach":
-                results = AccountManager.attach_platform(data["group_id"], data["platform_name"])
+                results = AccountManager.attach_platform(data["group_id"], data["platform_id"])
             elif data["command"] == "detach":
-                results = AccountManager.detach_platform(data["platform_name"])
+                results = AccountManager.detach_platform(data["platform_id"])
         else:
             results = AccountManager.update_group(data["group_id"], data["updated_group"])
 

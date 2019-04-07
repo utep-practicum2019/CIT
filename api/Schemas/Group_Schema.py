@@ -21,8 +21,9 @@ class GroupRequestSchema(GroupSchema):
 
 
 class GroupUpdateRequestSchema(Schema):
+    command = fields.String()
     group_id = fields.Int(required=True)
-    platform_name = fields.String()
+    platform_id = fields.Integer()
     updated_group = fields.Nested(GroupSchema)
 
 
