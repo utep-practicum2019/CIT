@@ -194,6 +194,8 @@
         let list = [];
         $('#usersTab input[type=checkbox]').each(function () {
             if (this.checked) {
+                console.log($(this).val());
+
                 list.push($(this).val())
             }
         });
@@ -257,6 +259,7 @@
         let list = [];
         $('#groupsTab input[type=checkbox]').each(function () {
             if (this.checked) {
+                console.log($(this).val());
                 list.push($(this).val())
             }
         });
