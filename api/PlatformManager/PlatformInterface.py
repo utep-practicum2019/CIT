@@ -17,7 +17,7 @@ class PlatformInterface():
     def __init__(self):
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        self.cit_url = 'http://127.0.0.1:5000'
+        self.cit_url = 'http://127.0.0.1:5001'
         self.database_path = '/api/v2/resources/database'
         self.database_url = self.cit_url + self.database_path
           
@@ -28,7 +28,7 @@ class PlatformInterface():
         status = "Failure"
 
         if (Main_Platform != "Failure"):
-            if ((Main_Platform.get_sub_platforms() == { }) and (subplatforms != { })):
+            if ((Main_Platform.get_sub_platforms() == []) and (subplatforms != [])):
                 print("Error in subplatform creation")
             else:    
                 Subplatforms = Main_Platform.get_sub_platforms()
@@ -47,7 +47,7 @@ class PlatformInterface():
             if (status != "Failure"):
                 response = self.createResponse(Main_Platform, status, 0)
 
-                #request_result = self.formatCreateRequest(Main_Platform)
+                request_result = self.formatCreateRequest(Main_Platform)
 
                 return response
             else:
@@ -61,14 +61,13 @@ class PlatformInterface():
 
         if (Main_Platform != False or Main_Platform[0] != None):
             status = Main_Platform[1]
-
             if (subplatform_IDs == []):
                 deletions.append(platform_ID)
-                #request_result = self.formatDeleteRequest(platform_ID, deletions)
+                self.formatDeleteRequest(platform_ID, deletions)
             else:
                 for x in subplatform_IDs:
                     deletions.append(x)
-                    #request_result = self.formatDeleteRequest(platform_ID, deletions)
+                    self.formatDeleteRequest(platform_ID, deletions)
         else:
             status = "Failure"
 
