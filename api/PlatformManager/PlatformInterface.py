@@ -28,7 +28,7 @@ class PlatformInterface():
         status = "Failure"
 
         if (Main_Platform != "Failure"):
-            if ((Main_Platform.get_sub_platforms() == { }) and (subplatforms != { })):
+            if ((Main_Platform.get_sub_platforms() == { }) and (subplatforms != [])):
                 print("Error in subplatform creation")
             else:    
                 Subplatforms = Main_Platform.get_sub_platforms()
