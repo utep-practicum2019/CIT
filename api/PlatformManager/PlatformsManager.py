@@ -4,9 +4,9 @@ import subprocess
 import threading
 import time
 
-from PlatformTreeManager import PlatformTreeManager
+from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
-from PluginManager import PluginManager
+from .PluginManager import PluginManager
 
 """ 
         @authors:
@@ -340,17 +340,17 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
-A = PlatformsManager()
-Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
-MainID = Main_Platform.getPlatformID()
-Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
-Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
-# sub_platforms = Main_Platform.get_sub_platforms()
-# subIDs = []
-# for x in sub_platforms:
-#     subIDs.append(sub_platforms[x].getPlatformID())
-# C = A.startPlatforms(MainID, subIDs)
-# input("whenever bruh")
+# A = PlatformsManager()
+# Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
+# MainID = Main_Platform.getPlatformID()
+# Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
+# Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
+# # sub_platforms = Main_Platform.get_sub_platforms()
+# # subIDs = []
+# # for x in sub_platforms:
+# #     subIDs.append(sub_platforms[x].getPlatformID())
+# # C = A.startPlatforms(MainID, subIDs)
+# # input("whenever bruh")
 # # status = A.checkPlatformStatus(MainID, [])
 # # B = A.addPlatform(MainID, {"TiddlyWiki"})
 # # C = A.startPlatforms(MainID, [])

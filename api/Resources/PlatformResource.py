@@ -12,14 +12,20 @@ class PlatformAPI(Resource):
     @staticmethod
     def get():
 
-        from Database.database_handler import DatabaseHandler
-
-        results = DatabaseHandler.find_all("users")
-
-        results = PlatformAPI.platform_interface.getAvailablePlugins()
-        if results is None:
-            results = {"success": False}
-        return results
+        json_data = request.args.to_dict()
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = platform_get_request_schema.load(json_data)
+        if errors:
+            return errors, 422
+        if data["all"]:
+            from Database.database_handler import DatabaseHandler
+            return DatabaseHandler.find_all("platforms")
+        else:
+            results = PlatformAPI.platform_interface.getAvailablePlugins()
+            if results is None:
+                results = {"success": False}
+            return results
 
     @staticmethod
     def post():
