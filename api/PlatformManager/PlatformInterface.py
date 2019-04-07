@@ -1,7 +1,7 @@
 import time, json, requests
 
-from PlatformsManager import PlatformsManager
-from PluginManager import PluginManager
+from .PlatformsManager import PlatformsManager
+from .PluginManager import PluginManager
 
 """ 
         @authors:
