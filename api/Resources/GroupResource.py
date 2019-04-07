@@ -77,6 +77,33 @@ class GroupAPI(Resource):
         if "command" in data and "platform_id" in data:
             if data["command"] == "attach":
                 results = AccountManager.attach_platform(data["group_id"], data["platform_id"])
+
+                from Database.database import Database
+                Database.find("plaf")
+                group = Database.find("groups", data["group_id"])
+                from .PlatformManagerInstance import PlatformManagerInstance
+                platform_interface = PlatformManagerInstance.get_instance().platform_interface
+                g_name = "Group " + data["group_id"]
+                group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
+                                                                             "Whatever",
+                                                                             g_name)
+                for user in group["members"]:
+                    email = user["username"] + "@cit.com"
+                    username = user["username"]
+                    password = user["password"]
+                    nickname = user["username"]
+                    u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
+                                                                       "Whatever",
+                                                                       email, username,
+                                                                       password,
+                                                                       nickname)
+                    platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
+
+                return True
+
+
+
+
             elif data["command"] == "detach":
                 results = AccountManager.detach_platform(data["platform_id"])
         else:
