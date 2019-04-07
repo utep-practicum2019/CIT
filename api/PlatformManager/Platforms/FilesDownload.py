@@ -28,7 +28,7 @@ class FilesDownload(Platform):
     platform_id = 0
     subplatforms = {}
 
-    downloads_path = "'/home/practicum/Desktop'"
+    downloads_path = "/home/practicum/Desktop/file_testing/to"
 
     #return process ID 
     def getProcessID(self):
@@ -113,18 +113,25 @@ class FilesDownload(Platform):
         "addFile": self.addFile,
         "delFile" : self.delFile
         }
-        return fileMethods[jsonObject["command"]](jsonObject["parameters"])
+        return fileMethods[jsonObject["command"]](jsonObject["param"])
     
     def addFile(self, parameters):
         print("addFiles" + str(parameters))
-        copy(parameters["filePath"], self.downloads_path)
-        return "Success"
+        try:
+            copy(parameters["filePath"], self.downloads_path)
+        except (FileNotFoundError, KeyError) as e:
+            print(e)
+            return {"success": False}
+        return {"success": True}
 
     def delFile(self, parameters):
         print("deleteFiles" + str(parameters))
-        os.remove(self.downloads_path + "/" + parameters["file"])
-        return "Success"
-    
+        try:
+            os.remove(self.downloads_path + "/" + parameters["filename"])
+        except (FileNotFoundError, KeyError):
+            return {"success": False}
+        return {"success": True}
+
     def getFiles(self):
         #print(os.path.dirname(os.path.abspath(__file__)))
         files = [f for f in listdir(self.downloads_path) if isfile(join(self.downloads_path, f))]

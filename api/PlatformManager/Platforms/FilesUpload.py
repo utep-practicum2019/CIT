@@ -115,18 +115,24 @@ class FilesUpload(Platform):
         "addFile": self.addFile,
         "delFile" : self.delFile
         }
-        return fileMethods[jsonObject["command"]](jsonObject["parameters"])
+        return fileMethods[jsonObject["command"]](jsonObject["param"])
     
     def addFile(self, parameters):
         print("addFiles" + str(parameters))
-        copy(parameters["filePath"], self.uploads_path)
-        return "Success"
+        try:
+            copy(parameters["filePath"], self.uploads_path)
+        except (FileNotFoundError, KeyError):
+            return {"success": False}
+        return {"success": True}
 
     def delFile(self, parameters):
         print("deleteFiles" + str(parameters))
-        os.remove(self.uploads_path + "/" + parameters["file"])
-        return "Success"
-    
+        try:
+            os.remove(self.uploads_path + "/" + parameters["file"])
+        except (FileNotFoundError, KeyError):
+            return {"success": False}
+        return {"success": True}
+
     def getFiles(self):
         #print(os.path.dirname(os.path.abspath(__file__)))
         files = [f for f in listdir(self.uploads_path) if isfile(join(self.uploads_path, f))]

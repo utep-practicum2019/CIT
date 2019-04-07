@@ -79,11 +79,10 @@ class GroupAPI(Resource):
                 results = AccountManager.attach_platform(data["group_id"], data["platform_id"])
 
                 from Database.database import Database
-                Database.find("plaf")
                 group = Database.find("groups", data["group_id"])
                 from .PlatformManagerInstance import PlatformManagerInstance
                 platform_interface = PlatformManagerInstance.get_instance().platform_interface
-                g_name = "Group " + data["group_id"]
+                g_name = "Group " + str(data["group_id"])
                 group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
                                                                              "Whatever",
                                                                              g_name)

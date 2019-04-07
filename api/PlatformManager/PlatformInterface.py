@@ -284,10 +284,10 @@ class PlatformInterface():
         Main_Platform = self.platformManager.getPlatform(main_ID)
         
         if(Main_Platform is None):
-            return "Failure"
+            return {"success": False}
         
         if(subplatform_ID == 0):
-            Main_Platform.requestHandler(command)
+            return Main_Platform.requestHandler(command)
         else:
             subplatform = None
             subplatforms = Main_Platform.get_sub_platforms()
@@ -299,9 +299,9 @@ class PlatformInterface():
             
             if(subplatform is None):
                 print("subplatform not found")
-                return "Failure"
+                return {"success": False}
             else:
-                 subplatform.requestHandler(command)
+                 return subplatform.requestHandler(command)
 
             
             
