@@ -15,6 +15,7 @@ class PlatformCOMMANDRequestSchema(Schema):
     command = fields.String()
     platform_ID = fields.Integer()
     subplatforms_IDS = fields.List(fields.Integer())
+    configuration = fields.Dict()
 
 
 class PlatformDELETERequestSchema(Schema):

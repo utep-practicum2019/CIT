@@ -5,9 +5,12 @@
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <!--    <link href="/static/css/style.css" rel="stylesheet">-->
 </head>
 <body>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
 <div class="container-fluid">
     <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
@@ -27,22 +30,108 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnStart').click(function () {
+            let list_of_platforms = select_platforms();
+            if (list_of_platforms.length === 0) {
+                alert("Please select at least one platform to start.");
+            } else {
+                for (let i in list_of_platforms) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "command" : "start",
+                            "platform_ID": list_of_platforms[i]["platform_ID"],
+                            "subplatforms_IDS": []
+                        }),
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                        },
+                    });
+                }
+                alert("Platforms Started!")
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#btnStop').click(function () {
+            let list_of_platforms = select_platforms();
+            if (list_of_platforms.length === 0) {
+                alert("Please select at least one platform to stop.");
+            } else {
+                for (let i in list_of_platforms) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "command" : "stop",
+                            "platform_ID": list_of_platforms[i]["platform_ID"],
+                            "subplatforms_IDS": []
+                        }),
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                        },
+                    });
+                }
+                alert("Platforms Stopped!")
+            }
+        });
+    });
+</script>
+
+<div class="container-fluid">
+    <h2>Platforms:</h2>
+
+    <div class="row">
+        <div aria-label="First group" class="btn-group mr-2" role="group">
+
+            <button class="btn btn-dark btn-sm menu" data-target="#createPlatformModal" data-toggle="modal"
+                    type="button">
+                Create New Platform
+            </button>
+
+            <button class="btn btn-dark btn-sm menu" data-target="#deletePlatformModal" data-toggle="modal"
+                    type="button">
+                Delete Platform
+            </button>
+
+            <button class="btn btn-dark btn-sm menu" id="btnStart" type="button">
+                Start
+            </button>
+
+            <button class="btn btn-dark btn-sm menu" id="btnStop" type="button">
+                Stop
+            </button>
+        </div>
+    </div>
+</div> <!-- end of main area   -->
+
 <div class="container-fluid">
     <table class="table table-hover" id="platformsTable">
         <thead>
         <tr>
+            <th id="ddd"><a href="javascript:check_uncheck_all();">Select</a></th>
             <th><a href="javascript:SortTable(0,'T', 'platformsTable');">Name</a></th>
             <th><a href="javascript:SortTable(1,'T', 'platformsTable');">IP : Port</a></th>
             <th><a href="javascript:SortTable(2,'T', 'platformsTable');">ID</a></th>
+            <th>Subplatforms</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-    <script src="tablesorter.js" type="text/javascript"></script>
+    <script src="/static/js/tablesorter.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script>
-        (function worker() {
+        (worker())();
+        function worker() {
             // noinspection JSUnusedGlobalSymbols
             $.ajax({
                 type: "GET",
@@ -62,16 +151,242 @@
                         let id = array[i]["main"]["id"];
                         let name = array[i]["main"]["name"];
                         let ip_port = array[i]["main"]["ip_port"];
-                        trHTML += '<tr><td>' + name + '</td><td>' + ip_port + '</td><td>' + id + '</td></tr>';
+                        trHTML += '<tr><td><input aria-label="Checkbox for following text input" id="checkbox_platform'
+                            + id + '" type="checkbox" name="checkbox_platform"></td>';
+                        trHTML += '<td>' + name + '</td><td>' + ip_port + '</td><td>' + id + '</td>';
+                        trHTML += '<td>\n' +
+                            '<button onclick="load_subplatform_modal(' + id + ')" data-target="#subplatformModal" data-toggle="modal" id="subplatform' + id
+                            + '" type="button">\n' +
+                            'Subplatform\n' +
+                            ' </button>\n' +
+                            '</td></tr>\'';
                     }
                     trHTML += '</tbody>';
                     $('#platformsTable tbody').replaceWith(trHTML);
                     SortTable(0, 'T', 'platformsTable', true)
                 }
             });
-
-        })();
+        }
     </script>
 </div>
+
+
+<!-- Delete platform Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="deletePlatformModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <form id="delUserForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    All platform information will be deleted. This action cannot be undone.
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-danger" data-dismiss="modal" id="btnDelPlat">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnDelPlat').click(function () {
+            let list_of_platforms = select_platforms();
+            if (list_of_platforms.length === 0) {
+                alert("Please select at least one platform for deletion.");
+            } else {
+                for (let i in list_of_platforms) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "platform_ID": list_of_platforms[i]["platform_ID"],
+                            "subplatforms_IDS": []
+                        }),
+                        success: function (response) {
+                            // console.log(response["success"] + " status: " + status);
+                            worker();
+                            // $("#btnDelPlat").load(location.href + " #btnDelPlat>*", "");
+                            //location.reload();
+                        },
+                    });
+                }
+            }
+        });
+    });
+
+
+    function select_platforms() {
+        // var values = [];
+        // $.each($("input[type=checkbox]:checked"), function () {
+        //     var data = $(this).parents('tr:eq(0)');
+        //     values.push({
+        //         'callphone': $(data).find('td:eq(1)').text(),
+        //         'rating': $(data).find('td:eq(2)').text(),
+        //         'location': $(data).find('td:eq(3)').text()
+        //     });
+        // });
+        // alert(JSON.stringify(values));
+        let values = [];
+        $.each($("input[type=checkbox]:checked"), function () {
+            var data = $(this).parents('tr:eq(0)');
+            values.push({
+                'platform_ID': $(data).find('td:eq(3)').text()
+            });
+        });
+        return values;
+    }
+
+</script>
+
+<!-- Create Platform Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="createPlatformModal"
+     name="createPlatformModal"
+     role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create new platform</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-body">
+
+                    <form id="addUsersForm">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Main Platform: </span>
+                            </div>
+                            <input aria-describedby="basic-addon1" class="form-control" id="main_platform"
+                                   name="main_platform"
+                                   type="text">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Subplatforms: </span>
+                            </div>
+                            <input aria-describedby="basic-addon1" class="form-control" id="subplatforms"
+                                   name="subplatforms"
+                                   type="text">
+                        </div>
+                    </form>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" data-dismiss="modal" id="btnCreatePlatform">Create Platform</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subplatform Modal -->
+<div aria-hidden="true" class="modal fade" id="subplatformModal"
+     name="subplatformModal"
+     role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="overflow-y: scroll; max-height:85%;  margin-top: 50px; margin-bottom:50px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Subplatform</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-body">
+                    <div class="container-fluid" id="groupArea">
+                        <table class="table table-hover" id="subplatformstable">
+                            <thead>
+                            <tr>
+                                <th>ID:</th>
+                                <th>Name</th>
+                                <th>IP:Port</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function load_subplatform_modal(id) {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:5001/api/v2/resources/platform",
+            contentType: "application/json",
+            dataType: "json",
+            data: {
+                'all': 'True'
+            },
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString());
+                let array = response;
+                let trHTML = '<tbody>';
+                for (let i in array) {
+                    // console.log(JSON.stringify(array[i]));
+                    if (id === array[i]["main"]["id"]) {
+                        let subplats = array[i]["subplatforms"];
+                        for (let j in subplats) {
+                            let id = array[i]["subplatforms"][j]["id"];
+                            let name = array[i]["subplatforms"][j]["name"];
+                            let ip_port = array[i]["subplatforms"][j]["ip_port"];
+                            trHTML += '<tr><td>' + name + '</td><td>' + ip_port + '</td><td>' + id + '</td>';
+                        }
+                    }
+                }
+                trHTML += '</tr></tbody>';
+                $('#subplatformstable > tbody').replaceWith(trHTML);
+                // SortTable(0, 'T', 'platformsTable', true)
+            }
+        });
+
+    }
+</script>
+
+
+<script type="text/javascript">
+    let check = true;
+
+    function check_uncheck_all() {
+        let checkboxes = document.getElementsByName("checkbox_platform");
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = check;
+        }
+        check = !check;
+    }
+</script>
+
+<!--<script crossorigin="anonymous"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+<script crossorigin="anonymous"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

@@ -1,4 +1,6 @@
 from .Platform import Platform
+import subprocess
+import re
 
 """ 
         @authors:
@@ -13,8 +15,8 @@ from .Platform import Platform
 class VirtualMachine(Platform):
     # fill the values here for your specific platform
     platform_name = "IDS Virtual Machine"
-    platform_start_command = "VBoxManage startvm 'Ubuntu Server' --type headless"
-    platform_end_command = " "
+    platform_start_command = "VBoxManage startvm Ubuntu16 --type headless"
+    platform_end_command = "VBoxManage controlvm Ubuntu16 poweroff"
     platform_version = ""
     platformInstallation = " "
     port = " "
@@ -24,7 +26,8 @@ class VirtualMachine(Platform):
     processID = 0
     platform_id = 0
     subplatforms = {" ", " "}
-    
+
+
     # return process ID
     def getProcessID(self):
         return self.processID
@@ -55,12 +58,19 @@ class VirtualMachine(Platform):
 
     # return command that starts platform
     def get_start_command(self):
-        return self.platform_start_command + " -a " + self.ip + " -p " + self.port
+        process = subprocess.Popen(['vboxmanage showvminfo Ubuntu16 | grep -c "running (since"'], shell=True, stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        print(out.decode("utf-8"))
+        if "0" in out.decode("utf-8"):
+            self.platform_start_command = "VBoxManage startvm Ubuntu16 --type headless"
+        else:
+            self.platform_start_command = "sleep 5"
+        return self.platform_start_command
 
-        # returns command to stop platform
+    # returns command to stop platform
 
     def get_stop_command(self):
-        return self.platform_end_command + str(self.processID + 1)
+        return self.platform_end_command
 
     # returns list of subplatforms
     def get_sub_platforms(self):
@@ -110,10 +120,62 @@ class VirtualMachine(Platform):
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
 
-    def requestHandler(self, jsonObject):
-        print("Handling Request")
-
+    def requestHandler(self, command):
+        action = {
+            'checkvmstatus': self.check_vm_status,
+            'startvm': self.start_vm,
+            'startvmscenario': self.start_vm_scenario,
+            'stopvm': self.stop_vm
+        }
+        return action[command['command']](command['param'])
     # add more methods below if you need to do more tasks
+
+    def check_vm_status(self, param):
+
+        result = {'status': False}
+        out = self.vm_command(["vboxmanage showvminfo Ubuntu16 | grep -c 'running (since'"])
+        if "0" in out:
+            result['status'] = False
+        else:
+            result['status'] = True
+        return result
+
+    def start_vm_scenario(self, param):
+        result = {'running': False}
+        out = self.vm_command(["VBoxManage guestcontrol 'Ubuntu16' -v --username hackathon --password toor run --exe '/usr/bin/python' --timeout=5000 --no-wait-stderr --no-wait-stdout -- python3/arg0 /home/hackathon/" + param])
+        print(out)
+        if "successfully terminated" in out:
+            result['running'] = True
+        else:
+            result['running'] = False
+        return result
+
+    def start_vm(self, param):
+        result = {'running': False}
+        out = self.vm_command(["VBoxManage startvm 'Ubuntu16' --type headless"])
+        print(out)
+        if "successfully" in out:
+            result['running'] = True
+        else:
+            result['running'] = False
+        return result
+
+    def stop_vm(self, param):
+        result = {'stopped': False}
+        out = self.vm_command(["VBoxManage controlvm 'Ubuntu16' poweroff"])
+        print(out)
+        if re.match("0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%", out):
+            result['stopped'] = True
+        else:
+            result['stopped'] = False
+        return result
+
+    def vm_command(self, cmd):
+        process = subprocess.Popen(["su - practicum -c '" + cmd[0] + "'"], shell=True, stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        return out.decode("utf-8")
+
+
 
 
 platform = VirtualMachine()

@@ -9,7 +9,7 @@ class PluginManager():
 
     def getAvailablePlugins(self):
         a = os.getcwd()
-        os.chdir("./Platforms")
+        os.chdir("./PlatformManager/Platforms")
         platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
@@ -28,8 +28,8 @@ class PluginManager():
 
     def loadPlatform(self, platform):
         print(platform)
-        # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
-        module = importlib.import_module("Platforms." + platform, "./")
+        module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+        # module = importlib.import_module("Platforms." + platform, "./")
         class_ = getattr(module, platform)
         instance = class_()
         return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
