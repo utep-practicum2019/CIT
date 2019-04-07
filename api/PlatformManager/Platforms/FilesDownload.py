@@ -1,5 +1,7 @@
 import sys, os, abc
 from shutil import *
+from os import listdir
+from os.path import isfile, join
 from .Platform import Platform
 
 """ 
@@ -124,7 +126,9 @@ class FilesDownload(Platform):
         return "Success"
     
     def getFiles(self):
-        print(os.path.dirname(os.path.abspath(__file__)))
+        #print(os.path.dirname(os.path.abspath(__file__)))
+        files = [f for f in listdir(self.downloads_path) if isfile(join(self.downloads_path, f))]
+        return files
 
 
         

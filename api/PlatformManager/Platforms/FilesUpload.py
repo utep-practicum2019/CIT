@@ -1,6 +1,8 @@
 import sys, os, abc
 from shutil import *
-from .Platform import Platform
+from os import listdir
+from os.path import isfile, join
+from Platform import Platform
 
 """ 
         @authors:
@@ -126,4 +128,6 @@ class FilesUpload(Platform):
         return "Success"
     
     def getFiles(self):
-        print(os.path.dirname(os.path.abspath(__file__)))
+        #print(os.path.dirname(os.path.abspath(__file__)))
+        files = [f for f in listdir(self.uploads_path) if isfile(join(self.uploads_path, f))]
+        return files
