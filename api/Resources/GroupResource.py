@@ -73,30 +73,33 @@ class GroupAPI(Resource):
             return errors, 422
         from AccountManager.account_manager import AccountManager
 
-        results = False
-        if "command" in data and "platform_id" in data:
-            if data["command"] == "attach":
-                results = AccountManager.attach_platform(data["group_id"], data["platform_id"])
+        import time
 
-                from Database.database import Database
-                group = Database.find("groups", data["group_id"])
-                from .PlatformManagerInstance import PlatformManagerInstance
-                platform_interface = PlatformManagerInstance.get_instance().platform_interface
-                g_name = "Group " + str(data["group_id"])
-                group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
-                                                                             "Whatever",
-                                                                             g_name)
-                for user in group["members"]:
-                    email = user["username"] + "@cit.com"
-                    username = user["username"]
-                    password = user["password"]
-                    nickname = user["username"]
-                    u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
-                                                                       "Whatever",
-                                                                       email, username,
-                                                                       password,
-                                                                       nickname)
-                    platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
+        results = False
+        if "command" in data and "platform_ids" in data:
+            if data["command"] == "attach":
+                for plat in data["platform_ids"]:
+                    results = AccountManager.attach_platform(data["group_id"], plat)
+
+                # from Database.database import Database
+                # group = Database.find("groups", data["group_id"])
+                # from .PlatformManagerInstance import PlatformManagerInstance
+                # platform_interface = PlatformManagerInstance.get_instance().platform_interface
+                # g_name = "Group " + str(data["group_id"])
+                # group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
+                #                                                              "Whatever",
+                #                                                              g_name)
+                # for user in group["members"]:
+                #     email = user["username"] + "@cit.com"
+                #     username = user["username"]
+                #     password = user["password"]
+                #     nickname = user["username"]
+                #     u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
+                #                                                        "Whatever",
+                #                                                        email, username,
+                #                                                        password,
+                #                                                        nickname)
+                #     platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
 
                 return True
 
