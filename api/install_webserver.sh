@@ -112,6 +112,8 @@ sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
 sudo a2ensite Rocket.Chat
 sudo service apache2 reload
 
+sudo apt-get update -y
+
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
 echo "please close terminal once pptpd connection is verified"
