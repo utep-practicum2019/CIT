@@ -28,6 +28,7 @@ sudo git clone https://github.com/Jermolene/TiddlyWiki5
 sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
 sudo apt-get install -y nodejs
 sudo npm install http-server
+sudo npm i http-server
 cd ..
 
 pip install flask
