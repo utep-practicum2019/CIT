@@ -192,14 +192,17 @@ class Results(Platform):
         self.checkForWarnings(nf, reportFile)
 
     def getStatus(self, group_id):
-        path = '/home/practicum/Desktop/hackathon_results' + 'stats/'
-        fileToFind = 'report_for_group'+ str(group_id) + '_Results.txt'
+        path = '/home/practicum/Desktop/hackathon_results/' + 'stats/'
+        fileToFind = 'report_for_group' + str(group_id) + '_Results.txt'
         #print("Status: ", os.path.exists(path + fileToFind))
-        return os.path.exists(path+fileToFind)
+        exists = os.path.exists(path+fileToFind)
+        if exists:
+            self.inspectFile(path+fileToFind)
+        return exists
 
     def getResults(self, group_id):
         self.getStatus(group_id)
-        path = '/home/practicum/Desktop/hackathon_results' + 'stats/'
+        path = '/home/practicum/Desktop/hackathon_results/' + 'stats/'
         fileToOpen = 'report_for_group' + str(group_id) + '_Results.txt'
         try:
             f = open(path+fileToOpen)

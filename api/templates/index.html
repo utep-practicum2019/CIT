@@ -210,6 +210,7 @@
                                             <button class="btn dark" type="button" disabled>
                                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                               Waiting for results...
+
                                             </button>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
@@ -254,7 +255,7 @@
                 $(function(){
                    var hash = window.location.hash;
                    hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-                   hash && $('#Hackathon a[href="' + '#Hackathon-FilesDownload' + '"]').tab('show');
+                   hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
                    $('#myBtn').click(function(e){
                       $(this).tab('show');
@@ -263,6 +264,10 @@
                       $('html, body').scrollTop(scrollmem);
                    });
                 });
+
+                function checkStatus(){
+                    while (rep
+                }
 
 
                 function countDown() {
