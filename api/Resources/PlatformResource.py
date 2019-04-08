@@ -18,6 +18,7 @@ class PlatformAPI(Resource):
         data, errors = platform_get_request_schema.load(json_data)
         if errors:
             return errors, 422
+
         if data["all"]:
             from Database.database_handler import DatabaseHandler
             return DatabaseHandler.find_all("platforms")

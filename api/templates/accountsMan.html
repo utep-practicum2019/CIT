@@ -96,7 +96,7 @@
             </button>
 
             <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"
-                    type="button">
+                    id="platModalBtn" type="button">
                 Attach Platform
             </button>
 
@@ -167,35 +167,7 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#attachPlatBtn').click(function () {
-            let platform_id = $("#attachPlatInput").val();
-            let list_of_groups = selectGroups();
-            if (list_of_groups.length === 0) {
-                alert("Please select at least one group for attachment.");
-            }
-            else if (platform_id.length === 0) {
-                alert("Platform field must not be empty!")
-            } else {
-                for (let i in list_of_groups){
-                    $.ajax({
-                        type: "PUT",
-                        url: "http://0.0.0.0:5001/api/v2/resources/group",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "command" : "attach",
-                            "group_id": list_of_groups[i],
-                            "platform_id": platform_id
-                        }),
-                        success: function (response) {
-                            console.log(JSON.stringify(response));
-                        },
-                    });
-                }
-            }
-        });
-    });
+
 </script>
 
 <!-- Attach Platforms Modal -->
@@ -204,15 +176,26 @@
         <div class="modal-content">
             <form id="attachPlatformForm">
                 <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Platform ID:</span>
-                        </div>
-                        <label>
-                            <input aria-describedby="basic-addon1" class="form-control" id="attachPlatInput" name="group_num"
-                                   type="text">
+
+                    <!--                    <div class="input-group mb-3">-->
+                    <!--                        <div class="input-group-prepend">-->
+                    <!--                            <span class="input-group-text">Platform ID:</span>-->
+                    <!--                        </div>-->
+                    <!--                        <label>-->
+                    <!--                            <input aria-describedby="basic-addon1" class="form-control" id="attachPlatInput" name="group_num"-->
+                    <!--                                   type="text">-->
+                    <!--                        </label>-->
+                    <!--                    </div>-->
+
+                    <div>
+                        <div style="text-align: center"><b> Main Platforms </b></div>
+                        <label id="mainPlatRadio">
+                            <input name="mainPlat" type="checkbox" value="TiddlyWiki"> Male<br>
+                            <input name="mainPlat" type="checkbox" value="Rocketchat"> Female<br>
                         </label>
                     </div>
+
+
                 </div>
             </form>
             <div class="modal-footer">
@@ -225,6 +208,68 @@
 
 
 <script>
+
+    $(document).ready(function () {
+        $('#attachPlatBtn').click(function () {
+            let main_plats = [];
+            $.each($("input[name='mainPlat']:checked"), function () {
+                main_plats.push($(this).val());
+            });
+            let list_of_groups = selectGroups();
+            if (list_of_groups.length === 0) {
+                alert("Please select at least one group for attachment.");
+            } else if (main_plats.length === 0) {
+                alert("Must select at least one platform!")
+            } else {
+                for (let i in list_of_groups) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://0.0.0.0:5001/api/v2/resources/group",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "command": "attach",
+                            "group_id": list_of_groups[i],
+                            "platform_ids": main_plats
+                        }),
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                        },
+                    });
+                }
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('#platModalBtn').click(function () {
+            // noinspection JSUnusedGlobalSymbols
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:5001/api/v2/resources/platform",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    'all': 'True'
+                },
+                success: function (response) {
+                    //Print results
+                    console.log("Accessed Database at " + new Date().toUTCString());
+                    let array = response;
+                    let mainPlats = '';
+                    for (let i in array) {
+                        let id = array[i]["main"]["id"];
+                        let name = array[i]["main"]["name"];
+                        mainPlats += '<input name="mainPlat" type="checkbox" value="' + id + '">' + name + ' ' + id + '<br>';
+                    }
+                    $('#mainPlatRadio').replaceWith(mainPlats);
+                }
+            });
+        });
+    });
+
+
     $(document).ready(function () {
         $('#btnDelUsr').click(function () {
             let list_of_users = selectUsers();
@@ -639,10 +684,6 @@
     } // function GetDateSortingKey()
 </script>
 
-
-<!--    <script crossorigin="anonymous"-->
-<!--            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
 <script crossorigin="anonymous"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
