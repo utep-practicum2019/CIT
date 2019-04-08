@@ -44,12 +44,12 @@ def create_user(username, password, **kwargs):
     if r.status_code != requests.codes.ok:
         return False
 
-    from rocketchat_API.rocketchat import RocketChat
-    chat_ip_port = "http://0.0.0.0:3000"
-    rocket = RocketChat('Admin', 'chat.service', server_url=chat_ip_port, proxies=None)
-    data = rocket.users_register(username+"@cit.com", username, password, username).json()
-    status = data['success']
-    print("user status ", status)
+    # from rocketchat_API.rocketchat import RocketChat
+    # chat_ip_port = "http://0.0.0.0:3000"
+    # rocket = RocketChat('Admin', 'chat.service', server_url=chat_ip_port, proxies=None)
+    # data = rocket.users_register(username+"@cit.com", username, password, username).json()
+    # status = data['success']
+    # print("user status ", status)
     return True
 
 

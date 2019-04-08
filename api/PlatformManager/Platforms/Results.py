@@ -1,6 +1,6 @@
 import os, time
 
-from .Platform import Platform
+from PlatformManager.Platforms.Platform import Platform
 
 """ 
         @authors:
@@ -24,8 +24,8 @@ class Results(Platform):
     platform_id = 0
     processID = 0
     subplatforms = {}
-    port = ""
-    ip = ""
+    port = "0"
+    ip = "0.0.0.0"
     link = ""
 
     def requestHandler(self, command):
