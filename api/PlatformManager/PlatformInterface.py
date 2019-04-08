@@ -341,7 +341,7 @@ class PlatformInterface():
         else:
             for x in range(0, len(sub_keys)):
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
-                    status, userID = Subplatforms[sub_keys[x]].registerUser(user_email, username, user_pass, user_nick)
+                    status, userID = Subplatforms[sub_keys[x]].registerUser(user_email, username, user_pass)
 
         return {"Status" : status, "User_ID" : userID}
                 
@@ -633,5 +633,3 @@ class PlatformInterface():
         
         ##############################################################################
         
-pi = PlatformInterface()
-pi.test()

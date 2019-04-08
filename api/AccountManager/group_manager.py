@@ -5,6 +5,7 @@ import requests
 from AccountManager.group import Group
 from AccountManager.user_manager import UserManager, get_user, create_user
 
+
 cit_url = 'http://127.0.0.1:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
@@ -36,11 +37,24 @@ def create_group(group_id, users, **kwargs):
 
     # create group and add members
     group = Group(group_id)
+    rchat_id = []
     for user in users:
         group.members.append(user["username"])
         print(user["username"])
-        if not create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id):
+        user_id = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
+        rchat_id.append(user_id)
+        print("user id ", user_id)
+        if not user_id:
+            print('faaaaail')
             return False
+
+    # from rocketchat_API.rocketchat import RocketChat
+    # groupName = "group" + str(group_id)
+    # chat_ip_port = "http://0.0.0.0:3000"
+    # rocket = RocketChat('Admin', 'chat.service', server_url=chat_ip_port, proxies=None)
+    # data = rocket.groups_create(groupName, members=group.members).json()
+    # status = data["success"]
+    # print("group status: ", status)
 
     # put data in the correct format
     doc_data = {
@@ -54,9 +68,9 @@ def create_group(group_id, users, **kwargs):
     }
     # store in the database
     r = requests.post(database_url, json=doc_data)
-    if r.status_code == requests.codes.ok:
-        return True
-    return False
+    if r.status_code != requests.codes.ok:
+        return False
+    return True
 
 
 def verify_file(filepath):

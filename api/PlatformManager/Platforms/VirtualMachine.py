@@ -142,7 +142,7 @@ class VirtualMachine(Platform):
 
     def start_vm_scenario(self, param):
         result = {'running': False}
-        out = self.vm_command(["VBoxManage guestcontrol 'Ubuntu16' -v --username hackathon --password toor run --exe '/usr/bin/python' --timeout=5000 --no-wait-stderr --no-wait-stdout -- python3/arg0 /home/hackathon/" + param])
+        out = self.vm_command(["VBoxManage guestcontrol 'Ubuntu16' -v --username hackathon --password toor run --exe '/usr/bin/python3' --no-wait-stderr --no-wait-stdout -- python3/arg0 /home/hackathon/" + param['filename']])
         print(out)
         if "successfully terminated" in out:
             result['running'] = True
@@ -164,7 +164,7 @@ class VirtualMachine(Platform):
         result = {'stopped': False}
         out = self.vm_command(["VBoxManage controlvm 'Ubuntu16' poweroff"])
         print(out)
-        if re.match("0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%", out):
+        if out == '':
             result['stopped'] = True
         else:
             result['stopped'] = False
@@ -178,5 +178,5 @@ class VirtualMachine(Platform):
 
 
 
-platform = VirtualMachine()
-print(platform.get_start_command())
+# platform = VirtualMachine()
+# print(platform.get_start_command())

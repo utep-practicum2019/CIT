@@ -1,6 +1,6 @@
-import os, sys, time
+import os, time
 
-from Platform import Platform
+from .Platform import Platform
 
 """ 
         @authors:
@@ -9,12 +9,12 @@ from Platform import Platform
             Hector Cervantes
         @description
             This class is a subclass of platform. This class will implement the tiddlywiki platform. 
-    """
+"""
 
 
 class Results(Platform):
     # fill the values here for your specific platformResultsPlatform
-    platform_name = ""
+    platform_name = "Results"
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
@@ -27,6 +27,13 @@ class Results(Platform):
     port = ""
     ip = ""
     link = ""
+
+    def requestHandler(self, command):
+        action = {
+            'getStatus': Results.getStatus,
+            'getResults': Results.getResults
+        }
+        return action[command['command']](self, command['param'])
 
     # return process ID
     def getProcessID(self):
@@ -68,9 +75,6 @@ class Results(Platform):
     def get_sub_platforms(self):
         return self.subplatforms
 
-    def requestHandler(self, jsonObject):
-        pass
-
     # sets process ID
     def setProcessID(self, processID):
         self.processID = processID
@@ -85,41 +89,35 @@ class Results(Platform):
         self.port = port
 
         # set platform name
-
     def setPlatformName(self, platform_name):
         self.platform_name = platform_name
 
         # set where the platforms installation path
-
     def setPlatformInstallation(self, platformInstallation):
         self.platformInstallation = platformInstallation
 
         # sets the version of the platform
-
     def setPlatformVersion(self, platform_version):
         self.platform_version = platform_version
 
-    # sets a platformID. You can pick a random value for this field.
+        # sets a platformID. You can pick a random value for this field.
     def setPlatformID(self, PlatformID):
         self.platform_id = PlatformID
 
-    # sets command that starts platform
+        # sets command that starts platform
     def set_start_command(self, platform_start_command):
         self.platform_start_command = platform_start_command
 
-    # set command to stop platform
+        # set command to stop platform
     def set_stop_command(self, platform_end_command):
         self.platform_end_command = platform_end_command
 
-    # set list of subplatforms
+        # set list of subplatforms
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
 
-        # add more methods below if you need to do more tasksct):
-        print("Handling Request")
-
     def getFilesFromDir(self):
-        path = 'tmp/'
+        path = '/home/practicum/Desktop/hackathon_results'
         files = []
         subdirs = []
         for root, dirs, filenames in os.walk(path):
@@ -137,18 +135,6 @@ class Results(Platform):
     def init(self):
         return self.getFilesFromDir()
 
-    #     fileList = open("list_of_initial_files.txt",'r')
-    #     list_of_initial_files = []
-    #     for line in fileList:
-    #         fileName = path+""+line.strip()
-    #         f = open(fileName, 'r')
-    #         list_of_initial_files.append( f )
-    #         print(f)
-    #         time.sleep(1)
-    #     print(list_of_initial_files)
-    # #    list_of_initial_files.sort()
-    #     return list_of_initial_files
-
     def diff(self, list1, list2):
         diff_list = []
         for item in list1:
@@ -156,28 +142,102 @@ class Results(Platform):
                 diff_list.append(item)
         return diff_list
 
-    def writeToFile(name, list):
+    def writeToFile(self, name, list):
         f = open(name, 'w')
         for x in list:
             f.write(x + "\n")
         f.close()
 
+    def compareWithBest(self):
+        path = 'home/practicum/Desktop/hackathon_results'
+        reportPath = path + "stats/"
+        files = []
+        reportsFiles = []
+        currentMAXWinner = 0
+        currentFileWinner = ' '
+
+        for root, dirs, filenames in os.walk(reportPath):
+            for f in filenames:
+                files.append(os.path.relpath(os.path.join(root, f), reportPath))
+        for f in files:
+            if f.startswith('report_for_'):
+                reportsFiles.append(f)
+
+        for report in reportsFiles:
+            ff = open(reportPath + report, 'r')
+            num = int(ff.readline())
+            print("Processing:\t", report, " with: ", num, "\twarnings")
+            if int(currentMAXWinner) < int(num):
+                currentMAXWinner = int(num)
+                currentFileWinner = str(report)
+            print("Winner is ", currentFileWinner, " with ", currentMAXWinner, " warnings.")
+
+    def checkForWarnings(self, inF, out):
+        path = '/home/practicum/Desktop/hackathon_results'
+        reportPath = path + "stats/"
+        inF = str(path + inF)
+        stringToMatch = 'Analyzed'
+        matchedLine = ''
+        with open(inF, 'r') as file:
+            for line in file:
+                if stringToMatch in line:
+                    matchedLine = line
+                    break
+        with open(reportPath + out, 'w') as file:
+            file.write(str(matchedLine.split()[1]))
+            file.close()
+
+    def inspectFile(self, nf):
+        reportFile = "report_for_" + nf
+        self.checkForWarnings(nf, reportFile)
+
+    def getStatus(self, group_id):
+        path = '/home/practicum/Desktop/hackathon_results' + 'stats/'
+        fileToFind = 'report_for_group'+ str(group_id) + '_Results.txt'
+        #print("Status: ", os.path.exists(path + fileToFind))
+        return os.path.exists(path+fileToFind)
+
+    def getResults(self, group_id):
+        self.getStatus(group_id)
+        path = '/home/practicum/Desktop/hackathon_results' + 'stats/'
+        fileToOpen = 'report_for_group' + str(group_id) + '_Results.txt'
+        try:
+            f = open(path+fileToOpen)
+            groupResults = int(f.readline())
+            #print('Results:', groupResults)
+            return groupResults
+
+        except Exception as ex:
+            print(ex)
+            print('The results for this group does not exist')
+            return None
+
     def run(self):
         # Initial files in directory
         initial_curr_dir = self.init()
         print("Listening for new alerts...")
+        status = True
         while 1:
             tmp = self.getFilesFromDir()
-            if len(self.diff(tmp, initial_curr_dir)) != 0:
+            if (len(self.diff(tmp, initial_curr_dir)) != 0):
                 state = self.diff(tmp, initial_curr_dir)
                 for newAlert in state:
-                    print("ALERT: ", newAlert, " was added to folder")
-                option = input("What do you want to do? ")
-            time.sleep(2)
+                    print('Status:', status, "\n ******* ALERT: ", newAlert, " was added to folder ********")
+                    self.inspectFile(newAlert)
+                    self.compareWithBest()
+                    initial_curr_dir = self.init()
+                    self.getResults('1')
+                    print("*********************************************************************\n")
+                    #            option = input("What do you want to do? ")
+                    time.sleep(2)
 
 if __name__ == "__main__":
     app = Results()
     app.run()
 
-# platform = Files()
-# print(platform.get_start_command())
+    """command = {
+        'command': 'getResults',
+        'param': 99
+    }
+    app.request_handler(command)
+    """

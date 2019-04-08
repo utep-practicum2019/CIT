@@ -1,6 +1,7 @@
 import requests
 from AccountManager.user import User
 
+
 cit_url = 'http://127.0.0.1:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
@@ -40,9 +41,16 @@ def create_user(username, password, **kwargs):
     }
     # store in the database
     r = requests.post(database_url, json=doc_data)
-    if r.status_code == requests.codes.ok:
-        return True
-    return False
+    if r.status_code != requests.codes.ok:
+        return False
+
+    from rocketchat_API.rocketchat import RocketChat
+    chat_ip_port = "http://0.0.0.0:3000"
+    rocket = RocketChat('Admin', 'chat.service', server_url=chat_ip_port, proxies=None)
+    data = rocket.users_register(username+"@cit.com", username, password, username).json()
+    status = data['success']
+    print("user status ", status)
+    return True
 
 
 class UserManager:
