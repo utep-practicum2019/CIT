@@ -38,6 +38,7 @@ pip install flask-restful
 pip install flask-marshmallow
 pip install flask-httpauth
 pip install flask-api
+pip install flask-cors
 
 pip install pyinotify
 pip install apispec
