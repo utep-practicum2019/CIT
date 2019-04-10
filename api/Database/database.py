@@ -8,7 +8,6 @@
 from pymongo import MongoClient
 
 
-
 class Database:
     __client = MongoClient('localhost', 27017)
     __db = __client['cit']
@@ -40,7 +39,7 @@ class Database:
         elif collection_name == 'groups':
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
-            doc_id = {'platforms': document_id}
+            doc_id = {'main.id': document_id}
         else:
             doc_id = None
 
@@ -71,7 +70,7 @@ class Database:
         elif collection_name == 'groups':
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
-            doc_id = {'platforms': document_id}
+            doc_id = {'main.id': document_id}
         else:
             doc_id = None
 
@@ -91,11 +90,22 @@ class Database:
         elif collection_name == 'groups':
             doc_id = {'group_id': document_id}
         elif collection_name == 'platforms':
-            doc_id = {'platforms': document_id}
+            doc_id = {'subplatforms': {'$elemMatch': {'id': document_id}}}
+            current = Database.collection['platforms'].find_one(doc_id)
+            if current is not None:
+                # delete the subplatform
+                new = []
+                for sub in current['subplatforms']:
+                    if sub['id'] != document_id:
+                        new.append(sub)
+                current['subplatforms'] = new
+                return Database.update('platforms', current['main']['id'], current)
+            else:
+                doc_id = {'main.id': document_id}
         else:
             doc_id = None
 
-        if None:
+        if document_id is None:
             Database.collection[collection_name].drop()
         else:
             try:
@@ -108,14 +118,23 @@ class Database:
 
     @staticmethod
     def groupCheck(document_id):
-
         try:
             # get a single user
-            doc = Database.collection['groups'].find_one({'platforms':document_id})
+            doc = Database.collection['groups'].find_one({'platforms': document_id})
             if doc is not None:
                 del doc['_id']
             return doc
         except KeyError:
-             return False
+            return False
 
-
+    @staticmethod
+    def find_all(collection_name):
+        try:
+            data = []
+            cursor = Database.collection[collection_name].find()
+            for doc in cursor:
+                del doc['_id']
+                data.append(doc)
+            return data
+        except KeyError:
+            return []

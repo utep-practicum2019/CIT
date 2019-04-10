@@ -70,11 +70,11 @@ class PlatformTree():
     def deleteNode(self, node, platformID):
         if(node.getPlatformID() == platformID):
             if(node.getRightNode() is None and node.getLeftNode() is None):
-                print("first case")
+                # print("first case")
                 node = None
                 return node
             elif(node.getRightNode() != None and node.getLeftNode() is None):
-                print("second case")
+                # print("second case")
                 temp = node.getRightNode() 
                 node.setPlatform(temp.getPlatform())
                 node.setPlatformID(temp.getPlatformID())
@@ -82,7 +82,7 @@ class PlatformTree():
                 node.setLeftNode(temp.getLeftNode())
                 return node
             elif(node.getRightNode() is None and node.getLeftNode() != None):
-                print("third case")
+                # print("third case")
                 temp = node.getLeftNode() 
                 node.setPlatform(temp.getPlatform())
                 node.setPlatformID(temp.getPlatformID())
@@ -90,7 +90,7 @@ class PlatformTree():
                 node.setLeftNode(temp.getLeftNode())
                 return node 
             else:
-                print("fourth case")
+                # print("fourth case")
                 node = self.restructureTree(node)
                 return node 
         if(platformID > node.getPlatformID()):
@@ -166,8 +166,8 @@ class PlatformTreeManager():
         return (main_id, subplatform_ids)
     
     def remove(self, platformID):
-        node = self.PlatformTree.deleteNode(self.root, platformID)
-        return node 
+        self.root = self.PlatformTree.deleteNode(self.root, platformID)
+        return self.root 
 
     def getPlatform(self, platformID):
         return self.PlatformTree.getNode(self.root, platformID)

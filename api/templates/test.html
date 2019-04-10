@@ -1,0 +1,46 @@
+<html lang="en">
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btn').click(function () {
+            alert("Hello World!");
+            const vname = $("#name").val();
+            const vemail = $("#email").val();
+            if (vname === '' && vemail === '') {
+                alert("Please fill out the form");
+            } else if (vname === '' && vemail !== '') {
+                alert('Name field is required')
+            } else if (vemail === '' && vname !== '') {
+                alert('Email field is required')
+            } else {
+                $.post("http://localhost:5001/api/v2/resources/group", //Required URL of the page on server
+                    JSON.stringify({
+                        "group_count": vname,
+                        "users_per_group": vemail
+                    }),
+                    function (response, status) { // Required Callback Function
+                        // alert("*----Received Data----*nnResponse : " + response + "nnStatus : " + status);//"response" receives - whatever written in echo of above PHP script.
+                        // alert(JSON.stringify(response) + " status: " + status);//"response" receives - whatever written in echo of above PHP script.
+                        alert(response["success"] + " status: " + status);//"response" receives - whatever written in echo of above PHP script.
+
+                        // language=JQuery-CSS
+                        $("#form")[0].reset();
+                    });
+            }
+        });
+    });
+</script>
+<div id="main">
+    <h2>jQuery Ajax $.post() Method</h2>
+    <hr>
+    <form id="form" method="post">
+        <div id="namediv"><label>Group Count:</label>
+            <label for="name"></label><input id="name" name="name" placeholder="Name" type="text"/><br></div>
+        <div id="emaildiv"><label>Users Per Group</label>
+            <label for="email"></label><input id="email" name="email" placeholder="Email" type="text"/></div>
+    </form>
+    <button id="btn">Send Data</button>
+</div>
+</body>
+</html>

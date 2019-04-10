@@ -29,4 +29,3 @@ class AccountManager:
     @staticmethod
     def detach_platform(platform_name):
         return GroupManager.detach_platform(platform_name)
-

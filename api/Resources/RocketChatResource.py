@@ -7,7 +7,7 @@ from Schemas.Rocket_Chat_Schema import *
 
 class RocketChatAPI(Resource):
     from .PlatformManagerInstance import PlatformManagerInstance
-    platform_interface = PlatformManagerInstance.getInstance().platform_interface
+    platform_interface = PlatformManagerInstance.get_instance().platform_interface
 
     # rocketChatRegisterUser(self, platform_ID, subplatforms_IDS, user_email, username, user_pass, user_nick)
     # rocketChatCreateChannel(self, platform_ID, subplatforms_IDS, channel_name)

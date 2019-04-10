@@ -2,7 +2,7 @@
 from flask import request
 from flask_restful import Resource
 
-from CIT_API_Schema import *
+from Schemas.User_Schema import *
 
 
 class DatabaseAPI(Resource):
@@ -37,6 +37,9 @@ class DatabaseAPI(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         from Database.database_handler import DatabaseHandler
+
+
+
         collection_name = json_data["collection_name"]
         document_id = json_data["document_id"]
         document = json_data["document"]

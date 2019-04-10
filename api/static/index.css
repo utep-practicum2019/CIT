@@ -60,8 +60,8 @@ a {
 }
 
 a.fileLinks:hover {
-    color: white;
-    background: blue;
+    color: blue;
+    background: none;
 }
 
 /* Active Button Link */
@@ -129,4 +129,17 @@ a.fileLinks:hover {
 
 .HelpText {
     text-align: center;
+}
+
+iframe {
+    height: 500px;
+    width: 1000px;
+}
+
+/*
+    Collapse Element
+ */
+
+button.btn.btn-link {
+    color: black;
 }

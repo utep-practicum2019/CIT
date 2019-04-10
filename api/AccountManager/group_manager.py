@@ -5,7 +5,8 @@ import requests
 from AccountManager.group import Group
 from AccountManager.user_manager import UserManager, get_user, create_user
 
-cit_url = 'http://127.0.0.1:5000'
+
+cit_url = 'http://127.0.0.1:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
 connection_path = '/api/v2/resources/connection'
@@ -36,11 +37,24 @@ def create_group(group_id, users, **kwargs):
 
     # create group and add members
     group = Group(group_id)
+    rchat_id = []
     for user in users:
         group.members.append(user["username"])
         print(user["username"])
-        if not create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id):
+        user_id = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
+        rchat_id.append(user_id)
+        print("user id ", user_id)
+        if not user_id:
+            print('faaaaail')
             return False
+
+    # from rocketchat_API.rocketchat import RocketChat
+    # groupName = "group" + str(group_id)
+    # chat_ip_port = "http://0.0.0.0:3000"
+    # rocket = RocketChat('Admin', 'chat.service', server_url=chat_ip_port, proxies=None)
+    # data = rocket.groups_create(groupName, members=group.members).json()
+    # status = data["success"]
+    # print("group status: ", status)
 
     # put data in the correct format
     doc_data = {
@@ -54,9 +68,9 @@ def create_group(group_id, users, **kwargs):
     }
     # store in the database
     r = requests.post(database_url, json=doc_data)
-    if r.status_code == requests.codes.ok:
-        return True
-    return False
+    if r.status_code != requests.codes.ok:
+        return False
+    return True
 
 
 def verify_file(filepath):
@@ -153,7 +167,7 @@ def create_with_count(group_count, users_per_group):
 
 def remove_user(username, group_id):
     current = get_group(group_id)
-    if current is not None:
+    if current is not None and username in current.members:
         new = Group(group_id, members=current.members)
         new.members.remove(username)
         GroupManager.update_group(new.group_id, new)
@@ -174,9 +188,11 @@ class GroupManager:
     @staticmethod
     def delete_user(username):
         current = get_user(username)
-        if current is not None and current.group_id is not None:
+        if current is not None:
+            result = UserManager.delete_user(username)
+        if result and current.group_id is not None:
             remove_user(username, current.group_id)
-        return UserManager.delete_user(username)
+        return result
 
     @staticmethod
     def create_groups(group_count=0, users_per_group=0, filepath=None):
@@ -241,18 +257,24 @@ class GroupManager:
         return True
 
     @staticmethod
-    def attach_platform(group_id, platform_name):
+    def attach_platform(group_id, platform_id):
         current = get_group(group_id)
         if current is None:
             return False
-        if platform_name in current.platforms:
+        if platform_id in current.platforms:
             return False
 
-        updated_group = Group(group_id, platforms=current.platforms)
-        updated_group.platforms.append(platform_name)
-        return GroupManager.update_group(group_id, updated_group)
+        # updated_group = Group(group_id, platforms=current.platforms)
+        current.platforms.append(platform_id)
+        return GroupManager.update_group(group_id, current)
 
     @staticmethod
-    def detach_platform(platform_name):
-        # TODO: Figure out how to implement this >.<
-        pass
+    def detach_platform(group_id, platform_id):
+        current = get_group(group_id)
+        if current is None:
+            return False
+        if platform_id not in current.platforms:
+            return False
+        # updated_group = Group(group_id, platforms=current.platforms)
+        current.platforms.remove(platform_id)
+        return GroupManager.update_group(group_id, current)

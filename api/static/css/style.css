@@ -1,0 +1,113 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+/*
+  Base Template CSS Styles
+*/
+#logo {
+    width: 100px;
+    height: 100px;
+}
+
+#user {
+    text-align: right;
+    padding-right: 55px;
+}
+
+.searchBar {
+    display: inline;
+}
+
+#search {
+    margin-left: 100px;
+}
+
+
+/*
+    Index CSS Styles
+*/
+.menu {
+    background: white;
+    color: black;
+    margin-left: 15px;
+}
+
+#platforms {
+    margin-top: 15px;
+}
+
+/* Platform Button Links */
+a:active, a:hover {
+    color: white;
+}
+
+/* Platform Button Links */
+a {
+    color: black;
+}
+
+/* Active Button Link */
+#pressed {
+    color: white;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: white;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 14px;
+}
+
+.nav-pills .nav-link {
+    color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 14px;
+}
+
+.mainDisplay {
+    margin-top: 20px;
+    width: 950px;
+    height: 400px;
+    background: lightgrey;
+}
+
+#textDisplay {
+    margin-top: 10px;
+    margin-right: 15px;
+    padding: 10px;
+    height: 200px;
+    background: lightgrey;
+}
+
+#connectDisplay {
+    margin-top: 10px;
+    background: lightgrey;
+}
+
+
+#bottom {
+    width: 1030px;
+    margin-left: 210px;
+}
+
+
+/*
+    Configuration CSS Styles
+*/
+
+#mainArea {
+    margin-top: 20px;
+    width: 1250px;
+    height: 470px;
+    background: lightgrey;
+}

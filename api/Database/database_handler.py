@@ -20,3 +20,7 @@ class DatabaseHandler:
     @staticmethod
     def groupCheck(document_id):
         return Database.groupCheck(document_id)
+
+    @staticmethod
+    def find_all(collection_name):
+        return Database.find_all(collection_name)

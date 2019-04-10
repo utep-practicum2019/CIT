@@ -6,6 +6,7 @@
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+        <script src="{{ url_for('static', filename='Timer.js')}}"></script>
     </head>
 
     <body>
@@ -16,16 +17,18 @@
                 <div class="col-4">
                     <div id="userDisplay">
                         <h5 id="user">Username: {{ username }}</h5>
-                        <h6>Your Remote IP: {{ remote_ip }}</h6>
+                        <h6>Remote IP: {{ remote_ip }}</h6>
+                    <h6>
+                    Team Members:
+                        {% for member in team %}
+                            {% if member != username %}
+                                {{ member }}
+                            {% endif %}
+                        {% endfor %}
+                    </h6>
                             {% if session['logged_in'] == True %}
                                 <a id="logoutButton" href="/logout" class="btn btn-outline-dark btn-sm" role="button">Log out</a>
                             {% endif %}
-{#                        Your team:#}
-{#                        {% for member in team %}#}
-{#                            {% if member != username %}#}
-{#                                {{ member }}#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
                     </div>
                 </div>
             </nav>
@@ -33,11 +36,11 @@
         <div class="container-fluid">
             <ul class="nav nav-pills mb-3" id="platforms" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="pill" href="#news" role="tab" aria-controls="pills-news" aria-selected="false">News</a>
+                    <a class="nav-link active" data-toggle="pill" href="#news" role="tab" aria-controls="pills-news" aria-selected="true">News</a>
                 </li>
                 {% for platform in platforms %}
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href={{re.sub(' +', '',"#{}".format(platform))}} role="tab" aria-controls={{ re.sub(' +', '',"pills-{}".format(platform)) }} aria-selected="true">{{ platform }}</a>
+                    <a class="nav-link" data-toggle="pill" href="{{'#{}'.format(platform.replace(' ', ''))}}" role="tab" aria-controls="{{ 'pills-{}'.format(platform.replace(' ', '')) }}" aria-selected="true">{{ platform }}</a>
                 </li>
                 {% endfor %}
 {#                <li class="nav-item">#}
@@ -45,64 +48,191 @@
 {#                </li>#}
             </ul>
             <div class="tab-content" id="subplatformsArea">
-                <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="pills-news-tab">
+                <div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="pills-news-tab">
                     <h1 class="HelpText">News</h1>
                     <h5 class="HelpText">Hello and welcome to the Collaborative Innovative Testbed</h5>
                     <h6 class="HelpText">The news page contains all the information pertaining to any new changes</h6>
                     <br>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque consequat ligula mollis ullamcorper
-                        bibendum. Pellentesque nec mauris sollicitudin, auctor enim id, volutpat ligula. Vivamus blandit, ligula
-                        sed scelerisque elementum, velit ante congue libero, nec aliquam nibh est nec eros. Sed lacinia efficitur
-                        nunc non rutrum. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus
-                        et malesuada fames ac turpis egestas. Suspendisse ut mattis turpis. Quisque iaculis arcu vel viverra finibus.
-                        Curabitur tempor mauris mi, vitae aliquam sem ornare nec. Pellentesque in erat enim. Vivamus justo felis,
-                        venenatis nec vulputate eu, ornare sed eros. Maecenas at fringilla diam. Nam gravida placerat ligula quis
-                        dapibus. Pellentesque porta, tortor vel euismod scelerisque, augue elit congue odio, facilisis placerat
-                        nulla eros eget orci.<br><br>
+                        Spicy jalapeno bacon ipsum dolor amet officia sausage pork belly, dolor hamburger boudin meatloaf.
+                        Tempor rump eiusmod in, venison porchetta sausage chicken meatball culpa aliquip duis quis t-bone
+                        nisi. Pork loin tenderloin short ribs, pork belly turducken chicken tempor eiusmod picanha fatback.
+                        Andouille sirloin kevin cillum, boudin est pancetta filet mignon sunt venison. Pig ground round laboris
+                        officia fatback quis excepteur deserunt dolor swine cillum sirloin duis lorem drumstick.<br><br>
 
-                        The following file contains the file needed for the Hackathon:    <a class="fileLinks"
-                                                                                          download="udpecho.pcap"
-                                                                                          href="/Files/udpecho.pcap">udpecho.pcap</a>
+                        The following file contains the file needed for the Hackathon:
+                        <a class="fileLinks" href="{{ url_for('static', filename='Download_Files/udpecho.pcap') }}" download>udpecho.pcap</a>
                         <br><br>
 
-                        Sed et gravida diam. Integer a ipsum at arcu consequat vestibulum quis ac eros. Ut nec orci quis nunc varius
-                        consequat. Mauris id augue quis velit imperdiet euismod in et urna. Phasellus sit amet volutpat enim.
-                        Suspendisse a tellus sed est tempus faucibus non eu elit. Aliquam erat volutpat.<br>
 
-                        Nullam rhoncus nec elit vitae sollicitudin. Mauris auctor sem libero, vel elementum nulla imperdiet eu. Donec
-                        aliquet sagittis urna. Donec at ex rhoncus, pharetra lorem id, vestibulum ipsum. Mauris eleifend posuere
-                        sagittis. Proin vulputate erat id arcu volutpat, quis euismod mauris blandit. Nulla blandit, magna eget
-                        rhoncus interdum, ipsum augue egestas turpis, faucibus pellentesque nisi libero eu metus. In at ante nec
-                        velit condimentum porta sit amet sit amet ante. Duis finibus fringilla velit, nec euismod urna faucibus
-                        sodales.<br><br>
+                        Ham reprehenderit ex capicola frankfurter adipisicing prosciutto quis venison nostrud sint corned beef
+                        meatball aliqua. Dolore pork chop corned beef sed turducken ullamco. Ham jerky ut, in sunt quis frankfurter
+                        fugiat chicken aute sed velit. Ipsum t-bone fugiat incididunt mollit ad. Kevin sirloin sint, boudin chicken
+                        commodo minim. Ut ad frankfurter flank shoulder.<br>
 
-                        Nunc facilisis justo id nisi venenatis, in viverra arcu eleifend. Vestibulum finibus elementum mauris,
-                        a euismod lorem vestibulum eget. Sed hendrerit sed lectus eget rhoncus. Morbi id nisl ac dui pretium
-                        maximus. Vestibulum sagittis iaculis ipsum non pretium. Ut ac ornare risus. Mauris vel risus sed orci
-                        lacinia efficitur vitae in enim.<br><br>
+                        Venison laboris dolor, labore eiusmod non tail. Et sausage nostrud, non landjaeger ut kielbasa picanha ullamco
+                        pig dolor filet mignon beef deserunt. Officia landjaeger corned beef, tongue reprehenderit flank duis non
+                        frankfurter. Id ad anim shankle, turducken elit porchetta short loin picanha nulla meatball pariatur.
+                        Excepteur laboris venison, sunt brisket tongue ham hock. Nisi aliquip tri-tip pastrami dolore kevin ex irure
+                        voluptate venison.<br><br>
 
-                        Vestibulum quis varius nisl, molestie consectetur turpis. In rhoncus aliquet volutpat. Nunc non tincidunt
-                        turpis. Nulla facilisi. Nunc eget facilisis orci. Aliquam gravida scelerisque neque, sed dapibus dui commodo
-                        at. Vestibulum nec justo a libero convallis imperdiet. Mauris accumsan purus mauris, eget vehicula nulla
-                        blandit a. Aliquam lobortis augue sit amet nulla ornare, tempor accumsan nunc fringilla. Morbi sem dui,
-                        sagittis non ex vitae, dictum rutrum justo.<br><br>
+                        Pig buffalo irure porchetta ribeye in. Hamburger adipisicing bresaola elit, salami flank pork chop spare ribs
+                        cupim. Est picanha chicken incididunt ribeye short loin minim pork loin fugiat buffalo eiusmod salami. Labore
+                        ipsum ham, in ea burgdoggen exercitation eiusmod.<br><br>
 
-                        Vestibulum quis varius nisl, molestie consectetur turpis. In rhoncus aliquet volutpat. Nunc non tincidunt
-                        turpis. Nulla facilisi. Nunc eget facilisis orci. Aliquam gravida scelerisque neque, sed dapibus dui commodo
-                        at. Vestibulum nec justo a libero convallis imperdiet. Mauris accumsan purus mauris, eget vehicula nulla
-                        blandit a. Aliquam lobortis augue sit amet nulla ornare, tempor accumsan nunc fringilla. Morbi sem dui,
-                        sagittis non ex vitae, dictum rutrum justo.<br><br>
+                        Landjaeger cupim deserunt turducken, shankle ipsum ex ham hock alcatra pig frankfurter picanha chicken ad jerky.
+                        Chuck ribeye quis jowl aliqua do nulla officia beef. Prosciutto boudin laborum leberkas fatback shoulder officia
+                        landjaeger aliqua cow tenderloin tongue. Shank tenderloin pastrami jerky. Laboris tenderloin voluptate flank,
+                        ea in turkey. Pork belly pancetta salami fatback landjaeger meatball voluptate.<br><br>
 
-                        Vestibulum quis varius nisl, molestie consectetur turpis. In rhoncus aliquet volutpat. Nunc non tincidunt
-                        turpis. Nulla facilisi. Nunc eget facilisis orci. Aliquam gravida scelerisque neque, sed dapibus dui commodo
-                        at. Vestibulum nec justo a libero convallis imperdiet. Mauris accumsan purus mauris, eget vehicula nulla
-                        blandit a. Aliquam lobortis augue sit amet nulla ornare, tempor accumsan nunc fringilla. Morbi sem dui,
-                        sagittis non ex vitae, dictum rutrum justo.<br><br>
+                        Venison laboris dolor, labore eiusmod non tail. Et sausage nostrud, non landjaeger ut kielbasa picanha ullamco
+                        pig dolor filet mignon beef deserunt. Officia landjaeger corned beef, tongue reprehenderit flank duis non
+                        frankfurter. Id ad anim shankle, turducken elit porchetta short loin picanha nulla meatball pariatur. Excepteur
+                        laboris venison, sunt brisket tongue ham hock. Nisi aliquip tri-tip pastrami dolore kevin ex irure voluptate
+                        venison.<br><br>
+
+                        Meatloaf sausage pork loin enim cow fugiat short loin irure dolor reprehenderit nostrud tri-tip flank dolore.
+                        Swine nulla in, cow dolore ham minim laboris laborum reprehenderit ad anim cillum frankfurter. Chicken ribeye
+                        pig strip steak, in doner cow tempor pastrami ham hock. Pork belly bresaola quis ullamco pastrami spare ribs
+                        cupidatat prosciutto culpa pork corned beef cupim.<br><br>
                     </p>
                 </div>
-            {% for platform in platforms %}
-                <div class="tab-pane fade" id={{ re.sub(' +', '',"{}".format(platform)) }} role="tabpanel" aria-labelledby={{ re.sub(' +', '',"pills-{}-tab".format(platform))}}><iframe src="https://www.utep.edu" style="border:none;"></iframe></div>
+            {% for result in ogList %}
+                {% for key, values in result.items() %}
+                <div class="tab-pane fade" id="{{ '{}'.format(key.replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'pills-{}-tab'.format(key.replace(' ', '')) }}">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    {% for  v in values %}
+                                            <a class="nav-link" data-toggle="pill" href="{{'#{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tab" aria-controls="{{ 'v-pills-{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" aria-selected="true">
+                                                {% if v[0] == 'FilesUpload' %}
+                                                    {{ 'Challenges' }}
+                                                {% elif v[0] == 'FilesDownload' %}
+                                                    {{ 'Materials' }}
+                                                {% else %}
+                                                    {{ v[0] }}
+                                                {% endif %}
+                                            </a>
+                                    {% endfor%}
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                {% for  v in values %}
+                                    <div class="tab-pane fade" id="{{ '{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'v-pills-{}-{}-tab'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}">
+                                        {% if v[0] == "FilesUpload" %}
+                                            <div class="accordion" id="accordionExample">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                Hackathon Challenge #1
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+
+                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <div id="wrapper">
+                                                                <p>
+                                                                    Meatloaf sausage pork loin enim cow fugiat short loin irure dolor reprehenderit
+                                                                    nostrud tri-tip flank dolore. Swine nulla in, cow dolore ham minim laboris laborum
+                                                                    reprehenderit ad anim cillum frankfurter. Chicken ribeye pig strip steak, in doner
+                                                                    cow tempor pastrami ham hock. Pork belly bresaola quis ullamco pastrami spare ribs
+                                                                    cupidatat prosciutto culpa pork corned beef cupim.<br><br>
+                                                                </p>
+                                                                <h6>Upload File</h6>
+                                                                <form id="formStuff" method=post enctype=multipart/form-data>
+                                                                    <p><input id='uploaded_file' type=file name=file>
+                                                                        <button type="submit" id="myBtn" class="btnDisable">Upload</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" id="headingTwo">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                Hackathon Challege #2
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <div>
+                                                                <p>
+                                                                    Venison laboris dolor, labore eiusmod non tail. Et sausage nostrud, non landjaeger
+                                                                    ut kielbasa picanha ullamco pig dolor filet mignon beef deserunt. Officia landjaeger
+                                                                    corned beef, tongue reprehenderit flank duis non frankfurter. Id ad anim shankle,
+                                                                    turducken elit porchetta short loin picanha nulla meatball pariatur. Excepteur
+                                                                    laboris venison, sunt brisket tongue ham hock. Nisi aliquip tri-tip pastrami
+                                                                    dolore kevin ex irure voluptate venison.<br><br>
+                                                                </p>
+                                                                <h6>Upload File</h6>
+                                                                <form method=post enctype=multipart/form-data>
+                                                                    <p><input type=file name=file>
+                                                                        <button type="submit" class="btnDisable">Upload</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" id="headingThree">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                Hackathon Challenge #3
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <div>
+                                                                <p>
+                                                                    Ham reprehenderit ex capicola frankfurter adipisicing prosciutto quis venison
+                                                                    nostrud sint corned beef meatball aliqua. Dolore pork chop corned beef sed
+                                                                    turducken ullamco. Ham jerky ut, in sunt quis frankfurter fugiat chicken aute
+                                                                    sed velit. Ipsum t-bone fugiat incididunt mollit ad. Kevin sirloin sint, boudin
+                                                                    chicken commodo minim. Ut ad frankfurter flank shoulder.<br><br>
+                                                                </p>
+                                                                <h6>Upload File</h6>
+                                                                <form method=post enctype=multipart/form-data>
+                                                                    <p><input type=file name=file>
+                                                                        <button type="submit" class="btnDisable">Upload</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif v[0] == "Results" %}
+                                            <button class="btn dark" type="button" disabled>
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                              Waiting for results...
+
+                                            </button>
+                                        {% elif v[0] == "FilesDownload" %}
+                                            <div class="container-fluid">
+                                                <h3>Below are the files available for download</h3><br>
+                                                {% for file in downloadable_files %}
+                                                    <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>
+                                                {% endfor %}
+                                            </div>
+                                        {% else  %}
+<!--                                            {{ key }}-->
+<!--                                            <iframe src="https://www.apple.com"></iframe>-->
+                                          <iframe src="{{ 'http://{}'.format(v[1]) }}"></iframe>
+<!--                                            <h3>{{ v[1] }}</h3>-->
+                                        {% endif %}
+                                    </div>
+                                {% endfor%}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    {% endfor %}
             {% endfor %}
             </div>
         </div>
@@ -110,10 +240,62 @@
             window.parent.postMessage({
               event: 'login-with-token',
               loginToken: 'C01e9G-rGel3qt888pcVRqd0vFhhfvcrGaPWnCQIFh-'
-            }, 'http://www.chat.service:3000');
+            }, 'http://www.chat.service');
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script>
+                var sec = 10;
+                var myTimer = document.getElementById('myTimer');
+                var file = document.getElementById('uploaded_file');
+                var check_status = document.getElementById('file_status');
+
+
+                $(function(){
+                   var hash = window.location.hash;
+                   hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                   hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+
+                   $('#myBtn').click(function(e){
+                      $(this).tab('show');
+                      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                      window.location.hash = this.hash;
+                      $('html, body').scrollTop(scrollmem);
+                   });
+                });
+
+                function checkStatus(){
+                    while (rep
+                }
+
+
+                function countDown() {
+                    window.onload = countDown;
+                    check_status.innerText = "Processing File";
+
+                  if(sec > 0){
+                  document.getElementById("myBtn").disabled = true;
+                  check_status.innerText = file.innerText;
+                 }
+                  if (sec < 10) {
+                    myTimer.innerHTML = "0" + sec;
+                check_status.innerText = "Processing File";
+                  } else {
+                    myTimer.innerHTML = sec;
+                check_status.innerText = "Processing File";
+                  }
+
+                  if (sec <= 0) {
+                   document.getElementById("myBtn").disabled = false;
+                sec=10
+                myTimer.fadeTo(2500, 0);
+                check_status.innerText = "Processing File";
+                    return;
+                  }
+                  sec -= 1;
+                  window.setTimeout(countDown,1000);
+                }
+            </script>
     </body>
 </html>

@@ -1,198 +1,126 @@
 <!doctype html>
+<!--suppress JSUnfilteredForInLoop -->
 <html lang="en">
 <head>
     <title>Connection Manager</title>
-
-
-
-
-
     <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="style.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <!--    <link href="/static/css/style.css" rel="stylesheet" type="text/css">-->
 </head>
-
-
 <body>
-    <div class="container-fluid">
-        <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
-        <div class="row">
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-
-                <button type="button" class="btn btn-dark btn-sm menu"><a href="indexAdmin.html">Managers Menu</a></button>
-
-                <button type="button" class="btn btn-dark btn-sm menu active"><a id="pressed" href="connectionMan.html">Connection Manager</a></button>
-
-                <button type="button" class="btn btn-dark btn-sm menu"><a href="accountsMan.html">Account Manager</a></button>
-
-
-
-                <button type="button" class="btn btn-dark btn-sm menu"><a  href="platMan.html">Platform Manager</a></button>
-
-            </div>
+<div class="container-fluid">
+    <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+    <div class="row">
+        <div aria-label="First group" class="btn-group mr-2" role="group">
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
+            <button class="btn btn-dark btn-sm menu active" type="button"><a href="connectionMan.html" id="pressed">Connection
+                Manager</a></button>
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="accountsMan.html">Account Manager</a>
+            </button>
+            <button class="btn btn-dark btn-sm menu" type="button"><a href="platMan.html">Platform Manager</a></button>
         </div>
     </div>
-    <div class="container-fluid">
-        <h2>Users and Group:</h2>
-        <table class="table table-hover" id="mainArea">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Groups:</th>
-                    <th onclick="sortTable(1)">Users:</th>
-                    <th>Time Logged in:</th>
-                    <th>Bandwidth:</th>
-                    <th>IP address:</th>
-                    <th>Entry used:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Mongoose</td>
-                    <td>        </td>
-                    <td>16:04</td>
-                    <td>100 Mbit/s</td>
-                    <td>8.8.8.8</td>
-                    <td>
-                        <div class ="dropdown">
-                            <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">PPTP</a></li>
-                                    <li><a href="#">L2TP</a></li>
-                                    <li><a href="#">OpenVPN</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>       </td>
-                        <td>Stan Lee</td>
-                        <td>16:04</td>
-                        <td>100 Mbit/s</td>
-                        <td>8.8.8.8</td>
-                        <td>
-                            <div class ="dropdown">
-                                <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">PPTP</a></li>
-                                        <li><a href="#">L2TP</a></li>
-                                        <li><a href="#">OpenVPN</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+</div>
+<div style="text-align:center">
+    <!--    <h2>Connections</h2>-->
+    <div>
+        <button id="startBtn" type="button">Start Polling</button>
+        <button id="stopBtn" type="button">Stop Polling</button>
+    </div>
+</div>
+<table class="table table-hover" id="connectionsTable">
+    <thead>
+    <tr>
+        <th><a href="javascript:SortTable(0,'T', 'connectionsTable');">Connection Type</a></th>
+        <th>Public IP</th>
+        <th><a href="javascript:SortTable(2,'T', 'connectionsTable');">Username</a></th>
+        <th><a href="javascript:SortTable(3,'T', 'connectionsTable');">Start Time</a></th>
+        <th><a href="javascript:SortTable(4,'T', 'connectionsTable');">End Time</a></th>
+        <th><a href="javascript:SortTable(5,'T', 'connectionsTable');">Status</a></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script src="/static/js/tablesorter.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script>
+    let polling = false;
+    $(document).ready(function () {
+        $('#startBtn').click(function () {
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:5001/api/v2/resources/connection",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    'command': 'start'
+                }),
+                success: function (response) {
+                    console.log("Start Polling: " + response["success"]);
+                    polling = true;
+                    worker();
+                },
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('#stopBtn').click(function () {
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:5001/api/v2/resources/connection",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    'command': 'stop'
+                }),
+                success: function (response) {
+                    console.log("Stop Polling: " + response["success"]);
+                    polling = false;
+                },
+            });
+        });
+    });
 
-                        <tr>
-                            <td>       </td>
-                            <td>Frank Castle</td>
-                            <td>16:04</td>
-                            <td>100 Mbit/s</td>
-                            <td>8.8.8.8</td>
-                            <td>
-                                <div class ="dropdown">
-
-                                    <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown">Type of entry
-                                        <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">PPTP</a></li>
-                                            <li><a href="#">L2TP</a></li>
-                                            <li><a href="#">OpenVPN</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Avengers</td>
-                                <td></td>
-                                <td>16:04</td>
-                                <td>100 Mbit/s</td>
-                                <td>8.8.8.8</td>
-                                <td>
-                                    <div class ="dropdown">
-                                        <button class="btn btm-primary dropdown-toggle" type="button" data-toggle="dropdown"> Type of entry
-                                            <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">PPTP</a></li>
-                                                <li><a href="#">L2TP</a></li>
-                                                <li><a href="#">OpenVPN</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </div>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <script>
-                    function sortTable(n) {
-                      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-                      table = document.getElementById("mainArea");
-                      switching = true;
-  //Set the sorting direction to ascending:
-  dir = "asc"; 
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch= true;
-          break;
-      }
-  } else if (dir == "desc") {
-    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-      }
-  }
-}
-if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      //Each time a switch is done, increase this count by 1:
-      switchcount ++;      
-  } else {
-      /*If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again.*/
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
+    function worker() {
+        if (polling) {
+            // noinspection JSUnusedGlobalSymbols
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:5001/api/v2/resources/connection",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    'session_list': 'True'
+                },
+                success: function (response) {
+                    //Print results
+                    console.log("Connections Updated at " + new Date().toUTCString());
+                    let array = response["usersDictionary"];
+                    let trHTML = '<tbody>';
+                    for (let i in array) {
+                        // console.log(JSON.stringify(array[i]));
+                        let public_ip = array[i]["public_ip"];
+                        let end_time = array[i]["end_time"];
+                        let start_time = array[i]["start_end"];
+                        let username = array[i]["username"];
+                        let status = array[i]["status"];
+                        let connection_type = array[i]["connection_type"];
+                        trHTML += '<tr><td>' + connection_type + '</td><td>' + public_ip + '</td><td>' + username +
+                            '</td><td>' + start_time + '</td><td>' + end_time + '</td><td>' + status + '</td></tr>';
+                    }
+                    trHTML += '</tbody>';
+                    $('#connectionsTable tbody').replaceWith(trHTML);
+                    SortTable(2, 'T', 'connectionsTable', true)
+                },
+                complete: function () {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(worker, 5000);
+                }
+            });
+        }
     }
-}
-}
-}
-
 </script>
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
 </body>
-
 </html>
