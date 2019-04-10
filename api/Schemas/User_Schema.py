@@ -32,3 +32,15 @@ class UserCreateRequestSchema(Schema):
 
 class UserResponseSchema(UserSchema):
     success = fields.Boolean(required=True)
+
+
+class UserDELETERequestSchema(Schema):
+    list_of_users = fields.List(fields.String())
+
+
+user_schema = UserSchema()
+user_request_schema = UserRequestSchema()
+user_create_request_schema = UserCreateRequestSchema()
+user_update_request_schema = UserUpdateRequestSchema()
+user_response_schema = UserResponseSchema()
+user_delete_request_schema = UserDELETERequestSchema()

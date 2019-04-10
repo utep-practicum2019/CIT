@@ -25,7 +25,8 @@ class Platform(abc.ABC):
     platform_id = 0
     processID = 0
     subplatforms = {}
-
+    
+    
     @abc.abstractmethod
     def getProcessID(self):
         pass

@@ -1,0 +1,163 @@
+Running in packet dump mode
+
+        --== Initializing Snort ==--
+Initializing Output Plugins!
+pcap DAQ configured to read-file.
+Acquiring network traffic from "/var/log/snort/snort.log.1554001894".
+
+        --== Initialization Complete ==--
+
+   ,,_     -*> Snort! <*-
+  o"  )~   Version 2.9.9.0 GRE (Build 56) 
+   ''''    By Martin Roesch & The Snort Team: http://www.snort.org/contact#team
+           Copyright (C) 2014-2016 Cisco and/or its affiliates. All rights reserved.
+           Copyright (C) 1998-2013 Sourcefire, Inc., et al.
+           Using libpcap version 1.7.4
+           Using PCRE version: 8.38 2015-11-23
+           Using ZLIB version: 1.2.8
+
+Commencing packet processing (pid=2514)
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:47.935372 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:39906 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:1  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:47.935395 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:53480 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:1  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:48.937943 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:39917 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:2  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:48.937979 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:53575 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:2  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:49.982302 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:40110 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:3  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:49.982313 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:53758 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:3  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:50.983563 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:40261 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:4  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:50.983577 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:53897 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:4  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:51.984940 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:40449 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:5  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:51.984952 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:54079 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:5  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:52.986345 10.0.0.3 -> 10.0.0.2
+ICMP TTL:64 TOS:0x0 ID:40693 IpLen:20 DgmLen:84 DF
+Type:8  Code:0  ID:1823   Seq:6  ECHO
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+WARNING: No preprocessors configured for policy 0.
+03/30-22:11:52.986361 10.0.0.2 -> 10.0.0.3
+ICMP TTL:64 TOS:0x0 ID:54097 IpLen:20 DgmLen:84
+Type:0  Code:0  ID:1823  Seq:6  ECHO REPLY
+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+===============================================================================
+Run time for packet processing was 0.9499 seconds
+Snort processed 12 packets.
+Snort ran for 0 days 0 hours 0 minutes 0 seconds
+   Pkts/sec:           12
+===============================================================================
+Memory usage summary:
+  Total non-mmapped bytes (arena):       782336
+  Bytes in mapped regions (hblkhd):      21590016
+  Total allocated space (uordblks):      672656
+  Total free space (fordblks):           109680
+  Topmost releasable block (keepcost):   99424
+===============================================================================
+Packet I/O Totals:
+   Received:           12
+   Analyzed:           12 (100.000%)
+    Dropped:            0 (  0.000%)
+   Filtered:            0 (  0.000%)
+Outstanding:            0 (  0.000%)
+   Injected:            0
+===============================================================================
+Breakdown by protocol (includes rebuilt packets):
+        Eth:           12 (100.000%)
+       VLAN:            0 (  0.000%)
+        IP4:           12 (100.000%)
+       Frag:            0 (  0.000%)
+       ICMP:           12 (100.000%)
+        UDP:            0 (  0.000%)
+        TCP:            0 (  0.000%)
+        IP6:            0 (  0.000%)
+    IP6 Ext:            0 (  0.000%)
+   IP6 Opts:            0 (  0.000%)
+      Frag6:            0 (  0.000%)
+      ICMP6:            0 (  0.000%)
+       UDP6:            0 (  0.000%)
+       TCP6:            0 (  0.000%)
+     Teredo:            0 (  0.000%)
+    ICMP-IP:            0 (  0.000%)
+    IP4/IP4:            0 (  0.000%)
+    IP4/IP6:            0 (  0.000%)
+    IP6/IP4:            0 (  0.000%)
+    IP6/IP6:            0 (  0.000%)
+        GRE:            0 (  0.000%)
+    GRE Eth:            0 (  0.000%)
+   GRE VLAN:            0 (  0.000%)
+    GRE IP4:            0 (  0.000%)
+    GRE IP6:            0 (  0.000%)
+GRE IP6 Ext:            0 (  0.000%)
+   GRE PPTP:            0 (  0.000%)
+    GRE ARP:            0 (  0.000%)
+    GRE IPX:            0 (  0.000%)
+   GRE Loop:            0 (  0.000%)
+       MPLS:            0 (  0.000%)
+        ARP:            0 (  0.000%)
+        IPX:            0 (  0.000%)
+   Eth Loop:            0 (  0.000%)
+   Eth Disc:            0 (  0.000%)
+   IP4 Disc:            0 (  0.000%)
+   IP6 Disc:            0 (  0.000%)
+   TCP Disc:            0 (  0.000%)
+   UDP Disc:            0 (  0.000%)
+  ICMP Disc:            0 (  0.000%)
+All Discard:            0 (  0.000%)
+      Other:            0 (  0.000%)
+Bad Chk Sum:            0 (  0.000%)
+    Bad TTL:            0 (  0.000%)
+     S5 G 1:            0 (  0.000%)
+     S5 G 2:            0 (  0.000%)
+      Total:           12
+===============================================================================
+Snort exiting
+

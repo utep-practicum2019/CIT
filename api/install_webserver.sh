@@ -28,6 +28,7 @@ sudo git clone https://github.com/Jermolene/TiddlyWiki5
 sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
 sudo apt-get install -y nodejs
 sudo npm install http-server
+sudo npm i http-server
 cd ..
 
 
@@ -40,6 +41,7 @@ pip install flask-restful
 pip install flask-marshmallow
 pip install flask-httpauth
 pip install flask-api
+pip install flask-cors
 
 pip install pyinotify
 pip install apispec
@@ -60,7 +62,6 @@ sudo apt-get update -y
 sudo apt-get install -y mongodb-org
 #sudo apt-get install -y mongodb-org --allow-unauthenticated
 sudo service mongod start
-
 
 #configuring the VPN
 sudo su -c" cat >> /etc/pptpd.conf<< END
@@ -94,10 +95,10 @@ net.ipv4.ip_forward=1
 END"
 sudo sysctl -p
 
-sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
-sudo iptables -A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
-sudo service pptpd restart
+#sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
+#sudo iptables -A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+#sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
+#sudo service pptpd restart
 
 sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
@@ -107,10 +108,18 @@ sudo /etc/init.d/apache2 restart
 #rocketChat portion
 sudo a2enmod proxy proxy_http rewrite
 sudo snap install rocketchat-server
+pip install rocketchat_API
 sudo mv Rocket.Chat.conf /etc/apache2/sites-available
 sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
 sudo a2ensite Rocket.Chat
 sudo service apache2 reload
 
+sudo apt-get update -y
+
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
+echo "please close terminal once pptpd connection is verified"
+
+sudo systemctl enable pptpd
+sudo systemctl start pptpd
+sudo systemctl status pptpd

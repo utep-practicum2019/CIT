@@ -1,5 +1,7 @@
-import pyinotify
 import subprocess
+
+import pyinotify
+
 # from Session import Session
 # import time
 from . import Configure
@@ -48,43 +50,52 @@ class ConnectionManager():
         self.notifier.start()
 
     def update_session_list(self):
-        list_of_sessions = {}
-        i = 0
-        with open('PPTP_session.txt', "r") as outfile:
+        list_of_sessions = []
+        result = []
+        seen = result
+        with open('ConnectionManager/PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
-                list_of_sessions[i] = {
+                list_of_sessions.append({
                     "username": s[0],
                     "public_ip": s[1],
                     "start_end": s[2],
                     "end_time": s[3],
                     "status": s[4],
                     "connection_type": "PPTP"}
-                i += 1
-        return list_of_sessions
+                )
+            list_of_sessions.reverse()
+            for item in list_of_sessions:
+                if item not in seen:
+                    seen.append(item)
+                    result.append(item)
+
+        return result
 
     def stop(self):
         self.notifier.stop()
 
-    def addUsers(self,numberOfUsers):
-        usersArr=[]
-        usersArr=Configure.addUsers(numberOfUsers)
-        usersDictionary={}
+    def addUsers(self, numberOfUsers):
+        usersArr = []
+        usersArr = Configure.addUsers(numberOfUsers)
+        usersDictionary = {}
         for x in range(numberOfUsers):
-            usersDictionary[x] = {"username":usersArr[x].username,
-            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+            usersDictionary[x] = {"username": usersArr[x].username,
+                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
         return usersDictionary
 
-    def deleteUsers(self,listOfUsers):
-        deleteResult=Configure.deleteUsers(listOfUsers)
+    def deleteUsers(self, listOfUsers):
+        deleteResult = Configure.deleteUsers(listOfUsers)
         return deleteResult
 
-    def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
-        updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
+    def updateUserConnection(self, currUsername, newUsername, newPassword, newIP):
+        updateResult = Configure.modifyUser(currUsername, newUsername, newPassword, newIP)
         return updateResult
+
     def fileAddUsers(self, userList):
-        usersDictionary=[]
+        usersDictionary = []
         return usersDictionary
+
 
 """
 if __name__ == "__main__":
@@ -101,7 +112,7 @@ if __name__ == "__main__":
             nn.stop()
             raise
             
-"""         
+"""
 """
 last = /var/log/wtmp
 who  = /var/run/utmp

@@ -1,9 +1,10 @@
 from flask import request, make_response, jsonify
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource
+from Schemas.Login_Schema import *
 
 import inputValidator as inputValidator
-from CIT_API_Schema import *
+
 
 auth = HTTPBasicAuth()
 
@@ -23,7 +24,8 @@ def unauthorized():
 class LoginAPI(Resource):
     decorators = [auth.login_required]
 
-    def post(self):
+    @staticmethod
+    def post():
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400

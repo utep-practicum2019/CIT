@@ -1,9 +1,8 @@
 # Connection Related Requests #
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource
-
 from Schemas.Connection_Schema import *
-
+import json
 
 class ConnectionAPI(Resource):
     from ConnectionManager.ConnectionManager import ConnectionManager
@@ -16,19 +15,20 @@ class ConnectionAPI(Resource):
     # }
     @staticmethod
     def get():
-        json_data = request.get_json(force=True)
+        json_data = request.args.to_dict()
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = connection_get_request_schema.load(json_data)
         if errors:
             return errors, 422
+
         results = ""
         if data["session_list"]:
             results = ConnectionAPI.ConnectionManager.update_session_list()
             results = {"usersDictionary": results}
-            results, errors = connection_post_response_schema.validate(results)
-            if errors:
-                return {"success": False}, 503
+            # results, errors = connection_post_response_schema.validate(results)
+            # if errors:
+            #     return {"success": False}, 503
         return results
 
     # To do a post request
@@ -114,7 +114,8 @@ class ConnectionAPI(Resource):
         data, errors = connection_post_request_schema.load(json_data)
         if errors:
             return errors, 422
-
+        print(json_data)
+        print(data)
         if "command" in data:
             results = True
             if data["command"] == "start":
