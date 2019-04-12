@@ -10,7 +10,7 @@ class IKE_ConnectionsSublcass(Connections):
                 userNumVar=nextAvailableUser[0]
                 # ipEND=nextAvailableUser[1]
                 if(typeOfAdd==True):
-                        ipsec.write("user"+str(userNumVar)+ " %any%"+ " : "+ "EAP "+str(randomPassword)+"\n")
+                        ipsec.write("user"+str(userNumVar)+"_"+" %any%"+ " : "+ "EAP "+str(randomPassword)+"\n")
                         userNumVar += 1
                         ipsec.close()
                 else:

@@ -21,8 +21,8 @@ def addUsers(numberOfUsersInput):
                 currUserIKE.password=currUserChappie.password
                 currUserIKE.ikesAddUser(currUserIKE.password,True)
             # for x in range(numberOfUsers):
-                # print(str(addedUsersArr[x].username) +" "+ 
-                # str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
+            #     print(str(addedUsersArr[x].username) +" "+ 
+            #     str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
             return addedUsersArr
         except ValueError:
             # print("Must enter integer for number of users.")

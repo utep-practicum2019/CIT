@@ -1,9 +1,10 @@
-user1 %any% : EAP 32083015
+user1_ %any% : EAP 32083015
+user2_ %any% : EAP 52509188
 Bowser %any% : EAP 33333333
+Mario %any% : EAP 50071373
+Yoshi %any% : EAP 33611544
+Luigi %any% : EAP 18011846
+Peach %any% : EAP 29765532
+Toad %any% : EAP 43390789
 Ganon %any% : EAP 33333333
-user4 %any% : EAP 33333333
-Mario %any% : EAP 89183393
-Yoshi %any% : EAP 74010518
-Luigi %any% : EAP 15069886
-Peach %any% : EAP 77843614
-Toad %any% : EAP 39047192
+user3_ %any% : EAP 33333333

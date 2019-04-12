@@ -11,7 +11,7 @@ class PPTP_ConnectionsSublcass(Connections):
         ipEND=nextAvailableUser[1]
         if(typeOfAdd==True):
             distIP=" 192.168.0."
-            chapSec.write("user"+str(userNumVar)+ " * "+str(randomPassword)+distIP+str(ipEND)+"\n")
+            chapSec.write("user"+str(userNumVar)+"_"+ " * "+str(randomPassword)+distIP+str(ipEND)+"\n")
             self.username="user"+str(userNumVar)
             self.pptpIP="192.168.0."+str(ipEND)
             chapSec.close()
@@ -21,5 +21,5 @@ class PPTP_ConnectionsSublcass(Connections):
             self.pptpIP="192.168.0."+str(ipEND)
             chapSec.close()
 # p=PPTP_ConnectionsSublcass() 
-# p.pptpAddUser(1)
+# p.pptpAddUser(11111111,True)
 # p.deleteUser("user2")
