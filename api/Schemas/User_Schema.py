@@ -38,7 +38,12 @@ class UserDELETERequestSchema(Schema):
     list_of_users = fields.List(fields.String())
 
 
+class UserGETRequestSchema(Schema):
+    username = fields.String()
+
+
 user_schema = UserSchema()
+user_get_request_schema = UserGETRequestSchema()
 user_request_schema = UserRequestSchema()
 user_create_request_schema = UserCreateRequestSchema()
 user_update_request_schema = UserUpdateRequestSchema()

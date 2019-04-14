@@ -15,18 +15,29 @@ class GroupAPI(Resource):
     # }
     @staticmethod
     def get():
-        json_data = request.get_json(force=True)
-        if not json_data:
-            return {'message': 'No input data provided'}, 400
+        json_data = request.args.to_dict()
+        # if not json_data:
+        #     return {'message': 'No input data provided'}, 400
         data, errors = group_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-
         from Database.database_handler import DatabaseHandler
-        results = DatabaseHandler.find('groups', data["group_id"])
-        if results is None or not results:
-            return {"success": False}, 404
-        return group_schema.dump(Group(**results))
+        if "group_id" in data:
+            results = DatabaseHandler.find('groups', data["group_id"])
+            if results is None or not results:
+                return {"success": False}, 404
+            return group_schema.dump(Group(**results))
+        else:
+            results = DatabaseHandler.find_all('groups')
+            formatted_results = []
+            for result in results:
+                r = group_schema.dump(Group(**result))
+                formatted_results.append(r[0])
+            return formatted_results
+
+
+
+
 
     # To do a post request
     # Type 1
