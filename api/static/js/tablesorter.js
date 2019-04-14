@@ -10,12 +10,12 @@ function SortTable() {
     if (type === 'D') {
         dateformat = arguments.length > 2 ? arguments[2] : '';
         TableIDvalue = arguments[3];
-        if (arguments.length === 5){
+        if (arguments.length === 5) {
             resort = arguments[4];
         }
     } else {
         TableIDvalue = arguments[2];
-        if (arguments.length === 4){
+        if (arguments.length === 4) {
             resort = arguments[3];
         }
     }
@@ -41,6 +41,8 @@ function SortTable() {
         arrayOfRows.reverse();
     } else {
         TableLastSortedColumn = sortColumn;
+
+
         switch (type) {
             case "N" :
                 arrayOfRows.sort(CompareRowOfNumbers);
@@ -51,6 +53,8 @@ function SortTable() {
             default  :
                 arrayOfRows.sort(CompareRowOfText);
         }
+
+
     }
 
     var newTableBody = document.createElement("tbody");
@@ -60,13 +64,14 @@ function SortTable() {
     table.replaceChild(newTableBody, tbody);
 } // function SortTable()
 
+
 /**
  * @return {number}
  */
 function CompareRowOfText(a, b) {
     var aval = a.value;
     var bval = b.value;
-    return (aval == bval ? 0 : (aval > bval ? 1 : -1));
+    return (aval === bval ? 0 : (aval > bval ? 1 : -1));
 } // function CompareRowOfText()
 
 /**
