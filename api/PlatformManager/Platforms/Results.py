@@ -198,7 +198,7 @@ class Results(Platform):
         exists = os.path.exists(path+fileToFind)
         if exists:
             self.inspectFile(path+fileToFind)
-        return exists
+        return {'done': exists}
 
     def getResults(self, group_id):
         self.getStatus(group_id)

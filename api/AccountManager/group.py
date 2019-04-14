@@ -23,6 +23,7 @@ class Group:
             tmp += '%r=%r, ' % (v, my_vars[v])
         return tmp[:-2] + ")"
 
+
     @property
     def group_id(self):
         return self._group_id

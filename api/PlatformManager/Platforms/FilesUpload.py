@@ -31,7 +31,7 @@ class FilesUpload(Platform):
     uploads_path = '/home/practicum/Desktop'
 
 
-    #return process ID 
+    #return process ID
     def getProcessID(self):
         return self.processID
 
@@ -137,3 +137,8 @@ class FilesUpload(Platform):
         #print(os.path.dirname(os.path.abspath(__file__)))
         files = [f for f in listdir(self.uploads_path) if isfile(join(self.uploads_path, f))]
         return files
+
+    fileMethods = {
+        "addFile": FilesUpload.addFile,
+        "delFile": FilesUpload.delFile
+    }

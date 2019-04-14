@@ -45,7 +45,7 @@ def create_group(group_id, users, **kwargs):
         rchat_id.append(user_id)
         print("user id ", user_id)
         if not user_id:
-            print('faaaaail')
+            print('user creation faaaaail')
             return False
 
     # from rocketchat_API.rocketchat import RocketChat

@@ -1,7 +1,7 @@
 
 import sys, os, abc
 
-from .Platform import Platform
+from PlatformManager.Platforms.Platform import Platform
 
 """ 
         @authors:
