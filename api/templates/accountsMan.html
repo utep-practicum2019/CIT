@@ -93,7 +93,7 @@
     <table class="table table-hover" id="usersTab">
         <thead>
         <tr>
-            <th>Select</th>
+            <th><a href="javascript:users_check_uncheck_all()"> Select</a></th>
             <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
@@ -110,7 +110,7 @@
     <table class="table table-hover" id="groupsTab">
         <thead>
         <tr>
-            <th>Select</th>
+            <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
             <th>Platforms</th>
@@ -328,7 +328,7 @@
                     let group_id = users[i]["group_id"];
                     let password = users[i]["password"];
                     user_table_html += '<tr>';
-                    user_table_html += '<td><input aria-label="Checkbox for following text input" type="checkbox" value="' + username + '"></td>';
+                    user_table_html += '<td><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
                     user_table_html += '<td>' + username + '</td>';
                     user_table_html += '<td>' + password + '</td>';
                     user_table_html += '<td>' + group_id + '</td>';
@@ -469,6 +469,9 @@
                         success: function (response) {
                             console.log(JSON.stringify(response));
                         },
+                        complete: function () {
+                            reload_groups();
+                        }
                     });
                 }
             }
@@ -595,7 +598,7 @@
                     let group_id = groups[i]["group_id"];
                     let platforms = groups[i]["platforms"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" onclick="selectGroups()" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td> <input aria-label="Checkbox for following text input" onclick="selectGroups()" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += '<td>' + group_id + '</td>';
                     group_table_html += '<td>' + members + '</td>';
                     group_table_html += '<td>' + platforms + '</td>';
@@ -608,6 +611,26 @@
                 load_users()
             }
         });
+    }
+
+    let users_check = true;
+
+    function users_check_uncheck_all() {
+        let checkboxes = document.getElementsByName("users_checkbox_platform");
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = users_check;
+        }
+        users_check = !users_check;
+    }
+
+    let group_check = true;
+
+    function group_check_uncheck_all() {
+        let checkboxes = document.getElementsByName("groups_checkbox_platform");
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = group_check;
+        }
+        group_check = !group_check;
     }
 
 </script>
