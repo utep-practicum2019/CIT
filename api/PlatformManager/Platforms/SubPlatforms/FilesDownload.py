@@ -29,7 +29,7 @@ class FilesDownload(Platform):
     subplatforms = {}
 
     downloads_path = "/home/practicum/Desktop/file_testing/to"
-
+    staticPlatform = True
     #return process ID 
     def getProcessID(self):
         return self.processID

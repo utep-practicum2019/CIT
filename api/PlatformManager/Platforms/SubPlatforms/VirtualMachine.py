@@ -26,7 +26,8 @@ class VirtualMachine(Platform):
     platform_id = 0
     subplatforms = {" ", " "}
 
-
+    staticPlatform = False 
+    
     # return process ID
     def getProcessID(self):
         return self.processID

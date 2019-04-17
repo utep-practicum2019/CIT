@@ -27,7 +27,8 @@ class Results(Platform):
     port = "0"
     ip = "0.0.0.0"
     link = ""
-
+    staticPlatform = True
+    
     def requestHandler(self, command):
         action = {
             'getStatus': Results.getStatus,

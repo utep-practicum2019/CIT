@@ -270,21 +270,21 @@ class PlatformsManager:
             ServiceStatus = {}
             if (subplatformIDs == []):
                 serviceUp = self.check_service(main_platform)
-                if (serviceUp == False):
+                if (serviceUp == False and not main_platform.staticPlatform):
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
                 subps = main_platform.get_sub_platforms()
                 for x in subps:
                     serviceUp = self.check_service(subps[x])
-                    if (serviceUp):
+                    if (serviceUp or subps[x].staticPlatform):
                         ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                     else:
                         ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "DOWN")
                 return ServiceStatus
             else:
                 serviceUp = self.check_service(main_platform)
-                if (serviceUp == False):
+                if (serviceUp == False and not main_platform.staticPlatform):
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
@@ -292,7 +292,7 @@ class PlatformsManager:
                 for x in subps:
                     if (subps[x].getPlatformID() in subplatformIDs):
                         serviceUp = self.check_service(subps[x])
-                        if (serviceUp):
+                        if (serviceUp or subps[x].staticPlatform):
                             ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                         else:
                             ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "Down")

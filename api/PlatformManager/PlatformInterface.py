@@ -319,8 +319,7 @@ class PlatformInterface():
     
     def getAvailablePlugins(self): 
         available_plugins = self.pluginManager.getAvailablePlugins()
-
-        return {"Plugins" : available_plugins}
+        return available_plugins
 
     def loadPlatform(self):
         pass

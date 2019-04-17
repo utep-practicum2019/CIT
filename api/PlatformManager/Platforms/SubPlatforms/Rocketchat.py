@@ -32,6 +32,7 @@ class Rocketchat(Platform):
     ip = "0.0.0.0"
     link = "http://www.chat.service"
 
+    staticPlatform = False 
     def __init__(self):
         
         self.proxy_dict = {
