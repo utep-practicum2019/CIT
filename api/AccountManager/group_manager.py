@@ -5,7 +5,7 @@ import requests
 from AccountManager.group import Group
 from AccountManager.user_manager import UserManager, get_user, create_user
 
-cit_url = 'http://127.0.0.1:5000'
+cit_url = 'http://127.0.0.1:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
 connection_path = '/api/v2/resources/connection'
@@ -154,9 +154,10 @@ def create_with_count(group_count, users_per_group):
 def remove_user(username, group_id):
     current = get_group(group_id)
     if current is not None:
-        new = Group(group_id, members=current.members)
-        new.members.remove(username)
-        GroupManager.update_group(new.group_id, new)
+        current.members.remove(username)
+        GroupManager.update_group(current.group_id, current)
+        if not current.members:
+            GroupManager.delete_group(group_id)
 
 
 class GroupManager:
@@ -174,9 +175,10 @@ class GroupManager:
     @staticmethod
     def delete_user(username):
         current = get_user(username)
-        if current is not None and current.group_id is not None:
+        user_deleted = UserManager.delete_user(username)
+        if user_deleted and current is not None and current.group_id is not None:
             remove_user(username, current.group_id)
-        return UserManager.delete_user(username)
+        return user_deleted
 
     @staticmethod
     def create_groups(group_count=0, users_per_group=0, filepath=None):
@@ -221,7 +223,7 @@ class GroupManager:
         # delete group members
         for user in current.members:
             if not UserManager.delete_user(user):
-                return False
+                print("ERROR: Could not delete " + user)
 
         # TODO: do I need to delete related platforms as well?
         # maybe at least chat needs to know
