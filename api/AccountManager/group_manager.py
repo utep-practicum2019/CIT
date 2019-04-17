@@ -243,18 +243,23 @@ class GroupManager:
         return True
 
     @staticmethod
-    def attach_platform(group_id, platform_name):
+    def attach_platform(group_id, platform_id):
         current = get_group(group_id)
         if current is None:
             return False
-        if platform_name in current.platforms:
+        if platform_id in current.platforms:
             return False
 
-        updated_group = Group(group_id, platforms=current.platforms)
-        updated_group.platforms.append(platform_name)
-        return GroupManager.update_group(group_id, updated_group)
+        current.platforms.append(platform_id)
+        return GroupManager.update_group(group_id, current)
 
     @staticmethod
-    def detach_platform(platform_name):
-        # TODO: Figure out how to implement this >.<
-        pass
+    def detach_platform(group_id, platform_id):
+        current = get_group(group_id)
+        if current is None:
+            return False
+        if platform_id not in current.platforms:
+            return False
+
+        current.platforms.remove(platform_id)
+        return GroupManager.update_group(group_id, current)
