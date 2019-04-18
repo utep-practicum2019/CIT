@@ -120,14 +120,14 @@
 
             let mainPlat = $("input[name='mainPlat']:checked").val();
             let subplats = [];
-            let errors  = false;
+            let errors = false;
             $.each($("input[name='subPlat']:checked"), function () {
                 if ($(this).val() === mainPlat) {
                     errors = true;
                 }
                 subplats.push($(this).val());
             });
-            if (errors){
+            if (errors) {
                 alert("Main Platform and Subplatform cannot be equal!");
                 return;
             }
@@ -190,6 +190,8 @@
             <th><a href="javascript:SortTable(1,'T', 'platformsTable');">IP : Port</a></th>
             <th><a href="javascript:SortTable(2,'T', 'platformsTable');">ID</a></th>
             <th>Subplatforms</th>
+            <th>Alias</th>
+            <th>Comment</th>
         </tr>
         </thead>
         <tbody>
@@ -346,6 +348,8 @@
                                 <th>Name:</th>
                                 <th>IP:Port</th>
                                 <th>ID</th>
+                                <th>Alias</th>
+                                <th>Comment</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -446,6 +450,13 @@
             }
         });
     }
+
+    // Platform Structure
+    // id
+    // name
+    // ip_port
+    // comment
+    // alias
 
     (function load_platforms() {
         // noinspection JSUnusedGlobalSymbols

@@ -60,6 +60,10 @@
                     Edit
                 </button>
 
+                <button class="btn btn-dark btn-sm menu" data-target="#makeCommentModal" data-toggle="modal" type="button">
+                    Comment
+                </button>
+
                 <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
                     <option value="user_table">User table</option>
                     <option value="group_table">Group table</option>
@@ -97,6 +101,8 @@
             <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
+            <th>Alias</th>
+            <th>Comment</th>
             <th>Platforms</th>
         </tr>
         </thead>
@@ -113,12 +119,37 @@
             <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
+            <th>Alias</th>
+            <th>Comment</th>
             <th>Platforms</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
+</div>
+
+<!-- Make Comment Modal -->
+<div aria-hidden="true" class="modal fade" id="makeCommentModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="makeCommentForm">
+                <div class="modal-body">
+                    <div>
+                        <div style="text-align: center"><b> Comment </b></div>
+                        <label>
+                            <input id = "makeCommentInput" type="text">
+                        </label>
+
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-danger" data-dismiss="modal" id="makeCommentSubmit">Comment</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Attach Platforms Modal -->
@@ -293,9 +324,11 @@
                     let group_id = groups[i]["group_id"];
                     let platforms = groups[i]["platforms"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" onclick="selectGroups()" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += '<td>' + group_id + '</td>';
                     group_table_html += '<td>' + members + '</td>';
+                    group_table_html += '<td>Alias</td>';
+                    group_table_html += '<td>Comment</td>';
                     group_table_html += '<td>' + platforms + '</td>';
                     group_table_html += '</tr>';
                 }
@@ -332,6 +365,8 @@
                     user_table_html += '<td>' + username + '</td>';
                     user_table_html += '<td>' + password + '</td>';
                     user_table_html += '<td>' + group_id + '</td>';
+                    user_table_html += '<td>Alias</td>';
+                    user_table_html += '<td>Comment</td>';
                     user_table_html += '</tr>';
                 }
                 user_table_html += '</tbody>';
@@ -369,7 +404,7 @@
         });
     }
 
-    let visible = 0; //var that keeps track of which table is visible (1 or 0)
+    let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
 
     function change_table() {
         let groupsTable = document.getElementById("groupArea");
@@ -377,15 +412,15 @@
         let delGroupsButton = document.getElementById("delGroupsModalBtn");
         let delUsersButton = document.getElementById("delUsersModalBtn");
         let addPlatsButton = document.getElementById("platModalBtn");
-        if (visible === 1) {
-            visible = 0;
+        if (groupsVisible === 1) {
+            groupsVisible = 0;
             usersTable.style.display = 'inline-block';
             delUsersButton.style.display = 'inline-block';
             groupsTable.style.display = 'none';
             delGroupsButton.style.display = 'none';
             addPlatsButton.style.display = 'none';
         } else {
-            visible = 1;
+            groupsVisible = 1;
             usersTable.style.display = 'none';
             delUsersButton.style.display = 'none';
             groupsTable.style.display = 'inline-block';
@@ -402,6 +437,40 @@
         delGroupsButton.style.display = 'none';
         addPlatsButton.style.display = 'none';
     }
+
+    $(document).ready(function () {
+        $('#makeCommentSubmit').click(function () {
+            alert("Wow");
+
+            if (groupsVisible === 1){
+                alert("Wow");
+                let groups = selectGroups();
+                if (groups.length < 1) {
+                    alert("Please select at least one group!");
+                } else {
+                    // $.ajax({
+                    //     type: "PUT",
+                    //     url: "http://0.0.0.0:5001/api/v2/resources/group",
+                    //     contentType: "application/json",
+                    //     dataType: "json",
+                    //     data: JSON.stringify({
+                    //         "group_count": gcount,
+                    //         "users_per_group": upgroup
+                    //     }),
+                    //     success: function (response) {
+                    //         console.log(JSON.stringify(response));
+                    //     },
+                    //     complete: function () {
+                    //         reload_groups();
+                    //     }
+                    // });
+                    console.log(JSON.stringify(groups));
+                }
+            }
+        });
+    });
+
+
 
     $(document).ready(function () {
         $('#btnAddUsers').click(function () {
@@ -598,9 +667,11 @@
                     let group_id = groups[i]["group_id"];
                     let platforms = groups[i]["platforms"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" onclick="selectGroups()" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += '<td>' + group_id + '</td>';
                     group_table_html += '<td>' + members + '</td>';
+                    group_table_html += '<td>Alias</td>';
+                    group_table_html += '<td>Comment</td>';
                     group_table_html += '<td>' + platforms + '</td>';
                     group_table_html += '</tr>';
                 }

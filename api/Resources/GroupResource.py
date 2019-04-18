@@ -84,8 +84,6 @@ class GroupAPI(Resource):
             return errors, 422
         from AccountManager.account_manager import AccountManager
 
-        import time
-
         results = False
         if "command" in data and "platform_ids" in data:
             if data["command"] == "attach":
