@@ -1,5 +1,5 @@
 class Group:
-    def __init__(self, group_id, min=None, max=None, platforms=None, members=None, chat_id=None):
+    def __init__(self, group_id, min=None, max=None, platforms=None, members=None, chat_id=None, alias="", notes=""):
         if min is not None:
             self.min = min
         if max is not None:
@@ -14,6 +14,9 @@ class Group:
             self.members = members
         else:
             self.members = []
+
+        self.alias = alias
+        self.notes = notes
         self.group_id = group_id
 
     def __repr__(self):
@@ -75,6 +78,28 @@ class Group:
     @members.setter
     def members(self, members):
         self._members = members
+
+    @property
+    def notes(self):
+        try:
+            return self._notes
+        except AttributeError:
+            return ""
+
+    @notes.setter
+    def notes(self, notes):
+        self._notes = notes
+
+    @property
+    def alias(self):
+        try:
+            return self._alias
+        except AttributeError:
+            return ""
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
 
     def to_dict(self):
         clean_vars = {}

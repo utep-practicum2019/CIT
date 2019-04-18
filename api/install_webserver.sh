@@ -30,7 +30,7 @@ sudo apt-get install -y nodejs
 sudo npm install http-server
 sudo npm i http-server
 cd ..
-
+pip install --upgrade pip 
 pip install flask
 
 #export FLASK_APP=CIT_API

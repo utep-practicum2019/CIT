@@ -34,6 +34,10 @@ def create_user(username, password, **kwargs):
         'password': password,
         **kwargs
     }
+    if 'notes' not in kwargs:
+        user_data['notes'] = ""
+    if 'alias' not in kwargs:
+        user_data['alias'] = ""
     doc_data = {
         'collection_name': 'users',
         'document_id': username,
