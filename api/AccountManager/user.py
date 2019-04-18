@@ -82,6 +82,28 @@ class User(object):
     def connection_type(self, connection_type):
         self._connection_type = connection_type
 
+    @property
+    def notes(self):
+        try:
+            return self._notes
+        except AttributeError:
+            return ""
+
+    @notes.setter
+    def notes(self, notes):
+        self._notes = notes
+
+    @property
+    def alias(self):
+        try:
+            return self._alias
+        except AttributeError:
+            return ""
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
+
     def to_dict(self):
         clean_vars = {}
         my_vars = vars(self)

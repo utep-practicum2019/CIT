@@ -75,6 +75,28 @@ class Group:
     def members(self, members):
         self._members = members
 
+    @property
+    def notes(self):
+        try:
+            return self._notes
+        except AttributeError:
+            return ""
+
+    @notes.setter
+    def notes(self, notes):
+        self._notes = notes
+
+    @property
+    def alias(self):
+        try:
+            return self._alias
+        except AttributeError:
+            return ""
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
+
     def to_dict(self):
         clean_vars = {}
         my_vars = vars(self)
