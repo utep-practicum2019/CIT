@@ -1,5 +1,5 @@
 class Group:
-    def __init__(self, group_id, min=None, max=None, platforms=None, members=None, chat_id=None):
+    def __init__(self, group_id, min=None, max=None, platforms=None, members=None, chat_id=None, alias="", notes=""):
         if min is not None:
             self.min = min
         if max is not None:
@@ -14,6 +14,9 @@ class Group:
             self.members = members
         else:
             self.members = []
+
+        self.alias = alias
+        self.notes = notes
         self.group_id = group_id
 
     def __repr__(self):

@@ -53,14 +53,19 @@ def create_group(group_id, users, **kwargs):
     # print("group status: ", status)
 
     # put data in the correct format
+    doc = {
+        'group_id': group_id,
+        'members': group.members,
+        **kwargs
+    }
+    if 'notes' not in kwargs:
+        doc['notes'] = ""
+    if 'alias' not in kwargs:
+        doc['alias'] = ""
     doc_data = {
         'collection_name': 'groups',
         'document_id': group_id,
-        'document': {
-            'group_id': group_id,
-            'members': group.members,
-            **kwargs
-        }
+        'document': doc
     }
     # store in the database
     r = requests.post(database_url, json=doc_data)
