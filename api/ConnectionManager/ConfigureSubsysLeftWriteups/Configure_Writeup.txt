@@ -3,7 +3,7 @@ Configure.py write-up
 
 Deiscription: Configure is mainly responsible for calling the corresponding Connections() super or sublcass functions necessary to modify the secrets files for the VPN services.
 
-Configure currently has three functions:
+Configure currently has four functions:
 
 addUsers(numberOfUsersInput)-Once the input value is verified to be an integer, a PPTP_ConnectionSubclass() object is create. A call to Connections.createPasswored() is made for that object. That object will then call pptpAddUser(currentpassword) sending the password that was currently created, and finally the created credentials will be added to addedUsersArr; which is an array of PPTP_ConnectionsSubclass() objects.
 Next a IKE_ConnectionsSubclass() object is create. That IKE object will then be assigned the same password of the pptp object. The IKE object will then call ikeAddUser(currentpassword).
@@ -11,6 +11,8 @@ Next a IKE_ConnectionsSubclass() object is create. That IKE object will then be 
 deleteUsers(users)-This functions takes a list of users and traverses through it. As it traverses, it creates an empty Connections() object and calls deleteUser(currUser,fileName) in Connections.py for both ipSec.secrets and chapSecres. Once the called functions are completed a boolean True is returned to the calling class/function.
 
 modifyUser(currUsername,newUsername,newPassword,newIP)-This function takes current user information, creates an empty Connections() object and then calls modifyUser(currUsername,newUsername,newPassword,newIP) in Connections.py. Once the called functions are completed a boolean True is returned to the calling class/function.
+
+fileAddUsers(userList)-This function receives and adds a list of usernames to be added to chapsecrets and ipsec.secrets.
 
 Things to add:
 1. Make sure number of users does not exceed max amount of available IP addresses.
