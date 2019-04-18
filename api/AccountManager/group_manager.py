@@ -36,15 +36,12 @@ def create_group(group_id, users, **kwargs):
 
     # create group and add members
     group = Group(group_id)
-    rchat_id = []
     for user in users:
         group.members.append(user["username"])
         print(user["username"])
-        user_id = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
-        rchat_id.append(user_id)
-        print("user id ", user_id)
-        if not user_id:
-            print('faaaaail')
+        created = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
+        if not created:
+            print('Unable to create user ', user['username'])
             return False
 
     # from rocketchat_API.rocketchat import RocketChat
@@ -212,12 +209,17 @@ class GroupManager:
             # can't change group_id
             return False
 
+        new = current.to_dict()
+        updated_group = updated_group.to_dict()
+        for k in updated_group:
+            new[k] = updated_group[k]
+
         # put data in the correct format
         group_data = {
             'collection_name': 'groups',
             'document_id': group_id,
             'document': {
-                **updated_group.to_dict()
+                **new
             }
         }
         # store group in the database
