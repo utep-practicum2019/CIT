@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress JSUnfilteredForInLoop, JSDeprecatedSymbols -->
 <html lang="en">
 <head>
     <title>Account Manager</title>
@@ -52,10 +53,6 @@
                     Import Users
                 </button>
 
-                <button class="btn btn-dark btn-sm menu" type="button">
-                    Edit
-                </button>
-
                 <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
                     <option value="user_table">User table</option>
                     <option value="group_table">Group table</option>
@@ -92,13 +89,17 @@
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
             <th>
-                <div> Alias
-                    <button id="saveUserAliasBtn"> Save</button>
+                <div><a href="javascript:SortTable(4,'T', 'usersTab');">Aliases</a>
+                    <button id="saveUserAliasBtn">Save</button>
+                    <button id="clearUserAliasBtn">Clear</button>
+
                 </div>
             </th>
             <th>
-                <div> Notes
+                <div><a href="javascript:SortTable(5,'T', 'usersTab');">Notes</a>
                     <button id="saveUserNotesBtn"> Save</button>
+                    <button id="clearUserNotesBtn">Clear</button>
+
                 </div>
             </th>
             <th>Platforms</th>
@@ -118,13 +119,13 @@
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
             <th>
-                <div> Alias
+                <div><a href="javascript:SortTable(3,'T', 'groupsTab');">Alias</a>
                     <button id="saveGroupAliasBtn">Save</button>
                     <button id="clearGroupAliasBtn">Clear</button>
                 </div>
             </th>
             <th>
-                <div> Notes
+                <div><a href="javascript:SortTable(4,'T', 'groupsTab');">Notes</a>
                     <button id="saveGroupNotesBtn"> Save</button>
                     <button id="clearGroupNotesBtn">Clear</button>
                 </div>
@@ -250,8 +251,6 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-body">
-
-
                     <form id="addUsersForm">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -289,7 +288,6 @@
 <script crossorigin="anonymous"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-
 <script>
     let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
     let users_check = true;
@@ -316,8 +314,8 @@
                     let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
                     group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
-                    group_table_html += '<td>' + group_id + '</td>';
-                    group_table_html += '<td>' + members + '</td>';
+                    group_table_html += `<td>${group_id}</td>`;
+                    group_table_html += `<td>${members}</td>`;
                     group_table_html +=
                         '<td>' +
                         ' <form>' +
@@ -334,7 +332,7 @@
                         '</label>' +
                         '</form>' +
                         '</td>';
-                    group_table_html += '<td>' + platforms + '</td>';
+                    group_table_html += `<td>${platforms}</td>`;
                     group_table_html += '</tr>';
                 }
                 group_table_html += '</tbody>';
@@ -344,6 +342,8 @@
             complete: function () {
                 load_users();
                 hide_group_options();
+                SortTable(1, 'T', 'usersTab');
+                SortTable(1, 'N', 'groupsTab', true);
             }
         });
     })();
@@ -369,8 +369,8 @@
                     let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
                     group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
-                    group_table_html += '<td>' + group_id + '</td>';
-                    group_table_html += '<td>' + members + '</td>';
+                    group_table_html += `<td>${group_id}</td>`;
+                    group_table_html += `<td>${members}</td>`;
                     group_table_html +=
                         '<td>' +
                         ' <form>' +
@@ -387,7 +387,7 @@
                         '</label>' +
                         '</form>' +
                         '</td>';
-                    group_table_html += '<td>' + platforms + '</td>';
+                    group_table_html += `<td>${platforms}</td>`;
                     group_table_html += '</tr>';
                 }
                 group_table_html += '</tbody>';
@@ -415,6 +415,50 @@
                     let note = groups[i]["note"];
                     $('#groupsTab > tbody').each(function () {
                         $(this).find('tr:eq(i)').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
+                    });
+                }
+            }
+        });
+    }
+
+    function reload_user_notes() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let note = users[i]["note"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq(i)').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
+                    });
+                }
+            }
+        });
+    }
+
+    function reload_user_aliases() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let alias = users[i]["alias"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq(i)').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
                     });
                 }
             }
@@ -460,13 +504,29 @@
                     let username = users[i]["username"];
                     let group_id = users[i]["group_id"];
                     let password = users[i]["password"];
+                    let alias = users[i]["alias"];
+                    let note = users[i]["note"];
                     user_table_html += '<tr>';
                     user_table_html += '<td><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
-                    user_table_html += '<td>' + username + '</td>';
-                    user_table_html += '<td>' + password + '</td>';
-                    user_table_html += '<td>' + group_id + '</td>';
-                    user_table_html += '<td>Alias</td>';
-                    user_table_html += '<td>Note</td>';
+                    user_table_html += `<td>${username}</td>`;
+                    user_table_html += `<td>${password}</td>`;
+                    user_table_html += `<td>${group_id}</td>`;
+                    user_table_html +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="userAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    user_table_html +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="userNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
                     user_table_html += '</tr>';
                 }
                 user_table_html += '</tbody>';
@@ -495,7 +555,7 @@
                     $("#usersTab tbody tr").each(function () {
                         let data = $(this).find('td:eq(3)').text();
                         if (parseInt(data) === group_id) {
-                            let platform_html = '<td>' + platforms + '</td>';
+                            let platform_html = `<td>${platforms}</td>`;
                             $(this).append(platform_html);
                         }
                     });
@@ -578,6 +638,48 @@
         }
     }
 
+    function addToUser(users, index, to_add) {
+        if (index < users.length) {
+            let username = users[index]["username"];
+            let user_object = {
+                "username": username,
+            };
+            switch (to_add) {
+                case "Note":
+                    user_object["note"] = users[index]["note"];
+                    break;
+                case "Alias":
+                    user_object["alias"] = users[index]["alias"];
+                    break;
+            }
+            $.ajax({
+                type: "PUT",
+                url: "http://0.0.0.0:5001/api/v2/resources/user",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    "username": username,
+                    "updated_user": user_object
+                }),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                },
+                complete: function () {
+                    addToUser(users, index + 1, to_add);
+                }
+            });
+        } else {
+            switch (to_add) {
+                case "Note":
+                    reload_user_notes();
+                    break;
+                case "Alias":
+                    reload_user_aliases();
+                    break;
+            }
+        }
+    }
+
     function selectUserIDs() {
         let list = [];
         $('#usersTab input[type=checkbox]').each(function () {
@@ -615,6 +717,22 @@
         return groups;
     }
 
+    function selectUserObjectsNoCheck() {
+        let users = [];
+        $('#usersTab > tbody > tr').each(function () {
+            users.push({
+                'username': $(this).find('td:eq(1)').text(),
+                'password': $(this).find('td:eq(2)').text(),
+                'group': $(this).find('td:eq(3)').text(),
+                'alias': $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val(),
+                'note': $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val(),
+                'platforms': $(this).find('td:eq(6)').text()
+            });
+        });
+        return users;
+    }
+
+
     function users_check_uncheck_all() {
         let checkboxes = document.getElementsByName("users_checkbox_platform");
         for (let i = 0; i < checkboxes.length; i++) {
@@ -632,7 +750,7 @@
     }
 
     function isNumberKey(evt) {
-        const charCode = (evt.which) ? evt.which : event.keyCode;
+        const charCode = (evt.which) ? evt.which : evt.keyCode;
         return !(charCode > 31 && (charCode < 48 || charCode > 57));
     }
 
@@ -644,11 +762,25 @@
                 alert("At least one group must exist!");
             } else {
                 addToGroup(groups, 0, "Note");
-                alert("Notes saved.");
+                alert("Group Notes saved.");
                 //console.log(JSON.stringify(groups));
             }
         });
     });
+
+    // Save User Notes
+    $(document).ready(function () {
+        $('#saveUserNotesBtn').click(function () {
+            let users = selectUserObjectsNoCheck();
+            if (users.length < 1) {
+                alert("At least one user must exist!");
+            } else {
+                addToUser(users, 0, "Note");
+                alert("User Notes saved.");
+            }
+        });
+    });
+
 
     // Save Group Aliases
     $(document).ready(function () {
@@ -658,8 +790,20 @@
                 alert("At least one group must exist!");
             } else {
                 addToGroup(groups, 0, "Alias");
-                alert("Aliases saved.");
-                //console.log(JSON.stringify(groups));
+                alert("Group Aliases saved.");
+            }
+        });
+    });
+
+    // Save User Aliases
+    $(document).ready(function () {
+        $('#saveUserAliasBtn').click(function () {
+            let users = selectUserObjectsNoCheck();
+            if (users.length < 1) {
+                alert("At least one user must exist!");
+            } else {
+                addToUser(users, 0, "Alias");
+                alert("User Aliases saved.");
             }
         });
     });
@@ -673,11 +817,29 @@
         });
     });
 
+    // Clear User Notes
+    $(document).ready(function () {
+        $('#clearUserNotesBtn').click(function () {
+            $('#usersTab > tbody > tr').each(function () {
+                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+            });
+        });
+    });
+
     // Clear Group Aliases
     $(document).ready(function () {
         $('#clearGroupAliasBtn').click(function () {
             $('#groupsTab > tbody > tr').each(function () {
                 $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            });
+        });
+    });
+
+    // Clear Group Aliases
+    $(document).ready(function () {
+        $('#clearUserAliasBtn').click(function () {
+            $('#usersTab > tbody > tr').each(function () {
+                $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
             });
         });
     });
@@ -802,12 +964,8 @@
                     data: JSON.stringify({
                         "list_of_users": list_of_users
                     }),
-                    success: function (response) {
-                        // console.log(response["success"] + " status: " + status);
-                        // $("#groupsTab").load(location.href + " #groupsTab>*", "");
+                    success: function () {
                         reload_groups();
-                        // $("#usersTab").load(location.href + " #usersTab>*", "");
-                        //location.reload();
                     },
                 });
             }

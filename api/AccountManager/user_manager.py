@@ -78,12 +78,14 @@ class UserManager:
         # check for connection fields
         current['username'] = updated_user.username
         try:
-            current['password'] = updated_user.password
+            if updated_user.password is not None:
+                current['password'] = updated_user.password
         except AttributeError:
             # keep current value
             pass
         try:
-            current['remote_ip'] = updated_user.remote_ip
+            if updated_user.remote_ip is not None:
+                current['remote_ip'] = updated_user.remote_ip
         except AttributeError:
             # keep current value
             pass
@@ -102,7 +104,8 @@ class UserManager:
 
         updated_user = updated_user.to_dict()
         for k in updated_user:
-            current[k] = updated_user[k]
+            if updated_user[k] is not None:
+                current[k] = updated_user[k]
         # put data in the correct format
         doc_data = {
             'collection_name': 'users',

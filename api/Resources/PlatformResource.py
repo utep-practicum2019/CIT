@@ -58,7 +58,9 @@ class PlatformAPI(Resource):
                 results = PlatformAPI.platform_interface.stopPlatform(data["platform_ID"], data["subplatforms_IDS"])
 
             elif json_data["command"] == "configure":
-                results = PlatformAPI.platform_interface.requestHandler(data["platform_ID"], data["subplatforms_IDS"][0], data["configuration"])
+                results = PlatformAPI.platform_interface.requestHandler(data["platform_ID"],
+                                                                        data["subplatforms_IDS"][0],
+                                                                        data["configuration"])
             else:
                 results = {"success": False}
         else:

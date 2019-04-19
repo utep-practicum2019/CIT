@@ -1,10 +1,10 @@
 class User(object):
-    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None, alias="", note=""):
+    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None, alias=None, note=None):
         self.username = username
 
-        if alias:
+        if alias is not None:
             self.alias = alias
-        if note:
+        if note is not None:
             self.note = note
         if password is not None:
             self.password = password
