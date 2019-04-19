@@ -139,6 +139,6 @@ class FilesUpload(Platform):
         return files
 
     fileMethods = {
-        "addFile": FilesUpload.addFile,
-        "delFile": FilesUpload.delFile
+        "addFile": addFile,
+        "delFile": delFile
     }
