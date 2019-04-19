@@ -34,23 +34,25 @@
     <h2>Platforms:</h2>
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-            <button class="btn btn-dark btn-sm menu" data-target="#createPlatformModal" data-toggle="modal"
-                    id="createNewPlatBtn" type="button">
-                Create New Platform
-            </button>
+            <label>
+                <button class="btn btn-dark btn-sm menu" data-target="#createPlatformModal" data-toggle="modal"
+                        id="createNewPlatBtn" type="button">
+                    Create New Platform
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" data-target="#deletePlatformModal" data-toggle="modal"
-                    type="button">
-                Delete Platform
-            </button>
+                <button class="btn btn-dark btn-sm menu" data-target="#deletePlatformModal" data-toggle="modal"
+                        type="button">
+                    Delete Platform
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" id="btnStart" type="button">
-                Start
-            </button>
+                <button class="btn btn-dark btn-sm menu" id="btnStart" type="button">
+                    Start
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" id="btnStop" type="button">
-                Stop
-            </button>
+                <button class="btn btn-dark btn-sm menu" id="btnStop" type="button">
+                    Stop
+                </button>
+            </label>
         </div>
     </div>
 </div>
@@ -61,12 +63,24 @@
         <thead>
         <tr>
             <th id="ddd"><a href="javascript:check_uncheck_all();">Select</a></th>
-            <th><a href="javascript:SortTable(0,'T', 'platformsTable');">Name</a></th>
-            <th><a href="javascript:SortTable(1,'T', 'platformsTable');">IP : Port</a></th>
-            <th><a href="javascript:SortTable(2,'T', 'platformsTable');">ID</a></th>
+            <th><a href="javascript:SortTable(1,'T', 'platformsTable');">Name</a></th>
+            <th><a href="javascript:SortTable(2,'T', 'platformsTable');">IP : Port</a></th>
+            <th><a href="javascript:SortTable(3,'T', 'platformsTable');">ID</a></th>
+            <th>
+                <div><a href="javascript:SortTable(4,'T', 'platformsTable');">Aliases</a>
+                    <button id="savePlatformAliasBtn">Save</button>
+                    <button id="clearPlatformAliasBtn">Clear</button>
+                </div>
+            </th>
+            <th>
+                <div><a href="javascript:SortTable(5,'T', 'platformsTable');">Notes</a>
+                    <button id="savePlatformNotesBtn"> Save</button>
+                    <button id="clearPlatformNotesBtn">Clear</button>
+
+                </div>
+            </th>
             <th>Subplatforms</th>
-            <th>Alias</th>
-            <th>Comment</th>
+
         </tr>
         </thead>
         <tbody>
@@ -205,24 +219,41 @@
                 //Print results
                 console.log("Accessed Database at " + new Date().toUTCString());
                 let array = response;
-                let trHTML = '<tbody>';
+                let main_platforms_HTML = '<tbody>';
                 for (let i in array) {
                     // console.log(JSON.stringify(array[i]));
                     let id = array[i]["main"]["id"];
                     let name = array[i]["main"]["name"];
                     let ip_port = array[i]["main"]["ip_port"];
-                    trHTML += '<tr><td><input aria-label="Checkbox for following text input" id="checkbox_platform'
+                    let note = array[i]["main"]["note"];
+                    let alias = array[i]["main"]["alias"];
+                    main_platforms_HTML += '<tr><td><input aria-label="Checkbox for following text input" id="checkbox_platform'
                         + id + '" type="checkbox" name="checkbox_platform"></td>';
-                    trHTML += '<td>' + name + '</td><td>' + ip_port + '</td><td>' + id + '</td>';
-                    trHTML += '<td>\n' +
+                    main_platforms_HTML += `<td>${name}</td><td>${ip_port}</td><td>${id}</td>`;
+                    main_platforms_HTML +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="platformAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    main_platforms_HTML +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="platformNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    main_platforms_HTML += '<td>\n' +
                         '<button onclick="load_subplatform_modal(' + id + ')" data-target="#subplatformModal" data-toggle="modal" id="subplatform' + id
                         + '" type="button">\n' +
                         'Subplatform\n' +
-                        ' </button>\n' +
-                        '</td></tr>\'';
+                        ' </button>\n' + '</td></tr>\'';
                 }
-                trHTML += '</tbody>';
-                $('#platformsTable tbody').replaceWith(trHTML);
+                main_platforms_HTML += '</tbody>';
+                $('#platformsTable tbody').replaceWith(main_platforms_HTML);
                 SortTable(0, 'T', 'platformsTable', true)
             }
         });
@@ -501,6 +532,53 @@
         //     }
         // }
     }
+
+    // Save User Notes
+    $(document).ready(function () {
+        $('#saveUserNotesBtn').click(function () {
+            let users = selectUserObjectsNoCheck();
+            if (users.length < 1) {
+                alert("At least one user must exist!");
+            } else {
+                addToUser(users, 0, "Note");
+                alert("User Notes saved.");
+            }
+        });
+    });
+
+
+    // Save Group Aliases
+    $(document).ready(function () {
+        $('#saveGroupAliasBtn').click(function () {
+            let groups = selectGroupObjectsNoCheck();
+            if (groups.length < 1) {
+                alert("At least one group must exist!");
+            } else {
+                addToGroup(groups, 0, "Alias");
+                alert("Group Aliases saved.");
+            }
+        });
+    });
+
+
+    // Clear User Notes
+    $(document).ready(function () {
+        $('#clearUserNotesBtn').click(function () {
+            $('#usersTab > tbody > tr').each(function () {
+                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+            });
+        });
+    });
+
+    // Clear Group Aliases
+    $(document).ready(function () {
+        $('#clearGroupAliasBtn').click(function () {
+            $('#groupsTab > tbody > tr').each(function () {
+                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            });
+        });
+    });
+
 </script>
 </body>
 </html>
