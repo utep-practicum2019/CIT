@@ -31,13 +31,16 @@ class GroupAPI(Resource):
             results = DatabaseHandler.find_all('groups')
             formatted_results = []
             for result in results:
+                if 'platforms' not in result:
+                    result['platforms'] = []
+                if 'note' not in result:
+                    result['note'] = ""
+                if 'alias' not in result:
+                    result['alias'] = ""
                 r = group_schema.dump(Group(**result))
+
                 formatted_results.append(r[0])
             return formatted_results
-
-
-
-
 
     # To do a post request
     # Type 1

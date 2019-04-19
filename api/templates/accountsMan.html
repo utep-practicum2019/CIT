@@ -60,10 +60,6 @@
                     Edit
                 </button>
 
-                <button class="btn btn-dark btn-sm menu" data-target="#makeCommentModal" data-toggle="modal" type="button">
-                    Comment
-                </button>
-
                 <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
                     <option value="user_table">User table</option>
                     <option value="group_table">Group table</option>
@@ -84,8 +80,6 @@
                     Attach Platform
                 </button>
             </label>
-
-
         </div>
 
     </div>
@@ -101,8 +95,16 @@
             <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
-            <th>Alias</th>
-            <th>Comment</th>
+            <th>
+                <div> Alias
+                    <button id="saveUserAliasBtn"> Save</button>
+                </div>
+            </th>
+            <th>
+                <div> Notes
+                    <button id="saveUserNotesBtn"> Save</button>
+                </div>
+            </th>
             <th>Platforms</th>
         </tr>
         </thead>
@@ -119,37 +121,24 @@
             <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
-            <th>Alias</th>
-            <th>Comment</th>
+            <th>
+                <div> Alias
+                    <button id="saveGroupAliasBtn">Save</button>
+                    <button id="clearGroupAliasBtn">Clear</button>
+                </div>
+            </th>
+            <th>
+                <div> Notes
+                    <button id="saveGroupNotesBtn"> Save</button>
+                    <button id="clearGroupNotesBtn">Clear</button>
+                </div>
+            </th>
             <th>Platforms</th>
         </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
-</div>
-
-<!-- Make Comment Modal -->
-<div aria-hidden="true" class="modal fade" id="makeCommentModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="makeCommentForm">
-                <div class="modal-body">
-                    <div>
-                        <div style="text-align: center"><b> Comment </b></div>
-                        <label>
-                            <input id = "makeCommentInput" type="text">
-                        </label>
-
-                    </div>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                <button class="btn btn-danger" data-dismiss="modal" id="makeCommentSubmit">Comment</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Attach Platforms Modal -->
@@ -266,6 +255,7 @@
             <div class="modal-footer">
                 <div class="modal-body">
 
+
                     <form id="addUsersForm">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -306,6 +296,9 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script>
+
+    let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
+
     (function load_groups() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -323,12 +316,28 @@
                     let members = groups[i]["members"];
                     let group_id = groups[i]["group_id"];
                     let platforms = groups[i]["platforms"];
+                    let note = groups[i]["note"];
+                    let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
                     group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += '<td>' + group_id + '</td>';
                     group_table_html += '<td>' + members + '</td>';
-                    group_table_html += '<td>Alias</td>';
-                    group_table_html += '<td>Comment</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
                     group_table_html += '<td>' + platforms + '</td>';
                     group_table_html += '</tr>';
                 }
@@ -366,7 +375,7 @@
                     user_table_html += '<td>' + password + '</td>';
                     user_table_html += '<td>' + group_id + '</td>';
                     user_table_html += '<td>Alias</td>';
-                    user_table_html += '<td>Comment</td>';
+                    user_table_html += '<td>Note</td>';
                     user_table_html += '</tr>';
                 }
                 user_table_html += '</tbody>';
@@ -404,8 +413,6 @@
         });
     }
 
-    let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
-
     function change_table() {
         let groupsTable = document.getElementById("groupArea");
         let usersTable = document.getElementById("mainArea");
@@ -439,38 +446,83 @@
     }
 
     $(document).ready(function () {
-        $('#makeCommentSubmit').click(function () {
-            alert("Wow");
-
-            if (groupsVisible === 1){
-                alert("Wow");
-                let groups = selectGroups();
-                if (groups.length < 1) {
-                    alert("Please select at least one group!");
-                } else {
-                    // $.ajax({
-                    //     type: "PUT",
-                    //     url: "http://0.0.0.0:5001/api/v2/resources/group",
-                    //     contentType: "application/json",
-                    //     dataType: "json",
-                    //     data: JSON.stringify({
-                    //         "group_count": gcount,
-                    //         "users_per_group": upgroup
-                    //     }),
-                    //     success: function (response) {
-                    //         console.log(JSON.stringify(response));
-                    //     },
-                    //     complete: function () {
-                    //         reload_groups();
-                    //     }
-                    // });
-                    console.log(JSON.stringify(groups));
-                }
+        $('#saveGroupNotesBtn').click(function () {
+            let groups = selectGroupObjectsNoCheck();
+            if (groups.length < 1) {
+                alert("At least one group must exist!");
+            } else {
+                addToGroup(groups, 0, "Note");
+                alert("Notes saved.");
+                //console.log(JSON.stringify(groups));
             }
         });
     });
 
+    $(document).ready(function () {
+        $('#saveGroupAliasBtn').click(function () {
+            let groups = selectGroupObjectsNoCheck();
+            if (groups.length < 1) {
+                alert("At least one group must exist!");
+            } else {
+                addToGroup(groups, 0, "Alias");
+                alert("Aliases saved.");
+                //console.log(JSON.stringify(groups));
+            }
+        });
+    });
 
+    function addToGroup(groups, index, to_add) {
+        if (index < groups.length) {
+            let group_id = groups[index]["group_id"];
+            let group_object = {
+                "group_id": group_id,
+            };
+            switch (to_add) {
+                case "Note":
+                    group_object["note"] = groups[index]["note"];
+                    break;
+                case "Alias":
+                    group_object["alias"] = groups[index]["alias"];
+                    break;
+            }
+            $.ajax({
+                type: "PUT",
+                url: "http://0.0.0.0:5001/api/v2/resources/group",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    "group_id": group_id,
+                    "updated_group": group_object
+                }),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                },
+                complete: function () {
+                    addToGroup(groups, index + 1, to_add);
+                }
+            });
+        } else {
+            reload_groups();
+        }
+    }
+
+    // Clear Group Notes
+    $(document).ready(function () {
+        $('#clearGroupNotesBtn').click(function () {
+            $('#groupsTab > tbody > tr').each(function () {
+                $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
+            });
+        });
+    });
+
+    // Clear Group Aliases
+    $(document).ready(function () {
+        $('#clearGroupAliasBtn').click(function () {
+            $('#groupsTab > tbody > tr').each(function () {
+                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            });
+        });
+    });
 
     $(document).ready(function () {
         $('#btnAddUsers').click(function () {
@@ -518,7 +570,7 @@
             $.each($("input[name='mainPlat']:checked"), function () {
                 main_plats.push($(this).val());
             });
-            let list_of_groups = selectGroups();
+            let list_of_groups = selectGroupIDs();
             if (list_of_groups.length === 0) {
                 alert("Please select at least one group for attachment.");
             } else if (main_plats.length === 0) {
@@ -578,7 +630,7 @@
 
     $(document).ready(function () {
         $('#btnDelUsr').click(function () {
-            let list_of_users = selectUsers();
+            let list_of_users = selectUserIDs();
             if (list_of_users.length === 0) {
                 alert("Please select at least one user for deletion.");
             } else {
@@ -602,7 +654,7 @@
         });
     });
 
-    function selectUsers() {
+    function selectUserIDs() {
         let list = [];
         $('#usersTab input[type=checkbox]').each(function () {
             if (this.checked) {
@@ -615,7 +667,7 @@
     }
 
 
-    function selectGroups() {
+    function selectGroupIDs() {
         let list = [];
         $('#groupsTab input[type=checkbox]').each(function () {
             if (this.checked) {
@@ -626,10 +678,23 @@
         return list;
     }
 
+    function selectGroupObjectsNoCheck() {
+        let groups = [];
+        $('#groupsTab > tbody > tr').each(function () {
+            groups.push({
+                'members': $(this).find('td:eq(2)').text(),
+                'group_id': $(this).find('td:eq(1)').text(),
+                'alias': $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val(),
+                'note': $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val(),
+                'platforms': $(this).find('td:eq(5)').text()
+            });
+        });
+        return groups;
+    }
 
     $(document).ready(function () {
         $('#groupDelBtn').click(function () {
-            let list_of_groups = selectGroups();
+            let list_of_groups = selectGroupIDs();
             if (list_of_groups.length === 0) {
                 alert("Please select at least one user for deletion.");
             } else {
@@ -666,12 +731,28 @@
                     let members = groups[i]["members"];
                     let group_id = groups[i]["group_id"];
                     let platforms = groups[i]["platforms"];
+                    let note = groups[i]["note"];
+                    let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
                     group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += '<td>' + group_id + '</td>';
                     group_table_html += '<td>' + members + '</td>';
-                    group_table_html += '<td>Alias</td>';
-                    group_table_html += '<td>Comment</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
                     group_table_html += '<td>' + platforms + '</td>';
                     group_table_html += '</tr>';
                 }

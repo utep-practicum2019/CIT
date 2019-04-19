@@ -10,6 +10,8 @@ class UserSchema(Schema):
     internal_ip = fields.String()
     remote_ip = fields.String()
     connectionType = fields.String()
+    note = fields.String()
+    alias = fields.String()
 
     @post_load
     def make_user(self, data):

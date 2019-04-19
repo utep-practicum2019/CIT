@@ -34,8 +34,8 @@ def create_user(username, password, **kwargs):
         'password': password,
         **kwargs
     }
-    if 'notes' not in kwargs:
-        user_data['notes'] = ""
+    if 'note' not in kwargs:
+        user_data['note'] = ""
     if 'alias' not in kwargs:
         user_data['alias'] = ""
     doc_data = {
@@ -60,21 +60,23 @@ def create_user(username, password, **kwargs):
 class UserManager:
     @staticmethod
     def update_user(username, updated_user):
+        current = get_user(username)
+        if current is None:
+            # user does not exist
+            return False
+        current = current.to_dict()
+
         try:
             # check availability
-            new = get_user(updated_user.username)
-            if username != updated_user.username and new is not None:
-                # new username is taken
+            if username != updated_user.username:
+                # username cannot be changed
                 return False
         except AttributeError:
             # updated_user must have a username
             return False
-        if get_user(username) is None:
-            # user does not exist
-            return False
 
         # check for connection fields
-        current = {'username': updated_user.username}
+        current['username'] = updated_user.username
         try:
             current['password'] = updated_user.password
         except AttributeError:
@@ -98,12 +100,16 @@ class UserManager:
         if r.status_code != requests.codes.ok:
             return False
 
+        updated_user = updated_user.to_dict()
+        for k in updated_user:
+            current[k] = updated_user[k]
         # put data in the correct format
         doc_data = {
             'collection_name': 'users',
             'document_id': username,
-            'document': updated_user.to_dict()
+            'document': current
         }
+
         # store user in the database
         r = requests.put(database_url, json=doc_data)
         if r.status_code != requests.codes.ok:

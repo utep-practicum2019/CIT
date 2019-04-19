@@ -3,10 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="ff0d0c4d-2841-4480-84a6-9592ac1163af" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/AccountManager/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/group.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/AccountManager/group_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/group_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/AccountManager/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/AccountManager/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/user_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/Resources/GroupResource.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Resources/GroupResource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Schemas/Group_Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Schemas/Group_Schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Schemas/User_Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Schemas/User_Schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/next_group_id.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api/next_group_id.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/templates/accountsMan.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/accountsMan.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/templates/platMan.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/platMan.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,86 +24,34 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="346" column="32" selection-start-line="346" selection-start-column="32" selection-end-line="346" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Resources/UserResource.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1245">
-              <caret line="86" column="41" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Schemas/User_Schema.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#49#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="377">
+              <caret line="258" selection-start-line="258" selection-end-line="266" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/api/Resources/GroupResource.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="115" lean-forward="true" selection-start-line="115" selection-end-line="115" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/static/js/tablesorter.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
-              <caret line="58" selection-start-line="58" selection-end-line="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/lib/python3.5/socketserver.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6750">
-              <caret line="453" selection-start-line="453" selection-end-line="453" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Schemas/Group_Schema.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="50" selection-start-line="50" selection-end-line="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5040">
-              <caret line="336" column="25" selection-start-line="336" selection-start-column="25" selection-end-line="336" selection-end-column="25" />
+            <state relative-caret-position="488">
+              <caret line="84" column="10" lean-forward="true" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#6898#6905#1" expanded="true" />
+                <element signature="e#7963#7970#1" expanded="true" />
+                <element signature="e#8981#8988#1" expanded="true" />
+                <element signature="e#10046#10053#1" expanded="true" />
+                <element signature="e#16738#17753#0" />
+                <element signature="e#17789#18145#0" />
+                <element signature="e#20430#22115#0" />
+                <element signature="e#22161#23549#0" />
+                <element signature="e#23588#24643#0" />
+                <element signature="e#24682#25727#0" />
+                <element signature="e#25760#26018#0" />
+                <element signature="e#26051#26309#0" />
+                <element signature="e#27383#28129#0" />
+                <element signature="e#28162#29740#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -126,13 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.val</find>
-      <find>Add</find>
-      <find>crea</find>
-      <find>createPla</find>
-      <find>GET</find>
-      <find>worker</find>
-      <find>po</find>
       <find>start</find>
       <find>Platfor</find>
       <find>attachPlatformModal</find>
@@ -156,10 +102,19 @@
       <find>attachPlatBtn</find>
       <find>makeCommen</find>
       <find>makeCommentSub</find>
+      <find>load_gr</find>
+      <find>current</find>
+      <find>notes</find>
+      <find>load_user</find>
+      <find>saveGr</find>
+      <find>clear</find>
+      <find>Note</find>
     </findStrings>
     <replaceStrings>
       <replace>subplatforms_ID</replace>
       <replace>subplatforms_IDS</replace>
+      <replace>note</replace>
+      <replace>Note</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -173,17 +128,20 @@
         <option value="$PROJECT_DIR$/api/Resources/RocketChatResource.py" />
         <option value="$PROJECT_DIR$/api/PlatformManager/PluginManager.py" />
         <option value="$PROJECT_DIR$/api/Database/database.py" />
-        <option value="$PROJECT_DIR$/api/AccountManager/group_manager.py" />
         <option value="$PROJECT_DIR$/api/PlatformManager/Platforms/Rocketchat.py" />
         <option value="$PROJECT_DIR$/api/PlatformManager/PlatformInterface.py" />
         <option value="$PROJECT_DIR$/api/Resources/PlatformResource.py" />
-        <option value="$PROJECT_DIR$/api/Schemas/Group_Schema.py" />
-        <option value="$PROJECT_DIR$/api/Schemas/User_Schema.py" />
         <option value="$PROJECT_DIR$/api/Resources/UserResource.py" />
         <option value="$PROJECT_DIR$/api/templates/connectionMan.html" />
         <option value="$PROJECT_DIR$/api/static/js/accountsManJS.js" />
         <option value="$PROJECT_DIR$/api/static/js/tablesorter.js" />
         <option value="$PROJECT_DIR$/api/templates/platMan.html" />
+        <option value="$PROJECT_DIR$/api/Schemas/User_Schema.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/user_manager.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/user.py" />
+        <option value="$PROJECT_DIR$/api/Schemas/Group_Schema.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/group.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/group_manager.py" />
         <option value="$PROJECT_DIR$/api/Resources/GroupResource.py" />
         <option value="$PROJECT_DIR$/api/templates/accountsMan.html" />
       </list>
@@ -317,16 +275,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="-7" width="1232" height="1032" extended-state="6" />
+    <frame x="49" y="-14" width="1232" height="1039" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19763513" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2638544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29646018" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.2920354" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29646018" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.2920354" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32963374" />
@@ -345,9 +303,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CIT$CIT_API.coverage" NAME="CIT_API Coverage Results" MODIFIED="1555628627282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/api/CIT_API_Doc.py">
@@ -391,19 +346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/AccountManager/group.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/AccountManager/group_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="265" column="58" selection-start-line="265" selection-start-column="58" selection-end-line="265" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -451,16 +393,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/Schemas/User_Schema.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/static/js/tablesorter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="870">
@@ -468,27 +400,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.5/socketserver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6750">
           <caret line="453" selection-start-line="453" selection-end-line="453" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/Schemas/Group_Schema.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
         </state>
       </provider>
     </entry>
@@ -504,22 +419,112 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5040">
-          <caret line="336" column="25" selection-start-line="336" selection-start-column="25" selection-end-line="336" selection-end-column="25" />
+        <state relative-caret-position="488">
+          <caret line="84" column="10" lean-forward="true" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#6898#6905#1" expanded="true" />
+            <element signature="e#7963#7970#1" expanded="true" />
+            <element signature="e#8981#8988#1" expanded="true" />
+            <element signature="e#10046#10053#1" expanded="true" />
+            <element signature="e#16738#17753#0" />
+            <element signature="e#17789#18145#0" />
+            <element signature="e#20430#22115#0" />
+            <element signature="e#22161#23549#0" />
+            <element signature="e#23588#24643#0" />
+            <element signature="e#24682#25727#0" />
+            <element signature="e#25760#26018#0" />
+            <element signature="e#26051#26309#0" />
+            <element signature="e#27383#28129#0" />
+            <element signature="e#28162#29740#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="346" column="32" selection-start-line="346" selection-start-column="32" selection-end-line="346" selection-end-column="32" />
+        <state relative-caret-position="377">
+          <caret line="258" selection-start-line="258" selection-end-line="266" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/next_group_id.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/account_manager.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/user_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3116">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Schemas/User_Schema.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Schemas/Group_Schema.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/Resources/GroupResource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="115" lean-forward="true" selection-start-line="115" selection-end-line="115" />
+        <state relative-caret-position="-826">
+          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <folding>
+            <element signature="e#27#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/group.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/group_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1818">
+          <caret line="286" column="11" selection-start-line="286" selection-start-column="11" selection-end-line="286" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

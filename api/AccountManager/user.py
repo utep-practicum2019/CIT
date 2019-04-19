@@ -1,9 +1,11 @@
 class User(object):
-    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None, alias="", notes=""):
+    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None, alias="", note=""):
         self.username = username
-        self.alias = alias
-        self.notes = notes
 
+        if alias:
+            self.alias = alias
+        if note:
+            self.note = note
         if password is not None:
             self.password = password
         if group_id is not None:
@@ -86,15 +88,15 @@ class User(object):
         self._connection_type = connection_type
 
     @property
-    def notes(self):
+    def note(self):
         try:
-            return self._notes
+            return self._note
         except AttributeError:
             return ""
 
-    @notes.setter
-    def notes(self, notes):
-        self._notes = notes
+    @note.setter
+    def note(self, note):
+        self._note = note
 
     @property
     def alias(self):

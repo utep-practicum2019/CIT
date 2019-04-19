@@ -10,6 +10,8 @@ class GroupSchema(Schema):
     platforms = fields.List(fields.String())
     members = fields.List(fields.String())
     chat_id = fields.Int()
+    note = fields.String()
+    alias = fields.String()
 
     @post_load
     def make_group(self, data):
@@ -28,7 +30,6 @@ class GroupUpdateRequestSchema(Schema):
     updated_group = fields.Nested(GroupSchema)
 
 
-
 class GroupResponseSchema(Schema):
     success = fields.Bool(required=True)
 
@@ -37,11 +38,28 @@ class GroupGetRequestSchema(Schema):
     group_id = fields.Int()
 
 
+class PutGroupSchema(Schema):
+    group_id = fields.Int()
+    min = fields.Int()
+    max = fields.Int()
+    platforms = fields.List(fields.String())
+    members = fields.List(fields.String())
+    chat_id = fields.Int()
+    note = fields.String()
+    alias = fields.String()
+
+
+class GroupPUTRequestSchema(Schema):
+    command = fields.String()
+    group_id = fields.Int(required=True)
+    updated_group = fields.Nested(PutGroupSchema)
+
 
 class GroupDELETERequestSchema(Schema):
     list_of_groups = fields.List(fields.Integer())
 
 
+group_put_request_schema = GroupPUTRequestSchema()
 group_get_request_schema = GroupGetRequestSchema()
 group_schema = GroupSchema()
 group_request_schema = GroupRequestSchema()
