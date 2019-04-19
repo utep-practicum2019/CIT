@@ -1,4 +1,3 @@
-
 import json
 import requests
 from pprint import pprint
@@ -33,15 +32,22 @@ class Rocketchat(Platform):
     link = "http://www.chat.service"
 
     def __init__(self):
-        
         self.proxy_dict = {
             "http": "http://localhost:3000",
             "https": "https://localhost:3001",
         }
 
+    def requestHandler(self, command):
+        action = {
+            'registerUser': Rocketchat.registerUser,
+            'deleteUser': Rocketchat.deleteUser,
+            'createChannel': Rocketchat.createChannel,
+            'deleteChannel': Rocketchat.deleteChannel,
+            'createPrivateGroup': Rocketchat.createPrivateGroup,
+            'deletePrivateGroup': Rocketchat.deletePrivateGroup,
+        }
+        return action[command['command']](self, command['param'])
 
-
-        
     # return process ID
     def getProcessID(self):
         return self.processID
@@ -132,18 +138,13 @@ class Rocketchat(Platform):
         self.subplatforms = subplatforms
 
     # add more methods below if you need to do more tasks
-    
-    
-    #Create a RocketChat object and login on the specified server:
-    #rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
 
+    # Create a RocketChat object and login on the specified server:
+    # rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
 
-    #users = {useremail1: (userpass, usernick, ), useremail2}
-
-
+    # users = {useremail1: (userpass, usernick, ), useremail2}
 
     chat_ip_port = "http://0.0.0.0:3000"
-
 
     def registerUser(self, user_email, user_name, user_pass):
         rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
@@ -152,8 +153,7 @@ class Rocketchat(Platform):
         uId = data['user']['_id']
         return (status, uId)
 
-
-    # Login a user: 
+    # Login a user:
     def loginUser(self, user_name, user_pass):
         rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
         print(user_name + " " + user_pass)
@@ -162,7 +162,6 @@ class Rocketchat(Platform):
         authToken = data["data"]["authToken"]
         print(status + " " + authToken)
         return (status, authToken)
-
 
     # Get User info:
     def getUserInfo(self, userID, user_name):
@@ -175,14 +174,12 @@ class Rocketchat(Platform):
         userNick = data['user']['username']
         return (status, uId, email, userName, userNick)
 
-
     # Delete a user:
     def deleteUser(self, userID):
         rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
         data = rocket.users_delete(userID).json()
         status = data["success"]
         return status
-
 
     # Create a new public channel optionally adding users:
     def createChannel(self, channelName):
@@ -192,14 +189,12 @@ class Rocketchat(Platform):
         roomId = data["channel"]['_id']
         return (status, roomId)
 
-
     # Delete a public channel:
     def deleteChannel(self, roomId):
         rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
-        data =  rocket.channels_delete(roomId).json()
+        data = rocket.channels_delete(roomId).json()
         status = data["success"]
         return status
-
 
     # Create a new private group, optionally including users
     def createPrivateGroup(self, groupName):
@@ -209,14 +204,12 @@ class Rocketchat(Platform):
         roomId = data["group"]['_id']
         return (status, roomId)
 
-
     # Delete a private group:
     def deletePrivateGroup(self, roomId):
         rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
         data = rocket.groups_delete(roomId).json()
         status = data["success"]
         return status
-
 
     # Set announcement for channel:
     def postNewMessage(self, roomID, announce):
@@ -225,7 +218,6 @@ class Rocketchat(Platform):
         status = data["success"]
         msg = data["announcement"]
         return (status, msg)
-
 
     # Create User Token:
     def userToken(self, userID, user_name):
@@ -241,6 +233,8 @@ class Rocketchat(Platform):
         status = data["success"]
         roomId = data["group"]['_id']
         return (status, roomID)
+
+
 '''
 rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
 pprint(rocket.users_delete('h2uXXKrS4jnpkqa29').json())
@@ -285,5 +279,3 @@ pprint(rocket.users_delete('h2uXXKrS4jnpkqa29').json())
 
 # Post a new Chat message:
 # pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
-
-    
