@@ -15,6 +15,7 @@ class PlatformCOMMANDRequestSchema(Schema):
     command = fields.String()
     platform_ID = fields.Integer()
     subplatforms_IDS = fields.List(fields.Integer())
+    configuration = fields.Dict()
 
 
 class PlatformDELETERequestSchema(Schema):
@@ -22,7 +23,12 @@ class PlatformDELETERequestSchema(Schema):
     subplatforms_IDS = fields.List(fields.Integer())
 
 
+class PlatformGETRequestSchema(Schema):
+    all = fields.Boolean()
+
+
 platform_post_request_schema = PlatformPOSTRequestSchema()
 platform_add_request_schema = PlatformADDRequestSchema()
 platform_command_request_schema = PlatformCOMMANDRequestSchema()
 platform_delete_request_schema = PlatformDELETERequestSchema()
+platform_get_request_schema = PlatformGETRequestSchema()

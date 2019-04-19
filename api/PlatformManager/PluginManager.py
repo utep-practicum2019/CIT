@@ -6,6 +6,9 @@ MODULE_EXTENSIONS = ('.py')
 
 
 class PluginManager():
+    def __init__(self):
+        self.main_platforms = []
+        self.sub_platforms = [] 
 
     def getAvailablePlugins(self):
         a = os.getcwd()
@@ -36,15 +39,16 @@ class PluginManager():
         os.system("rm " + pluginFile)
 
     def loadPlatform(self, platform):
+        print(platform)
         try:
-            print(platform)
-            # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
-            module = importlib.import_module("Platforms.Main_Platforms." + platform, "./")
+            module = importlib.import_module("PlatformManager.Platforms.MainPlatforms." + platform, "./")
+            # module = importlib.import_module("Platforms." + platform, "./")
             class_ = getattr(module, platform)
             instance = class_()
             return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
-        except:
-            module = importlib.import_module("Platforms.Sub_platforms." + platform, "./")
+        except Exception as e:
+            module = importlib.import_module("PlatformManager.Platforms.SubPlatforms." + platform, "./")
+            # module = importlib.import_module("Platforms." + platform, "./")
             class_ = getattr(module, platform)
             instance = class_()
             return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")

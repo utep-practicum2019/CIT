@@ -15,18 +15,32 @@ class GroupAPI(Resource):
     # }
     @staticmethod
     def get():
-        json_data = request.get_json(force=True)
-        if not json_data:
-            return {'message': 'No input data provided'}, 400
+        json_data = request.args.to_dict()
+        # if not json_data:
+        #     return {'message': 'No input data provided'}, 400
         data, errors = group_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-
         from Database.database_handler import DatabaseHandler
-        results = DatabaseHandler.find('groups', data["group_id"])
-        if results is None or not results:
-            return {"success": False}, 404
-        return group_schema.dump(Group(**results))
+        if "group_id" in data:
+            results = DatabaseHandler.find('groups', data["group_id"])
+            if results is None or not results:
+                return {"success": False}, 404
+            return group_schema.dump(Group(**results))
+        else:
+            results = DatabaseHandler.find_all('groups')
+            formatted_results = []
+            for result in results:
+                if 'platforms' not in result:
+                    result['platforms'] = []
+                if 'note' not in result:
+                    result['note'] = ""
+                if 'alias' not in result:
+                    result['alias'] = ""
+                r = group_schema.dump(Group(**result))
+
+                formatted_results.append(r[0])
+            return formatted_results
 
     # To do a post request
     # Type 1
@@ -74,11 +88,38 @@ class GroupAPI(Resource):
         from AccountManager.account_manager import AccountManager
 
         results = False
-        if "command" in data and "platform_name" in data:
+        if "command" in data and "platform_ids" in data:
             if data["command"] == "attach":
-                results = AccountManager.attach_platform(data["group_id"], data["platform_name"])
+                for plat in data["platform_ids"]:
+                    results = AccountManager.attach_platform(data["group_id"], plat)
+
+                # from Database.database import Database
+                # group = Database.find("groups", data["group_id"])
+                # from .PlatformManagerInstance import PlatformManagerInstance
+                # platform_interface = PlatformManagerInstance.get_instance().platform_interface
+                # g_name = "Group " + str(data["group_id"])
+                # group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
+                #                                                              "Whatever",
+                #                                                              g_name)
+                # for user in group["members"]:
+                #     email = user["username"] + "@cit.com"
+                #     username = user["username"]
+                #     password = user["password"]
+                #     nickname = user["username"]
+                #     u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
+                #                                                        "Whatever",
+                #                                                        email, username,
+                #                                                        password,
+                #                                                        nickname)
+                #     platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
+
+                return True
+
+
+
+
             elif data["command"] == "detach":
-                results = AccountManager.detach_platform(data["platform_name"])
+                results = AccountManager.detach_platform(data["platform_id"])
         else:
             results = AccountManager.update_group(data["group_id"], data["updated_group"])
 

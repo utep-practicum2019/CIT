@@ -1,6 +1,11 @@
 class User(object):
-    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None):
+    def __init__(self, username, password=None, group_id=None, internal_ip=None, remote_ip=None, connection_type=None, alias="", note=""):
         self.username = username
+
+        if alias:
+            self.alias = alias
+        if note:
+            self.note = note
         if password is not None:
             self.password = password
         if group_id is not None:
@@ -81,6 +86,28 @@ class User(object):
     @connection_type.setter
     def connection_type(self, connection_type):
         self._connection_type = connection_type
+
+    @property
+    def note(self):
+        try:
+            return self._note
+        except AttributeError:
+            return ""
+
+    @note.setter
+    def note(self, note):
+        self._note = note
+
+    @property
+    def alias(self):
+        try:
+            return self._alias
+        except AttributeError:
+            return ""
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
 
     def to_dict(self):
         clean_vars = {}

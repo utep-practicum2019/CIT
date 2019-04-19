@@ -12,14 +12,21 @@ class PlatformAPI(Resource):
     @staticmethod
     def get():
 
-        from Database.database_handler import DatabaseHandler
+        json_data = request.args.to_dict()
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        data, errors = platform_get_request_schema.load(json_data)
+        if errors:
+            return errors, 422
 
-        results = DatabaseHandler.find_all("users")
-
-        results = PlatformAPI.platform_interface.getAvailablePlugins()
-        if results is None:
-            results = {"success": False}
-        return results
+        if data["all"]:
+            from Database.database_handler import DatabaseHandler
+            return DatabaseHandler.find_all("platforms")
+        else:
+            results = PlatformAPI.platform_interface.getAvailablePlugins()
+            if results is None:
+                results = {"success": False}
+            return results
 
     @staticmethod
     def post():
@@ -49,6 +56,9 @@ class PlatformAPI(Resource):
 
             elif json_data["command"] == "stop":
                 results = PlatformAPI.platform_interface.stopPlatform(data["platform_ID"], data["subplatforms_IDS"])
+
+            elif json_data["command"] == "configure":
+                results = PlatformAPI.platform_interface.requestHandler(data["platform_ID"], data["subplatforms_IDS"][0], data["configuration"])
             else:
                 results = {"success": False}
         else:

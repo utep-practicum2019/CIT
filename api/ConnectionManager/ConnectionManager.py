@@ -51,6 +51,8 @@ class ConnectionManager():
 
     def update_session_list(self):
         list_of_sessions = []
+        result = []
+        seen = result
         with open('ConnectionManager/PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
@@ -62,7 +64,13 @@ class ConnectionManager():
                     "status": s[4],
                     "connection_type": "PPTP"}
                 )
-        return list_of_sessions
+            list_of_sessions.reverse()
+            for item in list_of_sessions:
+                if item not in seen:
+                    seen.append(item)
+                    result.append(item)
+
+        return result
 
     def stop(self):
         self.notifier.stop()

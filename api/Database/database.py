@@ -8,7 +8,6 @@
 from pymongo import MongoClient
 
 
-
 class Database:
     __client = MongoClient('localhost', 27017)
     __db = __client['cit']
@@ -119,16 +118,14 @@ class Database:
 
     @staticmethod
     def groupCheck(document_id):
-
         try:
             # get a single user
-            doc = Database.collection['groups'].find_one({'platforms':document_id})
+            doc = Database.collection['groups'].find_one({'platforms': document_id})
             if doc is not None:
                 del doc['_id']
             return doc
         except KeyError:
-             return False
-
+            return False
 
     @staticmethod
     def find_all(collection_name):

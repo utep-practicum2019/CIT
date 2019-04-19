@@ -4,9 +4,9 @@ import subprocess
 import threading
 import time
 
-from PlatformTreeManager import PlatformTreeManager
+from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
-from PluginManager import PluginManager
+from .PluginManager import PluginManager
 
 """ 
         @authors:
@@ -270,21 +270,21 @@ class PlatformsManager:
             ServiceStatus = {}
             if (subplatformIDs == []):
                 serviceUp = self.check_service(main_platform)
-                if (serviceUp == False):
+                if (serviceUp == False and not main_platform.staticPlatform):
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
                 subps = main_platform.get_sub_platforms()
                 for x in subps:
                     serviceUp = self.check_service(subps[x])
-                    if (serviceUp):
+                    if (serviceUp or subps[x].staticPlatform):
                         ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                     else:
                         ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "DOWN")
                 return ServiceStatus
             else:
                 serviceUp = self.check_service(main_platform)
-                if (serviceUp == False):
+                if (serviceUp == False and not main_platform.staticPlatform):
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "DOWN")
                 else:
                     ServiceStatus[main_platform.getPlatformName()] = (main_platform.getPlatformID(), "UP")
@@ -292,7 +292,7 @@ class PlatformsManager:
                 for x in subps:
                     if (subps[x].getPlatformID() in subplatformIDs):
                         serviceUp = self.check_service(subps[x])
-                        if (serviceUp):
+                        if (serviceUp or subps[x].staticPlatform):
                             ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "UP")
                         else:
                             ServiceStatus[subps[x].getPlatformName()] = (subps[x].getPlatformID(), "Down")
@@ -340,18 +340,17 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
-A = PlatformsManager()
-Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
-MainID = Main_Platform.getPlatformID()
-Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
-Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
-Main_Platform.requestHandler({"command":"getFiles", "parameters": {}})
-# sub_platforms = Main_Platform.get_sub_platforms()
-# subIDs = []
-# for x in sub_platforms:
-#     subIDs.append(sub_platforms[x].getPlatformID())
-# C = A.startPlatforms(MainID, subIDs)
-# input("whenever bruh")
+# A = PlatformsManager()
+# Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
+# MainID = Main_Platform.getPlatformID()
+# Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
+# Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
+# # sub_platforms = Main_Platform.get_sub_platforms()
+# # subIDs = []
+# # for x in sub_platforms:
+# #     subIDs.append(sub_platforms[x].getPlatformID())
+# # C = A.startPlatforms(MainID, subIDs)
+# # input("whenever bruh")
 # # status = A.checkPlatformStatus(MainID, [])
 # # B = A.addPlatform(MainID, {"TiddlyWiki"})
 # # C = A.startPlatforms(MainID, [])

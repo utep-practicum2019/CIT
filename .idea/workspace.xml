@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff0d0c4d-2841-4480-84a6-9592ac1163af" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/PlatformManager/PluginManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/PlatformManager/PluginManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Resources/RocketChatResource.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Resources/RocketChatResource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/next_group_id.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api/next_group_id.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/templates/accountsMan.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/accountsMan.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,116 +14,109 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
+        <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="70" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="153" column="38" selection-start-line="153" selection-start-column="38" selection-end-line="153" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/PlatformManager/PlatformInterface.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="255" column="50" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/TiddlyWiki.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-45">
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Platform.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Resources/RocketChatResource.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Schemas/Platform_Schema.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+            <state relative-caret-position="377">
+              <caret line="258" selection-start-line="258" selection-end-line="266" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Rocketchat.py">
+        <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
+            <state relative-caret-position="624">
+              <caret line="573" column="29" lean-forward="true" selection-start-line="573" selection-start-column="29" selection-end-line="573" selection-end-column="29" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#6898#6905#1" expanded="true" />
+                <element signature="e#7963#7970#1" expanded="true" />
+                <element signature="e#8981#8988#1" expanded="true" />
+                <element signature="e#10046#10053#1" expanded="true" />
+                <element signature="e#12459#14107#0" />
+                <element signature="e#14472#16719#0" />
+                <element signature="e#14139#15686#0" />
+                <element signature="e#15724#16708#0" />
+                <element signature="e#16738#17753#0" />
+                <element signature="e#17789#18145#0" />
+                <element signature="e#25760#26018#0" />
+                <element signature="e#26051#26309#0" />
+                <element signature="e#27763#28939#0" />
+                <element signature="e#25510#25746#0" />
+                <element signature="e#25816#26053#0" />
+                <element signature="e#31288#31468#0" />
+                <element signature="e#23967#24362#0" />
+                <element signature="e#24400#24798#0" />
+                <element signature="e#25163#25397#0" />
+                <element signature="e#25461#27200#0" />
+                <element signature="e#27238#28626#0" />
+                <element signature="e#28664#29719#0" />
+                <element signature="e#29757#30802#0" />
+                <element signature="e#30840#31586#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/Resources/PlatformResource.py">
+        <entry file="file://$PROJECT_DIR$/api/templates/connectionMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="360">
+              <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>subplatform_ID</find>
-      <find>subplatforms_ID</find>
-      <find>createC</find>
+      <find>attachPlatformModal</find>
+      <find>radio</find>
+      <find>sub</find>
+      <find>array[i][&quot;</find>
+      <find>tables</find>
+      <find>user_table</find>
+      <find>delete</find>
+      <find>POST</find>
+      <find>ce</find>
+      <find>relo</find>
+      <find>SortTable</find>
+      <find>Name</find>
+      <find>attack</find>
+      <find>DELETE</find>
+      <find>checkbox</find>
+      <find>groups_checkbox_platform</find>
+      <find>platModal</find>
+      <find>makeCommentSubmit</find>
+      <find>attachPlatBtn</find>
+      <find>makeCommen</find>
+      <find>makeCommentSub</find>
+      <find>load_gr</find>
+      <find>current</find>
+      <find>notes</find>
+      <find>load_user</find>
+      <find>saveGr</find>
+      <find>clear</find>
+      <find>Note</find>
+      <find>add</find>
+      <find>groupAliasBox</find>
     </findStrings>
     <replaceStrings>
       <replace>subplatforms_ID</replace>
       <replace>subplatforms_IDS</replace>
+      <replace>note</replace>
+      <replace>Note</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -134,18 +125,38 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/api/PlatformManager/PluginManager.py" />
         <option value="$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py" />
         <option value="$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py" />
         <option value="$PROJECT_DIR$/api/Resources/RocketChatResource.py" />
+        <option value="$PROJECT_DIR$/api/PlatformManager/PluginManager.py" />
+        <option value="$PROJECT_DIR$/api/Database/database.py" />
+        <option value="$PROJECT_DIR$/api/PlatformManager/Platforms/Rocketchat.py" />
+        <option value="$PROJECT_DIR$/api/PlatformManager/PlatformInterface.py" />
+        <option value="$PROJECT_DIR$/api/Resources/PlatformResource.py" />
+        <option value="$PROJECT_DIR$/api/Resources/UserResource.py" />
+        <option value="$PROJECT_DIR$/api/templates/connectionMan.html" />
+        <option value="$PROJECT_DIR$/api/static/js/accountsManJS.js" />
+        <option value="$PROJECT_DIR$/api/static/js/tablesorter.js" />
+        <option value="$PROJECT_DIR$/api/templates/platMan.html" />
+        <option value="$PROJECT_DIR$/api/Schemas/User_Schema.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/user_manager.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/user.py" />
+        <option value="$PROJECT_DIR$/api/Schemas/Group_Schema.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/group.py" />
+        <option value="$PROJECT_DIR$/api/AccountManager/group_manager.py" />
+        <option value="$PROJECT_DIR$/api/Resources/GroupResource.py" />
+        <option value="$PROJECT_DIR$/api/templates/accountsMan.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="108" />
-    <option name="y" value="-4" />
-    <option name="width" value="1396" />
-    <option name="height" value="998" />
+    <option name="x" value="66" />
+    <option name="y" value="5" />
+    <option name="width" value="1215" />
+    <option name="height" value="995" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -159,11 +170,6 @@
               <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CIT" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -172,8 +178,15 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="liveEdit" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api/templates" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -187,34 +200,6 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="CIT_API" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="CIT" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/CIT_API.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.CIT_API" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -225,120 +210,294 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1553818057052</updated>
+      <workItem from="1554605918108" duration="415000" />
+      <workItem from="1554606356154" duration="92000" />
+      <workItem from="1554606860636" duration="274000" />
+      <workItem from="1554607239629" duration="535000" />
+      <workItem from="1554607859039" duration="3167000" />
+      <workItem from="1554611909900" duration="11782000" />
+      <workItem from="1554745302392" duration="3000" />
+      <workItem from="1555208293310" duration="383000" />
+      <workItem from="1555208686742" duration="1252000" />
+      <workItem from="1555209954889" duration="15889000" />
+      <workItem from="1555625913035" duration="439000" />
+      <workItem from="1555626403897" duration="508000" />
     </task>
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="44507000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-4" width="1617" height="1055" extended-state="6" />
+    <frame x="49" y="-14" width="1232" height="1039" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21753515" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32901832" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29646018" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.2920354" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32963374" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32963374" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.23418424" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" />
     </layout>
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/api/CIT_API_Doc.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/TiddlyWiki.py" />
+    <entry file="file://$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2295">
+          <caret line="153" column="38" selection-start-line="153" selection-start-column="38" selection-end-line="153" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/PlatformManager/PluginManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="32" column="71" selection-start-line="32" selection-start-column="71" selection-end-line="32" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="375">
+          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/Resources/PlatformResource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Platform.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
+    <entry file="file://$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="630">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/Schemas/Platform_Schema.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/Schemas/Rocket_Chat_Schema.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/Resources/RocketChatResource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/PlatformManager/PlatformsManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="153" column="38" selection-start-line="153" selection-start-column="38" selection-end-line="153" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api/PlatformManager/PlatformInterface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="255" column="50" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
+        <state relative-caret-position="1725">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/TiddlyWiki.py">
+    <entry file="file://$PROJECT_DIR$/api/Resources/RocketChatResource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45">
+        <state relative-caret-position="465">
+          <caret line="31" column="64" selection-start-line="31" selection-start-column="64" selection-end-line="31" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Rocketchat.py" />
+    <entry file="file://$PROJECT_DIR$/api/Database/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="797">
+          <caret line="122" column="78" selection-start-line="122" selection-start-column="78" selection-end-line="122" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Resources/PlatformResource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" selection-start-line="13" selection-end-line="28" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Database/database_handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="16" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/static/js/accountsManJS.js" />
+    <entry file="file://$PROJECT_DIR$/api/Resources/UserResource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="86" column="41" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/static/js/tablesorter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python3.5/socketserver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6750">
+          <caret line="453" selection-start-line="453" selection-end-line="453" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/templates/connectionMan.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Platform.py">
+    <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="624">
+          <caret line="573" column="29" lean-forward="true" selection-start-line="573" selection-start-column="29" selection-end-line="573" selection-end-column="29" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#6898#6905#1" expanded="true" />
+            <element signature="e#7963#7970#1" expanded="true" />
+            <element signature="e#8981#8988#1" expanded="true" />
+            <element signature="e#10046#10053#1" expanded="true" />
+            <element signature="e#12459#14107#0" />
+            <element signature="e#14472#16719#0" />
+            <element signature="e#14139#15686#0" />
+            <element signature="e#15724#16708#0" />
+            <element signature="e#16738#17753#0" />
+            <element signature="e#17789#18145#0" />
+            <element signature="e#25760#26018#0" />
+            <element signature="e#26051#26309#0" />
+            <element signature="e#27763#28939#0" />
+            <element signature="e#25510#25746#0" />
+            <element signature="e#25816#26053#0" />
+            <element signature="e#31288#31468#0" />
+            <element signature="e#23967#24362#0" />
+            <element signature="e#24400#24798#0" />
+            <element signature="e#25163#25397#0" />
+            <element signature="e#25461#27200#0" />
+            <element signature="e#27238#28626#0" />
+            <element signature="e#28664#29719#0" />
+            <element signature="e#29757#30802#0" />
+            <element signature="e#30840#31586#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/Rocketchat.py">
+    <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
+        <state relative-caret-position="377">
+          <caret line="258" selection-start-line="258" selection-end-line="266" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/next_group_id.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/account_manager.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/user_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3116">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Schemas/User_Schema.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Schemas/Group_Schema.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/Resources/GroupResource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-826">
+          <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <folding>
+            <element signature="e#27#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/group.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/AccountManager/group_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1818">
+          <caret line="286" column="11" selection-start-line="286" selection-start-column="11" selection-end-line="286" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

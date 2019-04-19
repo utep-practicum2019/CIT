@@ -10,6 +10,8 @@ class UserSchema(Schema):
     internal_ip = fields.String()
     remote_ip = fields.String()
     connectionType = fields.String()
+    note = fields.String()
+    alias = fields.String()
 
     @post_load
     def make_user(self, data):
@@ -38,7 +40,12 @@ class UserDELETERequestSchema(Schema):
     list_of_users = fields.List(fields.String())
 
 
+class UserGETRequestSchema(Schema):
+    username = fields.String()
+
+
 user_schema = UserSchema()
+user_get_request_schema = UserGETRequestSchema()
 user_request_schema = UserRequestSchema()
 user_create_request_schema = UserCreateRequestSchema()
 user_update_request_schema = UserUpdateRequestSchema()
