@@ -4,6 +4,8 @@ import subprocess
 import threading
 import time
 
+import PlatformManager.Platforms.SubPlatforms.FilesUpload
+
 from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
 from .PluginManager import PluginManager
@@ -38,13 +40,13 @@ class PlatformsManager:
         try:
             available_plugins = self.plugin_manager.getAvailablePlugins()
             print("available plugins" + str(available_plugins))
-            if platform not in available_plugins:
+            if platform not in available_plugins['main_platforms']:
                 print("Failure: No Such Plugin: " + platform)
                 return "Failure"
             subplatforms = {}
             Main_Platform = self.plugin_manager.loadPlatform(platform)
             for x in sub_platforms:
-                if x not in available_plugins:
+                if x not in available_plugins['sub_platforms']:
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 subplatforms[x] = self.plugin_manager.loadPlatform(x)
