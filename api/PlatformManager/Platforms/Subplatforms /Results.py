@@ -27,6 +27,7 @@ class Results(Platform):
     port = ""
     ip = ""
     link = ""
+    static = False 
 
     # return process ID
     def getProcessID(self):
@@ -156,7 +157,7 @@ class Results(Platform):
                 diff_list.append(item)
         return diff_list
 
-    def writeToFile(name, list):
+    def writeToFile(self, name, list):
         f = open(name, 'w')
         for x in list:
             f.write(x + "\n")

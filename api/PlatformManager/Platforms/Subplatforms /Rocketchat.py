@@ -30,6 +30,7 @@ class Rocketchat(Platform):
     subplatforms = {}
     port = "3000"
     ip = "0.0.0.0"
+    static = False
     link = "http://www.chat.service"
 
     def __init__(self):

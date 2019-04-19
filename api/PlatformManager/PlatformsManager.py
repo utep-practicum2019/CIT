@@ -345,6 +345,7 @@ Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
 MainID = Main_Platform.getPlatformID()
 Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
 Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
+Main_Platform.requestHandler({"command":"getFiles", "parameters": {}})
 # sub_platforms = Main_Platform.get_sub_platforms()
 # subIDs = []
 # for x in sub_platforms:

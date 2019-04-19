@@ -9,15 +9,24 @@ class PluginManager():
 
     def getAvailablePlugins(self):
         a = os.getcwd()
-        os.chdir("./Platforms")
-        platforms = []
+        print(a)
+        os.chdir("/Platforms/MainPlatforms")
+        main_platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
-            platforms.append(plugin)
-        platforms.remove("__init__")
-        platforms.remove("Platform")
+            main_platforms.append(plugin)
+        main_platforms.remove("__init__")
+        main_platforms.remove("Platform")
         os.chdir(a)
-        return platforms
+        os.chdir("./Platforms/Subplatforms")
+        sub_platforms = []
+        for file in glob.glob("*.py"):
+            plugin, ext = file.split(".py")
+            sub_platforms.append(plugin)
+        main_platforms.remove("__init__")
+        main_platforms.remove("Platform")
+        os.chdir(a)
+        return {"main_platforms": main_platforms, "sub_platforms": sub_platforms}
 
     def addPlatform(self, path):
         print("cp" + path + " " + ".PlatformManager/Platforms")
@@ -27,9 +36,20 @@ class PluginManager():
         os.system("rm " + pluginFile)
 
     def loadPlatform(self, platform):
-        print(platform)
-        # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
-        module = importlib.import_module("Platforms." + platform, "./")
-        class_ = getattr(module, platform)
-        instance = class_()
-        return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+        try:
+            print(platform)
+            # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+            module = importlib.import_module("Platforms.Main_Platforms." + platform, "./")
+            class_ = getattr(module, platform)
+            instance = class_()
+            return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+        except:
+            module = importlib.import_module("Platforms.Sub_platforms." + platform, "./")
+            class_ = getattr(module, platform)
+            instance = class_()
+            return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+
+a = PluginManager()
+dictionary = a.getAvailablePlugins()
+
+print(str(dictionary))
