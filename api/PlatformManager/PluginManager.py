@@ -8,27 +8,30 @@ MODULE_EXTENSIONS = ('.py')
 class PluginManager():
     def __init__(self):
         self.main_platforms = []
-        self.sub_platforms = [] 
+        self.sub_platforms = []
 
     def getAvailablePlugins(self):
-        a = os.getcwd()
-        print(a)
-        os.chdir("/Platforms/MainPlatforms")
+        original_wd = os.getcwd()
+        print(original_wd)
+        os.chdir("PlatformManager/Platforms/MainPlatforms")
         main_platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
             main_platforms.append(plugin)
         main_platforms.remove("__init__")
         main_platforms.remove("Platform")
-        os.chdir(a)
-        os.chdir("./Platforms/Subplatforms")
+        os.chdir(original_wd)
+        cwd =  os.getcwd()
+        os.chdir("PlatformManager/Platforms/SubPlatforms")
         sub_platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
             sub_platforms.append(plugin)
-        main_platforms.remove("__init__")
-        main_platforms.remove("Platform")
-        os.chdir(a)
+        if "__init__" in main_platforms:
+            main_platforms.remove("__init__")
+        if "Platform" in main_platforms:
+            main_platforms.remove("Platform")
+        os.chdir(original_wd)
         return {"main_platforms": main_platforms, "sub_platforms": sub_platforms}
 
     def addPlatform(self, path):
@@ -52,6 +55,7 @@ class PluginManager():
             class_ = getattr(module, platform)
             instance = class_()
             return instance  # module = importlib.import_module("PlatformManager.Platforms." + platform, "./")
+
 
 a = PluginManager()
 dictionary = a.getAvailablePlugins()
