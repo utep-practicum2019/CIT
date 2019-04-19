@@ -292,7 +292,7 @@
     let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
     let users_check = true;
     let group_check = true;
-
+    //shows groups on GUI's table
     (function load_groups() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -348,6 +348,7 @@
         });
     })();
 
+    // Refresh the group table on GUI
     function reload_groups() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -399,6 +400,7 @@
         });
     }
 
+    //Reload the group notes on GUI
     function reload_group_notes() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -421,6 +423,7 @@
         });
     }
 
+    // Reload the user notes on GUI
     function reload_user_notes() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -443,6 +446,7 @@
         });
     }
 
+    // Reload the user aliases on GUI
     function reload_user_aliases() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -465,6 +469,7 @@
         });
     }
 
+    // Reload the group aliases on GUI
     function reload_group_aliases() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -487,6 +492,7 @@
         });
     }
 
+    // Shows users on GUI's table
     function load_users() {
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
@@ -564,6 +570,7 @@
         });
     }
 
+    //Change between users table and group table
     function change_table() {
         let groupsTable = document.getElementById("groupArea");
         let usersTable = document.getElementById("mainArea");
@@ -587,6 +594,7 @@
         }
     }
 
+    //Hide group buttons
     function hide_group_options() {
         let groupsTable = document.getElementById("groupArea");
         let delGroupsButton = document.getElementById("delGroupsModalBtn");
@@ -596,6 +604,7 @@
         addPlatsButton.style.display = 'none';
     }
 
+    // Add groups
     function addToGroup(groups, index, to_add) {
         if (index < groups.length) {
             let group_id = groups[index]["group_id"];
@@ -638,6 +647,7 @@
         }
     }
 
+    // Add users
     function addToUser(users, index, to_add) {
         if (index < users.length) {
             let username = users[index]["username"];
@@ -680,6 +690,7 @@
         }
     }
 
+    // Select users ID
     function selectUserIDs() {
         let list = [];
         $('#usersTab input[type=checkbox]').each(function () {
@@ -692,6 +703,7 @@
         return list;
     }
 
+    // Select groups ID
     function selectGroupIDs() {
         let list = [];
         $('#groupsTab input[type=checkbox]').each(function () {
@@ -703,6 +715,7 @@
         return list;
     }
 
+    // Create a list of group objects from the table
     function selectGroupObjectsNoCheck() {
         let groups = [];
         $('#groupsTab > tbody > tr').each(function () {
@@ -717,6 +730,7 @@
         return groups;
     }
 
+    // Create a list of users objects from the table
     function selectUserObjectsNoCheck() {
         let users = [];
         $('#usersTab > tbody > tr').each(function () {
@@ -732,7 +746,7 @@
         return users;
     }
 
-
+    // Check and uncheck all the selection boxes on user table
     function users_check_uncheck_all() {
         let checkboxes = document.getElementsByName("users_checkbox_platform");
         for (let i = 0; i < checkboxes.length; i++) {
@@ -741,6 +755,7 @@
         users_check = !users_check;
     }
 
+    // Check and uncheck all the selection boxes on group table
     function group_check_uncheck_all() {
         let checkboxes = document.getElementsByName("groups_checkbox_platform");
         for (let i = 0; i < checkboxes.length; i++) {
@@ -749,6 +764,7 @@
         group_check = !group_check;
     }
 
+    // Allows only numbers on text box
     function isNumberKey(evt) {
         const charCode = (evt.which) ? evt.which : evt.keyCode;
         return !(charCode > 31 && (charCode < 48 || charCode > 57));

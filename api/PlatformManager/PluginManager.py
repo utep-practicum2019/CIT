@@ -18,19 +18,20 @@ class PluginManager():
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
             main_platforms.append(plugin)
-        main_platforms.remove("__init__")
-        main_platforms.remove("Platform")
+        if "__init__" in main_platforms:
+            main_platforms.remove("__init__")
+        if "Platform" in main_platforms:
+            main_platforms.remove("Platform")
         os.chdir(original_wd)
-        cwd =  os.getcwd()
         os.chdir("PlatformManager/Platforms/SubPlatforms")
         sub_platforms = []
         for file in glob.glob("*.py"):
             plugin, ext = file.split(".py")
             sub_platforms.append(plugin)
-        if "__init__" in main_platforms:
-            main_platforms.remove("__init__")
-        if "Platform" in main_platforms:
-            main_platforms.remove("Platform")
+        if "__init__" in sub_platforms:
+            sub_platforms.remove("__init__")
+        if "Platform" in sub_platforms:
+            sub_platforms.remove("Platform")
         os.chdir(original_wd)
         return {"main_platforms": main_platforms, "sub_platforms": sub_platforms}
 
