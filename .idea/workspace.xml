@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff0d0c4d-2841-4480-84a6-9592ac1163af" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/AccountManager/group.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/group.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/AccountManager/group_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/group_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/AccountManager/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/AccountManager/user_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/AccountManager/user_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Resources/GroupResource.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Resources/GroupResource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Schemas/Group_Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Schemas/Group_Schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Schemas/User_Schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/Schemas/User_Schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/next_group_id.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api/next_group_id.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/templates/accountsMan.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/accountsMan.html" afterDir="false" />
     </list>
@@ -33,24 +25,34 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="84" column="10" lean-forward="true" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
+            <state relative-caret-position="624">
+              <caret line="573" column="29" lean-forward="true" selection-start-line="573" selection-start-column="29" selection-end-line="573" selection-end-column="29" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="e#6898#6905#1" expanded="true" />
                 <element signature="e#7963#7970#1" expanded="true" />
                 <element signature="e#8981#8988#1" expanded="true" />
                 <element signature="e#10046#10053#1" expanded="true" />
+                <element signature="e#12459#14107#0" />
+                <element signature="e#14472#16719#0" />
+                <element signature="e#14139#15686#0" />
+                <element signature="e#15724#16708#0" />
                 <element signature="e#16738#17753#0" />
                 <element signature="e#17789#18145#0" />
-                <element signature="e#20430#22115#0" />
-                <element signature="e#22161#23549#0" />
-                <element signature="e#23588#24643#0" />
-                <element signature="e#24682#25727#0" />
                 <element signature="e#25760#26018#0" />
                 <element signature="e#26051#26309#0" />
-                <element signature="e#27383#28129#0" />
-                <element signature="e#28162#29740#0" />
+                <element signature="e#27763#28939#0" />
+                <element signature="e#25510#25746#0" />
+                <element signature="e#25816#26053#0" />
+                <element signature="e#31288#31468#0" />
+                <element signature="e#23967#24362#0" />
+                <element signature="e#24400#24798#0" />
+                <element signature="e#25163#25397#0" />
+                <element signature="e#25461#27200#0" />
+                <element signature="e#27238#28626#0" />
+                <element signature="e#28664#29719#0" />
+                <element signature="e#29757#30802#0" />
+                <element signature="e#30840#31586#0" />
               </folding>
             </state>
           </provider>
@@ -79,8 +81,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>start</find>
-      <find>Platfor</find>
       <find>attachPlatformModal</find>
       <find>radio</find>
       <find>sub</find>
@@ -109,6 +109,8 @@
       <find>saveGr</find>
       <find>clear</find>
       <find>Note</find>
+      <find>add</find>
+      <find>groupAliasBox</find>
     </findStrings>
     <replaceStrings>
       <replace>subplatforms_ID</replace>
@@ -167,45 +169,6 @@
             <path>
               <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="CIT" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="Database" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CIT" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -278,13 +241,13 @@
     <frame x="49" y="-14" width="1232" height="1039" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2638544" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21753515" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.29646018" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.2920354" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.2920354" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32963374" />
@@ -419,24 +382,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/templates/accountsMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="84" column="10" lean-forward="true" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
+        <state relative-caret-position="624">
+          <caret line="573" column="29" lean-forward="true" selection-start-line="573" selection-start-column="29" selection-end-line="573" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#5;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="e#6898#6905#1" expanded="true" />
             <element signature="e#7963#7970#1" expanded="true" />
             <element signature="e#8981#8988#1" expanded="true" />
             <element signature="e#10046#10053#1" expanded="true" />
+            <element signature="e#12459#14107#0" />
+            <element signature="e#14472#16719#0" />
+            <element signature="e#14139#15686#0" />
+            <element signature="e#15724#16708#0" />
             <element signature="e#16738#17753#0" />
             <element signature="e#17789#18145#0" />
-            <element signature="e#20430#22115#0" />
-            <element signature="e#22161#23549#0" />
-            <element signature="e#23588#24643#0" />
-            <element signature="e#24682#25727#0" />
             <element signature="e#25760#26018#0" />
             <element signature="e#26051#26309#0" />
-            <element signature="e#27383#28129#0" />
-            <element signature="e#28162#29740#0" />
+            <element signature="e#27763#28939#0" />
+            <element signature="e#25510#25746#0" />
+            <element signature="e#25816#26053#0" />
+            <element signature="e#31288#31468#0" />
+            <element signature="e#23967#24362#0" />
+            <element signature="e#24400#24798#0" />
+            <element signature="e#25163#25397#0" />
+            <element signature="e#25461#27200#0" />
+            <element signature="e#27238#28626#0" />
+            <element signature="e#28664#29719#0" />
+            <element signature="e#29757#30802#0" />
+            <element signature="e#30840#31586#0" />
           </folding>
         </state>
       </provider>
