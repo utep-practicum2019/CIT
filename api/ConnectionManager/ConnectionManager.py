@@ -61,6 +61,10 @@ class ConnectionManager():
             for line in outfile:
                 s = line.split()
                 if s[0] not in seen:
+                    if s[3] == '-':
+                        s[4] = "Connected"
+                    else:
+                        s[4] = "Disconnected"
                     list_of_sessions.append({
                         "username": s[0],
                         "public_ip": s[1],
@@ -72,7 +76,6 @@ class ConnectionManager():
                     seen.append(s[0])
 
         return list_of_sessions
-
 
     def stop(self):
         if self.isPolling:
@@ -109,7 +112,6 @@ if __name__ == "__main__":
     for li in l:
         print(li)
 
-
     pp = ConnectionManager()
     pp.pptp_poll_connection()
     pp.pptp_poll_connection()
@@ -129,6 +131,7 @@ if __name__ == "__main__":
     pp.pptp_poll_connection()
     pp.pptp_poll_connection()
     pp.stop()
+
 
 
 
