@@ -64,10 +64,19 @@ class PlatformAPI(Resource):
             else:
                 results = {"success": False}
         else:
-            data, errors = platform_add_request_schema.load(json_data)
+            data, errors = platform_put_request_schema.load(json_data)
             if errors:
                 return errors, 422
-            results = PlatformAPI.platform_interface.addPlatform(data["platform_ID"], data["subplatforms"])
+            if "note" in data:
+                note = data["note"]
+                main_id = data["platform_ID"]
+                results = PlatformAPI.platform_interface.editPlatformNote(main_id, note)
+            elif "alias" in data:
+                alias = data["alias"]
+                main_id = data["platform_ID"]
+                results = PlatformAPI.platform_interface.editPlatformAlias(main_id, alias)
+            else:
+                results = PlatformAPI.platform_interface.addPlatform(data["platform_ID"], data["subplatforms"])
         if results is None:
             results = {"success": False}
         return results

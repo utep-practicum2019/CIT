@@ -13,8 +13,8 @@ from PlatformManager.Platforms.Platform import Platform
 class Results(Platform):
     # fill the values here for your specific platformResultsPlatform
     platform_name = "Results"
-    platform_alias = "None"
-    platform_note = "None"
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""

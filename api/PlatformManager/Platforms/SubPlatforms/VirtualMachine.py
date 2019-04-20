@@ -13,8 +13,8 @@ import subprocess
 class VirtualMachine(Platform):
     # fill the values here for your specific platform
     platform_name = "IDS Virtual Machine"
-    platform_alias = "None"
-    platform_note = "None"
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = "VBoxManage startvm Ubuntu16 --type headless"
     platform_end_command = "VBoxManage controlvm Ubuntu16 poweroff"
     platform_version = ""

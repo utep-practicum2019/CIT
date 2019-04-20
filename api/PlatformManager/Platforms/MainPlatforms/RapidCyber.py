@@ -14,8 +14,8 @@ from .Platform import Platform
 class RapidCyber(Platform):
     # fill the values here for your specific platform
     platform_name = "RapidCyber"
-    platform_alias = "None"
-    platform_note = "None"
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""

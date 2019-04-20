@@ -13,8 +13,8 @@ from .Platform import Platform
 class TiddlyWiki(Platform):
     # fill the values here for your specific platform
     platform_name = "TiddlyWiki"
-    platform_alias = "None"
-    platform_note = "None"
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = "http-server /home/practicum/Documents/tiddlywikis/genericWiki/output/"
     platform_end_command = "kill "
     platform_version = "5.1.20-prerelease"

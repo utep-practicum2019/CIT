@@ -62,7 +62,6 @@ class PlatformsManager:
             return "Failure"
 
     def addPlatform(self, platformID, sub_platforms):
-
         try:
             available_plugins = self.plugin_manager.getAvailablePlugins()
             Main_Platform = self.PlatformTree.getPlatform(platformID)

@@ -17,8 +17,8 @@ from rocketchat_API.rocketchat import RocketChat
 class Rocketchat(Platform):
     # fill the values here for your specific platform
     platform_name = "Rocketchat"
-    platform_alias = "None"
-    platform_note = "None"
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
     platform_end_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server stop"
     platform_version = ""
