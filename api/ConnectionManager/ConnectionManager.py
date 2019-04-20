@@ -132,7 +132,6 @@ if __name__ == "__main__":
 
 
 
-"""
 last = /var/log/wtmp
 who  = /var/run/utmp
 last = /var/log/btmp
