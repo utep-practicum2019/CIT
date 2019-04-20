@@ -1,10 +1,9 @@
-import os, random
+import os
+import random
 import socket
 import subprocess
 import threading
 import time
-
-import PlatformManager.Platforms.SubPlatforms.FilesUpload
 
 from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
@@ -34,7 +33,6 @@ class PlatformsManager:
         self.PlatformTree = PlatformTreeManager()
         self.plugin_manager = PluginManager()
         self.PlatformTracker = {}
-        
 
     def createPlatform(self, platform, sub_platforms):
         try:
@@ -137,7 +135,7 @@ class PlatformsManager:
             main_id = Main_Platform.getPlatformID()
             subplatforms = Main_Platform.get_sub_platforms()
             platformTracker = self.PlatformTracker.keys()
-            if  main_id not in platformTracker:
+            if main_id not in platformTracker:
                 if not self.check_service(Main_Platform):
                     self.PlatformTracker[main_id] = []
                     self.startPlatformThread(Main_Platform)
@@ -151,7 +149,7 @@ class PlatformsManager:
                 time.sleep(3)
                 for x in subplatforms:
                     sub_id = subplatforms[x].getPlatformID()
-                    if sub_id not in subTracker: 
+                    if sub_id not in subTracker:
                         if not self.check_service(subplatforms[x]):
                             subTracker.append(sub_id)
                             self.startPlatformThread(subplatforms[x])
@@ -167,21 +165,17 @@ class PlatformsManager:
                     sub_id = subplatforms[x].getPlatformID()
                     if sub_id in subplatformsIDs:
                         sub_id in subplatformsIDs
-                        if sub_id not in subTracker: 
+                        if sub_id not in subTracker:
                             if not self.check_service(subplatforms[x]):
-                                
                                 subTracker.append(sub_id)
                                 self.startPlatformThread(subplatforms[x])
                                 time.sleep(3)
                             else:
-                                
                                 newIP, newPort = self.getPort(subplatforms[x])
                                 subTracker.append(sub_id)
                                 subplatforms[x].setIpPort(newIP, newPort)
                                 self.startPlatformThread(Main_Platform)
                                 time.sleep(3)
-
-                              
             return Main_Platform, "Success"
         except Exception as ex:
             print(ex)
@@ -222,10 +216,10 @@ class PlatformsManager:
                     if self.check_service(subplatforms[x]):
                         self.stop(subplatforms[x])
                         time.sleep(3)
-                
+
                 if self.check_service(Main_Platform) or platformID in platformTracker:
                     del self.PlatformTracker[platformID]
-                    
+
                     self.stop(Main_Platform)
                     time.sleep(3)
             else:
@@ -235,10 +229,10 @@ class PlatformsManager:
                     if subplatforms[x].getPlatformID() in subplatformIDs:
                         if self.check_service(subplatforms[x]) or subplatformID in subTracker[platformID]:
                             del self.PlatformTracker[platformID][subplatformID]
-                            
+
                             self.stop(subplatforms[x])
                             time.sleep(3)
-            
+
             return (Main_Platform, "Success")
         except Exception as ex:
             print(ex)
@@ -250,7 +244,6 @@ class PlatformsManager:
             os.system(platform.get_stop_command())
         except Exception as ex:
             print(ex)
-            
 
     # need to look over this method with team
     def requestForwarder(self, platform, JSON, platform_name):
@@ -323,16 +316,15 @@ class PlatformsManager:
             return True
         except:
             return False
-    
+
     def getPort(self, platform):
         IPport = platform.getIpPort()
         ip, port = IPport.split(":")
         randPort = random.randint(10000, 65000)
-        while(self.check_IPport(ip, randPort)):
+        while (self.check_IPport(ip, randPort)):
             randPort = random.randint(1, 65000)
         return (ip, randPort)
 
-            
     def printPlatforms(self, platformid):
         main_platform = self.PlatformTree.getPlatform(platformid)
         print("Main Platform: " + main_platform.getPlatformName() + " id: " + str(main_platform.getPlatformID()))
@@ -360,9 +352,5 @@ class PlatformsManager:
 # # print("status" + str(status))
 # # input("whenever bruh")
 # # time.sleep(5)
-#A.stopPlatforms(MainID, [] )
+# A.stopPlatforms(MainID, [] )
 # input("whenever bruh")
-
-
-
-

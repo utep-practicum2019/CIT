@@ -1,12 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>Platform Manager</title>
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <!--    <link href="/static/css/style.css" rel="stylesheet">-->
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid blue;
+            border-bottom: 16px solid blue;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
 
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- Admin Menu -->
@@ -46,10 +76,10 @@
                     Delete Platform
                 </button>
 
-                <button class="btn btn-dark btn-sm menu" id="btnStart" type="button">
+                <button class="btn btn-dark btn-sm menu" data-target="#platformStartLoadModal"
+                        data-toggle="modal" id="btnStart " onclick="start_platform()" type="button">
                     Start
                 </button>
-
                 <button class="btn btn-dark btn-sm menu" id="btnStop" type="button">
                     Stop
                 </button>
@@ -77,11 +107,10 @@
                 <div><a href="javascript:SortTable(5,'T', 'platformsTable');">Notes</a>
                     <button id="savePlatformNotesBtn"> Save</button>
                     <button id="clearPlatformNotesBtn">Clear</button>
-
                 </div>
             </th>
+            <th><a href="javascript:SortTable(6,'T', 'platformsTable');">Status</a></th>
             <th>Subplatforms</th>
-
         </tr>
         </thead>
         <tbody>
@@ -158,7 +187,7 @@
 
 <!-- Subplatforms Modal -->
 <div aria-labelledby="subplatformModalLabel" class="modal fade" id="subplatformModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel">Subplatforms</h4>
@@ -174,8 +203,6 @@
                             <th>Name:</th>
                             <th>IP:Port</th>
                             <th>ID</th>
-                            <th>Alias</th>
-                            <th>Comment</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -186,6 +213,23 @@
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
                 <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Platform Start Load Modal -->
+<div aria-labelledby="platformStartLoadModal" class="modal fade" id="platformStartLoadModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Platforms are being started</h4>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="loader"></div>
             </div>
         </div>
     </div>
@@ -250,6 +294,7 @@
                         '</label>' +
                         '</form>' +
                         '</td>';
+                    main_platforms_HTML += `<td>Stopped</td>`;
                     main_platforms_HTML += '<td>\n' +
                         '<button onclick="load_subplatform_modal(' + id + ')" data-target="#subplatformModal" data-toggle="modal" id="subplatform' + id
                         + '" type="button">\n' +
@@ -312,6 +357,7 @@
                         '</label>' +
                         '</form>' +
                         '</td>';
+                    main_platforms_HTML += `<td>Stopped</td>`;
                     main_platforms_HTML += '<td>\n' +
                         '<button onclick="load_subplatform_modal(' + id + ')" data-target="#subplatformModal" data-toggle="modal" id="subplatform' + id
                         + '" type="button">\n' +
@@ -357,6 +403,7 @@
                 // SortTable(0, 'T', 'platformsTable', true)
             }
         });
+
     }
 
     function select_platforms() {
@@ -472,18 +519,79 @@
         });
     });
 
-    // Start Platform
-    $(document).ready(function () {
-        $('#btnStart').click(function () {
-            let list_of_platforms = select_platforms();
-            if (list_of_platforms.length === 0) {
-                alert("Please select at least one platform to start.");
-            } else {
-                actionOnPlatforms(list_of_platforms, 0, "Start");
-                alert("Platforms Started!")
+    // // Start Platform
+    // $(document).ready(function () {
+    //     $('#btnStart').click(function () {
+    //         let list_of_platforms = select_platforms();
+    //         if (list_of_platforms.length === 0) {
+    //             alert("Please select at least one platform to start.");
+    //         } else {
+    //             actionOnPlatforms(list_of_platforms, 0, "Start");
+    //             alert("Platforms Started!");
+    //         }
+    //     });
+    // });
+
+    function isSiteOnline(url, callback) {
+        // try to load favicon
+        let timer = setTimeout(function () {
+            // timeout after 5 seconds
+            callback(false);
+        }, 5000);
+        let img = document.createElement("img");
+        img.onload = function () {
+            clearTimeout(timer);
+            callback(true);
+        };
+        img.onerror = function () {
+            clearTimeout(timer);
+            callback(false);
+        };
+        img.src = url + "/favicon.ico";
+    }
+
+    let wait = ms => new Promise((r, j) => setTimeout(r, ms));
+
+    async function is_rocket_chat_online() {
+        let counter = 0;
+        while (counter < 20) {
+            let rocket_on = await new Promise((resolve) =>
+                isSiteOnline("http://0.0.0.0:3000", function (found) {
+                    if (found) {
+                        console.log("Rocket Chat Is Up");
+                        resolve(true);
+                    } else {
+                        console.log("Rocket Chat Is Down");
+                        resolve(false);
+                    }
+                }));
+            if (rocket_on) {
+                return Promise.resolve(true);
             }
-        });
-    });
+            await wait(1000);
+            counter++;
+        }
+        return Promise.resolve(false);
+    }
+
+    function start_platform() {
+        let list_of_platforms = select_platforms();
+        if (list_of_platforms.length === 0) {
+            alert("Please select at least one platform to start.");
+        } else {
+            actionOnPlatforms(list_of_platforms, 0, "Start");
+            actionOnPlatforms(list_of_platforms, 0, "Status");
+            let rocket_status = is_rocket_chat_online();
+            rocket_status.then(function (rocket_online) {
+                if (rocket_online) {
+                    alert("Platforms Sucesfully Started!");
+                } else {
+                    alert("Couldn't Start Platforms!");
+                }
+                $('#platformStartLoadModal').modal('hide');
+            });
+        }
+    }
 
     // Stop Platform
     $(document).ready(function () {
@@ -533,6 +641,29 @@
                         }),
                         success: function (response) {
                             console.log(JSON.stringify(response));
+                        },
+                        complete: function () {
+                            actionOnPlatforms(platforms, index + 1, action)
+                        }
+                    });
+                    break;
+                case "Status":
+                    alert(platforms[index]["platform_ID"]);
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:5001/api/v2/resources/platform",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: {
+                            'status': 'True',
+                            'platform_ID': platforms[index]["platform_ID"]
+                        },
+                        success: function (response) {
+                            let status = "Stopped!";
+                            if (response) {
+                                status = "Running!"
+                            }
+                            $('#platformsTable > tbody').find('tr:eq(index)').find('td:eq(6)').replaceWith(`<td>${status}</td>`);
                         },
                         complete: function () {
                             actionOnPlatforms(platforms, index + 1, action)
@@ -602,16 +733,18 @@
         minHeight: 300,
         minWidth: 300
     });
-    $('.modal-dialog').draggable();
+
+    $(".modal-dialog").draggable({
+        handle: ".modal-header"
+    });
 
     $('#subplatformModal').on('shown.bs.modal', function () {
-        $(this).find('.modal-body').css({
+        $(this).find('.modal-dialog').css({
             width: 'auto', //probably not needed
             height: 'auto', //probably not needed
             'max-height': '100%'
         });
     });
-
 
     // Create a list of group objects from the table
     function selectPlatformObjectsNoCheck() {
@@ -712,6 +845,27 @@
                         $(this).find('tr:eq(i)').find('td:eq(4)').find('input[name="platformAliasBox"]').val(alias);
                     });
                 }
+            }
+        });
+    }
+
+    function reload_platform_status(row_number, platform_id) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:5001/api/v2/resources/platform",
+            contentType: "application/json",
+            dataType: "json",
+            data: {
+                'status': 'True',
+                'platform_ID': platform_id
+            },
+            success: function (response) {
+                let status = "Stopped!";
+                if (response === true) {
+                    status = "Running!"
+                }
+                console.log("HHHHH:" + response);
+                $('#platformsTable > tbody').find('tr:eq(row_number)').find('td:eq(6)').text(status);
             }
         });
     }

@@ -20,6 +20,8 @@ class PlatformDELETERequestSchema(Schema):
 
 class PlatformGETRequestSchema(Schema):
     all = fields.Boolean()
+    status = fields.Boolean()
+    platform_ID = fields.Integer()
 
 
 class PlatformPUTRequestSchema(Schema):
