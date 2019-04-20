@@ -158,6 +158,83 @@ class PlatformInterface():
 
         return status
 
+    def requestHandler(self, main_ID, subplatform_ID, command):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
+        
+        if(Main_Platform is None):
+            return {"success": False}
+        
+        if(subplatform_ID == 0):
+            return Main_Platform.requestHandler(command)
+        else:
+            subplatform = None
+            subplatforms = Main_Platform.get_sub_platforms()
+            
+            for x in subplatforms:
+                if(subplatform_ID == subplatforms[x].getPlatformID()):
+                    subplatform = subplatforms[x]
+                    break
+            
+            if(subplatform is None):
+                print("Subplatform not found")
+                return {"success": False}
+            else:
+                 return subplatform.requestHandler(command)
+
+    def editPlatformAlias(self, main_ID, alias, subplatform_ID=0):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
+
+        if(Main_Platform is None):
+            return {"success": False}
+
+        if(subplatform_ID == 0):
+            Main_Platform.setPlatformAlias(alias)
+            self.formatCreateUpdateRequest(Main_Platform, 1)
+            return {"success": True}
+        else:
+            subplatform = None
+            subplatforms = Main_Platform.get_sub_platforms()
+            
+            for x in subplatforms:
+                if(subplatform_ID == subplatforms[x].getPlatformID()):
+                    subplatform = subplatforms[x]
+                    break
+
+            if(subplatform is None):
+                print("Subplatform not found")
+                return {"success": False}
+            else:
+                subplatform.setPlatformAlias(alias)
+                self.formatCreateUpdateRequest(Main_Platform, 1)
+                return {"success": True}
+
+    def editPlatformNote(self, main_ID, note, subplatform_ID=0):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
+
+        if(Main_Platform is None):
+            return {"success": False}
+
+        if(subplatform_ID == 0):
+            Main_Platform.setPlatformNote(note)
+            self.formatCreateUpdateRequest(Main_Platform, 1)
+            return {"success": True}
+        else:
+            subplatform = None
+            subplatforms = Main_Platform.get_sub_platforms()
+            
+            for x in subplatforms:
+                if(subplatform_ID == subplatforms[x].getPlatformID()):
+                    subplatform = subplatforms[x]
+                    break
+
+            if(subplatform is None):
+                print("Subplatform not found")
+                return {"success": False}
+            else:
+                subplatform.setPlatformNote(note)
+                self.formatCreateUpdateRequest(Main_Platform, 1)
+                return {"success": True}
+
     ##### End Platform Manager #####
 
     ##### Utility #####
@@ -255,83 +332,6 @@ class PlatformInterface():
             ids.append(Subs[x].getPlatformID())
         
         return ids
-
-    def requestHandler(self, main_ID, subplatform_ID, command):
-        Main_Platform = self.platformManager.getPlatform(main_ID)
-        
-        if(Main_Platform is None):
-            return {"success": False}
-        
-        if(subplatform_ID == 0):
-            return Main_Platform.requestHandler(command)
-        else:
-            subplatform = None
-            subplatforms = Main_Platform.get_sub_platforms()
-            
-            for x in subplatforms:
-                if(subplatform_ID == subplatforms[x].getPlatformID()):
-                    subplatform = subplatforms[x]
-                    break
-            
-            if(subplatform is None):
-                print("Subplatform not found")
-                return {"success": False}
-            else:
-                 return subplatform.requestHandler(command)
-
-    def editPlatformAlias(self, main_ID, alias, subplatform_ID=0):
-        Main_Platform = self.platformManager.getPlatform(main_ID)
-
-        if(Main_Platform is None):
-            return {"success": False}
-
-        if(subplatform_ID == 0):
-            Main_Platform.setPlatformAlias(alias)
-            self.formatCreateUpdateRequest(Main_Platform, 1)
-            return {"success": True}
-        else:
-            subplatform = None
-            subplatforms = Main_Platform.get_sub_platforms()
-            
-            for x in subplatforms:
-                if(subplatform_ID == subplatforms[x].getPlatformID()):
-                    subplatform = subplatforms[x]
-                    break
-
-            if(subplatform is None):
-                print("Subplatform not found")
-                return {"success": False}
-            else:
-                subplatform.setPlatformAlias(alias)
-                self.formatCreateUpdateRequest(Main_Platform, 1)
-                return {"success": True}
-
-    def editPlatformNote(self, main_ID, note, subplatform_ID=0):
-        Main_Platform = self.platformManager.getPlatform(main_ID)
-
-        if(Main_Platform is None):
-            return {"success": False}
-
-        if(subplatform_ID == 0):
-            Main_Platform.setPlatformNote(note)
-            self.formatCreateUpdateRequest(Main_Platform, 1)
-            return {"success": True}
-        else:
-            subplatform = None
-            subplatforms = Main_Platform.get_sub_platforms()
-            
-            for x in subplatforms:
-                if(subplatform_ID == subplatforms[x].getPlatformID()):
-                    subplatform = subplatforms[x]
-                    break
-
-            if(subplatform is None):
-                print("Subplatform not found")
-                return {"success": False}
-            else:
-                subplatform.setPlatformNote(note)
-                self.formatCreateUpdateRequest(Main_Platform, 1)
-                return {"success": True}
 
     ##### End Utility #####
 
