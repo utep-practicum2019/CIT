@@ -14,18 +14,26 @@ class UserAPI(Resource):
     # }
     @staticmethod
     def get():
-        json_data = request.get_json(force=True)
-        if not json_data:
-            return {'message': 'No input data provided'}, 400
-        data, errors = user_request_schema.load(json_data)
+        json_data = request.args.to_dict()
+        # if not json_data:
+        #     return {'message': 'No input data provided'}, 400
+        data, errors = user_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-
         from Database.database_handler import DatabaseHandler
-        results = DatabaseHandler.find('users', data["username"])
-        if results is None or not results:
-            return {"success": False}, 404
-        return user_schema.dump(User(**results))
+        if "username" in data:
+            results = DatabaseHandler.find('users', data["username"])
+            if results is None or not results:
+                return {"success": False}, 404
+            return user_schema.dump(User(**results))
+        else:
+            results = DatabaseHandler.find_all('users')
+            formatted_results = []
+            for result in results:
+                r = user_schema.dump(User(**result))
+                formatted_results.append(r[0])
+            return formatted_results
+
 
     # To do a put request
     # Type 1

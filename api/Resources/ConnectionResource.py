@@ -111,7 +111,7 @@ class ConnectionAPI(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        data, errors = connection_post_request_schema.load(json_data)
+        data, errors = connection_put_request_schema.load(json_data)
         if errors:
             return errors, 422
         print(json_data)

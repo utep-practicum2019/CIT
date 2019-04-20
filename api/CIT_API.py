@@ -11,6 +11,8 @@ from werkzeug.utils import secure_filename
 import glob
 import os
 import time
+import datetime
+import mechanize
 
 
 from Database.database_handler import DatabaseHandler
@@ -68,14 +70,14 @@ def home():
     remote_ip = session['remote_ip']
 
     group_info = DatabaseHandler.find('groups', group_id)
-    # print ('Group Info -> {}'.format(group_info))
+    print ('Group Info -> {}'.format(group_info))
 
     try:
         platforms = group_info['platforms']
     except KeyError as e:
         print("No platform for user: ", username)
-        return "You currently don't have access to any platforms bruh. Please contact us at support@cit.com >.<"
-    # print('Group platforms available -> {}'.format(platforms))
+        return 'You currently do not have access to any platforms bruh. Please contact us via the link provided <a href="https://searchengineland.com/guide/how-to-use-google-to-search">support@cit.com</a> >.<'
+    print('Group platforms available -> {}'.format(platforms))
 
     # platform_data = DatabaseHandler.find('platforms', platforms[0])
     # print('Subplatforms from database -> {}'.format(platform_data))
@@ -88,7 +90,7 @@ def home():
         p = platform_data['main']['name']
         result = {p: []}
         for plat in subplats:
-            result[p].append([plat['name'], plat['ip_port']])
+            result[p].append([plat['name'], plat['ip_port'], plat['id']])
         # print(result)
 
         ogList.append(result)
@@ -120,11 +122,14 @@ def home():
         if 'file' not in request.files:
             print('No file part')
             return redirect(request.url)
+
+        # Gets the file and renames it to "Data_Time_GroupId.extensionType
         file = request.files['file']
-        print(file)
-        print(file.filename)
-        UserFile = file.filename
-        file.filename = str(session['group_id']) + UserFile
+        user_file = file.filename
+        temp = user_file.split('.')
+        currentDT = datetime.datetime.now()
+        file.filename = currentDT.strftime("%Y-%m-%d_%H:%M:%S_") + str(session['group_id']) + "." + temp[len(temp)-1]
+
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
@@ -134,7 +139,8 @@ def home():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-            return redirect(url_for('home'))
+            # return redirect(url_for('home'))
+            return None
 
     # print(os.getcwd())
     read_directory = 'Download_Files'
@@ -147,15 +153,10 @@ def home():
 
     return render_template('index.html', username=username, platforms=platform_names, read_directory=read_directory,
                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
-                           time=time)
+                           time=time, platforms_id=platforms)
     # return render_template('index.html', username=username, platforms=platforms, read_directory=read_directory,
     #                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
     #                             call=check_file_status(), time=time)
-
-
-@app.route('/results/<filename>')
-def results(filename):
-    return render_template('results.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -176,7 +177,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # remove the username from the session if it is there
+    # remove the username, group_id, remote_ip, and logged_in from the session if it is there
     # session.pop('username', None)
     # session.pop('group_id', None)
     # session.pop('remote_ip', None)
@@ -201,13 +202,14 @@ def get_downloadable_files(read_directory):
     return downloadable_files
 
 
-# def check_file_status():
+# def check_file_status(main_id, subplatform_id):
 #     repeat = True
 #
 #     while repeat:
-#         status = Results.getStatus(session['group_id'])
+#         status = PlatformInterface.requestHandler(main_id, subplatform_id, command={"":""})
 #         time.sleep(60)
 #         if status:
+              # results = PlatformInterface.requestHandler(main_id, subplatform_id, command={"":""}
 #             results = Results.getResults(session['group_id'])
 #             repeat = False
 #             return results

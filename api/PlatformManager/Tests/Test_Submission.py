@@ -4,7 +4,7 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from ..Platforms.Submission import Submission 
+from PlatformManager.Platforms.tmp.Submission import Submission
 
 class Test_Submission(unittest.TestCase):
     platform = Submission()

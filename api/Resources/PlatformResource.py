@@ -18,15 +18,18 @@ class PlatformAPI(Resource):
         data, errors = platform_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-
-        if data["all"]:
-            from Database.database_handler import DatabaseHandler
-            return DatabaseHandler.find_all("platforms")
-        else:
-            results = PlatformAPI.platform_interface.getAvailablePlugins()
-            if results is None:
-                results = {"success": False}
-            return results
+        results = {"success: false"}
+        if "all" in data:
+            if data["all"]:
+                from Database.database_handler import DatabaseHandler
+                return DatabaseHandler.find_all("platforms")
+            else:
+                results = PlatformAPI.platform_interface.getAvailablePlugins()
+                if results is None:
+                    results = {"success": False}
+        elif "status" in data:
+            results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])
+        return results
 
     @staticmethod
     def post():
@@ -58,14 +61,25 @@ class PlatformAPI(Resource):
                 results = PlatformAPI.platform_interface.stopPlatform(data["platform_ID"], data["subplatforms_IDS"])
 
             elif json_data["command"] == "configure":
-                results = PlatformAPI.platform_interface.requestHandler(data["platform_ID"], data["subplatforms_IDS"][0], data["configuration"])
+                results = PlatformAPI.platform_interface.requestHandler(data["platform_ID"],
+                                                                        data["subplatforms_IDS"][0],
+                                                                        data["configuration"])
             else:
                 results = {"success": False}
         else:
-            data, errors = platform_add_request_schema.load(json_data)
+            data, errors = platform_put_request_schema.load(json_data)
             if errors:
                 return errors, 422
-            results = PlatformAPI.platform_interface.addPlatform(data["platform_ID"], data["subplatforms"])
+            if "note" in data:
+                note = data["note"]
+                main_id = data["platform_ID"]
+                results = PlatformAPI.platform_interface.editPlatformNote(main_id, note)
+            elif "alias" in data:
+                alias = data["alias"]
+                main_id = data["platform_ID"]
+                results = PlatformAPI.platform_interface.editPlatformAlias(main_id, alias)
+            else:
+                results = PlatformAPI.platform_interface.addPlatform(data["platform_ID"], data["subplatforms"])
         if results is None:
             results = {"success": False}
         return results

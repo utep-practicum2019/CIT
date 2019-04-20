@@ -30,6 +30,7 @@ class Rocketchat(Platform):
     subplatforms = {}
     port = "3000"
     ip = "0.0.0.0"
+    static = False
     link = "http://www.chat.service"
 
     def __init__(self):
@@ -139,14 +140,9 @@ class Rocketchat(Platform):
 
 
     #users = {useremail1: (userpass, usernick, ), useremail2}
-
-
-
-    chat_ip_port = "http://0.0.0.0:3000"
-
-
+    
     def registerUser(self, user_email, user_name, user_pass):
-        rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
+        rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
         data = rocket.users_register(user_email, user_name, user_pass, user_name).json()
         status = data['success']
         uId = data['user']['_id']
@@ -155,7 +151,7 @@ class Rocketchat(Platform):
 
     # Login a user: 
     def loginUser(self, user_name, user_pass):
-        rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
+        rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
         print(user_name + " " + user_pass)
         data = rocket.login(user_name, user_pass).json()
         status = data["status"]
@@ -204,7 +200,7 @@ class Rocketchat(Platform):
     # Create a new private group, optionally including users
     def createPrivateGroup(self, groupName):
         rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
-        data = rocket.groups_create(groupName, []).json()
+        data = rocket.groups_create(groupName).json()
         status = data["success"]
         roomId = data["group"]['_id']
         return (status, roomId)
@@ -234,13 +230,6 @@ class Rocketchat(Platform):
         status = data["success"]
         token = data["data"]["authToken"]
         return (status, token)
-
-    def addUserGroup(self, roomID, userID):
-        rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
-        data = rocket.groups_invite(roomID, userID).json()
-        status = data["success"]
-        roomId = data["group"]['_id']
-        return (status, roomID)
 '''
 rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
 pprint(rocket.users_delete('h2uXXKrS4jnpkqa29').json())

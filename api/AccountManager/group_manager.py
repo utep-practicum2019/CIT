@@ -36,6 +36,8 @@ def create_group(group_id, users, **kwargs):
 
     # create group and add members
     group = Group(group_id)
+    if group.members is None:
+        group.members = []
     for user in users:
         group.members.append(user["username"])
         print(user["username"])
@@ -58,8 +60,8 @@ def create_group(group_id, users, **kwargs):
         'members': group.members,
         **kwargs
     }
-    if 'notes' not in kwargs:
-        doc['notes'] = ""
+    if 'note' not in kwargs:
+        doc['note'] = ""
     if 'alias' not in kwargs:
         doc['alias'] = ""
     doc_data = {
@@ -169,7 +171,8 @@ def create_with_count(group_count, users_per_group):
 def remove_user(username, group_id):
     current = get_group(group_id)
     if current is not None:
-        current.members.remove(username)
+        if username in current.members:
+            current.members.remove(username)
         GroupManager.update_group(current.group_id, current)
         if not current.members:
             GroupManager.delete_group(group_id)
@@ -217,7 +220,8 @@ class GroupManager:
         new = current.to_dict()
         updated_group = updated_group.to_dict()
         for k in updated_group:
-            new[k] = updated_group[k]
+            if updated_group[k] is not None:
+                new[k] = updated_group[k]
 
         # put data in the correct format
         group_data = {
@@ -270,6 +274,8 @@ class GroupManager:
         if platform_id in current.platforms:
             return False
 
+        if current.platforms is None:
+            current.platforms = []
         current.platforms.append(platform_id)
         return GroupManager.update_group(group_id, current)
 

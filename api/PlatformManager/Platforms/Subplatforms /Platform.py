@@ -1,5 +1,3 @@
-import sys
-import os 
 import abc
 
 """ 
@@ -13,8 +11,8 @@ import abc
             The plugin manager will be able to add, delete, start, stop, and configure services(platfroms).
     """
 
+
 class Platform(abc.ABC):
-    
     platform_name = ""
     platform_start_command = ""
     platform_end_command = ""
@@ -25,8 +23,8 @@ class Platform(abc.ABC):
     platform_id = 0
     processID = 0
     subplatforms = {}
-    static = False 
-    
+    static = False
+
     @abc.abstractmethod
     def getProcessID(self):
         pass
@@ -42,25 +40,27 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def getPlatformName(self):
         pass
-    
+
     @abc.abstractmethod
     def getPlatformInstallation(self):
         pass
-    
+
     @abc.abstractmethod
     def getPlatformVersion(self):
         pass
-    
+
     @abc.abstractmethod
     def getPlatformID(self):
         pass
+
     @abc.abstractmethod
     def get_start_command(self):
         pass
+
     @abc.abstractmethod
     def get_stop_command(self):
         pass
-    
+
     @abc.abstractmethod
     def get_sub_platforms(self):
         pass
@@ -72,27 +72,27 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def setLink(self, link):
         pass
-    
+
     @abc.abstractmethod
     def setIpPort(self, ip, port):
         pass
-    
+
     @abc.abstractmethod
     def setPlatformName(self, platform_name):
         pass
-    
+
     @abc.abstractmethod
     def setPlatformInstallation(self, platformInstallation):
         pass
-    
+
     @abc.abstractmethod
     def setPlatformVersion(self, platform_version):
         pass
-    
+
     @abc.abstractmethod
     def setPlatformID(self, PlatformID):
         pass
-    
+
     @abc.abstractmethod
     def set_start_command(self, platform_start_command):
         pass
@@ -100,7 +100,7 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def set_stop_command(self, platform_end_command):
         pass
-    
+
     @abc.abstractmethod
     def set_sub_platforms(self, subplatforms):
         pass
@@ -108,4 +108,3 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def requestHandler(self):
         pass
-   
