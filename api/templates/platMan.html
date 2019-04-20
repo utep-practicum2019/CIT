@@ -535,13 +535,13 @@
 
     // Save User Notes
     $(document).ready(function () {
-        $('#saveUserNotesBtn').click(function () {
-            let users = selectUserObjectsNoCheck();
-            if (users.length < 1) {
-                alert("At least one user must exist!");
+        $('#savePlatformNotesBtn').click(function () {
+            let platforms = selectPlatformObjectsNoCheck();
+            if (platforms.length < 1) {
+                alert("At least one platform must exist!");
             } else {
-                addToUser(users, 0, "Note");
-                alert("User Notes saved.");
+                addToUser(platforms, 0, "Note");
+                alert("Platform Notes saved.");
             }
         });
     });
@@ -549,13 +549,13 @@
 
     // Save Group Aliases
     $(document).ready(function () {
-        $('#saveGroupAliasBtn').click(function () {
-            let groups = selectGroupObjectsNoCheck();
-            if (groups.length < 1) {
+        $('#savePlatformAliasBtn').click(function () {
+            let platforms = selectGroupObjectsNoCheck();
+            if (platforms.length < 1) {
                 alert("At least one group must exist!");
             } else {
-                addToGroup(groups, 0, "Alias");
-                alert("Group Aliases saved.");
+                addToGroup(platforms, 0, "Alias");
+                alert("Platform Aliases saved.");
             }
         });
     });
@@ -563,21 +563,79 @@
 
     // Clear User Notes
     $(document).ready(function () {
-        $('#clearUserNotesBtn').click(function () {
-            $('#usersTab > tbody > tr').each(function () {
-                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+        $('#clearPlatformNotesBtn').click(function () {
+            $('#platformsTable > tbody > tr').each(function () {
+                $(this).find('td:eq(5)').find('input[name="platformNoteBox"]').val("");
             });
         });
     });
 
     // Clear Group Aliases
     $(document).ready(function () {
-        $('#clearGroupAliasBtn').click(function () {
-            $('#groupsTab > tbody > tr').each(function () {
-                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+        $('#clearPlatformAliasBtn').click(function () {
+            $('#platformsTable > tbody > tr').each(function () {
+                $(this).find('td:eq(4)').find('input[name="platformAliasBox"]').val("");
             });
         });
     });
+
+    // Create a list of group objects from the table
+    function selectPlatformObjectsNoCheck() {
+        let platforms = [];
+        $('#platformsTable > tbody > tr').each(function () {
+            platforms.push({
+                'name': $(this).find('td:eq(1)').text(),
+                'ip_port': $(this).find('td:eq(2)').text(),
+                'id': $(this).find('td:eq(3)').text(),
+                'alias': $(this).find('td:eq(4)').find('input[name="platformAliasBox"]').val(),
+                'note': $(this).find('td:eq(5)').find('input[name="platformNoteBox"]').val()
+            });
+        });
+        return platforms;
+    }
+
+    // Add users
+    function addToPlatform(users, index, to_add) {
+        if (index < users.length) {
+            let username = users[index]["username"];
+            let user_object = {
+                "username": username,
+            };
+            switch (to_add) {
+                case "Note":
+                    user_object["note"] = users[index]["note"];
+                    break;
+                case "Alias":
+                    user_object["alias"] = users[index]["alias"];
+                    break;
+            }
+            $.ajax({
+                type: "PUT",
+                url: "http://0.0.0.0:5001/api/v2/resources/user",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    "username": username,
+                    "updated_user": user_object
+                }),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                },
+                complete: function () {
+                    addToUser(users, index + 1, to_add);
+                }
+            });
+        } else {
+            switch (to_add) {
+                case "Note":
+                    reload_user_notes();
+                    break;
+                case "Alias":
+                    reload_user_aliases();
+                    break;
+            }
+        }
+    }
 
 </script>
 </body>
