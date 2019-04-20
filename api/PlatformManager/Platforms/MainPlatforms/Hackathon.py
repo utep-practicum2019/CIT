@@ -14,6 +14,8 @@ from .Platform import Platform
 class Hackathon(Platform):
     # fill the values here for your specific platform
     platform_name = "Hackathon"
+    platform_alias = "None"
+    platform_note = "None"
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
@@ -32,36 +34,47 @@ class Hackathon(Platform):
     def getProcessID(self):
         return self.processID
 
-    #set link to connect to website
+    #get link to connect to website
     def getLink(self):
-        return self.link 
-    #set ip and port to connect to website
+        return self.link
+
+    #get ip and port to connect to website
     def getIpPort(self):
         return self.ip + ":" + self.port
-    #set platform name
+
+    #get platform name
     def getPlatformName(self):
         return self.platform_name
-    
-    #set where the platforms installation path
+        
+    #get platform alias
+    def getPlatformAlias(self):
+        return self.platform_alias
+
+    #get platform note
+    def getPlatformNote(self):
+        return self.platform_note
+
+    #get where the platforms installation path
     def getPlatformInstallation(self):
         return self.platformInstallation
     
-    #set the version of the platform 
+    #get the version of the platform 
     def getPlatformVersion(self):
         return self.platform_version
     
-    #set a platformID. You can pick a random value for this field.
+    #get a platformID. You can pick a random value for this field.
     def getPlatformID(self):
         return int(self.platform_id)
-    # sets command that starts platform
+    
+    #gets command that starts platform
     def get_start_command(self):
         return self.platform_start_command 
 
-    #set command to stop platform
+    #get command to stop platform
     def get_stop_command(self):
         return self.platform_end_command + str(self.processID + 1)
     
-    # set list of subplatforms
+    #get list of subplatforms
     def get_sub_platforms(self):
         return self.subplatforms
     
@@ -80,7 +93,15 @@ class Hackathon(Platform):
     
     #set platform name
     def setPlatformName(self, platform_name):
-        self.platform_name = platform_name 
+        self.platform_name = platform_name
+
+    #set platform alias
+    def setPlatformAlias(self, alias):
+        self.platform_alias = alias 
+
+    #set platform note
+    def setPlatformNote(self, note):
+        self.platform_note = note
     
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

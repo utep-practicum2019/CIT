@@ -1,5 +1,4 @@
 import os, time
-
 from PlatformManager.Platforms.Platform import Platform
 
 """ 
@@ -11,10 +10,11 @@ from PlatformManager.Platforms.Platform import Platform
             This class is a subclass of platform. This class will implement the tiddlywiki platform. 
 """
 
-
 class Results(Platform):
     # fill the values here for your specific platformResultsPlatform
     platform_name = "Results"
+    platform_alias = "None"
+    platform_note = "None"
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
@@ -52,68 +52,84 @@ class Results(Platform):
     def getPlatformName(self):
         return self.platform_name
 
-    # returns where the platforms installation path
+    #returns platform alias
+    def getPlatformAlias(self):
+        return self.platform_alias
+
+    #returns platform note
+    def getPlatformNote(self):
+        return self.platform_note
+
+    #returns where the platforms installation path
     def getPlatformInstallation(self):
         return self.platform_install
 
-    # return the version of the platform
+    #return the version of the platform
     def getPlatformVersion(self):
         return self.platform_version
 
-    # return a platformID. You can pick a random value for this field.
+    #return a platformID. You can pick a random value for this field.
     def getPlatformID(self):
         return self.platform_id
 
-    # return command that starts platform
+    #return command that starts platform
     def get_start_command(self):
         return self.platform_start_command
 
-    # returns command to stop platform
+    #returns command to stop platform
     def get_stop_command(self):
         return self.platform_end_command
 
-    # returns list of subplatforms
+    #returns list of subplatforms
     def get_sub_platforms(self):
         return self.subplatforms
 
-    # sets process ID
+    #sets process ID
     def setProcessID(self, processID):
         self.processID = processID
 
-    # set link to connect to website
+    #set link to connect to website
     def setLink(self, link):
         self.link = link
 
-    # set ip and port to connect to website
+    #set ip and port to connect to website
     def setIpPort(self, ip, port):
         self.ip = ip
         self.port = port
 
-        # set platform name
+    #set platform name
     def setPlatformName(self, platform_name):
         self.platform_name = platform_name
 
-        # set where the platforms installation path
+    #set platform alias
+    def setPlatformAlias(self, alias):
+        self.platform_alias = alias 
+
+    #set platform note
+    def setPlatformNote(self, note):
+        self.platform_note = note
+
+    #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):
         self.platformInstallation = platformInstallation
 
-        # sets the version of the platform
+    #sets the version of the platform
     def setPlatformVersion(self, platform_version):
         self.platform_version = platform_version
 
-        # sets a platformID. You can pick a random value for this field.
+    #sets a platformID. You can pick a random value for this field.
     def setPlatformID(self, PlatformID):
         self.platform_id = PlatformID
 
-        # sets command that starts platform
+    #sets command that starts platform
     def set_start_command(self, platform_start_command):
         self.platform_start_command = platform_start_command
 
-        # set command to stop platform
+    #set command to stop platform
     def set_stop_command(self, platform_end_command):
         self.platform_end_command = platform_end_command
 
-        # set list of subplatforms
+    #set list of subplatforms
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
 
