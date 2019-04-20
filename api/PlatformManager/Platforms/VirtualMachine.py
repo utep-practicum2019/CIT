@@ -162,7 +162,7 @@ class VirtualMachine(Platform):
     def stop_vm(self, param):
         result = {'stopped': False}
         out = self.vm_command(['VBoxManage controlvm Ubuntu16 poweroff'])
-        out = self.vm_command(['VBoxManage snapshot Ubuntu16 restore "Snapshot 19"'])
+#        out = self.vm_command(['VBoxManage snapshot Ubuntu16 restore "OnStartupCallsWorking"'])
         print(out)
         if "Restoring snapshot" in out:
             result['stopped'] = True
