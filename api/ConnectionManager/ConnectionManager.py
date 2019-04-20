@@ -1,9 +1,7 @@
 import subprocess
-
 import pyinotify
-
 # from Session import Session
-# import time
+import time
 from . import Configure
 
 
@@ -37,23 +35,28 @@ class EventHandler(pyinotify.ProcessEvent):
 class ConnectionManager():
     path_to_file = "/var/log"
     notifier = ""
+    isPolling = False
 
     def __init__(self):
         pass
 
     def pptp_poll_connection(self):
-        wm = pyinotify.WatchManager()  # Watch Manager
-        mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # flags to determine which events to watch
-        handler = EventHandler(self.path_to_file)
-        self.notifier = pyinotify.ThreadedNotifier(wm, handler)
-        wdd = wm.add_watch(self.path_to_file, mask, rec=True)
-        self.notifier.start()
+        if not self.isPolling:
+            wm = pyinotify.WatchManager()  # Watch Manager
+            mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # flags to determine which events to watch
+            handler = EventHandler(self.path_to_file)
+            self.notifier = pyinotify.ThreadedNotifier(wm, handler)
+            self.isPolling = True
+            wdd = wm.add_watch(self.path_to_file, mask, rec=True)
+            self.notifier.start()
+        else:
+            print("Error: polling is already on...")
 
     def update_session_list(self):
         list_of_sessions = []
         result = []
-        seen = result
-        with open('ConnectionManager/PPTP_session.txt', "r") as outfile:
+        index = 0
+        with open('PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
                 list_of_sessions.append({
@@ -64,16 +67,23 @@ class ConnectionManager():
                     "status": s[4],
                     "connection_type": "PPTP"}
                 )
-            list_of_sessions.reverse()
-            for item in list_of_sessions:
-                if item not in seen:
-                    seen.append(item)
-                    result.append(item)
+        #
+        # result.append(list_of_sessions[0])
+        # for li in list_of_sessions:
+        #     for r in result:
+        #         if li['username'] != r['username'] and :
+        #             print(r['username'], li['username'])
+        #             result.append(r)
 
-        return result
+        return list_of_sessions
+
 
     def stop(self):
-        self.notifier.stop()
+        if self.isPolling:
+            self.isPolling = False
+            self.notifier.stop()
+        else:
+            print("Error: polling is already off...")
 
     def addUsers(self, numberOfUsers):
         usersArr = []
@@ -96,23 +106,36 @@ class ConnectionManager():
         usersDictionary = []
         return usersDictionary
 
-
 """
 if __name__ == "__main__":
-    pp = ConnectionManager("/var/log")
-    nn = pp.notifier
+    pp = ConnectionManager()
+    l = pp.update_session_list()
+    for li in l:
+        print(li['username'])
+
+
+    pp = ConnectionManager()
+    pp.pptp_poll_connection()
+    pp.pptp_poll_connection()
 
     while True:
         try:
             time.sleep(5)
         except KeyboardInterrupt:
-            nn.stop()
+            pp.stop()
+            pp.stop()
+            pp.stop()
             break
         except:
-            nn.stop()
+            pp.stop()
+            pp.stop()
             raise
-            
+    pp.pptp_poll_connection()
+    pp.pptp_poll_connection()
+    pp.stop()
+
 """
+
 """
 last = /var/log/wtmp
 who  = /var/run/utmp
