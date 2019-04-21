@@ -157,8 +157,17 @@ class PlatformInterface():
             return {"Status": status, "Response": {}}
 
     def getPlatformStatus(self, platform_ID):
-        platform = self.platformManager.getPlatform(platform_ID)
-        status = self.platformManager.check_service(platform)
+        Main_Platform = self.platformManager.getPlatform(platform_ID)
+        
+        if (Main_Platform.getPlatformID() == platform_ID):
+            status = self.platformManager.check_service(Main_Platform)
+        else:
+            Subplatforms = Main_Platform.get_sub_platforms()
+
+            for x in Subplatforms:
+                if (Subplatforms[x].getPlatformID() == platform_ID):
+                    status = self.platformManager.check_service(Subplatforms[x])
+                    break
 
         return status
 
