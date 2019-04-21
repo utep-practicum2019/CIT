@@ -220,9 +220,9 @@ class Rocketchat(Platform):
         return status
 
     # Create a new private group, optionally including users
-    def createPrivateGroup(self, groupName):
-        rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
-        data = rocket.groups_create(groupName, []).json()
+    def createPrivateGroup(self, param):
+        rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
+        data = rocket.groups_create("group" + str(param['group_id']), members=param['members']).json()
         status = data["success"]
         roomId = data["group"]['_id']
         return (status, roomId)

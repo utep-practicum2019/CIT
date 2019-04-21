@@ -129,6 +129,14 @@ class GroupAPI(Resource):
                                 user_info = DatabaseHandler.find('users', user)
                                 command['param']['password'] = user_info['password']
                                 success, user_id = platform_man.platform_interface.requestHandler(plat_info['main']['id'], current['id'], command)
+                                if not success:
+                                    print("ERROR: Unable to register user: ", user)
+
+                            command['command'] = 'createPrivateGroup'
+                            command['param']['members'] = group_info['members']
+                            command['param']['group_id'] = group_info['group_id']
+                            success, room_id = platform_man.platform_interface.requestHandler(plat_info['main']['id'],
+                                                                                              current['id'], command)
 
                             if not running:
                                 platform_man.platform_interface.stopPlatform(plat_info['main']['id'], current['id'])
