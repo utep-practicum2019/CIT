@@ -221,7 +221,7 @@ class Results(Platform):
     def getStatus(self, param):
         filename = param['filename']
         fileToFind = ''
-        full_path = '/home/practicum/Desktop/hackathon_results/'+ filename
+        full_path = '/home/practicum/Desktop/hackathon_results/' + filename
         for name in glob.glob(full_path):
             fileToFind = name
         exists = os.path.exists(fileToFind)
@@ -231,9 +231,9 @@ class Results(Platform):
         return {"done": exists}
 
     def getResults(self, param):
-        group_id = param['group_id']
+        filename = param['filename']
         fileToOpen = ''
-        for name in glob.glob('/home/practicum/Desktop/hackathon_results/stats/' + str(group_id)+'_*'):
+        for name in glob.glob('/home/practicum/Desktop/hackathon_results/stats/' + filename):
             fileToOpen = name
             print('fs', fileToOpen)
         try:

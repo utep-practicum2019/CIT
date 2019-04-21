@@ -94,6 +94,7 @@ def home():
 
     ogList = []
 
+    authTokens = {}
     for p in platforms:
         platform_data = DatabaseHandler.find('platforms', p)
         subplats = platform_data['subplatforms']
@@ -101,11 +102,12 @@ def home():
         result = {p: []}
         for plat in subplats:
             result[p].append([plat['name'], plat['ip_port'], plat['id']])
-            from Resources.PlatformManagerInstance import PlatformManagerInstance
-            platform_interface = PlatformManagerInstance.get_instance().platform_interface
-            token = platform_interface.rocketChatLoginUser(platform_data['main']['id'], plat['id'], username,
-                                                           session['password'])
-            session['authToken'] = token['Auth_Token']
+            if plat['name'] == "Rocketchat":
+                platform_interface = PlatformManagerInstance.get_instance().platform_interface
+                token = platform_interface.rocketChatLoginUser(platform_data['main']['id'], plat['id'], username, session['password'])
+                session['authToken'] = token['Auth_Token']
+                authTokens[plat['id']] = token
+                session['authToken'] = token['Auth_Token']
         # print(result)
 
         ogList.append(result)
