@@ -579,7 +579,7 @@
         let counter = 0;
         while (counter < 20) {
             let tiddly_on = await new Promise((resolve) =>
-                isSiteOnline("129.108.7.29:8085", function (found) {
+                isSiteOnline("http://129.108.7.29:8085", function (found) {
                     if (found) {
                         console.log("Tiddly Wiki Is Up");
                         resolve(true);
@@ -604,12 +604,10 @@
         } else {
             actionOnPlatforms(list_of_platforms, 0, "Start");
             actionOnPlatforms(list_of_platforms, 0, "Status");
-
         }
     }
 
     async function get_subplatforms(list_of_platforms) {
-
         let subplats = await new Promise((resolve) =>
             $.ajax({
                 type: "GET",
@@ -659,17 +657,17 @@
                         $('#platformStartLoadModal').modal('hide');
                     });
                 }
-                else if (subplatforms[plat].includes("TiddlyWiki")){
-                    let tiddly_status = is_tiddly_wiki_online();
-                    tiddly_status.then(function (tiddly_online) {
-                        if (tiddly_online) {
-                            alert("Platforms Sucesfully Started!");
-                        } else {
-                            alert("Couldn't Start Platforms!");
-                        }
-                        $('#platformStartLoadModal').modal('hide');
-                    });
-                }
+<!--                else if (subplatforms[plat].includes("TiddlyWiki")){-->
+<!--                    let tiddly_status = is_tiddly_wiki_online();-->
+<!--                    tiddly_status.then(function (tiddly_online) {-->
+<!--                        if (tiddly_online) {-->
+<!--                            alert("Platforms Sucesfully Started!");-->
+<!--                        } else {-->
+<!--                            alert("Couldn't Start Platforms!");-->
+<!--                        }-->
+<!--                        $('#platformStartLoadModal').modal('hide');-->
+<!--                    });-->
+<!--                }-->
                 else {
                     $('#platformStartLoadModal').modal('hide');
                 }
