@@ -19,7 +19,7 @@ class FilesDownload(Platform):
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
-    platformInstallation = "../CIT/api/static/download_files"
+    platformInstallation = "/cit/api/static/download_files"
     port = "0"
     ip = "0.0.0.0.0"
     link = ""
