@@ -100,7 +100,6 @@
         {% for id in platforms_id %}
             {% for result in ogList %}
                 {% for key, values in result.items() %}
-                <h6>Id for {{ key }} is {{ id }}</h6>
                 <div class="tab-pane fade" id="{{ '{}'.format(key.replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'pills-{}-tab'.format(key.replace(' ', '')) }}">
                     <div class="row">
                         <div class="col-2">
@@ -151,10 +150,6 @@
                                                                     <p><input id='uploaded_file' type=file name=file>
                                                                         <button type="submit" id="uploadBtn" class="btnDisable">Upload</button>
                                                                 </form>
-                                                            </div>
-                                                            <div>
-
-                                                                <p id="showResults"></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -217,11 +212,11 @@
                                             </div>
                                         {% elif v[0] == "Results" %}
                                             <span title="{{id}},{{v[2]}}" style="display: none" id="ResultIDs">{{id}},{{v[2]}}</span>
-                                            <button class="btn dark" type="button" disabled>
-                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                              Waiting for results...
-                                            </button>
-                                        <h6>The id for the subplatform Results is {{ v[2] }}</h6>
+                                            <div id="showResults">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
                                                 <h3>Below are the files available for download</h3><br>
@@ -258,7 +253,7 @@
                 crossorigin="anonymous"></script>
         <script>
 
-            let repeat = 3;
+            let repeat = 44;
 
             $(function(){
                 var hash = window.location.hash;
@@ -292,7 +287,9 @@
                         "subplatforms_IDS": [ids[1]],
                         "configuration": {
                             "command": "getStatus",
-                            "param": {}
+                            "param": {
+                                "filename": '{{ filename }}'
+                            }
                         }
                     }),
                     success: function (response) {
@@ -327,7 +324,9 @@
                         "subplatforms_IDS": [ids[1]],
                         "configuration": {
                             "command": "getResults",
-                            "param": {}
+                            "param": {
+                                "group_id": 6
+                            }
                         }
                     }),
                     success: function (response) {
@@ -336,13 +335,14 @@
                         console.log(tmp)
                         if (tmp == "success" && !response['success']) {
                             alert('request did not succeed')
-                        } else if (tmp == "done" && response['done']) {
+                        } else if (tmp == "results" && response['results']) {
+                            alert("Results have arrived!");
+                            document.getElementById("showResults").innerText =  "The results for you submission: " + response['results'];
 
                         }
                     }
                 });
-                alert('acquireth thee dough');
-                $("#showResults").load("The results for you submission: " + response);
+
             }
 
 

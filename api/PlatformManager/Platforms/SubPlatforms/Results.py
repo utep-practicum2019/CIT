@@ -1,5 +1,7 @@
-import os, time
+import os, time, glob
+
 from PlatformManager.Platforms.Platform import Platform
+import threading
 
 """ 
         @authors:
@@ -10,11 +12,10 @@ from PlatformManager.Platforms.Platform import Platform
             This class is a subclass of platform. This class will implement the tiddlywiki platform. 
 """
 
+
 class Results(Platform):
     # fill the values here for your specific platformResultsPlatform
     platform_name = "Results"
-    platform_alias = ""
-    platform_note = ""
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
@@ -27,14 +28,17 @@ class Results(Platform):
     port = "0"
     ip = "0.0.0.0"
     link = ""
-    staticPlatform = True
-    
+    platform_alias = ""
+    platform_note = ""
+    thread = None
+    running = False
+
     def requestHandler(self, command):
         action = {
-            'getStatus': Results.getStatus,
-            'getResults': Results.getResults
+            'getStatus': self.getStatus,
+            'getResults': self.getResults
         }
-        return action[command['command']](self, command['param'])
+        return action[command['command']](command['param'])
 
     # return process ID
     def getProcessID(self):
@@ -52,86 +56,88 @@ class Results(Platform):
     def getPlatformName(self):
         return self.platform_name
 
-    #returns platform alias
-    def getPlatformAlias(self):
-        return self.platform_alias
-
-    #returns platform note
-    def getPlatformNote(self):
-        return self.platform_note
-
-    #returns where the platforms installation path
+    # returns where the platforms installation path
     def getPlatformInstallation(self):
         return self.platform_install
 
-    #return the version of the platform
+    # return the version of the platform
     def getPlatformVersion(self):
         return self.platform_version
 
-    #return a platformID. You can pick a random value for this field.
+    # return a platformID. You can pick a random value for this field.
     def getPlatformID(self):
         return self.platform_id
 
-    #return command that starts platform
+    # return command that starts platform
     def get_start_command(self):
         return self.platform_start_command
 
-    #returns command to stop platform
+    # returns command to stop platform
     def get_stop_command(self):
         return self.platform_end_command
 
-    #returns list of subplatforms
+    # returns list of subplatforms
     def get_sub_platforms(self):
         return self.subplatforms
 
-    #sets process ID
+    # sets process ID
     def setProcessID(self, processID):
         self.processID = processID
 
-    #set link to connect to website
+        # returns platform alias
+
+    def getPlatformAlias(self):
+        return self.platform_alias
+
+        # returns platform note
+
+    def getPlatformNote(self):
+        return self.platform_note
+
+    # set link to connect to website
     def setLink(self, link):
         self.link = link
 
-    #set ip and port to connect to website
+    # set ip and port to connect to website
     def setIpPort(self, ip, port):
         self.ip = ip
         self.port = port
 
-    #set platform name
+        # set platform name
     def setPlatformName(self, platform_name):
         self.platform_name = platform_name
 
+        # set where the platforms installation path
+    def setPlatformInstallation(self, platformInstallation):
+        self.platformInstallation = platformInstallation
+
+        # sets the version of the platform
+    def setPlatformVersion(self, platform_version):
+        self.platform_version = platform_version
+
+        # sets a platformID. You can pick a random value for this field.
+    def setPlatformID(self, PlatformID):
+        self.platform_id = PlatformID
+
+        # sets command that starts platform
+    def set_start_command(self, platform_start_command):
+        self.platform_start_command = platform_start_command
+
+        # set command to stop platform
+    def set_stop_command(self, platform_end_command):
+        self.platform_end_command = platform_end_command
+
+        # set list of subplatforms
+    def set_sub_platforms(self, subplatforms):
+        self.subplatforms = subplatforms
+
     #set platform alias
     def setPlatformAlias(self, alias):
-        self.platform_alias = alias 
+        self.platform_alias = alias
 
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note
-
-    #set where the platforms installation path
-    def setPlatformInstallation(self, platformInstallation):
-        self.platformInstallation = platformInstallation
-
-    #sets the version of the platform
-    def setPlatformVersion(self, platform_version):
-        self.platform_version = platform_version
-
-    #sets a platformID. You can pick a random value for this field.
-    def setPlatformID(self, PlatformID):
-        self.platform_id = PlatformID
-
-    #sets command that starts platform
-    def set_start_command(self, platform_start_command):
-        self.platform_start_command = platform_start_command
-
-    #set command to stop platform
-    def set_stop_command(self, platform_end_command):
-        self.platform_end_command = platform_end_command
-
-    #set list of subplatforms
-    def set_sub_platforms(self, subplatforms):
-        self.subplatforms = subplatforms
 
     def getFilesFromDir(self):
         path = '/home/practicum/Desktop/hackathon_results'
@@ -145,8 +151,10 @@ class Results(Platform):
                 files.append(os.path.relpath(os.path.join(root, f), path))
         index = {}
         for f in files:
-            index[f] = os.path.getmtime(os.path.join(path, f))
-        files.sort()
+            if os.path.exists(f):
+                os.remove(f)
+                index[f] = os.path.getmtime(os.path.join(path, f))
+            files.sort()
         return files
 
     def init(self):
@@ -166,8 +174,8 @@ class Results(Platform):
         f.close()
 
     def compareWithBest(self):
-        path = 'home/practicum/Desktop/hackathon_results'
-        reportPath = path + "stats/"
+        path = '/home/practicum/Desktop/hackathon_results'
+        reportPath = path + "/stats/"
         files = []
         reportsFiles = []
         currentMAXWinner = 0
@@ -191,8 +199,7 @@ class Results(Platform):
 
     def checkForWarnings(self, inF, out):
         path = '/home/practicum/Desktop/hackathon_results'
-        reportPath = path + "stats/"
-        inF = str(path + inF)
+        reportPath = path + "/stats/"
         stringToMatch = 'Analyzed'
         matchedLine = ''
         with open(inF, 'r') as file:
@@ -200,64 +207,77 @@ class Results(Platform):
                 if stringToMatch in line:
                     matchedLine = line
                     break
-        with open(reportPath + out, 'w') as file:
+        out = out.split('/')
+        out = out[len(out) - 1]
+        out = reportPath + out
+        with open(out, 'w') as file:
             file.write(str(matchedLine.split()[1]))
             file.close()
 
     def inspectFile(self, nf):
-        reportFile = "report_for_" + nf
+        reportFile = nf
         self.checkForWarnings(nf, reportFile)
 
-    def getStatus(self, group_id):
-        path = '/home/practicum/Desktop/hackathon_results/' + 'stats/'
-        fileToFind = 'report_for_group' + str(group_id) + '_Results.txt'
-        #print("Status: ", os.path.exists(path + fileToFind))
-        exists = os.path.exists(path+fileToFind)
+    def getStatus(self, param):
+        filename = param['filename']
+        fileToFind = ''
+        full_path = '/home/practicum/Desktop/hackathon_results/'+ filename
+        for name in glob.glob(full_path):
+            fileToFind = name
+        exists = os.path.exists(fileToFind)
+        print("Status stat: ", os.path.exists(fileToFind))
         if exists:
-            self.inspectFile(path+fileToFind)
-        return {'done': exists}
+            self.inspectFile(fileToFind)
+        return {"done": exists}
 
-    def getResults(self, group_id):
-        self.getStatus(group_id)
-        path = '/home/practicum/Desktop/hackathon_results/' + 'stats/'
-        fileToOpen = 'report_for_group' + str(group_id) + '_Results.txt'
+    def getResults(self, param):
+        group_id = param['group_id']
+        fileToOpen = ''
+        for name in glob.glob('/home/practicum/Desktop/hackathon_results/stats/' + str(group_id)+'_*'):
+            fileToOpen = name
+            print('fs', fileToOpen)
         try:
-            f = open(path+fileToOpen)
+            f = open(fileToOpen)
             groupResults = int(f.readline())
-            #print('Results:', groupResults)
-            return groupResults
+            print('Results:', groupResults)
+            return {"results": groupResults}
 
         except Exception as ex:
             print(ex)
             print('The results for this group does not exist')
-            return None
+        return None
 
     def run(self):
         # Initial files in directory
         initial_curr_dir = self.init()
-        print("Listening for new alerts...")
+        print("Results listening for new alerts...")
         status = True
-        while 1:
+        while self.running:
+            print("results probing...")
             tmp = self.getFilesFromDir()
             if (len(self.diff(tmp, initial_curr_dir)) != 0):
+                print("results file found")
                 state = self.diff(tmp, initial_curr_dir)
                 for newAlert in state:
-                    print('Status:', status, "\n ******* ALERT: ", newAlert, " was added to folder ********")
+                    # print('Status:', status, "\n ******* ALERT: ", newAlert, " was added to folder ********")
                     self.inspectFile(newAlert)
                     self.compareWithBest()
                     initial_curr_dir = self.init()
-                    self.getResults('1')
-                    print("*********************************************************************\n")
+                    self.getStatus('77')
+                    self.getResults('77')
+                    # print("*********************************************************************\n")
                     #            option = input("What do you want to do? ")
-                    time.sleep(2)
+            time.sleep(2000)
 
-if __name__ == "__main__":
-    app = Results()
-    app.run()
+        print("Results stopped.")
 
-    """command = {
-        'command': 'getResults',
-        'param': 99
-    }
-    app.request_handler(command)
-    """
+# if __name__ == "__main__":
+#     app = Results()
+#     app.run()
+#
+#     """command = {
+#         'command': 'getResults',
+#         'param': 99
+#     }
+#     app.request_handler(command)
+#     """

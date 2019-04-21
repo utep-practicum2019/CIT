@@ -154,6 +154,7 @@ def home():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+            session['filename'] = file.filename[:-5] + "txt"
             return redirect(url_for('home'))
 
     # print(os.getcwd())
@@ -165,9 +166,13 @@ def home():
     for plat in platforms:
         platform_names.append(DatabaseHandler.find('platforms', plat)['main']['name'])
 
+    try:
+        tmp = session['filename']
+    except KeyError:
+        session['filename'] = 'thatonefile.txt'
     return render_template('index.html', username=username, platforms=platform_names, read_directory=read_directory,
                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
-                           time=time, platforms_id=platforms)
+                           time=time, platforms_id=platforms, filename=session['filename'])
     # return render_template('index.html', username=username, platforms=platforms, read_directory=read_directory,
     #                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
     #                             call=check_file_status(), time=time)
