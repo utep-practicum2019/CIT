@@ -29,6 +29,11 @@ class PlatformAPI(Resource):
                     results = {"success": False}
         elif "status" in data:
             results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])
+        elif "alias" in data:
+            from Database.database_handler import DatabaseHandler
+            results = DatabaseHandler.find("platforms", data["platform_ID"])
+            if results:
+                results = results["main"]["alias"]
         return results
 
     @staticmethod

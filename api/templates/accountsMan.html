@@ -416,7 +416,7 @@
                 for (let i in groups) {
                     let note = groups[i]["note"];
                     $('#groupsTab > tbody').each(function () {
-                        $(this).find('tr:eq(i)').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
+                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
                     });
                 }
             }
@@ -439,7 +439,7 @@
                 for (let i in users) {
                     let note = users[i]["note"];
                     $('#usersTab > tbody').each(function () {
-                        $(this).find('tr:eq(i)').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
+                        $(this).find('tr:eq('+i+')').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
                     });
                 }
             }
@@ -462,7 +462,7 @@
                 for (let i in users) {
                     let alias = users[i]["alias"];
                     $('#usersTab > tbody').each(function () {
-                        $(this).find('tr:eq(i)').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
+                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
                     });
                 }
             }
@@ -485,7 +485,7 @@
                 for (let i in groups) {
                     let alias = groups[i]["alias"];
                     $('#groupsTab > tbody').each(function () {
-                        $(this).find('tr:eq(i)').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
+                        $(this).find('tr:eq('+i+')').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
                     });
                 }
             }
@@ -957,7 +957,11 @@
                     for (let i in array) {
                         let id = array[i]["main"]["id"];
                         let name = array[i]["main"]["name"];
-                        mainPlats += '<input name="mainPlat" type="checkbox" value="' + id + '">' + name + ' ' + id + '<br>';
+                        let alias = array[i]["main"]["alias"];
+                        // mainPlats += '<input name="mainPlat" type="checkbox" value="' + id + '">' + name + ' ' + id + '<br>';
+                        mainPlats += `<input name="mainPlat" type="checkbox" value="${id}"> ${alias} ID:${id} Type:${name}  <br>`;
+
+
                     }
                     $('#mainPlatRadio').replaceWith(mainPlats);
                 }
