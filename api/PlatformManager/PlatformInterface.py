@@ -17,7 +17,7 @@ class PlatformInterface():
     def __init__(self):
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        self.cit_url = 'http://127.0.0.1:5001'
+        self.cit_url = 'http://citsystem.com'
         self.database_path = '/api/v2/resources/database'
         self.database_url = self.cit_url + self.database_path
           
