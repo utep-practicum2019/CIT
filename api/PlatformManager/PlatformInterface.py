@@ -156,16 +156,16 @@ class PlatformInterface():
         else:
             return {"Status": status, "Response": {}}
 
-    def getPlatformStatus(self, platform_ID):
-        Main_Platform = self.platformManager.getPlatform(platform_ID)
+    def getPlatformStatus(self, main_ID, subplatform_ID=0):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
         
-        if (Main_Platform.getPlatformID() == platform_ID):
+        if (subplatform_ID == 0):
             status = self.platformManager.check_service(Main_Platform)
         else:
             Subplatforms = Main_Platform.get_sub_platforms()
 
             for x in Subplatforms:
-                if (Subplatforms[x].getPlatformID() == platform_ID):
+                if (Subplatforms[x].getPlatformID() == subplatform_ID):
                     status = self.platformManager.check_service(Subplatforms[x])
                     break
 
