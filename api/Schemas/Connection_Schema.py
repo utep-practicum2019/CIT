@@ -44,6 +44,7 @@ class ConnectionPutRequestSchema(Schema):
     updated_username = fields.String()
     new_password = fields.String()
     new_ip = fields.String()
+    command = fields.String()
 
 
 connection_get_request_schema = ConnectionGetRequestSchema()

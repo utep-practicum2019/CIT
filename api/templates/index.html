@@ -277,6 +277,7 @@
                 crossorigin="anonymous"></script>
         <script>
 
+            let repeat = 50;
 
             $(function(){
                 var hash = window.location.hash;
@@ -285,6 +286,13 @@
 
                 setTimeout(getStatus, 2000);  // calling in 2 seconds
                 console.log("first getStatus scheduled");
+
+                $('#uploadBtn').click(function(e){
+                      $(this).tab('show');
+                      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                      window.location.hash = this.hash;
+                      $('html, body').scrollTop(scrollmem);
+                });
             });
 
             function getStatus() {
@@ -316,7 +324,10 @@
                             console.log("status: " + response["done"]);
                             showResults(ids)
                         } else {
+                            if (repeat >= 0){
                             setTimeout(getStatus, 2000);  // calling every 2 seconds
+                            repeat--;
+                            }
                         }
 
                     }

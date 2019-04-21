@@ -128,7 +128,7 @@ def home():
         user_file = file.filename
         temp = user_file.split('.')
         currentDT = datetime.datetime.now()
-        file.filename = currentDT.strftime("%Y-%m-%d_%H:%M:%S_") + str(session['group_id']) + "." + temp[len(temp)-1]
+        file.filename = str(session['group_id']) + currentDT.strftime("_%Y-%m-%d_%H-%M-%S") + "." + temp[len(temp)-1]
 
         # if user does not select file, browser also
         # submit a empty part without filename
@@ -139,8 +139,7 @@ def home():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-            # return redirect(url_for('home'))
-            return None
+            return redirect(url_for('home'))
 
     # print(os.getcwd())
     read_directory = 'Download_Files'

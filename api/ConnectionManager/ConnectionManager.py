@@ -1,7 +1,6 @@
-import subprocess
 import pyinotify
-
-# from Session import Session
+import subprocess
+from .Session import Session
 import time
 from . import Configure
 
@@ -25,11 +24,11 @@ class EventHandler(pyinotify.ProcessEvent):
 
     def write_PPTPcmd_out(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', 'PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '"/ppp/{print $1,$3,$7,$9,$10,$11}"', '/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt']
 
-        with open('PPTP_session_output.txt', "w") as outfile:
+        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('PPTP_session.txt', "w") as outfile:
+        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
 
 
@@ -39,6 +38,13 @@ class ConnectionManager():
     isPolling = False
 
     def __init__(self):
+        my_cmd = ['last']
+        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', '/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt']
+
+        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt', "w") as outfile:
+            subprocess.call(my_cmd, stdout=outfile)
+        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "w") as outfile:
+            subprocess.call(cmd_out_parser, stdout=outfile)
         pass
 
     def pptp_poll_connection(self):
@@ -58,14 +64,20 @@ class ConnectionManager():
         seen = []
         result = []
         index = 0
-        with open('PPTP_session.txt', "r") as outfile:
+        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
+                print(s)
                 if s[0] not in seen:
-                    if s[3] == '-':
-                        s[4] = "Connected"
-                    else:
-                        s[4] = "Disconnected"
+                    try:
+                        if s[3] == '-':
+                            s[4] = "Connected"
+                        else:
+                            s[4] = "Disconnected"
+                    except IndexError:
+                        s[3] = "Reset"
+                        s.append("Disconnected")
+
                     list_of_sessions.append({
                         "username": s[0],
                         "public_ip": s[1],
@@ -90,22 +102,26 @@ class ConnectionManager():
         usersArr = Configure.addUsers(numberOfUsers)
         usersDictionary = {}
         for x in range(numberOfUsers):
-            usersDictionary[x] = {"username": usersArr[x].username,
-                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
+            usersDictionary[x] = {"username":usersArr[x].username,
+            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
         return usersDictionary
 
-    def deleteUsers(self, listOfUsers):
-        deleteResult = Configure.deleteUsers(listOfUsers)
+    def deleteUsers(self,listOfUsers):
+        deleteResult=Configure.deleteUsers(listOfUsers)
         return deleteResult
 
-    def updateUserConnection(self, currUsername, newUsername, newPassword, newIP):
-        updateResult = Configure.modifyUser(currUsername, newUsername, newPassword, newIP)
+    def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
+        updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
         return updateResult
 
     def fileAddUsers(self, userList):
-        usersDictionary = []
+        usersArr=[]
+        usersArr=Configure.fileAddUsers(userList)
+        usersDictionary={}
+        for x in range(len(userList)):
+            usersDictionary[x] = {"username":usersArr[x].username,
+            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
         return usersDictionary
-
 
 """
 if __name__ == "__main__":
