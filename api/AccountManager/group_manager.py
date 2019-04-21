@@ -271,11 +271,10 @@ class GroupManager:
         current = get_group(group_id)
         if current is None:
             return False
-        if platform_id in current.platforms:
-            return False
-
         if current.platforms is None:
             current.platforms = []
+        if platform_id in current.platforms:
+            return False
         current.platforms.append(platform_id)
         return GroupManager.update_group(group_id, current)
 
