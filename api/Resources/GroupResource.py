@@ -38,16 +38,26 @@ class GroupAPI(Resource):
                 if 'alias' not in result:
                     result['alias'] = ""
                 formatted_platforms = []
+                from Database.database_handler import DatabaseHandler
                 for platform in result['platforms']:
-                    from Database.database_handler import DatabaseHandler
                     platform_object = DatabaseHandler.find("platforms", platform)
                     if platform_object:
                         alias = platform_object["main"]["alias"]
                         name = platform_object["main"]["name"]
                         formatted_platform = alias + " ID: " + str(platform) + " Type: " + name
                         formatted_platforms.append(formatted_platform)
+                formatted_users = []
+                for user in result['members']:
+                    user_object = DatabaseHandler.find("users", user)
+                    alias = user_object["alias"]
+                    if alias is not None and alias != "":
+                        formatted_user = " " + alias + " (" + user + ")"
+                    else:
+                        formatted_user = " " + user
+                    formatted_users.append(formatted_user)
                 r = group_schema.dump(Group(**result))
                 r[0]['platforms'] = formatted_platforms
+                r[0]['members'] = formatted_users
                 formatted_results.append(r[0])
 
             return formatted_results

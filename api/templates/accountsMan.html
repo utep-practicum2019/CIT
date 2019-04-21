@@ -13,6 +13,11 @@
             width: 100%;
             height: 100%
         }
+
+        .label_padding {
+            padding-left: 18px;
+            padding-bottom: 10px;
+        }
     </style>
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -24,9 +29,7 @@
     <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
-
+<!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
             <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
             </button>
 
@@ -44,14 +47,14 @@
     <h2>Accounts:</h2>
     <div class="row">
         <div aria-label="First group">
-            <label>
+            <label class="label_padding">
                 <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">
                     Add
                 </button>
 
-                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">
-                    Import Users
-                </button>
+<!--                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">-->
+<!--                    Import Users-->
+<!--                </button>-->
 
                 <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
                     <option value="user_table">User table</option>
@@ -465,6 +468,31 @@
                         $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
                     });
                 }
+            },
+            complete: function () {
+                reload_group_members();
+            }
+        });
+    }
+
+    function reload_group_members(){
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Groups");
+                let groups = response;
+                for (let i in groups) {
+                    let members = groups[i]["members"];
+                    $('#groupsTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(2)').replaceWith(`<td>${members}</td>`);
+                    });
+                }
             }
         });
     }
@@ -486,6 +514,32 @@
                     let alias = groups[i]["alias"];
                     $('#groupsTab > tbody').each(function () {
                         $(this).find('tr:eq('+i+')').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
+                    });
+                }
+            },
+            complete: function () {
+                reload_user_group_ids();
+            }
+        });
+    }
+
+    // Reload the user aliases on GUI
+    function reload_user_group_ids() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let group = users[i]["group_id"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(3)').replaceWith(`<td>${group}</td>`);
                     });
                 }
             }

@@ -20,11 +20,9 @@
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
         }
-
         .modal-title {
             margin: 0 auto;
         }
-
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -33,7 +31,6 @@
                 -webkit-transform: rotate(360deg);
             }
         }
-
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -41,6 +38,13 @@
             100% {
                 transform: rotate(360deg);
             }
+        }
+        .label_padding {
+            padding-left: 18px;
+            padding-bottom: 10px;
+        }
+        .form_padding {
+            padding-bottom: 15px;
         }
     </style>
 </head>
@@ -50,9 +54,7 @@
     <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
-
+<!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
             <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
             </button>
 
@@ -65,13 +67,12 @@
         </div>
     </div>
 </div>
-
 <!-- Platforms Menu -->
 <div class="container-fluid">
     <h2>Platforms:</h2>
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-            <label>
+            <label class="label_padding">
                 <button class="btn btn-dark btn-sm menu" data-target="#createPlatformModal" data-toggle="modal"
                         id="createNewPlatBtn" type="button">
                     Create New Platform
@@ -164,7 +165,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-body">
-                    <form id="addUsersForm">
+                    <form id="addUsersForm" class="form_padding">
                         <div>
                             <div style="text-align: center"><b> Main Platform </b></div>
                             <label id="mainPlatRadio">
@@ -180,7 +181,6 @@
                                 <input name="subPlat" type="checkbox" value="Rocketchat"> Female<br>
                             </label>
                         </div>
-
                     </form>
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
                     <button class="btn btn-primary" data-dismiss="modal" id="btnCreatePlatform">Create Platform</button>
@@ -215,10 +215,10 @@
                     </table>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-                <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>
-            </div>
+<!--            <div class="modal-footer">-->
+<!--                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>-->
+<!--                <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>-->
+<!--            </div>-->
         </div>
     </div>
 </div>

@@ -40,6 +40,7 @@ class ConnectionDeleteRequestSchema(Schema):
 
 
 class ConnectionPutRequestSchema(Schema):
+    command = fields.String()
     curr_username = fields.String()
     updated_username = fields.String()
     new_password = fields.String()

@@ -1,22 +1,19 @@
-from flask import Flask
-# client gui
-from flask import render_template, request, redirect
-from flask_cors import CORS
-from flask_marshmallow import Marshmallow
-from flask_restful import Api
-
-# User GUI
-from flask import session, url_for, flash, send_from_directory
-from werkzeug.utils import secure_filename
+import datetime
 import glob
 import os
 import time
-import datetime
-import mechanize
 
+from flask import Flask
+# client gui
+from flask import render_template, request, redirect
+# User GUI
+from flask import session, url_for, flash, send_from_directory
+from flask_cors import CORS
+from flask_marshmallow import Marshmallow
+from flask_restful import Api
+from werkzeug.utils import secure_filename
 
 from Database.database_handler import DatabaseHandler
-from PlatformManager.PlatformInterface import  PlatformInterface
 from Resources.ConnectionResource import ConnectionAPI
 from Resources.DatabaseResource import DatabaseAPI
 from Resources.GroupResource import GroupAPI
@@ -31,10 +28,6 @@ app = Flask(__name__, static_folder='static',
 app.secret_key = "turtles are the best!"
 api = Api(app)
 CORS(app)
-
-
-
-
 api.add_resource(DatabaseAPI, '/api/v2/resources/database')
 api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
 api.add_resource(UserAPI, '/api/v2/resources/user')
@@ -43,7 +36,6 @@ api.add_resource(PlatformAPI, '/api/v2/resources/platform')
 api.add_resource(RocketChatAPI, '/api/v2/resources/platform/rocketchat')
 
 api.add_resource(LoginAPI, '/api/v2/resources/login')
-
 
 """
     =========================================================================================
@@ -70,7 +62,7 @@ def home():
     remote_ip = session['remote_ip']
 
     group_info = DatabaseHandler.find('groups', group_id)
-    print ('Group Info -> {}'.format(group_info))
+    print('Group Info -> {}'.format(group_info))
 
     try:
         platforms = group_info['platforms']
@@ -128,7 +120,7 @@ def home():
         user_file = file.filename
         temp = user_file.split('.')
         currentDT = datetime.datetime.now()
-        file.filename = currentDT.strftime("%Y-%m-%d_%H:%M:%S_") + str(session['group_id']) + "." + temp[len(temp)-1]
+        file.filename = currentDT.strftime("%Y-%m-%d_%H:%M:%S_") + str(session['group_id']) + "." + temp[len(temp) - 1]
 
         # if user does not select file, browser also
         # submit a empty part without filename
@@ -209,7 +201,7 @@ def get_downloadable_files(read_directory):
 #         status = PlatformInterface.requestHandler(main_id, subplatform_id, command={"":""})
 #         time.sleep(60)
 #         if status:
-              # results = PlatformInterface.requestHandler(main_id, subplatform_id, command={"":""}
+# results = PlatformInterface.requestHandler(main_id, subplatform_id, command={"":""}
 #             results = Results.getResults(session['group_id'])
 #             repeat = False
 #             return results

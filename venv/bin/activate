@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelavent variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/practicum2019/Desktop/GitKraken/CIT/venv"
+VIRTUAL_ENV="/home/fresh/Desktop/CIT/CIT/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

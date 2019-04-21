@@ -30,7 +30,15 @@ class UserAPI(Resource):
             results = DatabaseHandler.find_all('users')
             formatted_results = []
             for result in results:
+                group = result['group_id']
+                group_object = DatabaseHandler.find("groups", group)
+                alias = group_object["alias"]
+                if alias is not None and alias != "":
+                    formatted_group = " " + alias + " (" + str(group) + ")"
+                else:
+                    formatted_group = " " + str(group)
                 r = user_schema.dump(User(**result))
+                r[0]['group_id'] = formatted_group
                 formatted_results.append(r[0])
             return formatted_results
 

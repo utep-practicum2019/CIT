@@ -1,0 +1,22 @@
+Metadata-Version: 1.0
+Name: configure
+Version: 0.5
+Summary: configuration toolkit based on YAML
+Home-page: https://github.com/andreypopp/configure
+Author: Andrey Popp
+Author-email: 8mayday@gmail.com
+License: UNKNOWN
+Description: YAML configuration library which provides:
+        
+          * interpolation for string configuration values
+        
+          * configuration inheritance
+        
+          * configuration composition
+        
+          * object level configuration (like construct this object by calling some
+            function with some arguments)
+        
+        Development takes place at https://github.com/andreypopp/configure
+        
+Platform: UNKNOWN

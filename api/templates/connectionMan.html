@@ -3,17 +3,30 @@
 <html lang="en">
 <head>
     <title>Connection Manager</title>
-    <!-- Bootstrap core CSS -->
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <!--    <link href="/static/css/style.css" rel="stylesheet" type="text/css">-->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <style>
+        .container {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .left-element {
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .spinner-border.text-primary {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
     <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
+            <!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
             <button class="btn btn-dark btn-sm menu active" type="button"><a href="connectionMan.html" id="pressed">Connection
                 Manager</a></button>
             <button class="btn btn-dark btn-sm menu" type="button"><a href="accountsMan.html">Account Manager</a>
@@ -23,10 +36,14 @@
     </div>
 </div>
 <div style="text-align:center">
-    <!--    <h2>Connections</h2>-->
-    <div>
-        <button id="startBtn" type="button">Start Polling</button>
-        <button id="stopBtn" type="button">Stop Polling</button>
+    <div class="container">
+        <div class="left-element">
+            <button id="startBtn" type="button">Start Polling</button>
+            <button id="stopBtn" type="button">Stop Polling</button>
+        </div>
+        <div class="spinner-border text-primary" id="spinner" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 </div>
 <table class="table table-hover" id="connectionsTable">
@@ -60,7 +77,9 @@
                 success: function (response) {
                     console.log("Start Polling: " + response["success"]);
                     polling = true;
-                    worker();
+                    // $("#spinner").show();
+                    $("#spinner").css("display", "inline-block");
+                    poll_connection_status();
                 },
             });
         });
@@ -78,12 +97,13 @@
                 success: function (response) {
                     console.log("Stop Polling: " + response["success"]);
                     polling = false;
+                    $("#spinner").css("display", "none");
                 },
             });
         });
     });
 
-    function worker() {
+    function poll_connection_status() {
         if (polling) {
             // noinspection JSUnusedGlobalSymbols
             $.ajax({
@@ -95,20 +115,24 @@
                     'session_list': 'True'
                 },
                 success: function (response) {
-                    //Print results
                     console.log("Connections Updated at " + new Date().toUTCString());
-                    let array = response["usersDictionary"];
+                    let user_status = response["usersDictionary"];
                     let trHTML = '<tbody>';
-                    for (let i in array) {
-                        // console.log(JSON.stringify(array[i]));
-                        let public_ip = array[i]["public_ip"];
-                        let end_time = array[i]["end_time"];
-                        let start_time = array[i]["start_end"];
-                        let username = array[i]["username"];
-                        let status = array[i]["status"];
-                        let connection_type = array[i]["connection_type"];
-                        trHTML += '<tr><td>' + connection_type + '</td><td>' + public_ip + '</td><td>' + username +
-                            '</td><td>' + start_time + '</td><td>' + end_time + '</td><td>' + status + '</td></tr>';
+                    for (let i in user_status) {
+                        let public_ip = user_status[i]["public_ip"];
+                        let end_time = user_status[i]["end_time"];
+                        let start_time = user_status[i]["start_end"];
+                        let username = user_status[i]["username"];
+                        let status = user_status[i]["status"];
+                        let connection_type = user_status[i]["connection_type"];
+                        trHTML += `<tr>
+                            <td>${connection_type}</td>
+                            <td>${public_ip}</td>
+                            <td>${username}</td>
+                            <td>${start_time}
+                            </td><td>${end_time}</td>
+                            <td>${status}</td>
+                        </tr>`;
                     }
                     trHTML += '</tbody>';
                     $('#connectionsTable tbody').replaceWith(trHTML);
@@ -116,7 +140,7 @@
                 },
                 complete: function () {
                     // Schedule the next request when the current one's complete
-                    setTimeout(worker, 5000);
+                    setTimeout(poll_connection_status, 5000);
                 }
             });
         }
