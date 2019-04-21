@@ -1,9 +1,12 @@
 # Group Related Requests #
+import re
 from flask import request
 from flask_restful import Resource
 
 from Schemas.Group_Schema import *
 from Schemas.User_Schema import *
+from Database.database_handler import DatabaseHandler
+from Resources.PlatformManagerInstance import PlatformManagerInstance
 
 
 class GroupAPI(Resource):
@@ -92,26 +95,34 @@ class GroupAPI(Resource):
             if data["command"] == "attach":
                 for plat in data["platform_ids"]:
                     results = AccountManager.attach_platform(data["group_id"], plat)
+                    if not results:
+                        print("Failed to attach {} to group {}".format(plat, data["group_id"]))
+                        continue
 
-                # from Database.database import Database
-                # group = Database.find("groups", data["group_id"])
-                # from .PlatformManagerInstance import PlatformManagerInstance
-                # platform_interface = PlatformManagerInstance.get_instance().platform_interface
-                # g_name = "Group " + str(data["group_id"])
-                # group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
-                #                                                              "Whatever",
-                #                                                              g_name)
-                # for user in group["members"]:
-                #     email = user["username"] + "@cit.com"
-                #     username = user["username"]
-                #     password = user["password"]
-                #     nickname = user["username"]
-                #     u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
-                #                                                        "Whatever",
-                #                                                        email, username,
-                #                                                        password,
-                #                                                        nickname)
-                #     platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
+                    plat_info = DatabaseHandler.find('platforms', plat)
+                    for current in plat_info['subplatforms']:
+                        if 'Rocketchat' == current['name']:
+                            platform_man = PlatformManagerInstance.get_instance()
+                            # running = platform_man.getPlatformStatus(plat_info['main']['id'], current['id'])
+                            running = True
+                            if not running:
+                                platform_man.platform_interface.startPlatform(plat_info['main']['id'], current['id'])
+
+                            group_info = DatabaseHandler.find('groups', data["group_id"])
+                            command = {
+                                'command': 'registerUser',
+                                'param': {}
+                            }
+                            for user in group_info['members']:
+                                command['param']['username'] = user
+                                command['param']['email'] = user + "@citsystem.com"
+                                user_info = DatabaseHandler.find('users', user)
+                                command['param']['password'] = user_info['password']
+                                success, user_id = platform_man.platform_interface.requestHandler(plat_info['main']['id'], current['id'], command)
+
+                            if not running:
+                                platform_man.platform_interface.stopPlatform(plat_info['main']['id'], current['id'])
+                            break
 
                 return True
 

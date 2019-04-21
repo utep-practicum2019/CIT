@@ -166,9 +166,12 @@ class Rocketchat(Platform):
 
     chat_ip_port = "http://0.0.0.0:3000"
 
-    def registerUser(self, user_email, user_name, user_pass):
+    def registerUser(self, param):
+        email = param['email']
+        username = param['username']
+        password = param['password']
         rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
-        data = rocket.users_register(user_email, user_name, user_pass, user_name).json()
+        data = rocket.users_register(email, username, password, username).json()
         status = data['success']
         uId = data['user']['_id']
         return (status, uId)

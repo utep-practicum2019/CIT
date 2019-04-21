@@ -219,7 +219,7 @@ def get_downloadable_files(read_directory):
 
 @app.route('/admin')
 def main():
-    return render_template('indexAdmin.html')
+    return render_template('platMan.html')
 
 
 @app.route('/accountsMan.html', methods=['GET', 'POST'])
