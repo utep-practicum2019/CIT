@@ -15,8 +15,8 @@ class VirtualMachine(Platform):
     platform_name = "IDS Virtual Machine"
     platform_alias = ""
     platform_note = ""
-    platform_start_command = "VBoxManage startvm Ubuntu16 --type headless"
-    platform_end_command = "VBoxManage controlvm Ubuntu16 poweroff"
+    platform_start_command = "sudo su - practicum -c 'VBoxManage startvm Ubuntu16 --type headless'"
+    platform_end_command = "sudo su - practicum -c 'VBoxManage controlvm Ubuntu16 poweroff'"
     platform_version = ""
     platformInstallation = " "
     port = "0"
@@ -71,7 +71,7 @@ class VirtualMachine(Platform):
         out, err = process.communicate()
         #print(out.decode("utf-8"))
         if "0" in out.decode("utf-8"):
-            self.platform_start_command = "VBoxManage startvm Ubuntu16 --type headless"
+            self.platform_start_command = "sudo su - practicum -c 'VBoxManage startvm Ubuntu16 --type headless'"
         else:
             self.platform_start_command = "sleep 5"
         return self.platform_start_command
@@ -177,7 +177,7 @@ class VirtualMachine(Platform):
     def stop_vm(self, param):
         result = {'stopped': False}
         out = self.vm_command(['VBoxManage controlvm Ubuntu16 poweroff'])
-        out = self.vm_command(['VBoxManage snapshot Ubuntu16 restore "Snapshot 19"'])
+        # out = self.vm_command(['VBoxManage snapshot Ubuntu16 restore "OnStartupCallsWorking"'])
         print(out)
         if "Restoring snapshot" in out:
             result['stopped'] = True

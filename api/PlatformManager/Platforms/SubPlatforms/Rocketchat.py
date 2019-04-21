@@ -113,8 +113,8 @@ class Rocketchat(Platform):
 
     # set ip and port to connect to website
     def setIpPort(self, ip, port):
-        self.ip = ip
-        self.port = port
+        self.ip = str(ip)
+        self.port = str(port)
 
         # set platform name
 

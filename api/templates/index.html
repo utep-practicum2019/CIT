@@ -106,6 +106,8 @@
                         <div class="col-2">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     {% for  v in values %}
+                                        {% if v[0] != "IDS Virtual Machine" %}
+
                                             <a class="nav-link" data-toggle="pill" href="{{'#{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tab" aria-controls="{{ 'v-pills-{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" aria-selected="true">
                                                 {% if v[0] == 'FilesUpload' %}
                                                     Challenges
@@ -115,7 +117,8 @@
                                                     {{ v[0] }}
                                                 {% endif %}
                                             </a>
-                                    {% endfor%}
+                                        {% endif %}
+                                    {% endfor %}
                             </div>
                         </div>
                         <div class="col-9">
@@ -277,7 +280,7 @@
                 crossorigin="anonymous"></script>
         <script>
 
-            let repeat = 50;
+            let repeat = 3;
 
             $(function(){
                 var hash = window.location.hash;
