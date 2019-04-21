@@ -35,8 +35,8 @@ class Rocketchat(Platform):
     def __init__(self):
         
         self.proxy_dict = {
-            "http": "http://localhost:3000",
-            "https": "https://localhost:3001",
+            "http": "http://citsystem.com:3000",
+            "https": "https://citsystem.com:3001",
         }
 
 
