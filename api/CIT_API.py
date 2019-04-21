@@ -24,6 +24,7 @@ from Resources.LoginResource import LoginAPI
 from Resources.PlatformResource import PlatformAPI
 from Resources.RocketChatResource import RocketChatAPI
 from Resources.UserResource import UserAPI
+from Resources.PlatformManagerInstance import PlatformManagerInstance
 
 ma = Marshmallow()
 app = Flask(__name__, static_folder='static',
@@ -59,6 +60,15 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return redirect(url_for('login'))
 
+@app.route('/rocketchat_api')
+def rocketchat_api():
+    str = "<script> " \
+          "window.parent.postMessage({" \
+          "event: 'login-with-token'," \
+          "loginToken: '" + session['authToken'] + "'" \
+          "}, 'http://0.0.0.0:3000');" \
+          "</script>"
+    return str
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
@@ -91,6 +101,11 @@ def home():
         result = {p: []}
         for plat in subplats:
             result[p].append([plat['name'], plat['ip_port'], plat['id']])
+            from Resources.PlatformManagerInstance import PlatformManagerInstance
+            platform_interface = PlatformManagerInstance.get_instance().platform_interface
+            token = platform_interface.rocketChatLoginUser(platform_data['main']['id'], plat['id'], username,
+                                                           session['password'])
+            session['authToken'] = token['Auth_Token']
         # print(result)
 
         ogList.append(result)
@@ -167,6 +182,7 @@ def login():
             error = 'Invalid Credentials. Please try again.'
         else:
             session['username'] = request.form['username']
+            session['password'] = request.form['password']
             session['group_id'] = user['group_id']
             session['remote_ip'] = user['remote_ip']
             session['logged_in'] = True
@@ -181,6 +197,17 @@ def logout():
     # session.pop('group_id', None)
     # session.pop('remote_ip', None)
     # session.pop('logged_in', None)
+
+    platform_interface = PlatformManagerInstance.get_instance().platform_interface
+    # success, msg = platform_interface.logoutUser({'authToken': session['authToken']})
+
+    # from rocketchat_API.rocketchat import RocketChat
+    # rocket = RocketChat('Admin', 'chat.service', server_url='http://localhost:3000', proxies=None)
+    # data = rocket.logout(authToken=session['authToken']).json()
+    # status = data["status"]
+    # msg = data['data']['message']
+    # print(status, " ", msg)
+
     session.clear()
     return redirect(url_for('index'))
 
