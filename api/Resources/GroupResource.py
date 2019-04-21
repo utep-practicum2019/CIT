@@ -37,9 +37,19 @@ class GroupAPI(Resource):
                     result['note'] = ""
                 if 'alias' not in result:
                     result['alias'] = ""
+                formatted_platforms = []
+                for platform in result['platforms']:
+                    from Database.database_handler import DatabaseHandler
+                    platform_object = DatabaseHandler.find("platforms", platform)
+                    if platform_object:
+                        alias = platform_object["main"]["alias"]
+                        name = platform_object["main"]["name"]
+                        formatted_platform = alias + " ID: " + str(platform) + " Type: " + name
+                        formatted_platforms.append(formatted_platform)
                 r = group_schema.dump(Group(**result))
-
+                r[0]['platforms'] = formatted_platforms
                 formatted_results.append(r[0])
+
             return formatted_results
 
     # To do a post request
