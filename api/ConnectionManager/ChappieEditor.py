@@ -4,9 +4,9 @@ from .Connections import Connections
 class PPTP_ConnectionsSublcass(Connections):
     def pptpAddUser(self, randomPassword,typeOfAdd):
         chapSec=open("ChappieTest.txt","a")
-        # chapSec=open("/etc/ppp/chap-secrets","a")
-        nextAvailableUser=super().checkCurUsers("ChappieTest.txt")
-        # nextAvailableUser=super().checkCurUsers("/etc/ppp/chap-secrets")
+        chapSec=open("/etc/ppp/chap-secrets","a")
+        # nextAvailableUser=super().checkCurUsers("ChappieTest.txt")
+        nextAvailableUser=super().checkCurUsers("/etc/ppp/chap-secrets")
         userNumVar=nextAvailableUser[0]
         ipEND=nextAvailableUser[1]
         if(typeOfAdd==True):
