@@ -67,7 +67,7 @@ class ConnectionManager():
         with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
-                print(s)
+                # print(s)
                 if s[0] not in seen:
                     try:
                         if s[3] == '-':

@@ -213,9 +213,10 @@
                                         {% elif v[0] == "Results" %}
                                             <span title="{{id}},{{v[2]}}" style="display: none" id="ResultIDs">{{id}},{{v[2]}}</span>
                                             <div id="showResults">
-                                                <div class="spinner-border text-primary" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
+                                                <button class="btn btn-primary" type="button" disabled>
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    Loading Results...
+                                                </button>
                                             </div>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
@@ -337,7 +338,19 @@
                             alert('request did not succeed')
                         } else if (tmp == "results" && response['results']) {
                             alert("Results have arrived!");
-                            document.getElementById("showResults").innerText =  "The results for you submission: " + response['results'];
+                            if (response['results'] == 48){
+                                document.getElementById("showResults").innerHTML = '\
+                                <div class="alert alert-success" role="alert"> \
+                                    <h1>Alerts Received: ' + response['results'] + '<br></h1> \
+                                    <h1>Alerts Expected: 48<br></h1> \
+                                </div>'
+                            } else {
+                                document.getElementById("showResults").innerHTML = '\
+                                <div class="alert alert-warning" role="alert"> \
+                                    <h1>Alerts Received: ' + response['results'] + '<br></h1> \
+                                    <h1>Alerts Expected: 48<br></h1> \
+                                </div>'
+                            }
 
                         }
                     }
