@@ -7,6 +7,11 @@
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+
+    <link href="/static/css/animate.css"
+          rel="stylesheet"
+          type="text/css"/>
+
     <!--    <link href="/static/css/style.css" rel="stylesheet">-->
     <style>
         .loader {
@@ -20,9 +25,11 @@
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
         }
+
         .modal-title {
             margin: 0 auto;
         }
+
         @-webkit-keyframes spin {
             0% {
                 -webkit-transform: rotate(0deg);
@@ -31,6 +38,7 @@
                 -webkit-transform: rotate(360deg);
             }
         }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -39,12 +47,23 @@
                 transform: rotate(360deg);
             }
         }
+
         .label_padding {
             padding-left: 18px;
             padding-bottom: 10px;
         }
+
         .form_padding {
             padding-bottom: 15px;
+        }
+
+        [data-notify="progressbar"] {
+            margin-bottom: 0px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: 5px;
         }
     </style>
 </head>
@@ -54,7 +73,7 @@
     <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-<!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
+            <!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
             <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
             </button>
 
@@ -165,7 +184,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-body">
-                    <form id="addUsersForm" class="form_padding">
+                    <form class="form_padding" id="addUsersForm">
                         <div>
                             <div style="text-align: center"><b> Main Platform </b></div>
                             <label id="mainPlatRadio">
@@ -215,10 +234,10 @@
                     </table>
                 </div>
             </div>
-<!--            <div class="modal-footer">-->
-<!--                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>-->
-<!--                <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>-->
-<!--            </div>-->
+            <!--            <div class="modal-footer">-->
+            <!--                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>-->
+            <!--                <button class="btn btn-primary" data-dismiss="modal" id="btnAddSubplatform">Add Subplatform</button>-->
+            <!--            </div>-->
         </div>
     </div>
 </div>
@@ -253,6 +272,9 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
 <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet"
       type="text/css"/>
+
+<script src="/static/js/notify.js" type="text/javascript"></script>
+<script src="/static/js/remarkable-bootstrap-notify/bootstrap-notify.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     let check = true;
@@ -486,10 +508,32 @@
         });
     });
 
+    // $.notifyDefaults({
+    //     placement: {
+    //         from: "bottom"
+    //     },
+    //     animate:{
+    //         enter: "animated fadeInUp",
+    //         exit: "animated fadeOutDown"
+    //     }
+    // });
+
     // Create Platform
     $(document).ready(function () {
         $('#btnCreatePlatform').click(function () {
             let mainPlat = $("input[name='mainPlat']:checked").val();
+            if (mainPlat == null) {
+                // $.notify("Must select a main platform!");
+                 $.notify("Must select a main platform!", {
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                });
+                return;
+            }
             let subplats = [];
             let errors = false;
             $.each($("input[name='subPlat']:checked"), function () {
@@ -575,27 +619,27 @@
         return Promise.resolve(false);
     }
 
-    async function is_tiddly_wiki_online() {
-        let counter = 0;
-        while (counter < 20) {
-            let tiddly_on = await new Promise((resolve) =>
-                isSiteOnline("http://129.108.7.29:8085", function (found) {
-                    if (found) {
-                        console.log("Tiddly Wiki Is Up");
-                        resolve(true);
-                    } else {
-                        console.log("Tiddly Wiki Is Down");
-                        resolve(false);
-                    }
-                }));
-            if (tiddly_on) {
-                return Promise.resolve(true);
-            }
-            await wait(1000);
-            counter++;
-        }
-        return Promise.resolve(false);
-    }
+    // async function is_tiddly_wiki_online() {
+    //     let counter = 0;
+    //     while (counter < 20) {
+    //         let tiddly_on = await new Promise((resolve) =>
+    //             isSiteOnline("http://129.108.7.29:8085", function (found) {
+    //                 if (found) {
+    //                     console.log("Tiddly Wiki Is Up");
+    //                     resolve(true);
+    //                 } else {
+    //                     console.log("Tiddly Wiki Is Down");
+    //                     resolve(false);
+    //                 }
+    //             }));
+    //         if (tiddly_on) {
+    //             return Promise.resolve(true);
+    //         }
+    //         await wait(1000);
+    //         counter++;
+    //     }
+    //     return Promise.resolve(false);
+    // }
 
     function start_platform() {
         let list_of_platforms = select_platforms();
@@ -657,17 +701,17 @@
                         $('#platformStartLoadModal').modal('hide');
                     });
                 }
-<!--                else if (subplatforms[plat].includes("TiddlyWiki")){-->
-<!--                    let tiddly_status = is_tiddly_wiki_online();-->
-<!--                    tiddly_status.then(function (tiddly_online) {-->
-<!--                        if (tiddly_online) {-->
-<!--                            alert("Platforms Sucesfully Started!");-->
-<!--                        } else {-->
-<!--                            alert("Couldn't Start Platforms!");-->
-<!--                        }-->
-<!--                        $('#platformStartLoadModal').modal('hide');-->
-<!--                    });-->
-<!--                }-->
+                <!--                else if (subplatforms[plat].includes("TiddlyWiki")){-->
+                <!--                    let tiddly_status = is_tiddly_wiki_online();-->
+                <!--                    tiddly_status.then(function (tiddly_online) {-->
+                <!--                        if (tiddly_online) {-->
+                <!--                            alert("Platforms Sucesfully Started!");-->
+                <!--                        } else {-->
+                <!--                            alert("Couldn't Start Platforms!");-->
+                <!--                        }-->
+                <!--                        $('#platformStartLoadModal').modal('hide');-->
+                <!--                    });-->
+                <!--                }-->
                 else {
                     $('#platformStartLoadModal').modal('hide');
                 }
