@@ -29,7 +29,7 @@
     <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
-<!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
+            <!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
             <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
             </button>
 
@@ -52,9 +52,9 @@
                     Add
                 </button>
 
-<!--                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">-->
-<!--                    Import Users-->
-<!--                </button>-->
+                <!--                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">-->
+                <!--                    Import Users-->
+                <!--                </button>-->
 
                 <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
                     <option value="user_table">User table</option>
@@ -87,7 +87,11 @@
     <table class="table table-hover" id="usersTab">
         <thead>
         <tr>
-            <th><a href="javascript:users_check_uncheck_all()"> Select</a></th>
+            <th>
+                <div><a href="javascript:users_check_uncheck_all()"> Select</a>
+                    <button id="users_check_uncheck_all" onclick="users_check_uncheck_all()">Check</button>
+                </div>
+            </th>
             <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
@@ -118,7 +122,11 @@
     <table class="table table-hover" id="groupsTab">
         <thead>
         <tr>
-            <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
+            <th>
+                <div><a href="javascript:group_check_uncheck_all()"> Select</a>
+                    <button id="group_check_uncheck_all" onclick="group_check_uncheck_all()">Check</button>
+                </div>
+            </th>
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
             <th>
@@ -295,6 +303,8 @@
     let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
     let users_check = true;
     let group_check = true;
+    let users_num = 1;
+    let groups_num = 1;
     //shows groups on GUI's table
     (function load_groups() {
         // noinspection JSUnusedGlobalSymbols
@@ -372,7 +382,7 @@
                     let note = groups[i]["note"];
                     let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td style="text-align:center; vertical-align:middle;"> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += `<td>${group_id}</td>`;
                     group_table_html += `<td>${members}</td>`;
                     group_table_html +=
@@ -567,7 +577,7 @@
                     let alias = users[i]["alias"];
                     let note = users[i]["note"];
                     user_table_html += '<tr>';
-                    user_table_html += '<td><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
+                    user_table_html += '<td style="text-align:center; vertical-align:middle;"><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
                     user_table_html += `<td>${username}</td>`;
                     user_table_html += `<td>${password}</td>`;
                     user_table_html += `<td>${group_id}</td>`;
@@ -803,19 +813,37 @@
     // Check and uncheck all the selection boxes on user table
     function users_check_uncheck_all() {
         let checkboxes = document.getElementsByName("users_checkbox_platform");
+        let button = document.getElementById("users_check_uncheck_all");
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = users_check;
         }
         users_check = !users_check;
+        if (users_num === 0){
+            button.innerHTML = "Uncheck";
+            users_num = 1;
+        }
+        else if (users_num === 1){
+            button.innerHTML = "Check";
+            users_num = 0;
+        }
     }
 
     // Check and uncheck all the selection boxes on group table
     function group_check_uncheck_all() {
         let checkboxes = document.getElementsByName("groups_checkbox_platform");
+        let button = document.getElementById("group_check_uncheck_all");
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = group_check;
         }
         group_check = !group_check;
+        if (groups_num === 0){
+            button.innerHTML = "Uncheck";
+            groups_num = 1;
+        }
+        else if (groups_num === 1){
+            button.innerHTML = "Check";
+            groups_num = 0;
+        }
     }
 
     // Allows only numbers on text box
