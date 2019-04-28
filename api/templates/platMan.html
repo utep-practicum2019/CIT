@@ -481,30 +481,6 @@
         return values;
     }
 
-    $(document).ready(function () {
-        $('#btnDelPlat').click(function () {
-            let list_of_platforms = select_platforms();
-            if (list_of_platforms.length === 0) {
-                alert("Please select at least one platform for deletion.");
-            } else {
-                for (let i in list_of_platforms) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "platform_ID": list_of_platforms[i]["platform_ID"],
-                            "subplatforms_IDS": []
-                        }),
-                        success: function () {
-                            reload_platforms();
-                        },
-                    });
-                }
-            }
-        });
-    });
 
     // Get Plugin List for Platform Creation
     $(document).ready(function () {
@@ -536,29 +512,20 @@
         });
     });
 
-    // $.notifyDefaults({
-    //     placement: {
-    //         from: "bottom"
-    //     },
-    //     animate:{
-    //         enter: "animated fadeInUp",
-    //         exit: "animated fadeOutDown"
-    //     }
-    // });
-
     // Create Platform
     $(document).ready(function () {
         $('#btnCreatePlatform').click(function () {
             let mainPlat = $("input[name='mainPlat']:checked").val();
             if (mainPlat == null) {
-                // $.notify("Must select a main platform!");
-                 $.notify("Must select a main platform!", {
+                $.notify("Must select a main platform!", {
+                    type: 'danger',
                     animate: {
                         enter: 'animated fadeInRight',
                         exit: 'animated fadeOutRight'
                     },
                     offset: 20,
                     spacing: 10,
+                    newest_on_top: true
                 });
                 return;
             }
@@ -571,7 +538,16 @@
                 subplats.push($(this).val());
             });
             if (errors) {
-                alert("Main Platform and Subplatform cannot be equal!");
+                $.notify("Main Platform and Subplatform cannot be equal!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
                 return;
             }
             let request = {
@@ -587,6 +563,17 @@
                 success: function (response) {
                     console.log(JSON.stringify(response));
                     reload_platforms();
+                    $.notify("Platform Added Successfully!", {
+                        type: 'success',
+                        animate: {
+                            enter: 'animated fadeInRight',
+                            exit: 'animated fadeOutRight'
+                        },
+                        offset: 20,
+                        spacing: 10,
+                        newest_on_top: true
+                    });
+
                 },
             });
         });
@@ -672,7 +659,16 @@
     function start_platform() {
         let list_of_platforms = select_platforms();
         if (list_of_platforms.length === 0) {
-            alert("Please select at least one platform to start.");
+            $.notify("Please select at least one platform to start.", {
+                type: 'danger',
+                animate: {
+                    enter: 'animated fadeInRight',
+                    exit: 'animated fadeOutRight'
+                },
+                offset: 20,
+                spacing: 10,
+                newest_on_top: true
+            });
         } else {
             actionOnPlatforms(list_of_platforms, 0, "Start");
             actionOnPlatforms(list_of_platforms, 0, "Status");
@@ -722,9 +718,27 @@
                     let rocket_status = is_rocket_chat_online();
                     rocket_status.then(function (rocket_online) {
                         if (rocket_online) {
-                            alert("Platforms Sucesfully Started!");
+                            $.notify("Platforms Sucesfully Started!", {
+                                type: 'success',
+                                animate: {
+                                    enter: 'animated fadeInRight',
+                                    exit: 'animated fadeOutRight'
+                                },
+                                offset: 20,
+                                spacing: 10,
+                                newest_on_top: true
+                            });
                         } else {
-                            alert("Couldn't Start Platforms!");
+                            $.notify("Couldn't Start Platforms!", {
+                                type: 'danger',
+                                animate: {
+                                    enter: 'animated fadeInRight',
+                                    exit: 'animated fadeOutRight'
+                                },
+                                offset: 20,
+                                spacing: 10,
+                                newest_on_top: true
+                            });
                         }
                         $('#platformStartLoadModal').modal('hide');
                     });
@@ -752,17 +766,91 @@
         $('#btnStop').click(function () {
             let list_of_platforms = select_platforms();
             if (list_of_platforms.length === 0) {
-                alert("Please select at least one platform to stop.");
+                $.notify("Please select at least one platform to stop.", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 actionOnPlatforms(list_of_platforms, 0, "Stop");
-                alert("Platforms Stopped!")
+                $.notify("Platforms Stopped!", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
 
+    $(document).ready(function () {
+        $('#btnDelPlat').click(function () {
+            let list_of_platforms = select_platforms();
+            if (list_of_platforms.length === 0) {
+                $.notify("Please select at least one platform for deletion.", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
+            } else {
+                // for (let i in list_of_platforms) {
+                //     $.ajax({
+                //         type: "DELETE",
+                //         url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                //         contentType: "application/json",
+                //         dataType: "json",
+                //         data: JSON.stringify({
+                //             "platform_ID": list_of_platforms[i]["platform_ID"],
+                //             "subplatforms_IDS": []
+                //         }),
+                //         success: function () {
+                //
+                //         },
+                //     });
+                // }
+                actionOnPlatforms(list_of_platforms, 0, "Delete");
+
+
+            }
+        });
+    });
+
+
     function actionOnPlatforms(platforms, index, action) {
         if (index < platforms.length) {
             switch (action) {
+                case "Delete":
+                    $.ajax({
+                        type: "DELETE",
+                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "platform_ID": platforms[index]["platform_ID"],
+                            "subplatforms_IDS": []
+                        }),
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                        },
+                        complete: function () {
+                            actionOnPlatforms(platforms, index + 1, action)
+                        }
+                    });
+                    break;
                 case "Start":
                     $.ajax({
                         type: "PUT",
@@ -825,17 +913,49 @@
                     });
                     break;
             }
+        } else {
+            switch (action) {
+                case "Delete":
+                    reload_platforms();
+                    $.notify("Successfully deleted " + platforms.length + " platforms", {
+                        type: 'success',
+                        animate: {
+                            enter: 'animated fadeInRight',
+                            exit: 'animated fadeOutRight'
+                        },
+                        offset: 20,
+                        spacing: 10,
+                        newest_on_top: true
+                    });
+                    break;
+                case "Start":
+                    $.notify("Successfully started " + platforms.length + " platforms", {
+                        type: 'success',
+                        animate: {
+                            enter: 'animated fadeInRight',
+                            exit: 'animated fadeOutRight'
+                        },
+                        offset: 20,
+                        spacing: 10,
+                        newest_on_top: true
+                    });
+                    break;
+                case "Stop":
+                    $.notify("Successfully stopped " + platforms.length + " platforms", {
+                        type: 'success',
+                        animate: {
+                            enter: 'animated fadeInRight',
+                            exit: 'animated fadeOutRight'
+                        },
+                        offset: 20,
+                        spacing: 10,
+                        newest_on_top: true
+                    });
+                    break;
+                case "Status":
+                    break;
+            }
         }
-        // else {
-        //     switch (to_add) {
-        //         case "Note":
-        //             reload_user_notes();
-        //             break;
-        //         case "Alias":
-        //             reload_user_aliases();
-        //             break;
-        //     }
-        // }
     }
 
     // Save User Notes
@@ -843,10 +963,28 @@
         $('#savePlatformNotesBtn').click(function () {
             let platforms = selectPlatformObjectsNoCheck();
             if (platforms.length < 1) {
-                alert("At least one platform must exist!");
+                $.notify("At least one platform must exist!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToPlatform(platforms, 0, "Note");
-                alert("Platform Notes saved.");
+                $.notify("Platform Notes saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
@@ -856,10 +994,28 @@
         $('#savePlatformAliasBtn').click(function () {
             let platforms = selectPlatformObjectsNoCheck();
             if (platforms.length < 1) {
-                alert("At least one group must exist!");
+                $.notify("At least one platform must exist!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToPlatform(platforms, 0, "Alias");
-                alert("Platform Aliases saved.");
+                $.notify("Platform Aliases saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
