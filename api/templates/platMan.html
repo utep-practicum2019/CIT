@@ -823,8 +823,6 @@
                 //     });
                 // }
                 actionOnPlatforms(list_of_platforms, 0, "Delete");
-
-
             }
         });
     });
@@ -961,9 +959,9 @@
     // Save User Notes
     $(document).ready(function () {
         $('#savePlatformNotesBtn').click(function () {
-            let platforms = selectPlatformObjectsNoCheck();
+            let platforms = selectPlatformObjectsCheck();
             if (platforms.length < 1) {
-                $.notify("At least one platform must exist!", {
+                $.notify("At least one platform must be selected!", {
                     type: 'danger',
                     animate: {
                         enter: 'animated fadeInRight',
@@ -992,9 +990,9 @@
     // Save Group Aliases
     $(document).ready(function () {
         $('#savePlatformAliasBtn').click(function () {
-            let platforms = selectPlatformObjectsNoCheck();
+            let platforms = selectPlatformObjectsCheck();
             if (platforms.length < 1) {
-                $.notify("At least one platform must exist!", {
+                $.notify("At least one platform must be selected!!", {
                     type: 'danger',
                     animate: {
                         enter: 'animated fadeInRight',
@@ -1067,6 +1065,22 @@
                 'id': $(this).find('td:eq(3)').text(),
                 'alias': $(this).find('td:eq(4)').find('input[name="platformAliasBox"]').val(),
                 'note': $(this).find('td:eq(5)').find('input[name="platformNoteBox"]').val()
+            });
+        });
+        return platforms;
+    }
+
+    // Create a list of group objects from the table
+    function selectPlatformObjectsCheck() {
+        let platforms = [];
+        $.each($("input[type=checkbox]:checked"), function () {
+            let data = $(this).parents('tr:eq(0)');
+            platforms.push({
+                'name': $(data).find('td:eq(1)').text(),
+                'ip_port': $(data).find('td:eq(2)').text(),
+                'id': $(data).find('td:eq(3)').text(),
+                'alias': $(data).find('td:eq(4)').find('input[name="platformAliasBox"]').val(),
+                'note': $(data).find('td:eq(5)').find('input[name="platformNoteBox"]').val()
             });
         });
         return platforms;
