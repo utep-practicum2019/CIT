@@ -89,8 +89,8 @@
         <tr>
             <th style="text-align:center; vertical-align:middle;">
                 <div>
-<!--                    <a href="javascript:users_check_uncheck_all()"> Select</a>-->
-<!--                    <button id="users_check_uncheck_all" onclick="users_check_uncheck_all()">Check</button>-->
+                    <!--                    <a href="javascript:users_check_uncheck_all()"> Select</a>-->
+                    <!--                    <button id="users_check_uncheck_all" onclick="users_check_uncheck_all()">Check</button>-->
                     <button id="user_check_all" onclick="check_all('users_checkbox_platform')">Check</button>
                     <button id="user_uncheck_all" onclick="uncheck_all('users_checkbox_platform')">Uncheck</button>
                 </div>
@@ -127,8 +127,8 @@
         <tr>
             <th style="text-align:center; vertical-align:middle;">
                 <div>
-<!--                    <a href="javascript:group_check_uncheck_all()"> Select</a>-->
-<!--                    <button id="group_check_uncheck_all" onclick="group_check_uncheck_all()">Check</button>-->
+                    <!--                    <a href="javascript:group_check_uncheck_all()"> Select</a>-->
+                    <!--                    <button id="group_check_uncheck_all" onclick="group_check_uncheck_all()">Check</button>-->
                     <button id="group_check_all" onclick="check_all('groups_checkbox_platform')">Check</button>
                     <button id="group_uncheck_all" onclick="uncheck_all('groups_checkbox_platform')">Uncheck</button>
                 </div>
@@ -804,6 +804,24 @@
         return groups;
     }
 
+
+    // Create a list of group objects from the table
+    function selectGroupObjectsCheck() {
+        let groups = [];
+        $('#groupsTab input[type=checkbox]:checked').each(function () {
+            let data = $(this).parents('tr:eq(0)');
+            groups.push({
+                'members': $(data).find('td:eq(2)').text(),
+                'group_id': $(data).find('td:eq(1)').text(),
+                'alias': $(data).find('td:eq(3)').find('input[name="groupAliasBox"]').val(),
+                'note': $(data).find('td:eq(4)').find('input[name="groupNoteBox"]').val(),
+                'platforms': $(data).find('td:eq(5)').text()
+            });
+        });
+        return groups;
+    }
+
+
     // Create a list of users objects from the table
     function selectUserObjectsNoCheck() {
         let users = [];
@@ -815,6 +833,23 @@
                 'alias': $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val(),
                 'note': $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val(),
                 'platforms': $(this).find('td:eq(6)').text()
+            });
+        });
+        return users;
+    }
+
+    // Create a list of users objects from the table
+    function selectUserObjectsCheck() {
+        let users = [];
+        $('#usersTab input[type=checkbox]:checked').each(function () {
+            let data = $(this).parents('tr:eq(0)');
+            users.push({
+                'username': $(data).find('td:eq(1)').text(),
+                'password': $(data).find('td:eq(2)').text(),
+                'group': $(data).find('td:eq(3)').text(),
+                'alias': $(data).find('td:eq(4)').find('input[name="userAliasBox"]').val(),
+                'note': $(data).find('td:eq(5)').find('input[name="userNoteBox"]').val(),
+                'platforms': $(data).find('td:eq(6)').text()
             });
         });
         return users;
@@ -878,7 +913,7 @@
     // Save Group Notes
     $(document).ready(function () {
         $('#saveGroupNotesBtn').click(function () {
-            let groups = selectGroupObjectsNoCheck();
+            let groups = selectGroupObjectsCheck();
             if (groups.length < 1) {
                 $.notify("At least one group must be selected!", {
                     type: 'danger',
@@ -889,7 +924,8 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            } else {
+                });
+            } else {
                 addToGroup(groups, 0, "Note");
                 $.notify("Group Notes saved.", {
                     type: 'success',
@@ -908,7 +944,7 @@
     // Save User Notes
     $(document).ready(function () {
         $('#saveUserNotesBtn').click(function () {
-            let users = selectUserObjectsNoCheck();
+            let users = selectUserObjectsCheck();
             if (users.length < 1) {
                 $.notify("At least one user must be selected!", {
                     type: 'danger',
@@ -919,9 +955,10 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            } else {
+                });
+            } else {
                 addToUser(users, 0, "Note");
-                $.notify("Group Notes saved.", {
+                $.notify("User Notes saved.", {
                     type: 'success',
                     animate: {
                         enter: 'animated fadeInRight',
@@ -930,7 +967,8 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            }
+                });
+            }
         });
     });
 
@@ -938,7 +976,7 @@
     // Save Group Aliases
     $(document).ready(function () {
         $('#saveGroupAliasBtn').click(function () {
-            let groups = selectGroupObjectsNoCheck();
+            let groups = selectGroupObjectsCheck();
             if (groups.length < 1) {
                 $.notify("At least one group must be selected!!", {
                     type: 'danger',
@@ -949,7 +987,8 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            } else {
+                });
+            } else {
                 addToGroup(groups, 0, "Alias");
                 $.notify("Group Aliases saved.", {
                     type: 'success',
@@ -960,14 +999,15 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            }
+                });
+            }
         });
     });
 
     // Save User Aliases
     $(document).ready(function () {
         $('#saveUserAliasBtn').click(function () {
-            let users = selectUserObjectsNoCheck();
+            let users = selectUserObjectsCheck();
             if (users.length < 1) {
                 $.notify("At least one user must be selected!!", {
                     type: 'danger',
@@ -978,7 +1018,8 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            } else {
+                });
+            } else {
                 addToUser(users, 0, "Alias");
                 $.notify("User Aliases saved.", {
                     type: 'success',
@@ -989,15 +1030,17 @@
                     offset: 20,
                     spacing: 10,
                     newest_on_top: true
-                });            }
+                });
+            }
         });
     });
 
     // Clear Group Notes
     $(document).ready(function () {
         $('#clearGroupNotesBtn').click(function () {
-            $('#groupsTab > tbody > tr').each(function () {
-                $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
+            $('#groupsTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
             });
         });
     });
@@ -1005,8 +1048,9 @@
     // Clear User Notes
     $(document).ready(function () {
         $('#clearUserNotesBtn').click(function () {
-            $('#usersTab > tbody > tr').each(function () {
-                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+            $('#usersTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
             });
         });
     });
@@ -1014,17 +1058,19 @@
     // Clear Group Aliases
     $(document).ready(function () {
         $('#clearGroupAliasBtn').click(function () {
-            $('#groupsTab > tbody > tr').each(function () {
-                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            $('#groupsTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
             });
         });
     });
 
-    // Clear Group Aliases
+    // Clear User Aliases
     $(document).ready(function () {
         $('#clearUserAliasBtn').click(function () {
-            $('#usersTab > tbody > tr').each(function () {
-                $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
+            $('#usersTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
             });
         });
     });
