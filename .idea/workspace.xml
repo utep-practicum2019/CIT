@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff0d0c4d-2841-4480-84a6-9592ac1163af" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/templates/platMan.html" beforeDir="false" afterPath="$PROJECT_DIR$/api/templates/platMan.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
+            <state relative-caret-position="3675">
+              <caret line="245" selection-start-line="245" selection-end-line="245" />
             </state>
           </provider>
         </entry>
@@ -102,10 +101,28 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="116" column="24" lean-forward="true" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="24" />
+            <state relative-caret-position="560">
+              <caret line="316" column="35" lean-forward="true" selection-start-line="316" selection-start-column="35" selection-end-line="316" selection-end-column="35" />
               <folding>
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+                <element signature="e#20128#21388#0" />
+                <element signature="e#21449#23795#0" />
+                <element signature="e#23803#23823#0" />
+                <element signature="e#24322#24796#0" />
+                <element signature="e#24902#25588#0" />
+                <element signature="e#25594#25637#0" />
+                <element signature="e#26419#27036#0" />
+                <element signature="e#28531#31088#0" />
+                <element signature="e#31147#32187#0" />
+                <element signature="e#32225#33581#0" />
+                <element signature="e#33643#39119#0" />
+                <element signature="e#39178#40209#0" />
+                <element signature="e#40273#41308#0" />
+                <element signature="e#41370#41614#0" />
+                <element signature="e#41679#41924#0" />
+                <element signature="e#42526#43066#0" />
               </folding>
             </state>
           </provider>
@@ -131,8 +148,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>btnStart</find>
-      <find>GET</find>
       <find>rocket_online</find>
       <find>Platforms are</find>
       <find>platform</find>
@@ -149,7 +164,6 @@
       <find>boot</find>
       <find>jquery</find>
       <find>check</find>
-      <find>checkbox_platform</find>
       <find>select</find>
       <find>groupsVisible</find>
       <find>checkbox</find>
@@ -161,6 +175,9 @@
       <find>At least</find>
       <find>button</find>
       <find>Check</find>
+      <find>checkbox_platform</find>
+      <find>clear</find>
+      <find>ajax</find>
     </findStrings>
     <replaceStrings>
       <replace>subplatforms_ID</replace>
@@ -207,8 +224,8 @@
         <option value="$PROJECT_DIR$/api/AccountManager/group_manager.py" />
         <option value="$PROJECT_DIR$/api/Resources/GroupResource.py" />
         <option value="$PROJECT_DIR$/api/static/js/notify.js" />
-        <option value="$PROJECT_DIR$/api/CIT_API.py" />
         <option value="$PROJECT_DIR$/api/templates/accountsMan.html" />
+        <option value="$PROJECT_DIR$/api/CIT_API.py" />
         <option value="$PROJECT_DIR$/api/templates/platMan.html" />
       </list>
     </option>
@@ -227,7 +244,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -250,6 +266,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -279,6 +296,30 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="CIT_API" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="CIT" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/CIT_API.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -301,11 +342,12 @@
       <workItem from="1555209954889" duration="15889000" />
       <workItem from="1555625913035" duration="439000" />
       <workItem from="1555626403897" duration="508000" />
+      <workItem from="1556510937965" duration="1192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44507000" />
+    <option name="totallyTimeSpent" value="45381000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -317,15 +359,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="56" y="-11" width="1225" height="1036" extended-state="6" />
+    <frame x="64" y="-11" width="2497" height="1452" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2125" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21237864" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32967034" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2563818" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2558846" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.5971143" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -345,9 +387,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CIT$CIT_API.coverage" NAME="CIT_API Coverage Results" MODIFIED="1556493460102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/api/Resources/RocketChatResource.py">
@@ -603,13 +642,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../.local/lib/python3.5/site-packages/pymongo/periodic_executor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../.local/lib/python3.5/site-packages/pymongo/periodic_executor.py" />
     <entry file="file://$PROJECT_DIR$/api/PlatformManager/Platforms/SubPlatforms/Rocketchat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -705,6 +738,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3675">
+          <caret line="245" selection-start-line="245" selection-end-line="245" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/static/js/notify.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -712,19 +752,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/CIT_API.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="245" lean-forward="true" selection-start-line="245" selection-end-line="245" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/templates/platMan.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="116" column="24" lean-forward="true" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="24" />
+        <state relative-caret-position="560">
+          <caret line="316" column="35" lean-forward="true" selection-start-line="316" selection-start-column="35" selection-end-line="316" selection-end-column="35" />
           <folding>
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="e#20128#21388#0" />
+            <element signature="e#21449#23795#0" />
+            <element signature="e#23803#23823#0" />
+            <element signature="e#24322#24796#0" />
+            <element signature="e#24902#25588#0" />
+            <element signature="e#25594#25637#0" />
+            <element signature="e#26419#27036#0" />
+            <element signature="e#28531#31088#0" />
+            <element signature="e#31147#32187#0" />
+            <element signature="e#32225#33581#0" />
+            <element signature="e#33643#39119#0" />
+            <element signature="e#39178#40209#0" />
+            <element signature="e#40273#41308#0" />
+            <element signature="e#41370#41614#0" />
+            <element signature="e#41679#41924#0" />
+            <element signature="e#42526#43066#0" />
           </folding>
         </state>
       </provider>
