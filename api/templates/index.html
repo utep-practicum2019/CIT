@@ -6,7 +6,6 @@
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-        <script src="{{ url_for('static', filename='Timer.js')}}"></script>
     </head>
 
     <body>
@@ -122,14 +121,14 @@
                         </div>
                         <div class="col-9">
                             <div class="tab-content" id="v-pills-tabContent">
-                                {% for  v in values %}
+                                {% for v in values %}
                                     <div class="tab-pane fade" id="{{ '{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'v-pills-{}-{}-tab'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}">
                                         {% if v[0] == "FilesUpload" %}
                                             <div class="accordion" id="accordionExample">
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                                                 Hackathon Challenge #1
                                                             </button>
                                                         </h2>
@@ -221,12 +220,33 @@
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
                                                 <h3>Below are the files available for download</h3><br>
-                                                {% for file in downloadable_files %}
-                                                    <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>
-                                                {% endfor %}
+                                                <div class="accordion" id="accordionExample">
+                                                    {% for dir, files in downloadable_files.items() %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="'{}{}'.format(key, dir) }}">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(dir)}}" aria-expanded="false" aria-controls="{{'#{}'.format(dir)}}">
+                                                                    {{ dir }}
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+
+                                                        <div id="{{'{}'.format(dir)}}" class="collapse" aria-labelledby="'{}{}'.format(key, dir) }}" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                    {% for file in files %}
+                                                                        <a class="fileLinks" href="{{ '/{}/{}/{}'.format(main_directory, dir, file) }}" download>{{ file }}</a><br>
+                                                                    {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
                                         {% elif v[0] == "Rocketchat" %}
                                             <iframe id="rocketchat" src="{{ 'http://{}'.format(v[1]) }}"></iframe>
+<!--                                        {% for file in downloadable_files %}-->
+<!--                                        <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>-->
+<!--                                        {% endfor %}-->
                                         {% else  %}
 <!--                                            {{ key }}-->
                                           <iframe src="{{ 'http://{}'.format(v[1]) }}"></iframe>
