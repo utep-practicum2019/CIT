@@ -283,7 +283,7 @@ class GroupManager:
         current = get_group(group_id)
         if current is None:
             return False
-        if platform_id not in current.platforms:
+        if current.platforms is not None and platform_id not in current.platforms:
             return False
 
         current.platforms.remove(platform_id)
