@@ -88,10 +88,20 @@ class Rocketchat(Platform):
     def get_sub_platforms(self):
         return self.subplatforms
 
-    def requestHandler(self, jsonObject):
-        if jsonObject['command'] == 'chat_command':
-            print("Success")
-            return True
+        # returns platform alias
+
+    def getPlatformAlias(self):
+        return self.platform_alias
+
+        # returns platform note
+
+    def getPlatformNote(self):
+        return self.platform_note
+
+    # def requestHandler(self, jsonObject):
+    #     if jsonObject['command'] == 'chat_command':
+    #         print("Success")
+    #         return True
 
     # sets process ID
     def setProcessID(self, processID):
@@ -103,8 +113,8 @@ class Rocketchat(Platform):
 
     # set ip and port to connect to website
     def setIpPort(self, ip, port):
-        self.ip = ip
-        self.port = port
+        self.ip = str(ip)
+        self.port = str(port)
 
         # set platform name
 
@@ -137,6 +147,18 @@ class Rocketchat(Platform):
     def set_sub_platforms(self, subplatforms):
         self.subplatforms = subplatforms
 
+    #set platform alias
+    def setPlatformAlias(self, alias):
+        self.platform_alias = alias
+
+    #set platform note
+    def setPlatformNote(self, note):
+        self.platform_note = note
+
+
+    # Create a RocketChat object and login on the specified server:
+    # rocket = RocketChat(user, passw , server_url='http://www.chat.service', proxies=None)
+
     # add more methods below if you need to do more tasks
 
     # Create a RocketChat object and login on the specified server:
@@ -146,9 +168,12 @@ class Rocketchat(Platform):
 
     chat_ip_port = "http://0.0.0.0:3000"
 
-    def registerUser(self, user_email, user_name, user_pass):
+    def registerUser(self, param):
+        email = param['email']
+        username = param['username']
+        password = param['password']
         rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
-        data = rocket.users_register(user_email, user_name, user_pass, user_name).json()
+        data = rocket.users_register(email, username, password, username).json()
         status = data['success']
         uId = data['user']['_id']
         return (status, uId)
@@ -197,9 +222,9 @@ class Rocketchat(Platform):
         return status
 
     # Create a new private group, optionally including users
-    def createPrivateGroup(self, groupName):
-        rocket = RocketChat('Admin', 'chat.service', server_url='http://www.chat.service', proxies=None)
-        data = rocket.groups_create(groupName, []).json()
+    def createPrivateGroup(self, param):
+        rocket = RocketChat('Admin', 'chat.service', server_url=self.chat_ip_port, proxies=None)
+        data = rocket.groups_create("group" + str(param['group_id']), members=param['members']).json()
         status = data["success"]
         roomId = data["group"]['_id']
         return (status, roomId)
@@ -279,3 +304,4 @@ pprint(rocket.users_delete('h2uXXKrS4jnpkqa29').json())
 
 # Post a new Chat message:
 # pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
+

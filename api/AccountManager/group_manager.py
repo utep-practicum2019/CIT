@@ -1,5 +1,4 @@
 import re
-
 import requests
 
 from AccountManager.group import Group
@@ -37,15 +36,14 @@ def create_group(group_id, users, **kwargs):
 
     # create group and add members
     group = Group(group_id)
-    rchat_id = []
+    if group.members is None:
+        group.members = []
     for user in users:
         group.members.append(user["username"])
         print(user["username"])
-        user_id = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
-        rchat_id.append(user_id)
-        print("user id ", user_id)
-        if not user_id:
-            print('faaaaail')
+        created = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
+        if not created:
+            print('Unable to create user ', user['username'])
             return False
 
     # from rocketchat_API.rocketchat import RocketChat
@@ -57,14 +55,19 @@ def create_group(group_id, users, **kwargs):
     # print("group status: ", status)
 
     # put data in the correct format
+    doc = {
+        'group_id': group_id,
+        'members': group.members,
+        **kwargs
+    }
+    if 'note' not in kwargs:
+        doc['note'] = ""
+    if 'alias' not in kwargs:
+        doc['alias'] = ""
     doc_data = {
         'collection_name': 'groups',
         'document_id': group_id,
-        'document': {
-            'group_id': group_id,
-            'members': group.members,
-            **kwargs
-        }
+        'document': doc
     }
     # store in the database
     r = requests.post(database_url, json=doc_data)
@@ -167,10 +170,12 @@ def create_with_count(group_count, users_per_group):
 
 def remove_user(username, group_id):
     current = get_group(group_id)
-    if current is not None and username in current.members:
-        new = Group(group_id, members=current.members)
-        new.members.remove(username)
-        GroupManager.update_group(new.group_id, new)
+    if current is not None:
+        if username in current.members:
+            current.members.remove(username)
+        GroupManager.update_group(current.group_id, current)
+        if not current.members:
+            GroupManager.delete_group(group_id)
 
 
 class GroupManager:
@@ -188,11 +193,10 @@ class GroupManager:
     @staticmethod
     def delete_user(username):
         current = get_user(username)
-        if current is not None:
-            result = UserManager.delete_user(username)
-        if result and current.group_id is not None:
+        user_deleted = UserManager.delete_user(username)
+        if user_deleted and current is not None and current.group_id is not None:
             remove_user(username, current.group_id)
-        return result
+        return user_deleted
 
     @staticmethod
     def create_groups(group_count=0, users_per_group=0, filepath=None):
@@ -213,12 +217,18 @@ class GroupManager:
             # can't change group_id
             return False
 
+        new = current.to_dict()
+        updated_group = updated_group.to_dict()
+        for k in updated_group:
+            if updated_group[k] is not None:
+                new[k] = updated_group[k]
+
         # put data in the correct format
         group_data = {
             'collection_name': 'groups',
             'document_id': group_id,
             'document': {
-                **updated_group.to_dict()
+                **new
             }
         }
         # store group in the database
@@ -237,7 +247,7 @@ class GroupManager:
         # delete group members
         for user in current.members:
             if not UserManager.delete_user(user):
-                return False
+                print("ERROR: Could not delete " + user)
 
         # TODO: do I need to delete related platforms as well?
         # maybe at least chat needs to know
@@ -261,10 +271,10 @@ class GroupManager:
         current = get_group(group_id)
         if current is None:
             return False
+        if current.platforms is None:
+            current.platforms = []
         if platform_id in current.platforms:
             return False
-
-        # updated_group = Group(group_id, platforms=current.platforms)
         current.platforms.append(platform_id)
         return GroupManager.update_group(group_id, current)
 
@@ -273,8 +283,8 @@ class GroupManager:
         current = get_group(group_id)
         if current is None:
             return False
-        if platform_id not in current.platforms:
+        if current.platforms is not None and platform_id not in current.platforms:
             return False
-        # updated_group = Group(group_id, platforms=current.platforms)
+
         current.platforms.remove(platform_id)
         return GroupManager.update_group(group_id, current)

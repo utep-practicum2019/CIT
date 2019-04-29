@@ -1,6 +1,4 @@
-import sys
-import os 
-import abc
+import sys, os, abc
 
 """ 
         @authors:
@@ -16,6 +14,8 @@ import abc
 class Platform(abc.ABC):
     
     platform_name = ""
+    platform_alias = ""
+    platform_note = ""
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
@@ -25,7 +25,6 @@ class Platform(abc.ABC):
     platform_id = 0
     processID = 0
     subplatforms = {}
-    static = False 
     
     @abc.abstractmethod
     def getProcessID(self):
@@ -42,6 +41,14 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def getPlatformName(self):
         pass
+
+    @abc.abstractmethod
+    def getPlatformAlias(self):
+        pass
+
+    @abc.abstractmethod
+    def getPlatformNote(self):
+        pass
     
     @abc.abstractmethod
     def getPlatformInstallation(self):
@@ -54,9 +61,11 @@ class Platform(abc.ABC):
     @abc.abstractmethod
     def getPlatformID(self):
         pass
+
     @abc.abstractmethod
     def get_start_command(self):
         pass
+
     @abc.abstractmethod
     def get_stop_command(self):
         pass
@@ -79,6 +88,14 @@ class Platform(abc.ABC):
     
     @abc.abstractmethod
     def setPlatformName(self, platform_name):
+        pass
+
+    @abc.abstractmethod
+    def setPlatformAlias(self, alias):
+        pass
+
+    @abc.abstractmethod
+    def setPlatformNote(self, note):
         pass
     
     @abc.abstractmethod

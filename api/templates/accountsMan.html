@@ -1,10 +1,11 @@
 <!doctype html>
+<!--suppress JSUnfilteredForInLoop, JSDeprecatedSymbols -->
 <html lang="en">
 <head>
     <title>Account Manager</title>
     <style>
         #mainArea {
-            width: 100%
+            width: 100%;
             height: 100%
         }
 
@@ -13,42 +14,14 @@
             height: 100%
         }
     </style>
-
-
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
 </head>
 
-<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
-
-<script type="text/javascript">
-    visible = 1; //var that keeps track of which table is visible (1 or 2)
-    function change_table() {
-        var x = document.getElementById("MySelect").value;
-        t1 = document.getElementById("groupArea");
-        t2 = document.getElementById("mainArea");
-        if (visible == 1) {
-            visible = 2;
-            t1.style.display = 'none';
-            t2.style.display = 'block';
-        } else {
-            visible = 1;
-            t1.style.display = 'block';
-            t2.style.display = 'none';
-        }
-    }
-
-</script>
-
-
-<body onload="change_table()">
-
+<body>
 <div class="container-fluid">
-    <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+    <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
     <div class="row">
         <div aria-label="First group" class="btn-group mr-2" role="group">
 
@@ -65,111 +38,105 @@
         </div>
     </div>
 </div>
+
+
 <div class="container-fluid">
     <h2>Accounts:</h2>
-
     <div class="row">
-        <div aria-label="First group" class="btn-group mr-2" role="group">
+        <div aria-label="First group">
+            <label>
+                <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">
+                    Add
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">
-                Add Users
-            </button>
+                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">
+                    Import Users
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">
-                Import Users
-            </button>
+                <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
+                    <option value="user_table">User table</option>
+                    <option value="group_table">Group table</option>
+                </select>
 
-            <button class="btn btn-dark btn-sm menu" type="button">
-                Edit
-            </button>
+                <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal"
+                        id="delUsersModalBtn" type="button">
+                    Delete Users
+                </button>
 
-            <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
-                <option value="user_table">User table</option>
-                <option value="group_table">Group table</option>
-            </select>
+                <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal"
+                        id="delGroupsModalBtn" type="button">
+                    Delete Groups
+                </button>
 
-            <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal" type="button">
-                Delete Users
-            </button>
-
-            <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal" type="button">
-                Delete Groups
-            </button>
-
-            <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"
-                    id="platModalBtn" type="button">
-                Attach Platform
-            </button>
-
+                <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"
+                        id="platModalBtn" type="button">
+                    Attach Platform
+                </button>
+            </label>
         </div>
+
     </div>
 
-    <div class="table-responsive" id="mainArea">
-        <table class="table table-hover" id="usersTab">
-            <thead>
-            <tr>
-                <!--                <th>Select:</th>-->
-                <!--                <th onclick="sortTable(0)">Username:</th>-->
-                <!--                <th>Password:</th>-->
-                <!--                <th onclick="sortTable(2)">Group:</th>-->
-                <!--                <th>Platform</th>-->
-                <th>Select</th>
-                <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
-                <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
-                <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
-                <th>Platform</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-            <tr>
-                <td><input aria-label="Checkbox for following text input" id="user_name"
-                           type="checkbox" value="{{ user['username'] }}"></td>
-                <td>{{ user['username'] }}</td>
-                <td>{{ user['password'] }}</td>
-                <td>{{ user['group_id'] }}</td>
-                <td>H</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
 </div>
 
-<div class="container-fluid" id="groupArea">
-    <table class="table table-hover" id="groupsTab">
+<!-- Users Table -->
+<div class="table-responsive" id="mainArea">
+    <table class="table table-hover" id="usersTab">
         <thead>
-        <!--        <tr>-->
-        <!--            <th>Select:</th>-->
-        <!--            <th onclick="sortTable(0)">Group id:</th>-->
-        <!--            <th onclick="sortTable(1)">Members</th>-->
-        <!--            <th>Platform</th>-->
-        <!--        </tr>-->
         <tr>
-            <th>Select</th>
-            <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
-            <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
-            <th>Platform</th>
+            <th><a href="javascript:users_check_uncheck_all()"> Select</a></th>
+            <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
+            <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
+            <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
+            <th>
+                <div><a href="javascript:SortTable(4,'T', 'usersTab');">Aliases</a>
+                    <button id="saveUserAliasBtn">Save</button>
+                    <button id="clearUserAliasBtn">Clear</button>
+
+                </div>
+            </th>
+            <th>
+                <div><a href="javascript:SortTable(5,'T', 'usersTab');">Notes</a>
+                    <button id="saveUserNotesBtn"> Save</button>
+                    <button id="clearUserNotesBtn">Clear</button>
+
+                </div>
+            </th>
+            <th>Platforms</th>
         </tr>
         </thead>
         <tbody>
-        {% for group in groups %}
-        <tr>
-            <td><input aria-label="Checkbox for following text input" onclick="selectGroups()" type="checkbox"
-                       value="{{ group['group_id'] }}"></td>
-            <td>{{ group['group_id'] }}</td>
-            <td>{{ group['members'] }}</td>
-            <td>{{ group['platforms'] }}</td>
-        </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
-
-<script>
-
-</script>
+<!-- Groups Table -->
+<div class="container-fluid" id="groupArea">
+    <table class="table table-hover" id="groupsTab">
+        <thead>
+        <tr>
+            <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
+            <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
+            <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
+            <th>
+                <div><a href="javascript:SortTable(3,'T', 'groupsTab');">Alias</a>
+                    <button id="saveGroupAliasBtn">Save</button>
+                    <button id="clearGroupAliasBtn">Clear</button>
+                </div>
+            </th>
+            <th>
+                <div><a href="javascript:SortTable(4,'T', 'groupsTab');">Notes</a>
+                    <button id="saveGroupNotesBtn"> Save</button>
+                    <button id="clearGroupNotesBtn">Clear</button>
+                </div>
+            </th>
+            <th>Platforms</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
 <!-- Attach Platforms Modal -->
 <div aria-hidden="true" class="modal fade" id="attachPlatformModal" role="dialog" tabindex="-1">
@@ -177,17 +144,6 @@
         <div class="modal-content">
             <form id="attachPlatformForm">
                 <div class="modal-body">
-
-                    <!--                    <div class="input-group mb-3">-->
-                    <!--                        <div class="input-group-prepend">-->
-                    <!--                            <span class="input-group-text">Platform ID:</span>-->
-                    <!--                        </div>-->
-                    <!--                        <label>-->
-                    <!--                            <input aria-describedby="basic-addon1" class="form-control" id="attachPlatInput" name="group_num"-->
-                    <!--                                   type="text">-->
-                    <!--                        </label>-->
-                    <!--                    </div>-->
-
                     <div>
                         <div style="text-align: center"><b> Main Platforms </b></div>
                         <label id="mainPlatRadio">
@@ -195,8 +151,6 @@
                             <input name="mainPlat" type="checkbox" value="Rocketchat"> Female<br>
                         </label>
                     </div>
-
-
                 </div>
             </form>
             <div class="modal-footer">
@@ -206,108 +160,6 @@
         </div>
     </div>
 </div>
-
-
-<script>
-
-    $(document).ready(function () {
-        $('#attachPlatBtn').click(function () {
-            let main_plats = [];
-            $.each($("input[name='mainPlat']:checked"), function () {
-                main_plats.push($(this).val());
-            });
-            let list_of_groups = selectGroups();
-            if (list_of_groups.length === 0) {
-                alert("Please select at least one group for attachment.");
-            } else if (main_plats.length === 0) {
-                alert("Must select at least one platform!")
-            } else {
-                for (let i in list_of_groups) {
-                    $.ajax({
-                        type: "PUT",
-                        url: "http://0.0.0.0:5001/api/v2/resources/group",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "command": "attach",
-                            "group_id": list_of_groups[i],
-                            "platform_ids": main_plats
-                        }),
-                        success: function (response) {
-                            console.log(JSON.stringify(response));
-                        },
-                    });
-                }
-            }
-        });
-    });
-
-
-    $(document).ready(function () {
-        $('#platModalBtn').click(function () {
-            // noinspection JSUnusedGlobalSymbols
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:5001/api/v2/resources/platform",
-                contentType: "application/json",
-                dataType: "json",
-                data: {
-                    'all': 'True'
-                },
-                success: function (response) {
-                    //Print results
-                    console.log("Accessed Database at " + new Date().toUTCString());
-                    let array = response;
-                    let mainPlats = '';
-                    for (let i in array) {
-                        let id = array[i]["main"]["id"];
-                        let name = array[i]["main"]["name"];
-                        mainPlats += '<input name="mainPlat" type="checkbox" value="' + id + '">' + name + ' ' + id + '<br>';
-                    }
-                    $('#mainPlatRadio').replaceWith(mainPlats);
-                }
-            });
-        });
-    });
-
-
-    $(document).ready(function () {
-        $('#btnDelUsr').click(function () {
-            let list_of_users = selectUsers();
-            if (list_of_users.length === 0) {
-                alert("Please select at least one user for deletion.");
-            } else {
-                $.ajax({
-                    type: "DELETE",
-                    url: "http://localhost:5001/api/v2/resources/user",
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "list_of_users": list_of_users
-                    }),
-                    success: function (response) {
-                        // console.log(response["success"] + " status: " + status);
-                        $("#groupsTab").load(location.href + " #groupsTab>*", "");
-                        $("#usersTab").load(location.href + " #usersTab>*", "");
-                        //location.reload();
-                    },
-                });
-            }
-        });
-    });
-
-    function selectUsers() {
-        let list = [];
-        $('#usersTab input[type=checkbox]').each(function () {
-            if (this.checked) {
-                console.log($(this).val());
-
-                list.push($(this).val())
-            }
-        });
-        return list;
-    }
-</script>
 
 <!-- Delete Users Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="deleteUsersModal" role="dialog"
@@ -334,45 +186,6 @@
     </div>
 </div>
 
-
-<script>
-    $(document).ready(function () {
-        $('#groupDelBtn').click(function () {
-            let list_of_groups = selectGroups();
-            if (list_of_groups.length === 0) {
-                alert("Please select at least one user for deletion.");
-            } else {
-                $.ajax({
-                    type: "DELETE",
-                    url: "http://localhost:5001/api/v2/resources/group",
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "list_of_groups": list_of_groups
-                    }),
-                    success: function (response) {
-                        // console.log(response["success"] + " status: " + status);
-                        $("#groupsTab").load(location.href + " #groupsTab>*", "");
-                        $("#usersTab").load(location.href + " #usersTab>*", "");
-                        //location.reload();
-                    },
-                });
-            }
-        });
-    });
-
-    function selectGroups() {
-        let list = [];
-        $('#groupsTab input[type=checkbox]').each(function () {
-            if (this.checked) {
-                console.log($(this).val());
-                list.push($(this).val())
-            }
-        });
-        return list;
-    }
-</script>
-
 <!-- Delete Groups Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="deleteGroupModal" role="dialog"
      tabindex="-1">
@@ -380,7 +193,7 @@
         <div class="modal-content">
             <form method='POST'>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <h5 class="modal-title">Are you sure?</h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -397,14 +210,13 @@
     </div>
 </div>
 
-
 <!-- Import Modal -->
 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="importModal" role="dialog"
      tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Users</h5>
+                <h5 class="modal-title">Import Users</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -424,8 +236,630 @@
     </div>
 </div>
 
+<!-- Add Users Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="addModal"
+     role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Users</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-body">
+                    <form id="addUsersForm">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Number of groups:</span>
+                            </div>
+                            <label for="group_count">
+                                <input aria-describedby="basic-addon1" class="form-control" id="group_count"
+                                       name="group_num"
+                                       onkeypress="return isNumberKey(event)" type="text">
+                            </label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Users per group:</span>
+                            </div>
+                            <label for="users_per_group">
+                                <input aria-describedby="basic-addon1" class="form-control" id="users_per_group"
+                                       name="users_group"
+                                       onkeypress="return isNumberKey(event)" type="text">
+                            </label>
+                            <input id="group_id" name="group_id" type="hidden" value="1000">
+                        </div>
+                    </form>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" data-dismiss="modal" id="btnAddUsers">Add Users</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="/static/js/tablesorter.js" type="text/javascript"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <script>
+    let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
+    let users_check = true;
+    let group_check = true;
+    //shows groups on GUI's table
+    (function load_groups() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString());
+                let groups = response;
+                let group_table_html = '<tbody>';
+                for (let i in groups) {
+                    let members = groups[i]["members"];
+                    let group_id = groups[i]["group_id"];
+                    let platforms = groups[i]["platforms"];
+                    let note = groups[i]["note"];
+                    let alias = groups[i]["alias"];
+                    group_table_html += '<tr>';
+                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += `<td>${group_id}</td>`;
+                    group_table_html += `<td>${members}</td>`;
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html += `<td>${platforms}</td>`;
+                    group_table_html += '</tr>';
+                }
+                group_table_html += '</tbody>';
+                $('#groupsTab tbody').replaceWith(group_table_html);
+                SortTable(1, 'T', 'groupsTab', true)
+            },
+            complete: function () {
+                load_users();
+                hide_group_options();
+                SortTable(1, 'T', 'usersTab');
+                SortTable(1, 'N', 'groupsTab', true);
+            }
+        });
+    })();
+
+    // Refresh the group table on GUI
+    function reload_groups() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Groups");
+                let groups = response;
+                let group_table_html = '<tbody>';
+                for (let i in groups) {
+                    let members = groups[i]["members"];
+                    let group_id = groups[i]["group_id"];
+                    let platforms = groups[i]["platforms"];
+                    let note = groups[i]["note"];
+                    let alias = groups[i]["alias"];
+                    group_table_html += '<tr>';
+                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += `<td>${group_id}</td>`;
+                    group_table_html += `<td>${members}</td>`;
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html +=
+                        '<td>' +
+                        ' <form>' +
+                        '<label>' +
+                        '<input type="text" name="groupNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    group_table_html += `<td>${platforms}</td>`;
+                    group_table_html += '</tr>';
+                }
+                group_table_html += '</tbody>';
+                $('#groupsTab tbody').replaceWith(group_table_html);
+            },
+            complete: function () {
+                load_users()
+            }
+        });
+    }
+
+    //Reload the group notes on GUI
+    function reload_group_notes() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Groups");
+                let groups = response;
+                for (let i in groups) {
+                    let note = groups[i]["note"];
+                    $('#groupsTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
+                    });
+                }
+            }
+        });
+    }
+
+    // Reload the user notes on GUI
+    function reload_user_notes() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let note = users[i]["note"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
+                    });
+                }
+            }
+        });
+    }
+
+    // Reload the user aliases on GUI
+    function reload_user_aliases() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let alias = users[i]["alias"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
+                    });
+                }
+            }
+        });
+    }
+
+    // Reload the group aliases on GUI
+    function reload_group_aliases() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Groups");
+                let groups = response;
+                for (let i in groups) {
+                    let alias = groups[i]["alias"];
+                    $('#groupsTab > tbody').each(function () {
+                        $(this).find('tr:eq('+i+')').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
+                    });
+                }
+            }
+        });
+    }
+
+    // Shows users on GUI's table
+    function load_users() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString());
+                let users = response;
+                let user_table_html = '<tbody>';
+                for (let i in users) {
+                    let username = users[i]["username"];
+                    let group_id = users[i]["group_id"];
+                    let password = users[i]["password"];
+                    let alias = users[i]["alias"];
+                    let note = users[i]["note"];
+                    user_table_html += '<tr>';
+                    user_table_html += '<td><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
+                    user_table_html += `<td>${username}</td>`;
+                    user_table_html += `<td>${password}</td>`;
+                    user_table_html += `<td>${group_id}</td>`;
+                    user_table_html +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="userAliasBox" value="' + alias + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    user_table_html +=
+                        '<td>' +
+                        '<form>' +
+                        '<label>' +
+                        '<input type="text" name="userNoteBox" value="' + note + '">' +
+                        '</label>' +
+                        '</form>' +
+                        '</td>';
+                    user_table_html += '</tr>';
+                }
+                user_table_html += '</tbody>';
+                $('#usersTab tbody').replaceWith(user_table_html);
+            },
+            complete: function () {
+                load_plats_for_users();
+            }
+        });
+    }
+
+    function load_plats_for_users() {
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString());
+                let groups = response;
+                for (let i in groups) {
+                    let group_id = groups[i]["group_id"];
+                    let platforms = groups[i]["platforms"];
+                    $("#usersTab tbody tr").each(function () {
+                        let data = $(this).find('td:eq(3)').text();
+                        if (parseInt(data) === group_id) {
+                            let platform_html = `<td>${platforms}</td>`;
+                            $(this).append(platform_html);
+                        }
+                    });
+                }
+            },
+        });
+    }
+
+    //Change between users table and group table
+    function change_table() {
+        let groupsTable = document.getElementById("groupArea");
+        let usersTable = document.getElementById("mainArea");
+        let delGroupsButton = document.getElementById("delGroupsModalBtn");
+        let delUsersButton = document.getElementById("delUsersModalBtn");
+        let addPlatsButton = document.getElementById("platModalBtn");
+        if (groupsVisible === 1) {
+            groupsVisible = 0;
+            usersTable.style.display = 'inline-block';
+            delUsersButton.style.display = 'inline-block';
+            groupsTable.style.display = 'none';
+            delGroupsButton.style.display = 'none';
+            addPlatsButton.style.display = 'none';
+        } else {
+            groupsVisible = 1;
+            usersTable.style.display = 'none';
+            delUsersButton.style.display = 'none';
+            groupsTable.style.display = 'inline-block';
+            delGroupsButton.style.display = 'inline-block';
+            addPlatsButton.style.display = 'inline-block';
+        }
+    }
+
+    //Hide group buttons
+    function hide_group_options() {
+        let groupsTable = document.getElementById("groupArea");
+        let delGroupsButton = document.getElementById("delGroupsModalBtn");
+        let addPlatsButton = document.getElementById("platModalBtn");
+        groupsTable.style.display = 'none';
+        delGroupsButton.style.display = 'none';
+        addPlatsButton.style.display = 'none';
+    }
+
+    // Add groups
+    function addToGroup(groups, index, to_add) {
+        if (index < groups.length) {
+            let group_id = groups[index]["group_id"];
+            let group_object = {
+                "group_id": group_id,
+            };
+            switch (to_add) {
+                case "Note":
+                    group_object["note"] = groups[index]["note"];
+                    break;
+                case "Alias":
+                    group_object["alias"] = groups[index]["alias"];
+                    break;
+            }
+            $.ajax({
+                type: "PUT",
+                url: "http://0.0.0.0:5001/api/v2/resources/group",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    "group_id": group_id,
+                    "updated_group": group_object
+                }),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                },
+                complete: function () {
+                    addToGroup(groups, index + 1, to_add);
+                }
+            });
+        } else {
+            switch (to_add) {
+                case "Note":
+                    reload_group_notes();
+                    break;
+                case "Alias":
+                    reload_group_aliases();
+                    break;
+            }
+        }
+    }
+
+    // Add users
+    function addToUser(users, index, to_add) {
+        if (index < users.length) {
+            let username = users[index]["username"];
+            let user_object = {
+                "username": username,
+            };
+            switch (to_add) {
+                case "Note":
+                    user_object["note"] = users[index]["note"];
+                    break;
+                case "Alias":
+                    user_object["alias"] = users[index]["alias"];
+                    break;
+            }
+            $.ajax({
+                type: "PUT",
+                url: "http://0.0.0.0:5001/api/v2/resources/user",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    "username": username,
+                    "updated_user": user_object
+                }),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                },
+                complete: function () {
+                    addToUser(users, index + 1, to_add);
+                }
+            });
+        } else {
+            switch (to_add) {
+                case "Note":
+                    reload_user_notes();
+                    break;
+                case "Alias":
+                    reload_user_aliases();
+                    break;
+            }
+        }
+    }
+
+    // Select users ID
+    function selectUserIDs() {
+        let list = [];
+        $('#usersTab input[type=checkbox]').each(function () {
+            if (this.checked) {
+                console.log($(this).val());
+
+                list.push($(this).val())
+            }
+        });
+        return list;
+    }
+
+    // Select groups ID
+    function selectGroupIDs() {
+        let list = [];
+        $('#groupsTab input[type=checkbox]').each(function () {
+            if (this.checked) {
+                console.log($(this).val());
+                list.push($(this).val())
+            }
+        });
+        return list;
+    }
+
+    // Create a list of group objects from the table
+    function selectGroupObjectsNoCheck() {
+        let groups = [];
+        $('#groupsTab > tbody > tr').each(function () {
+            groups.push({
+                'members': $(this).find('td:eq(2)').text(),
+                'group_id': $(this).find('td:eq(1)').text(),
+                'alias': $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val(),
+                'note': $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val(),
+                'platforms': $(this).find('td:eq(5)').text()
+            });
+        });
+        return groups;
+    }
+
+    // Create a list of users objects from the table
+    function selectUserObjectsNoCheck() {
+        let users = [];
+        $('#usersTab > tbody > tr').each(function () {
+            users.push({
+                'username': $(this).find('td:eq(1)').text(),
+                'password': $(this).find('td:eq(2)').text(),
+                'group': $(this).find('td:eq(3)').text(),
+                'alias': $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val(),
+                'note': $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val(),
+                'platforms': $(this).find('td:eq(6)').text()
+            });
+        });
+        return users;
+    }
+
+    // Check and uncheck all the selection boxes on user table
+    function users_check_uncheck_all() {
+        let checkboxes = document.getElementsByName("users_checkbox_platform");
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = users_check;
+        }
+        users_check = !users_check;
+    }
+
+    // Check and uncheck all the selection boxes on group table
+    function group_check_uncheck_all() {
+        let checkboxes = document.getElementsByName("groups_checkbox_platform");
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = group_check;
+        }
+        group_check = !group_check;
+    }
+
+    // Allows only numbers on text box
+    function isNumberKey(evt) {
+        const charCode = (evt.which) ? evt.which : evt.keyCode;
+        return !(charCode > 31 && (charCode < 48 || charCode > 57));
+    }
+
+    // Save Group Notes
+    $(document).ready(function () {
+        $('#saveGroupNotesBtn').click(function () {
+            let groups = selectGroupObjectsNoCheck();
+            if (groups.length < 1) {
+                alert("At least one group must exist!");
+            } else {
+                addToGroup(groups, 0, "Note");
+                alert("Group Notes saved.");
+                //console.log(JSON.stringify(groups));
+            }
+        });
+    });
+
+    // Save User Notes
+    $(document).ready(function () {
+        $('#saveUserNotesBtn').click(function () {
+            let users = selectUserObjectsNoCheck();
+            if (users.length < 1) {
+                alert("At least one user must exist!");
+            } else {
+                addToUser(users, 0, "Note");
+                alert("User Notes saved.");
+            }
+        });
+    });
+
+
+    // Save Group Aliases
+    $(document).ready(function () {
+        $('#saveGroupAliasBtn').click(function () {
+            let groups = selectGroupObjectsNoCheck();
+            if (groups.length < 1) {
+                alert("At least one group must exist!");
+            } else {
+                addToGroup(groups, 0, "Alias");
+                alert("Group Aliases saved.");
+            }
+        });
+    });
+
+    // Save User Aliases
+    $(document).ready(function () {
+        $('#saveUserAliasBtn').click(function () {
+            let users = selectUserObjectsNoCheck();
+            if (users.length < 1) {
+                alert("At least one user must exist!");
+            } else {
+                addToUser(users, 0, "Alias");
+                alert("User Aliases saved.");
+            }
+        });
+    });
+
+    // Clear Group Notes
+    $(document).ready(function () {
+        $('#clearGroupNotesBtn').click(function () {
+            $('#groupsTab > tbody > tr').each(function () {
+                $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
+            });
+        });
+    });
+
+    // Clear User Notes
+    $(document).ready(function () {
+        $('#clearUserNotesBtn').click(function () {
+            $('#usersTab > tbody > tr').each(function () {
+                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+            });
+        });
+    });
+
+    // Clear Group Aliases
+    $(document).ready(function () {
+        $('#clearGroupAliasBtn').click(function () {
+            $('#groupsTab > tbody > tr').each(function () {
+                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            });
+        });
+    });
+
+    // Clear Group Aliases
+    $(document).ready(function () {
+        $('#clearUserAliasBtn').click(function () {
+            $('#usersTab > tbody > tr').each(function () {
+                $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
+            });
+        });
+    });
+
+    // Add Groups & Users
     $(document).ready(function () {
         $('#btnAddUsers').click(function () {
             let gcount = $("#group_count").val();
@@ -437,258 +871,153 @@
             } else if (upgroup === '' && gcount !== '') {
                 alert('Users Per Group field is required')
             } else {
-                $.post("http://localhost:5001/api/v2/resources/group", //Required URL of the page on server
-                    JSON.stringify({
+                // $.post("http://localhost:5001/api/v2/resources/group", //Required URL of the page on server
+                //     JSON.stringify({
+                //         "group_count": gcount,
+                //         "users_per_group": upgroup
+                //     }),
+                //     function () { // Required Callback Function
+                //         // $("#groupsTab").load(location.href + " #groupsTab>*", "");
+                //         // $("#usersTab").load(location.href + " #usersTab>*", "");
+                //     });
+                $.ajax({
+                    type: "POST",
+                    url: "http://0.0.0.0:5001/api/v2/resources/group",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
                         "group_count": gcount,
                         "users_per_group": upgroup
                     }),
-                    function () { // Required Callback Function
-                        $("#groupsTab").load(location.href + " #groupsTab>*", "");
-                        $("#usersTab").load(location.href + " #usersTab>*", "");
-                    });
+                    success: function (response) {
+                        console.log(JSON.stringify(response));
+                    },
+                    complete: function () {
+                        reload_groups();
+                    }
+                });
             }
         });
     });
-</script>
 
-
-<!-- Add Users Modal -->
-<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="addModal" name="addModal"
-     role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Users</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <div class="modal-body">
-
-                    <form id="addUsersForm">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Number of groups:</span>
-                            </div>
-                            <input aria-describedby="basic-addon1" class="form-control" id="group_count"
-                                   name="group_num"
-                                   type="text">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Users per group:</span>
-                            </div>
-                            <input aria-describedby="basic-addon1" class="form-control" id="users_per_group"
-                                   name="users_group"
-                                   type="text">
-                            <input id="group_id" name="group_id" type="hidden" value="1000">
-                        </div>
-                    </form>
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" data-dismiss="modal" id="btnAddUsers">Add Users</button>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script type="text/javascript">
-    /*
-       Willmaster Table Sort
-       Version 1.1
-       August 17, 2016
-       Updated GetDateSortingKey() to correctly sort two-digit months and days numbers with leading 0.
-       Version 1.0, July 3, 2011
-
-       Will Bontrager
-       https://www.willmaster.com/
-       Copyright 2011,2016 Will Bontrager Software, LLC
-
-       This software is provided "AS IS," without
-       any warranty of any kind, without even any
-       implied warranty such as merchantability
-       or fitness for a particular purpose.
-       Will Bontrager Software, LLC grants
-       you a royalty free license to use or
-       modify this software provided this
-       notice appears on all copies.
-    */
-    //
-    // One placed to customize - The id value of the table tag.
-
-    let TableIDvalue = '';
-
-    //
-    //////////////////////////////////////
-    let TableLastSortedColumn = -1;
-
-    function SortTable() {
-        var sortColumn = parseInt(arguments[0]);
-        var type = arguments.length > 1 ? arguments[1] : 'T';
-        var dateformat = '';
-        if (type === 'D') {
-            dateformat = arguments.length > 2 ? arguments[2] : '';
-            TableIDvalue = arguments[3];
-        } else {
-            TableIDvalue = arguments[2];
-        }
-        // var dateformat = arguments.length > 2 ? arguments[2] : '';
-        var table = document.getElementById(TableIDvalue);
-        var tbody = table.getElementsByTagName("tbody")[0];
-        var rows = tbody.getElementsByTagName("tr");
-        var arrayOfRows = [];
-        type = type.toUpperCase();
-        dateformat = dateformat.toLowerCase();
-        for (var i = 0, len = rows.length; i < len; i++) {
-            arrayOfRows[i] = {};
-            arrayOfRows[i].oldIndex = i;
-            var celltext = rows[i].getElementsByTagName("td")[sortColumn].innerHTML.replace(/<[^>]*>/g, "");
-            if (type === 'D') {
-                arrayOfRows[i].value = GetDateSortingKey(dateformat, celltext);
+    // Attach Platforms To Groups
+    $(document).ready(function () {
+        $('#attachPlatBtn').click(function () {
+            let main_plats = [];
+            $.each($("input[name='mainPlat']:checked"), function () {
+                main_plats.push($(this).val());
+            });
+            let list_of_groups = selectGroupIDs();
+            if (list_of_groups.length === 0) {
+                alert("Please select at least one group for attachment.");
+            } else if (main_plats.length === 0) {
+                alert("Must select at least one platform!")
             } else {
-                var re = type === "N" ? /[^.\-+\d]/g : /[^a-zA-Z0-9]/g;
-                arrayOfRows[i].value = celltext.replace(re, "").substr(0, 25).toLowerCase();
+                for (let i in list_of_groups) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://0.0.0.0:5001/api/v2/resources/group",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "command": "attach",
+                            "group_id": list_of_groups[i],
+                            "platform_ids": main_plats
+                        }),
+                        success: function (response) {
+                            console.log(JSON.stringify(response));
+                        },
+                        complete: function () {
+                            reload_groups();
+                        }
+                    });
+                }
             }
-        }
-        if (sortColumn === TableLastSortedColumn) {
-            arrayOfRows.reverse();
-        } else {
-            TableLastSortedColumn = sortColumn;
-            switch (type) {
-                case "N" :
-                    arrayOfRows.sort(CompareRowOfNumbers);
-                    break;
-                case "D" :
-                    arrayOfRows.sort(CompareRowOfNumbers);
-                    break;
-                default  :
-                    arrayOfRows.sort(CompareRowOfText);
-            }
-        }
-        var newTableBody = document.createElement("tbody");
-        for (var i = 0, len = arrayOfRows.length; i < len; i++) {
-            newTableBody.appendChild(rows[arrayOfRows[i].oldIndex].cloneNode(true));
-        }
-        table.replaceChild(newTableBody, tbody);
-    } // function SortTable()
+        });
+    });
 
-    /**
-     * @return {number}
-     */
-    function CompareRowOfText(a, b) {
-        var aval = a.value;
-        var bval = b.value;
-        return (aval == bval ? 0 : (aval > bval ? 1 : -1));
-    } // function CompareRowOfText()
+    // Populate Platform Attachment Window Modal
+    $(document).ready(function () {
+        $('#platModalBtn').click(function () {
+            // noinspection JSUnusedGlobalSymbols
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:5001/api/v2/resources/platform",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    'all': 'True'
+                },
+                success: function (response) {
+                    //Print results
+                    console.log("Accessed Database at " + new Date().toUTCString());
+                    let array = response;
+                    let mainPlats = '';
+                    for (let i in array) {
+                        let id = array[i]["main"]["id"];
+                        let name = array[i]["main"]["name"];
+                        let alias = array[i]["main"]["alias"];
+                        // mainPlats += '<input name="mainPlat" type="checkbox" value="' + id + '">' + name + ' ' + id + '<br>';
+                        mainPlats += `<input name="mainPlat" type="checkbox" value="${id}"> ${alias} ID:${id} Type:${name}  <br>`;
 
-    /**
-     * @return {number}
-     */
-    function CompareRowOfNumbers(a, b) {
-        var aval = /\d/.test(a.value) ? parseFloat(a.value) : 0;
-        var bval = /\d/.test(b.value) ? parseFloat(b.value) : 0;
-        return (aval == bval ? 0 : (aval > bval ? 1 : -1));
-    } // function CompareRowOfNumbers()
 
-    /**
-     * @return {string}
-     */
-    function GetDateSortingKey(format, text) {
-        if (format.length < 1) {
-            return "";
-        }
-        format = format.toLowerCase();
-        text = text.toLowerCase();
-        text = text.replace(/^[^a-z0-9]*/, "");
-        text = text.replace(/[^a-z0-9]*$/, "");
-        if (text.length < 1) {
-            return "";
-        }
-        text = text.replace(/[^a-z0-9]+/g, ",");
-        var date = text.split(",");
-        if (date.length < 3) {
-            return "";
-        }
-        var d = 0, m = 0, y = 0;
-        for (var i = 0; i < 3; i++) {
-            var ts = format.substr(i, 1);
-            if (ts === "d") {
-                d = date[i];
-            } else if (ts === "m") {
-                m = date[i];
-            } else if (ts === "y") {
-                y = date[i];
+                    }
+                    $('#mainPlatRadio').replaceWith(mainPlats);
+                }
+            });
+        });
+    });
+
+    // Delete User
+    $(document).ready(function () {
+        $('#btnDelUsr').click(function () {
+            let list_of_users = selectUserIDs();
+            if (list_of_users.length === 0) {
+                alert("Please select at least one user for deletion.");
+            } else {
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://localhost:5001/api/v2/resources/user",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "list_of_users": list_of_users
+                    }),
+                    success: function () {
+                        reload_groups();
+                    },
+                });
             }
-        }
-        d = d.replace(/^0/, "");
-        if (d < 10) {
-            d = "0" + d;
-        }
-        if (/[a-z]/.test(m)) {
-            m = m.substr(0, 3);
-            switch (m) {
-                case "jan" :
-                    m = String(1);
-                    break;
-                case "feb" :
-                    m = String(2);
-                    break;
-                case "mar" :
-                    m = String(3);
-                    break;
-                case "apr" :
-                    m = String(4);
-                    break;
-                case "may" :
-                    m = String(5);
-                    break;
-                case "jun" :
-                    m = String(6);
-                    break;
-                case "jul" :
-                    m = String(7);
-                    break;
-                case "aug" :
-                    m = String(8);
-                    break;
-                case "sep" :
-                    m = String(9);
-                    break;
-                case "oct" :
-                    m = String(10);
-                    break;
-                case "nov" :
-                    m = String(11);
-                    break;
-                case "dec" :
-                    m = String(12);
-                    break;
-                default    :
-                    m = String(0);
+        });
+    });
+
+    // Delete Group
+    $(document).ready(function () {
+        $('#groupDelBtn').click(function () {
+            let list_of_groups = selectGroupIDs();
+            if (list_of_groups.length === 0) {
+                alert("Please select at least one user for deletion.");
+            } else {
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://localhost:5001/api/v2/resources/group",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "list_of_groups": list_of_groups
+                    }),
+                    complete: function () {
+                        reload_groups();
+                    }
+                });
             }
-        }
-        m = m.replace(/^0/, "");
-        if (m < 10) {
-            m = "0" + m;
-        }
-        y = parseInt(y);
-        if (y < 100) {
-            y = parseInt(y) + 2000;
-        }
-        return "" + String(y) + "" + String(m) + "" + String(d) + "";
-    } // function GetDateSortingKey()
+        });
+    });
+
+
 </script>
 
-<script crossorigin="anonymous"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>
+

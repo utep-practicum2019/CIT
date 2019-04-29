@@ -1,9 +1,12 @@
 # Group Related Requests #
+import re
 from flask import request
 from flask_restful import Resource
 
 from Schemas.Group_Schema import *
 from Schemas.User_Schema import *
+from Database.database_handler import DatabaseHandler
+from Resources.PlatformManagerInstance import PlatformManagerInstance
 
 
 class GroupAPI(Resource):
@@ -15,18 +18,42 @@ class GroupAPI(Resource):
     # }
     @staticmethod
     def get():
-        json_data = request.get_json(force=True)
-        if not json_data:
-            return {'message': 'No input data provided'}, 400
+        json_data = request.args.to_dict()
+        # if not json_data:
+        #     return {'message': 'No input data provided'}, 400
         data, errors = group_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-
         from Database.database_handler import DatabaseHandler
-        results = DatabaseHandler.find('groups', data["group_id"])
-        if results is None or not results:
-            return {"success": False}, 404
-        return group_schema.dump(Group(**results))
+        if "group_id" in data:
+            results = DatabaseHandler.find('groups', data["group_id"])
+            if results is None or not results:
+                return {"success": False}, 404
+            return group_schema.dump(Group(**results))
+        else:
+            results = DatabaseHandler.find_all('groups')
+            formatted_results = []
+            for result in results:
+                if 'platforms' not in result:
+                    result['platforms'] = []
+                if 'note' not in result:
+                    result['note'] = ""
+                if 'alias' not in result:
+                    result['alias'] = ""
+                formatted_platforms = []
+                for platform in result['platforms']:
+                    from Database.database_handler import DatabaseHandler
+                    platform_object = DatabaseHandler.find("platforms", platform)
+                    if platform_object:
+                        alias = platform_object["main"]["alias"]
+                        name = platform_object["main"]["name"]
+                        formatted_platform = alias + " ID: " + str(platform) + " Type: " + name
+                        formatted_platforms.append(formatted_platform)
+                r = group_schema.dump(Group(**result))
+                r[0]['platforms'] = formatted_platforms
+                formatted_results.append(r[0])
+
+            return formatted_results
 
     # To do a post request
     # Type 1
@@ -73,33 +100,47 @@ class GroupAPI(Resource):
             return errors, 422
         from AccountManager.account_manager import AccountManager
 
-        import time
-
         results = False
         if "command" in data and "platform_ids" in data:
             if data["command"] == "attach":
                 for plat in data["platform_ids"]:
                     results = AccountManager.attach_platform(data["group_id"], plat)
+                    if not results:
+                        print("Failed to attach {} to group {}".format(plat, data["group_id"]))
+                        continue
 
-                # from Database.database import Database
-                # group = Database.find("groups", data["group_id"])
-                # from .PlatformManagerInstance import PlatformManagerInstance
-                # platform_interface = PlatformManagerInstance.get_instance().platform_interface
-                # g_name = "Group " + str(data["group_id"])
-                # group_data = platform_interface.rocketChatCreatePrivateGroup(data["platform_id"],
-                #                                                              "Whatever",
-                #                                                              g_name)
-                # for user in group["members"]:
-                #     email = user["username"] + "@cit.com"
-                #     username = user["username"]
-                #     password = user["password"]
-                #     nickname = user["username"]
-                #     u_info = platform_interface.rocketChatRegisterUser(data["platform_id"],
-                #                                                        "Whatever",
-                #                                                        email, username,
-                #                                                        password,
-                #                                                        nickname)
-                #     platform_interface.addUserGroup(data["platform_id"], group_data["Room_ID"], u_info["User_ID"])
+                    plat_info = DatabaseHandler.find('platforms', plat)
+                    for current in plat_info['subplatforms']:
+                        if 'Rocketchat' == current['name']:
+                            platform_man = PlatformManagerInstance.get_instance()
+                            # running = platform_man.getPlatformStatus(plat_info['main']['id'], current['id'])
+                            running = True
+                            if not running:
+                                platform_man.platform_interface.startPlatform(plat_info['main']['id'], current['id'])
+
+                            group_info = DatabaseHandler.find('groups', data["group_id"])
+                            command = {
+                                'command': 'registerUser',
+                                'param': {}
+                            }
+                            for user in group_info['members']:
+                                command['param']['username'] = user
+                                command['param']['email'] = user + "@citsystem.com"
+                                user_info = DatabaseHandler.find('users', user)
+                                command['param']['password'] = user_info['password']
+                                success, user_id = platform_man.platform_interface.requestHandler(plat_info['main']['id'], current['id'], command)
+                                if not success:
+                                    print("ERROR: Unable to register user: ", user)
+
+                            command['command'] = 'createPrivateGroup'
+                            command['param']['members'] = group_info['members']
+                            command['param']['group_id'] = group_info['group_id']
+                            success, room_id = platform_man.platform_interface.requestHandler(plat_info['main']['id'],
+                                                                                              current['id'], command)
+
+                            if not running:
+                                platform_man.platform_interface.stopPlatform(plat_info['main']['id'], current['id'])
+                            break
 
                 return True
 

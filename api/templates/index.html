@@ -6,7 +6,6 @@
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-        <script src="{{ url_for('static', filename='Timer.js')}}"></script>
     </head>
 
     <body>
@@ -43,9 +42,9 @@
                     <a class="nav-link" data-toggle="pill" href="{{'#{}'.format(platform.replace(' ', ''))}}" role="tab" aria-controls="{{ 'pills-{}'.format(platform.replace(' ', '')) }}" aria-selected="true">{{ platform }}</a>
                 </li>
                 {% endfor %}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link active" data-toggle="pill" href="#hackathon" role="tab" aria-controls="pills-profile" aria-selected="false">Hackathon</a>#}
-{#                </li>#}
+<!--{#                <li class="nav-item">#}-->
+<!--{#                    <a class="nav-link active" data-toggle="pill" href="#hackathon" role="tab" aria-controls="pills-profile" aria-selected="false">Hackathon</a>#}-->
+<!--{#                </li>#}-->
             </ul>
             <div class="tab-content" id="subplatformsArea">
                 <div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="pills-news-tab">
@@ -97,6 +96,7 @@
                         cupidatat prosciutto culpa pork corned beef cupim.<br><br>
                     </p>
                 </div>
+        {% for id in platforms_id %}
             {% for result in ogList %}
                 {% for key, values in result.items() %}
                 <div class="tab-pane fade" id="{{ '{}'.format(key.replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'pills-{}-tab'.format(key.replace(' ', '')) }}">
@@ -104,34 +104,37 @@
                         <div class="col-2">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     {% for  v in values %}
+                                        {% if v[0] != "IDS Virtual Machine" %}
+
                                             <a class="nav-link" data-toggle="pill" href="{{'#{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tab" aria-controls="{{ 'v-pills-{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" aria-selected="true">
                                                 {% if v[0] == 'FilesUpload' %}
-                                                    {{ 'Challenges' }}
+                                                    Challenges
                                                 {% elif v[0] == 'FilesDownload' %}
-                                                    {{ 'Materials' }}
+                                                    Materials
                                                 {% else %}
                                                     {{ v[0] }}
                                                 {% endif %}
                                             </a>
-                                    {% endfor%}
+                                        {% endif %}
+                                    {% endfor %}
                             </div>
                         </div>
                         <div class="col-9">
                             <div class="tab-content" id="v-pills-tabContent">
-                                {% for  v in values %}
+                                {% for v in values %}
                                     <div class="tab-pane fade" id="{{ '{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tabpanel" aria-labelledby="{{ 'v-pills-{}-{}-tab'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}">
                                         {% if v[0] == "FilesUpload" %}
                                             <div class="accordion" id="accordionExample">
                                                 <div class="card">
                                                     <div class="card-header" id="headingOne">
                                                         <h2 class="mb-0">
-                                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                                                 Hackathon Challenge #1
                                                             </button>
                                                         </h2>
                                                     </div>
 
-                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                                         <div class="card-body">
                                                             <div id="wrapper">
                                                                 <p>
@@ -144,7 +147,7 @@
                                                                 <h6>Upload File</h6>
                                                                 <form id="formStuff" method=post enctype=multipart/form-data>
                                                                     <p><input id='uploaded_file' type=file name=file>
-                                                                        <button type="submit" id="myBtn" class="btnDisable">Upload</button>
+                                                                        <button type="submit" id="uploadBtn" class="btnDisable">Upload</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -207,21 +210,45 @@
                                                 </div>
                                             </div>
                                         {% elif v[0] == "Results" %}
-                                            <button class="btn dark" type="button" disabled>
-                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                              Waiting for results...
-
-                                            </button>
+                                            <span title="{{id}},{{v[2]}}" style="display: none" id="ResultIDs">{{id}},{{v[2]}}</span>
+                                            <div id="showResults">
+                                                <button class="btn btn-primary" type="button" disabled>
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                    Loading Results...
+                                                </button>
+                                            </div>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
                                                 <h3>Below are the files available for download</h3><br>
-                                                {% for file in downloadable_files %}
-                                                    <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>
-                                                {% endfor %}
+                                                <div class="accordion" id="accordionExample">
+                                                    {% for dir, files in downloadable_files.items() %}
+                                                    <div class="card">
+                                                        <div class="card-header" id="'{}{}'.format(key, dir) }}">
+                                                            <h2 class="mb-0">
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(dir)}}" aria-expanded="false" aria-controls="{{'#{}'.format(dir)}}">
+                                                                    {{ dir }}
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+
+                                                        <div id="{{'{}'.format(dir)}}" class="collapse" aria-labelledby="'{}{}'.format(key, dir) }}" data-parent="#accordionExample">
+                                                            <div class="card-body">
+                                                                    {% for file in files %}
+                                                                        <a class="fileLinks" href="{{ '/{}/{}/{}'.format(main_directory, dir, file) }}" download>{{ file }}</a><br>
+                                                                    {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
+                                        {% elif v[0] == "Rocketchat" %}
+                                            <iframe id="rocketchat" src="{{ 'http://{}'.format(v[1]) }}"></iframe>
+<!--                                        {% for file in downloadable_files %}-->
+<!--                                        <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>-->
+<!--                                        {% endfor %}-->
                                         {% else  %}
 <!--                                            {{ key }}-->
-<!--                                            <iframe src="https://www.apple.com"></iframe>-->
                                           <iframe src="{{ 'http://{}'.format(v[1]) }}"></iframe>
 <!--                                            <h3>{{ v[1] }}</h3>-->
                                         {% endif %}
@@ -232,70 +259,126 @@
 
                     </div>
                 </div>
-                    {% endfor %}
+                {% endfor %}
             {% endfor %}
+        {% endfor %}
             </div>
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
         <script>
-            window.parent.postMessage({
-              event: 'login-with-token',
-              loginToken: 'C01e9G-rGel3qt888pcVRqd0vFhhfvcrGaPWnCQIFh-'
-            }, 'http://www.chat.service');
-        </script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script>
-                var sec = 10;
-                var myTimer = document.getElementById('myTimer');
-                var file = document.getElementById('uploaded_file');
-                var check_status = document.getElementById('file_status');
 
+            let repeat = 44;
 
-                $(function(){
-                   var hash = window.location.hash;
-                   hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-                   hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+            $(function(){
+                var hash = window.location.hash;
+                hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
-                   $('#myBtn').click(function(e){
+                setTimeout(getStatus, 2000);  // calling in 2 seconds
+                console.log("first getStatus scheduled");
+
+                $('#uploadBtn').click(function(e){
                       $(this).tab('show');
                       var scrollmem = $('body').scrollTop() || $('html').scrollTop();
                       window.location.hash = this.hash;
                       $('html, body').scrollTop(scrollmem);
-                   });
+                });
+            });
+
+            function getStatus() {
+                console.log('getting status...');
+                var ids = document.getElementById("ResultIDs").innerText;
+                ids = ids.split(",")
+                console.log(ids);
+                $.ajax({
+                    type: "PUT",
+                    url: "http://129.108.7.29:5001/api/v2/resources/platform",  // ???
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "command": "configure",
+                        "platform_ID": ids[0],
+                        "subplatforms_IDS": [ids[1]],
+                        "configuration": {
+                            "command": "getStatus",
+                            "param": {
+                                "filename": '{{ filename }}'
+                            }
+                        }
+                    }),
+                    success: function (response) {
+                        console.log(response)
+                        let tmp = Object.keys(response)[0]
+                        console.log(tmp)
+                        if (tmp == "success" && !response['success']) {
+                            alert('request did not succeed')
+                        } else if (tmp == "done" && response['done']) {
+                            console.log("status: " + response["done"]);
+                            showResults(ids)
+                        } else {
+                            if (repeat >= 0){
+                                setTimeout(getStatus, 2000);  // calling every 2 seconds
+                                repeat--;
+                            }
+                        }
+
+                    }
+                });
+            }
+
+            function showResults(ids) {
+                $.ajax({
+                    type: "PUT",
+                    url: "http://129.108.7.29:5001/api/v2/resources/platform",  // ???
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "command": "configure",
+                        "platform_ID": ids[0],
+                        "subplatforms_IDS": [ids[1]],
+                        "configuration": {
+                            "command": "getResults",
+                            "param": {
+                                "filename": '{{ filename }}'
+                            }
+                        }
+                    }),
+                    success: function (response) {
+                        console.log(response)
+                        let tmp = Object.keys(response)[0]
+                        console.log(tmp)
+                        if (tmp == "success" && !response['success']) {
+                            alert('request did not succeed')
+                        } else if (tmp == "results" && response['results']) {
+                            alert("Results have arrived!");
+                            if (response['results'] == 48){
+                                document.getElementById("showResults").innerHTML = '\
+                                <div class="alert alert-success" role="alert"> \
+                                    <h1>Alerts Received: ' + response['results'] + '<br></h1> \
+                                    <h1>Alerts Expected: 48<br></h1> \
+                                </div>'
+                            } else {
+                                document.getElementById("showResults").innerHTML = '\
+                                <div class="alert alert-warning" role="alert"> \
+                                    <h1>Alerts Received: ' + response['results'] + '<br></h1> \
+                                    <h1>Alerts Expected: 48<br></h1> \
+                                </div>'
+                            }
+
+                        }
+                    }
                 });
 
-                function checkStatus(){
-                    while (rep
-                }
+            }
 
 
-                function countDown() {
-                    window.onload = countDown;
-                    check_status.innerText = "Processing File";
-
-                  if(sec > 0){
-                  document.getElementById("myBtn").disabled = true;
-                  check_status.innerText = file.innerText;
-                 }
-                  if (sec < 10) {
-                    myTimer.innerHTML = "0" + sec;
-                check_status.innerText = "Processing File";
-                  } else {
-                    myTimer.innerHTML = sec;
-                check_status.innerText = "Processing File";
-                  }
-
-                  if (sec <= 0) {
-                   document.getElementById("myBtn").disabled = false;
-                sec=10
-                myTimer.fadeTo(2500, 0);
-                check_status.innerText = "Processing File";
-                    return;
-                  }
-                  sec -= 1;
-                  window.setTimeout(countDown,1000);
-                }
-            </script>
+        </script>
     </body>
 </html>

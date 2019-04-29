@@ -1,8 +1,10 @@
 import unittest
-from .ChappieEditor import PPTP_ConnectionsSublcass
-from .IkesEditor import IKE_ConnectionsSublcass
-from .Connections import Connections
-from . import Configure
+from ChappieEditor import PPTP_ConnectionsSublcass
+from IkesEditor import IKE_ConnectionsSublcass
+from Connections import Connections
+import Configure
+
+#For all test cases need to uncomment test files in all four classes and comment out filepaths 
 
 class UserConnectionsTestDriver(unittest.TestCase):
     #Configure.py test cases
@@ -34,10 +36,15 @@ class UserConnectionsTestDriver(unittest.TestCase):
     def test_3_Configure_ModifyUser_ChapandIke(self):
         modifyTestResult=Configure.modifyUser("Yoshi","Bowser","33333333","3.3.3.3")
         self.assertEqual(modifyTestResult,True)
+    def test_4_Configure_FileAddUsers_ChapandIke(self):
+        testUsers=["Mario","Yoshi","Luigi","Peach","Toad"]
+        testUsersArr=[]
+        testUsersArr=Configure.fileAddUsers(testUsers)
+        self.assertEqual(type(testUsersArr[0]),PPTP_ConnectionsSublcass)
 
     #Connections.py test cases
     #tests general user functionality for user objects, checking current user, and creating a password
-    def test_4_Connections_GeneralUserFunctionality(self): 
+    def test_5_Connections_GeneralUserFunctionality(self): 
         #Create connections object
         testUser=Connections()
         #checks username was creted correctly
@@ -58,7 +65,7 @@ class UserConnectionsTestDriver(unittest.TestCase):
         testNextAvailUserIke=Connections().checkCurUsers("IkesTest.txt")
         self.assertGreater(testNextAvailUserIke[0],0)
     #tests deleteUsers with set parameters
-    def test_5_Connections_DeleteUsers(self):
+    def test_6_Connections_DeleteUsers(self):
         chapBool=False
         ipSecBool=False
         testUser=Connections()
@@ -87,7 +94,7 @@ class UserConnectionsTestDriver(unittest.TestCase):
         self.assertEqual(chapBool,True)
         self.assertEqual(ipSecBool,True)
         #tests modifyUser on previously entered user Link to change to Ganon
-    def test_6_Configure_ModifyUser(self):
+    def test_7_Configure_ModifyUser(self):
         testUser=Connections()
         chapBool=False
         ipSecBool=False
@@ -105,19 +112,19 @@ class UserConnectionsTestDriver(unittest.TestCase):
         self.assertEqual(ipSecBool,True)
 
     # ChappieEditor.py test cases
-    def test_7_ChappieEditorAddUser(self):
+    def test_8_ChappieEditorAddUser(self):
         chappieTestConObj=PPTP_ConnectionsSublcass()
         chappieTestConObj.password="22222222"
-        chappieTestConObj.pptpAddUser(chappieTestConObj.password)
+        chappieTestConObj.pptpAddUser(chappieTestConObj.password,True)
         #Check created user is formated correctly
         self.assertIn("user",chappieTestConObj.username)
         self.assertIn("192.168.0.",chappieTestConObj.pptpIP) 
 
     #IkesEditor.py test cases
-    def test_8_IkesEditorAddUser(self):
+    def test_9_IkesEditorAddUser(self):
         ikesTestConObj=IKE_ConnectionsSublcass()
         ikesTestConObj.password="33333333"
-        ikesTestConObj.ikesAddUser(ikesTestConObj.password)
+        ikesTestConObj.ikesAddUser(ikesTestConObj.password,True)
         #Check created user is formated correctly
         self.assertIn("user",ikesTestConObj.username)
 

@@ -7,7 +7,7 @@ It has four implemented functions:
 
 createPassword()-Creates a single 8 digit, randomly generated, password for both PPTP and IKEv2
 
-checkCurUsers(secretsFile)-checCurUsers is called from the varying VPN subclasses to check the next available user
+checkCurUsers(secretsFile)-checCurUsers is called from the varying VPN subclasses to check the next available user and IP
 
 deleteUser(currUser,fileName)-This function opens a temp file where all users minus the user to be delted is written to. Once this is completed the temp file contents are written back to the correct secrets files.
 
