@@ -49,6 +49,7 @@ pip install requests
 pip install jsonify
 pip install resource
 pip install schemas
+pip install mechanize
 #flask run
 
 
