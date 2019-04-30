@@ -2,7 +2,8 @@ import requests
 from AccountManager.user import User
 
 
-cit_url = 'http://citsystem.com'
+# cit_url = 'http://citsystem.com'
+cit_url = 'http://0.0.0.0:5001'
 database_path = '/api/v2/resources/database'
 database_url = cit_url + database_path
 connection_path = '/api/v2/resources/connection'
