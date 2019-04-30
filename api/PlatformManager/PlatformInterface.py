@@ -1,6 +1,6 @@
-import requests
 import time
-import datetime
+
+import requests
 
 from .PlatformsManager import PlatformsManager
 from .PluginManager import PluginManager
@@ -15,12 +15,13 @@ from .PluginManager import PluginManager
             The platform interface provides callable functions within the platform manager subsystem.
 """
 
+
 class PlatformInterface():
 
     def __init__(self):
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        self.cit_url = 'http://citsystem.com'
+        self.cit_url = 'http://0.0.0.0:5001'
         self.database_path = '/api/v2/resources/database'
         self.database_url = self.cit_url + self.database_path
 
@@ -158,12 +159,10 @@ class PlatformInterface():
 
     def getPlatformStatus(self, main_ID, subplatform_ID=0):
         Main_Platform = self.platformManager.getPlatform(main_ID)
-        
         if (subplatform_ID == 0):
             status = self.platformManager.check_service(Main_Platform)
         else:
             Subplatforms = Main_Platform.get_sub_platforms()
-
             for x in Subplatforms:
                 if (Subplatforms[x].getPlatformID() == subplatform_ID):
                     status = self.platformManager.check_service(Subplatforms[x])
