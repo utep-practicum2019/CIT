@@ -15,6 +15,7 @@ class TiddlyWiki(Platform):
     platform_name = "TiddlyWiki"
     platform_alias = ""
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = "http-server /home/practicum/Documents/tiddlywikis/genericWiki/output/"
     platform_end_command = "kill "
     platform_version = "5.1.20-prerelease"
@@ -59,6 +60,10 @@ class TiddlyWiki(Platform):
     #returns platform note
     def getPlatformNote(self):
         return self.platform_note
+
+    #get platform creation date
+    def getPlatformDateCreated(self):
+        return self.platform_date_created
     
     #returns where the platforms installation path
     def getPlatformInstallation(self):
@@ -108,6 +113,10 @@ class TiddlyWiki(Platform):
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note
+    
+    #set platform creation date
+    def setPlatformDateCreated(self, date):
+        self.platform_date_created = date
     
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

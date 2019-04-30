@@ -4,6 +4,7 @@ import socket
 import subprocess
 import threading
 import time
+import datetime
 
 from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
@@ -43,11 +44,17 @@ class PlatformsManager:
                 return "Failure"
             subplatforms = {}
             Main_Platform = self.plugin_manager.loadPlatform(platform)
+            
+            date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            Main_Platform.setPlatformDateCreated(date)
+            
             for x in sub_platforms:
                 if x not in available_plugins['sub_platforms']:
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 subplatforms[x] = self.plugin_manager.loadPlatform(x)
+                #date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                #subplatforms[x].setPlatformDateCreated(date)
 
             Main_Platform.set_sub_platforms(subplatforms)
 
@@ -77,6 +84,10 @@ class PlatformsManager:
                 id = self.PlatformTree.generate_sub_ID(Main_Platform)
                 sPlatform = self.plugin_manager.loadPlatform(x)
                 sPlatform.setPlatformID(id)
+                
+                date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                sPlatform.setPlatformDateCreated(date)
+                
                 sub_platformIDs[x] = id
                 subplatforms[x] = sPlatform
 

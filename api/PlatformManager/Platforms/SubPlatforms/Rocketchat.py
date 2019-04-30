@@ -19,6 +19,7 @@ class Rocketchat(Platform):
     platform_name = "Rocketchat"
     platform_alias = ""
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server start"
     platform_end_command = "echo 'toor' | sudo -S service snap.rocketchat-server.rocketchat-server stop"
     platform_version = ""
@@ -63,6 +64,10 @@ class Rocketchat(Platform):
     #returns platform note
     def getPlatformNote(self):
         return self.platform_note
+
+    #get platform creation date
+    def getPlatformDateCreated(self):
+        return self.platform_date_created
 
     #returns where the platforms installation path
     def getPlatformInstallation(self):
@@ -117,6 +122,10 @@ class Rocketchat(Platform):
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note
+
+    #set platform creation date
+    def setPlatformDateCreated(self, date):
+        self.platform_date_created = date
 
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

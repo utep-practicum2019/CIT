@@ -16,6 +16,7 @@ class Hackathon(Platform):
     platform_name = "Hackathon"
     platform_alias = ""
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
@@ -53,6 +54,10 @@ class Hackathon(Platform):
     #get platform note
     def getPlatformNote(self):
         return self.platform_note
+
+    #get platform creation date
+    def getPlatformDateCreated(self):
+        return self.platform_date_created
 
     #get where the platforms installation path
     def getPlatformInstallation(self):
@@ -102,6 +107,10 @@ class Hackathon(Platform):
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note
+
+    #set platform creation date
+    def setPlatformDateCreated(self, date):
+        self.platform_date_created = date
     
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

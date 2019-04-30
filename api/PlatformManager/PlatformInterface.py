@@ -1,5 +1,6 @@
 import requests
 import time
+import datetime
 
 from .PlatformsManager import PlatformsManager
 from .PluginManager import PluginManager
@@ -13,7 +14,6 @@ from .PluginManager import PluginManager
             This class represents the platform interface. 
             The platform interface provides callable functions within the platform manager subsystem.
 """
-
 
 class PlatformInterface():
 
@@ -286,7 +286,8 @@ class PlatformInterface():
                                   "ip_port": Main_Platform.getIpPort(),
                                   "name": Main_Platform.getPlatformName(),
                                   "alias": Main_Platform.getPlatformAlias(),
-                                  "note": Main_Platform.getPlatformNote()},
+                                  "note": Main_Platform.getPlatformNote(),
+                                  "date_created": Main_Platform.getPlatformDateCreated()},
                          "subplatforms": []
                          }
 
@@ -295,7 +296,8 @@ class PlatformInterface():
                                                   "ip_port": Subplatforms[x].getIpPort(),
                                                   "name": Subplatforms[x].getPlatformName(),
                                                   "alias": Subplatforms[x].getPlatformAlias(),
-                                                  "note": Subplatforms[x].getPlatformNote()
+                                                  "note": Subplatforms[x].getPlatformNote(),
+                                                  "date_created": Subplatforms[x].getPlatformDateCreated()
                                                   })
 
         request_data = {"collection_name": "platforms",
