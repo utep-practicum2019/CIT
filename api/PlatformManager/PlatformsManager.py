@@ -5,7 +5,7 @@ import subprocess
 import threading
 import time, requests
 import datetime
-
+import json 
 from PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
 from PluginManager import PluginManager
@@ -35,20 +35,24 @@ class PlatformsManager:
         self.PlatformTree = PlatformTreeManager()
         self.plugin_manager = PluginManager()
         self.PlatformTracker = {}
-        self.getPlatformsURL = "127.0.0.1:5001/api/v2/resources/platform?all=True"
+        self.CITURL = 'http://127.0.0.1:5001'
+        self.PlatformsURL = "/api/v2/resources/platform?all=True"
+        self.getPlatformsURL = self.CITURL + self.PlatformsURL
         self.reinstantiate()
 
     def reinstantiate(self):
-        response = requests.get("127.0.0.1:5001/api/v2/resources/platform")
-        print(str(response))
+        response = requests.get(self.getPlatformsURL)
+        platformList = response.json()
         a = input()
-        for x in range(0, len(response)):
+        for x in range(0, len(platformList)):
             # response[x] platform number x
-            resp = response[x]
+            resp = platformList[x]
             Main_Platform = self.plugin_manager.loadPlatform(resp["main"]["name"])
             Main_Platform.setPlatformID(int(resp["main"]["id"]))
             ip, port = resp["main"]["ip_port"].split(":")
             Main_Platform.setIpPort(ip, port)
+            Main_Platform.setPlatformAlias(resp["main"]["alias"])
+            Main_Platform.setPlatformNote(resp["main"]["note"])
             subs = {}
             for x in range(0, len(resp["subplatforms"])):
                 subplatform = resp["subplatforms"][x]
@@ -56,9 +60,12 @@ class PlatformsManager:
                 subPlatform.setPlatformID(subplatform["id"])
                 ip, port = subplatform["ip_port"].split(":")
                 subPlatform.setIpPort(ip, port)
-                subs[x] = subPlatform
+                Main_Platform.setPlatformAlias(subplatform["alias"])
+                Main_Platform.setPlatformNote(subplatform["note"])
+                subs[subPlatform.getPlatformName()] = subPlatform
             Main_Platform.set_sub_platforms(subs)
             self.PlatformTree.reAdd(Main_Platform)
+            print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(Main_Platform.get_sub_platforms()))
 
     def createPlatform(self, platform, sub_platforms):
         try:

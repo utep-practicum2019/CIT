@@ -12,8 +12,8 @@ import subprocess
 
 class VirtualMachine(Platform):
     # fill the values here for your specific platform
-    platform_name = "IDS Virtual Machine"
-    platform_alias = ""
+    platform_name = "VirtualMachine"
+    platform_alias = "IDS Virtual Machine"
     platform_note = ""
     platform_date_created = ""
     platform_start_command = "sudo su - practicum -c 'VBoxManage startvm Ubuntu16 --type headless'"

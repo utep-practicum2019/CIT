@@ -1,6 +1,6 @@
 import os, time, glob
-
-from PlatformManager.Platforms.Platform import Platform
+#PlatformManager.
+from .Platform import Platform
 import threading
 
 """ 
