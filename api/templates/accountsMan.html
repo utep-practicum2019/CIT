@@ -14,10 +14,18 @@
             height: 100%
         }
 
-        .label_padding {
-            padding-left: 18px;
-            padding-bottom: 10px;
+
+        .navbar-nav.navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translatex(-50%);
         }
+
+        .nav-link.dropdown-toggle {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+
     </style>
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -25,62 +33,108 @@
 </head>
 
 <body>
+
 <div class="container-fluid">
-    <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
-    <div class="row">
-        <div aria-label="First group" class="btn-group mr-2" role="group">
-            <!--            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>-->
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
-            </button>
-
-            <button class="btn btn-dark btn-sm menu active" type="button"><a href="accountsMan.html" id="pressed">Account
-                Manager</a></button>
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="platMan.html">Platform Manager</a></button>
-
-        </div>
-    </div>
+    <img alt="Responsive image" class="class=rounded mx-auto d-block"
+         src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
 </div>
 
 
 <div class="container-fluid">
-    <h2>Accounts:</h2>
-    <div class="row">
-        <div aria-label="First group">
-            <label class="label_padding">
-                <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">
-                    Add
-                </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                   data-toggle="dropdown" id="navbarDropdownMenuLink" role="button">
+                    Account Manager
+                </a>
+                <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
+                    <a class="nav-item nav-link active" href="connectionMan.html">Connection Manager<span
+                            class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="platMan.html">Platform Manager</a>
+                </div>
+            </li>
+        </ul>
+        <!--        <a class="navbar-brand" href="#">Platform Manager</a>-->
+        <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <!--                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">-->
-                <!--                    Import Users-->
-                <!--                </button>-->
-
-                <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
-                    <option value="user_table">User table</option>
-                    <option value="group_table">Group table</option>
-                </select>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal"
-                        id="delUsersModalBtn" type="button">
-                    Delete Users
-                </button>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal"
-                        id="delGroupsModalBtn" type="button">
-                    Delete Groups
-                </button>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"
-                        id="platModalBtn" type="button">
-                    Attach Platform
-                </button>
-            </label>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav navbar-center">
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#addModal" data-toggle="modal">Add Users</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#deleteUsersModal" data-toggle="modal"
+                           id="delUsersModalBtn">Delete Users</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#deleteGroupModal" data-toggle="modal"
+                           id="delGroupsModalBtn">Delete Groups</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#attachPlatformModal" data-toggle="modal"
+                           id="platModalBtn">Attach Platform</a>
+                    </li>
+                    <li class="nav-item active">
+                        <!--                        <a class="dropdown-item" data-target="#createPlatformModal" data-toggle="modal"-->
+                        <!--                           id="createNewPlatBtn">Create New Platform</a>-->
+                        <label>
+                            <select class="nav-link dropdown-toggle" id="MySelect" onchange="change_table()">
+                                <option value="user_table">User table</option>
+                                <option value="group_table">Group table</option>
+                            </select>
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-    </div>
-
+    </nav>
 </div>
+
+
+<!--<div class="container-fluid">-->
+<!--    <h2>Accounts:</h2>-->
+<!--    <div class="row">-->
+<!--        <div aria-label="First group">-->
+<!--            <label class="label_padding">-->
+<!--                <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">-->
+<!--                    Add-->
+<!--                </button>-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Import Users&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">-->
+<!--                    <option value="user_table">User table</option>-->
+<!--                    <option value="group_table">Group table</option>-->
+<!--                </select>-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="delUsersModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Delete Users&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="delGroupsModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Delete Groups&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="platModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Attach Platform&ndash;&gt;-->
+<!--                </button>-->
+<!--            </label>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--</div>-->
 
 <!-- Users Table -->
 <div class="table-responsive" id="mainArea">

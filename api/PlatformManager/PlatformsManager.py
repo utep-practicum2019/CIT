@@ -38,10 +38,24 @@ class PlatformsManager:
         self.CITURL = 'http://127.0.0.1:5001'
         self.PlatformsURL = "/api/v2/resources/platform?all=True"
         self.getPlatformsURL = self.CITURL + self.PlatformsURL
-        # self.reinstantiate()
+        self.reinstantiated = False
+        self.reinstantiateThread()
+
+
+    def reinstantiateThread(self):
+        try:
+            thread = threading.Thread(target=self.reinstantiate, args=())
+            thread.daemon = True
+            thread.start()
+            return
+        except Exception as ex:
+            print(ex)
+            return "Failure"
 
     def reinstantiate(self):
+        time.sleep(1)
         response = requests.get(self.getPlatformsURL)
+        print("RESPONSE " + str(response.json()))
         platformList = response.json()
         a = input()
         for x in range(0, len(platformList)):
@@ -66,7 +80,7 @@ class PlatformsManager:
             Main_Platform.set_sub_platforms(subs)
             self.PlatformTree.reAdd(Main_Platform)
             print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
-                Main_Platform.get_sub_platforms()))
+            Main_Platform.get_sub_platforms()))
 
     def createPlatform(self, platform, sub_platforms):
         try:
