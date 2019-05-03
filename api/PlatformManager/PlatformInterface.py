@@ -263,7 +263,7 @@ class PlatformInterface():
                          }
         else:
             response1 = {"Status": status,
-                         "Response": {platform.getPlatformName(): {platform.getPlatformID(), platform.getIpPort()}}
+                         "Response": {platform.getPlatformName(): [platform.getPlatformID(), platform.getIpPort()]}
                          }
 
         for x in Subplatforms:

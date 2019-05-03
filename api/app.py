@@ -98,7 +98,7 @@ def home():
             return redirect(url_for('home'))
 
     # print(os.getcwd())
-    read_directory = 'Download_Files'
+    read_directory = 'Downloads'
     downloadable_files = get_downloadable_files(read_directory)
     os.chdir('../../')
 
@@ -201,7 +201,7 @@ if __name__ == '__main__':
 #                 },
 #                 {
 #                     'name': 'Download Files',
-#                     'folderDirectory': 'Download_Files/' # Directory of where the files to download are going to be read from
+#                     'folderDirectory': 'Downloads/' # Directory of where the files to download are going to be read from
 #                 }
 #             ]
 #

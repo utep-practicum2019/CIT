@@ -13,6 +13,7 @@ class PlatformAPI(Resource):
     def get():
 
         json_data = request.args.to_dict()
+        print("GET PLATFORMS: " + str(json_data))
         if not json_data:
             return {'message': 'No input data provided'}, 400
         data, errors = platform_get_request_schema.load(json_data)
