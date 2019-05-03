@@ -1,15 +1,15 @@
+import datetime
 import os
 import random
+import requests
 import socket
 import subprocess
 import threading
-import time, requests
-import datetime
-import json 
-from PlatformTreeManager import PlatformTreeManager
-# Need to import entire platforms package
-from PluginManager import PluginManager
+import time
 
+from .PlatformTreeManager import PlatformTreeManager
+# Need to import entire platforms package
+from .PluginManager import PluginManager
 
 """ 
         @authors:
@@ -38,7 +38,7 @@ class PlatformsManager:
         self.CITURL = 'http://127.0.0.1:5001'
         self.PlatformsURL = "/api/v2/resources/platform?all=True"
         self.getPlatformsURL = self.CITURL + self.PlatformsURL
-        self.reinstantiate()
+        # self.reinstantiate()
 
     def reinstantiate(self):
         response = requests.get(self.getPlatformsURL)
@@ -65,7 +65,8 @@ class PlatformsManager:
                 subs[subPlatform.getPlatformName()] = subPlatform
             Main_Platform.set_sub_platforms(subs)
             self.PlatformTree.reAdd(Main_Platform)
-            print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(Main_Platform.get_sub_platforms()))
+            print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
+                Main_Platform.get_sub_platforms()))
 
     def createPlatform(self, platform, sub_platforms):
         try:
@@ -76,17 +77,17 @@ class PlatformsManager:
                 return "Failure"
             subplatforms = {}
             Main_Platform = self.plugin_manager.loadPlatform(platform)
-            
+
             date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             Main_Platform.setPlatformDateCreated(date)
-            
+
             for x in sub_platforms:
                 if x not in available_plugins['sub_platforms']:
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 subplatforms[x] = self.plugin_manager.loadPlatform(x)
-                #date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                #subplatforms[x].setPlatformDateCreated(date)
+                # date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                # subplatforms[x].setPlatformDateCreated(date)
 
             Main_Platform.set_sub_platforms(subplatforms)
 
@@ -115,10 +116,10 @@ class PlatformsManager:
                 id = self.PlatformTree.generate_sub_ID(Main_Platform)
                 sPlatform = self.plugin_manager.loadPlatform(x)
                 sPlatform.setPlatformID(id)
-                
+
                 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 sPlatform.setPlatformDateCreated(date)
-                
+
                 sub_platformIDs[x] = id
                 subplatforms[x] = sPlatform
 
@@ -177,9 +178,9 @@ class PlatformsManager:
             main_id = Main_Platform.getPlatformID()
             subplatforms = Main_Platform.get_sub_platforms()
             platformTracker = self.PlatformTracker.keys()
-            #checking if platform is not already running
+            # checking if platform is not already running
             if main_id not in platformTracker:
-                #check if platform IP is available, if not re assign IP
+                # check if platform IP is available, if not re assign IP
                 if not self.check_service(Main_Platform):
                     self.PlatformTracker[main_id] = []
                     self.startPlatformThread(Main_Platform)
@@ -189,7 +190,7 @@ class PlatformsManager:
                     Main_Platform.setIpPort(newIP, str(newPort))
                     self.startPlatformThread(Main_Platform)
             subTracker = self.PlatformTracker[main_id]
-            #instantiate all subplatforms if it is an empty list
+            # instantiate all subplatforms if it is an empty list
             if subplatformsIDs == []:
                 time.sleep(3)
                 for x in subplatforms:
@@ -205,7 +206,7 @@ class PlatformsManager:
                             subTracker.append(sub_id)
                             self.startPlatformThread(Main_Platform)
                             time.sleep(3)
-            else: #Instantiate Specific Platforms
+            else:  # Instantiate Specific Platforms
                 for x in subplatforms:
                     sub_id = subplatforms[x].getPlatformID()
                     if sub_id in subplatformsIDs:
@@ -241,10 +242,10 @@ class PlatformsManager:
 
     def start(self, platform):
         try:
-            #keep track of processID
+            # keep track of processID
             process = subprocess.Popen([platform.get_start_command()], shell=True)
-            #any other processes that are executed in child process is process id + the number of extra processes.
-            #Since specific platforms produce an extra thread under the child process, the process ID for that platform is child process id + 1 
+            # any other processes that are executed in child process is process id + the number of extra processes.
+            # Since specific platforms produce an extra thread under the child process, the process ID for that platform is child process id + 1
             platform.setProcessID(process.pid + 1)
         except Exception as ex:
             print(ex)
@@ -252,44 +253,45 @@ class PlatformsManager:
             return "Failure"
 
     def stopPlatforms(self, platformID, subplatformIDs):
-        #try:
-            Main_Platform = self.PlatformTree.getPlatform(platformID)
-            if (Main_Platform is None):
-                print("No such Platform with ID: " + str(platformID))
-                return (None, "Failure")
-            subplatforms = Main_Platform.get_sub_platforms()
-            platformTracker = self.PlatformTracker.keys()
-            if not subplatformIDs:
-                for x in subplatforms:
-                    if self.check_service(subplatforms[x]):
+        # try:
+        Main_Platform = self.PlatformTree.getPlatform(platformID)
+        if (Main_Platform is None):
+            print("No such Platform with ID: " + str(platformID))
+            return (None, "Failure")
+        subplatforms = Main_Platform.get_sub_platforms()
+        platformTracker = self.PlatformTracker.keys()
+        if not subplatformIDs:
+            for x in subplatforms:
+                if self.check_service(subplatforms[x]):
+                    self.stop(subplatforms[x])
+                    time.sleep(3)
+
+            if self.check_service(Main_Platform) or platformID in platformTracker:
+                del self.PlatformTracker[platformID]
+
+                self.stop(Main_Platform)
+                time.sleep(3)
+        else:
+            subTracker = self.PlatformTracker[platformID]
+            print(str(subTracker))
+            for x in subplatforms:
+                subplatformID = subplatforms[x].getPlatformID()
+                if subplatforms[x].getPlatformID() in subplatformIDs:
+                    if self.check_service(subplatforms[x]) or subplatformID in subTracker:
+                        indx = subTracker.index(subplatformID)
+                        del self.PlatformTracker[platformID][indx]
+
                         self.stop(subplatforms[x])
                         time.sleep(3)
 
-                if self.check_service(Main_Platform) or platformID in platformTracker:
-                    del self.PlatformTracker[platformID]
+        return (Main_Platform, "Success")
+        '''
+    except Exception as ex:
+        print(ex)
+        print("Platform:" + str(platformID) + " Thread failed")
+        return (None, "Failure")
+        '''
 
-                    self.stop(Main_Platform)
-                    time.sleep(3)
-            else:
-                subTracker = self.PlatformTracker[platformID]
-                print(str(subTracker))
-                for x in subplatforms:
-                    subplatformID = subplatforms[x].getPlatformID()
-                    if subplatforms[x].getPlatformID() in subplatformIDs:
-                        if self.check_service(subplatforms[x]) or subplatformID in subTracker:
-                            indx = subTracker.index(subplatformID)
-                            del self.PlatformTracker[platformID][indx]
-
-                            self.stop(subplatforms[x])
-                            time.sleep(3)
-
-            return (Main_Platform, "Success")
-            '''
-        except Exception as ex:
-            print(ex)
-            print("Platform:" + str(platformID) + " Thread failed")
-            return (None, "Failure")
-            '''
     def stop(self, platform):
         try:
             os.system(platform.get_stop_command())
@@ -384,10 +386,10 @@ class PlatformsManager:
         for x in subplatforms:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
-A = PlatformsManager()
-a = input()
-A.startPlatforms(8000, [])
-a = input()
-A.stopPlatforms(8000, [9090])
-a = input()
-A.stopPlatforms(8000,[])
+# A = PlatformsManager()
+# a = input()
+# A.startPlatforms(8000, [])
+# a = input()
+# A.stopPlatforms(8000, [9090])
+# a = input()
+# A.stopPlatforms(8000,[])
