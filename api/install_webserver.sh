@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 sudo apt-get install -f #for those vanilla versions without apt-get.  If installed it should simply move forward
+sudo add-apt-repository universe # enable community software
 sudo apt-get update -y
 sudo apt-get install python3 -y
 sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
-sudo apt-get install curl -y #curl is needed
-
+sudo apt-get install curl -y 
+sudo snap install rocketchat-server
 
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
@@ -23,13 +24,17 @@ sudo chown -R $USER test_bed_environment
 
 #wiki installer
 sudo mkdir /var/www/cit/wiki
+sudo mv /var/www/cit/genericWiki /var/www/cit/wiki
 cd wiki
 sudo git clone https://github.com/Jermolene/TiddlyWiki5
+cd TiddlyWiki5
+
 sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
 sudo apt-get install -y nodejs
 sudo npm install http-server
 sudo npm i http-server
-cd ..
+cd /var/www/cit
+
 pip install --upgrade pip 
 pip install flask
 
@@ -59,8 +64,19 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongod
 sudo apt-get update -y
 
 sudo apt-get install -y mongodb-org
+sudo sed -i -e 's/port: 27017/port: 27018/g' /etc/mongod.conf
 #sudo apt-get install -y mongodb-org --allow-unauthenticated
 sudo service mongod start
+
+sudo chmod 777 /etc/ppp/chap-secrets
+sudo chmod 777 /etc
+sudo chmod 777 /var/www/cit/next_group_id.txt
+sudo chmod 777 /var/www/cit/configTempFile.txt
+
+sudo chmod 777 /var/www/cit/PPTP_session_output.txt
+sudo chmod 777 /var/www/cit/PPTP_session.txt
+
+
 
 #configuring the VPN
 sudo su -c" cat >> /etc/pptpd.conf<< END
@@ -106,7 +122,7 @@ sudo /etc/init.d/apache2 restart
 
 #rocketChat portion
 sudo a2enmod proxy proxy_http rewrite
-sudo snap install rocketchat-server
+
 pip install rocketchat_API
 sudo mv Rocket.Chat.conf /etc/apache2/sites-available
 sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
