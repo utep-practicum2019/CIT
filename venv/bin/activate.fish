@@ -32,7 +32,7 @@ end
 # unset irrelavent variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/practicum2019/Desktop/GitKraken/CIT/venv"
+set -gx VIRTUAL_ENV "/home/fresh/Desktop/CIT/CIT/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

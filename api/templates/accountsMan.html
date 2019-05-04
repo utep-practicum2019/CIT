@@ -13,6 +13,19 @@
             width: 100%;
             height: 100%
         }
+
+
+        .navbar-nav.navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translatex(-50%);
+        }
+
+        .nav-link.dropdown-toggle {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+
     </style>
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -20,71 +33,122 @@
 </head>
 
 <body>
+
 <div class="container-fluid">
-    <img alt="" id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
-    <div class="row">
-        <div aria-label="First group" class="btn-group mr-2" role="group">
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="indexAdmin.html">Managers Menu</a></button>
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="connectionMan.html">Connection Manager</a>
-            </button>
-
-            <button class="btn btn-dark btn-sm menu active" type="button"><a href="accountsMan.html" id="pressed">Account
-                Manager</a></button>
-
-            <button class="btn btn-dark btn-sm menu" type="button"><a href="platMan.html">Platform Manager</a></button>
-
-        </div>
-    </div>
+    <img alt="Responsive image" class="class=rounded mx-auto d-block"
+         src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
 </div>
 
 
 <div class="container-fluid">
-    <h2>Accounts:</h2>
-    <div class="row">
-        <div aria-label="First group">
-            <label>
-                <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">
-                    Add
-                </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
+                   data-toggle="dropdown" id="navbarDropdownMenuLink" role="button">
+                    Account Manager
+                </a>
+                <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
+                    <a class="nav-item nav-link active" href="connectionMan.html">Connection Manager<span
+                            class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="platMan.html">Platform Manager</a>
+                </div>
+            </li>
+        </ul>
+        <!--        <a class="navbar-brand" href="#">Platform Manager</a>-->
+        <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">
-                    Import Users
-                </button>
-
-                <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">
-                    <option value="user_table">User table</option>
-                    <option value="group_table">Group table</option>
-                </select>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal"
-                        id="delUsersModalBtn" type="button">
-                    Delete Users
-                </button>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal"
-                        id="delGroupsModalBtn" type="button">
-                    Delete Groups
-                </button>
-
-                <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"
-                        id="platModalBtn" type="button">
-                    Attach Platform
-                </button>
-            </label>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav navbar-center">
+                <ul class="navbar-nav  mx-auto">
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#addModal" data-toggle="modal">Add Users</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#deleteUsersModal" data-toggle="modal"
+                           id="delUsersModalBtn">Delete Users</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#deleteGroupModal" data-toggle="modal"
+                           id="delGroupsModalBtn">Delete Groups</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="dropdown-item" data-target="#attachPlatformModal" data-toggle="modal"
+                           id="platModalBtn">Attach Platform</a>
+                    </li>
+                    <li class="nav-item active">
+                        <!--                        <a class="dropdown-item" data-target="#createPlatformModal" data-toggle="modal"-->
+                        <!--                           id="createNewPlatBtn">Create New Platform</a>-->
+                        <label>
+                            <select class="nav-link dropdown-toggle" id="MySelect" onchange="change_table()">
+                                <option value="user_table">User table</option>
+                                <option value="group_table">Group table</option>
+                            </select>
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-    </div>
-
+    </nav>
 </div>
+
+
+<!--<div class="container-fluid">-->
+<!--    <h2>Accounts:</h2>-->
+<!--    <div class="row">-->
+<!--        <div aria-label="First group">-->
+<!--            <label class="label_padding">-->
+<!--                <button class="btn btn-dark btn-sm menu" data-target="#addModal" data-toggle="modal" type="button">-->
+<!--                    Add-->
+<!--                </button>-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#importModal" data-toggle="modal" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Import Users&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                <select class="btn btn-dark btn-sm menu" id="MySelect" onchange="change_table()">-->
+<!--                    <option value="user_table">User table</option>-->
+<!--                    <option value="group_table">Group table</option>-->
+<!--                </select>-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#deleteUsersModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="delUsersModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Delete Users&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#deleteGroupModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="delGroupsModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Delete Groups&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+
+<!--                &lt;!&ndash;                <button class="btn btn-dark btn-sm menu" data-target="#attachPlatformModal" data-toggle="modal"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        id="platModalBtn" type="button">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Attach Platform&ndash;&gt;-->
+<!--                </button>-->
+<!--            </label>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!--</div>-->
 
 <!-- Users Table -->
 <div class="table-responsive" id="mainArea">
     <table class="table table-hover" id="usersTab">
         <thead>
         <tr>
-            <th><a href="javascript:users_check_uncheck_all()"> Select</a></th>
+            <th style="text-align:center; vertical-align:middle;">
+                <div>
+                    <!--                    <a href="javascript:users_check_uncheck_all()"> Select</a>-->
+                    <!--                    <button id="users_check_uncheck_all" onclick="users_check_uncheck_all()">Check</button>-->
+                    <button id="user_check_all" onclick="check_all('users_checkbox_platform')">Check</button>
+                    <button id="user_uncheck_all" onclick="uncheck_all('users_checkbox_platform')">Uncheck</button>
+                </div>
+            </th>
             <th><a href="javascript:SortTable(1,'T', 'usersTab');">Username</a></th>
             <th><a href="javascript:SortTable(2,'T', 'usersTab');">Password</a></th>
             <th><a href="javascript:SortTable(3,'N', 'usersTab');">Group</a></th>
@@ -115,7 +179,14 @@
     <table class="table table-hover" id="groupsTab">
         <thead>
         <tr>
-            <th><a href="javascript:group_check_uncheck_all()"> Select</a></th>
+            <th style="text-align:center; vertical-align:middle;">
+                <div>
+                    <!--                    <a href="javascript:group_check_uncheck_all()"> Select</a>-->
+                    <!--                    <button id="group_check_uncheck_all" onclick="group_check_uncheck_all()">Check</button>-->
+                    <button id="group_check_all" onclick="check_all('groups_checkbox_platform')">Check</button>
+                    <button id="group_uncheck_all" onclick="uncheck_all('groups_checkbox_platform')">Uncheck</button>
+                </div>
+            </th>
             <th><a href="javascript:SortTable(1,'N', 'groupsTab');">Group ID</a></th>
             <th><a href="javascript:SortTable(2,'T', 'groupsTab');">Members</a></th>
             <th>
@@ -288,10 +359,16 @@
 <script crossorigin="anonymous"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<script src="/static/js/notify.js" type="text/javascript"></script>
+<script src="/static/js/remarkable-bootstrap-notify/bootstrap-notify.js" type="text/javascript"></script>
+
 <script>
     let groupsVisible = 0; //var that keeps track of which table is groupsVisible (1 or 0)
     let users_check = true;
     let group_check = true;
+    let users_num = 1;
+    let groups_num = 1;
     //shows groups on GUI's table
     (function load_groups() {
         // noinspection JSUnusedGlobalSymbols
@@ -313,7 +390,7 @@
                     let note = groups[i]["note"];
                     let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td style="text-align:center; vertical-align:middle;"> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += `<td>${group_id}</td>`;
                     group_table_html += `<td>${members}</td>`;
                     group_table_html +=
@@ -369,7 +446,7 @@
                     let note = groups[i]["note"];
                     let alias = groups[i]["alias"];
                     group_table_html += '<tr>';
-                    group_table_html += '<td> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
+                    group_table_html += '<td style="text-align:center; vertical-align:middle;"> <input aria-label="Checkbox for following text input" name="groups_checkbox_platform" type="checkbox" value="' + group_id + '"> </td>';
                     group_table_html += `<td>${group_id}</td>`;
                     group_table_html += `<td>${members}</td>`;
                     group_table_html +=
@@ -416,7 +493,7 @@
                 for (let i in groups) {
                     let note = groups[i]["note"];
                     $('#groupsTab > tbody').each(function () {
-                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(4)').find('input[name="groupNoteBox"]').val(note);
                     });
                 }
             }
@@ -439,7 +516,7 @@
                 for (let i in users) {
                     let note = users[i]["note"];
                     $('#usersTab > tbody').each(function () {
-                        $(this).find('tr:eq('+i+')').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(5)').find('input[name="userNoteBox"]').val(note);
                     });
                 }
             }
@@ -462,7 +539,32 @@
                 for (let i in users) {
                     let alias = users[i]["alias"];
                     $('#usersTab > tbody').each(function () {
-                        $(this).find('tr:eq('+i+')').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(4)').find('input[name="userAliasBox"]').val(alias);
+                    });
+                }
+            },
+            complete: function () {
+                reload_group_members();
+            }
+        });
+    }
+
+    function reload_group_members() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/group",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Groups");
+                let groups = response;
+                for (let i in groups) {
+                    let members = groups[i]["members"];
+                    $('#groupsTab > tbody').each(function () {
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(2)').replaceWith(`<td>${members}</td>`);
                     });
                 }
             }
@@ -485,7 +587,33 @@
                 for (let i in groups) {
                     let alias = groups[i]["alias"];
                     $('#groupsTab > tbody').each(function () {
-                        $(this).find('tr:eq('+i+')').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(3)').find('input[name="groupAliasBox"]').val(alias);
+                    });
+                }
+            },
+            complete: function () {
+                reload_user_group_ids();
+            }
+        });
+    }
+
+    // Reload the user aliases on GUI
+    function reload_user_group_ids() {
+        // noinspection JSUnusedGlobalSymbols
+        $.ajax({
+            type: "GET",
+            url: "http://0.0.0.0:5001/api/v2/resources/user",
+            contentType: "application/json",
+            dataType: "json",
+            data: {},
+            success: function (response) {
+                //Print results
+                console.log("Accessed Database at " + new Date().toUTCString() + " Retrieved Users");
+                let users = response;
+                for (let i in users) {
+                    let group = users[i]["group_id"];
+                    $('#usersTab > tbody').each(function () {
+                        $(this).find('tr:eq(' + i + ')').find('td:eq(3)').replaceWith(`<td>${group}</td>`);
                     });
                 }
             }
@@ -513,7 +641,7 @@
                     let alias = users[i]["alias"];
                     let note = users[i]["note"];
                     user_table_html += '<tr>';
-                    user_table_html += '<td><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
+                    user_table_html += '<td style="text-align:center; vertical-align:middle;"><input aria-label="Checkbox for following text input" name="users_checkbox_platform"  type="checkbox" value="' + username + '"></td>';
                     user_table_html += `<td>${username}</td>`;
                     user_table_html += `<td>${password}</td>`;
                     user_table_html += `<td>${group_id}</td>`;
@@ -730,6 +858,24 @@
         return groups;
     }
 
+
+    // Create a list of group objects from the table
+    function selectGroupObjectsCheck() {
+        let groups = [];
+        $('#groupsTab input[type=checkbox]:checked').each(function () {
+            let data = $(this).parents('tr:eq(0)');
+            groups.push({
+                'members': $(data).find('td:eq(2)').text(),
+                'group_id': $(data).find('td:eq(1)').text(),
+                'alias': $(data).find('td:eq(3)').find('input[name="groupAliasBox"]').val(),
+                'note': $(data).find('td:eq(4)').find('input[name="groupNoteBox"]').val(),
+                'platforms': $(data).find('td:eq(5)').text()
+            });
+        });
+        return groups;
+    }
+
+
     // Create a list of users objects from the table
     function selectUserObjectsNoCheck() {
         let users = [];
@@ -746,23 +892,71 @@
         return users;
     }
 
+    // Create a list of users objects from the table
+    function selectUserObjectsCheck() {
+        let users = [];
+        $('#usersTab input[type=checkbox]:checked').each(function () {
+            let data = $(this).parents('tr:eq(0)');
+            users.push({
+                'username': $(data).find('td:eq(1)').text(),
+                'password': $(data).find('td:eq(2)').text(),
+                'group': $(data).find('td:eq(3)').text(),
+                'alias': $(data).find('td:eq(4)').find('input[name="userAliasBox"]').val(),
+                'note': $(data).find('td:eq(5)').find('input[name="userNoteBox"]').val(),
+                'platforms': $(data).find('td:eq(6)').text()
+            });
+        });
+        return users;
+    }
+
     // Check and uncheck all the selection boxes on user table
     function users_check_uncheck_all() {
         let checkboxes = document.getElementsByName("users_checkbox_platform");
+        let button = document.getElementById("users_check_uncheck_all");
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = users_check;
         }
         users_check = !users_check;
+        if (users_num === 0) {
+            button.innerHTML = "Uncheck";
+            users_num = 1;
+        } else if (users_num === 1) {
+            button.innerHTML = "Check";
+            users_num = 0;
+        }
     }
 
     // Check and uncheck all the selection boxes on group table
     function group_check_uncheck_all() {
         let checkboxes = document.getElementsByName("groups_checkbox_platform");
+        let button = document.getElementById("group_check_uncheck_all");
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = group_check;
         }
         group_check = !group_check;
+        if (groups_num === 0) {
+            button.innerHTML = "Uncheck";
+            groups_num = 1;
+        } else if (groups_num === 1) {
+            button.innerHTML = "Check";
+            groups_num = 0;
+        }
     }
+
+    function check_all(table) {
+        let checkboxes = document.getElementsByName(table);
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
+    }
+
+    function uncheck_all(table) {
+        let checkboxes = document.getElementsByName(table);
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+    }
+
 
     // Allows only numbers on text box
     function isNumberKey(evt) {
@@ -773,13 +967,30 @@
     // Save Group Notes
     $(document).ready(function () {
         $('#saveGroupNotesBtn').click(function () {
-            let groups = selectGroupObjectsNoCheck();
+            let groups = selectGroupObjectsCheck();
             if (groups.length < 1) {
-                alert("At least one group must exist!");
+                $.notify("At least one group must be selected!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToGroup(groups, 0, "Note");
-                alert("Group Notes saved.");
-                //console.log(JSON.stringify(groups));
+                $.notify("Group Notes saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });                //console.log(JSON.stringify(groups));
             }
         });
     });
@@ -787,12 +998,30 @@
     // Save User Notes
     $(document).ready(function () {
         $('#saveUserNotesBtn').click(function () {
-            let users = selectUserObjectsNoCheck();
+            let users = selectUserObjectsCheck();
             if (users.length < 1) {
-                alert("At least one user must exist!");
+                $.notify("At least one user must be selected!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToUser(users, 0, "Note");
-                alert("User Notes saved.");
+                $.notify("User Notes saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
@@ -801,12 +1030,30 @@
     // Save Group Aliases
     $(document).ready(function () {
         $('#saveGroupAliasBtn').click(function () {
-            let groups = selectGroupObjectsNoCheck();
+            let groups = selectGroupObjectsCheck();
             if (groups.length < 1) {
-                alert("At least one group must exist!");
+                $.notify("At least one group must be selected!!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToGroup(groups, 0, "Alias");
-                alert("Group Aliases saved.");
+                $.notify("Group Aliases saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
@@ -814,12 +1061,30 @@
     // Save User Aliases
     $(document).ready(function () {
         $('#saveUserAliasBtn').click(function () {
-            let users = selectUserObjectsNoCheck();
+            let users = selectUserObjectsCheck();
             if (users.length < 1) {
-                alert("At least one user must exist!");
+                $.notify("At least one user must be selected!!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 addToUser(users, 0, "Alias");
-                alert("User Aliases saved.");
+                $.notify("User Aliases saved.", {
+                    type: 'success',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             }
         });
     });
@@ -827,8 +1092,9 @@
     // Clear Group Notes
     $(document).ready(function () {
         $('#clearGroupNotesBtn').click(function () {
-            $('#groupsTab > tbody > tr').each(function () {
-                $(this).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
+            $('#groupsTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(4)').find('input[name="groupNoteBox"]').val("");
             });
         });
     });
@@ -836,8 +1102,9 @@
     // Clear User Notes
     $(document).ready(function () {
         $('#clearUserNotesBtn').click(function () {
-            $('#usersTab > tbody > tr').each(function () {
-                $(this).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
+            $('#usersTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(5)').find('input[name="userNoteBox"]').val("");
             });
         });
     });
@@ -845,17 +1112,19 @@
     // Clear Group Aliases
     $(document).ready(function () {
         $('#clearGroupAliasBtn').click(function () {
-            $('#groupsTab > tbody > tr').each(function () {
-                $(this).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
+            $('#groupsTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(3)').find('input[name="groupAliasBox"]').val("");
             });
         });
     });
 
-    // Clear Group Aliases
+    // Clear User Aliases
     $(document).ready(function () {
         $('#clearUserAliasBtn').click(function () {
-            $('#usersTab > tbody > tr').each(function () {
-                $(this).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
+            $('#usersTab input[type=checkbox]:checked').each(function () {
+                let data = $(this).parents('tr:eq(0)');
+                $(data).find('td:eq(4)').find('input[name="userAliasBox"]').val("");
             });
         });
     });
@@ -866,21 +1135,39 @@
             let gcount = $("#group_count").val();
             let upgroup = $("#users_per_group").val();
             if (gcount === '' && upgroup === '') {
-                alert("Please fill out the form");
+                $.notify("Please fill out the form", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else if (gcount === '' && upgroup !== '') {
-                alert('Group Count field is required')
+                $.notify("Group Count field is required", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else if (upgroup === '' && gcount !== '') {
-                alert('Users Per Group field is required')
+                $.notify("Users Per Group field is required", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
-                // $.post("http://localhost:5001/api/v2/resources/group", //Required URL of the page on server
-                //     JSON.stringify({
-                //         "group_count": gcount,
-                //         "users_per_group": upgroup
-                //     }),
-                //     function () { // Required Callback Function
-                //         // $("#groupsTab").load(location.href + " #groupsTab>*", "");
-                //         // $("#usersTab").load(location.href + " #usersTab>*", "");
-                //     });
                 $.ajax({
                     type: "POST",
                     url: "http://0.0.0.0:5001/api/v2/resources/group",
@@ -895,6 +1182,16 @@
                     },
                     complete: function () {
                         reload_groups();
+                        $.notify("Successfully added " + gcount + " group(s) with " + upgroup + " user(s) per group.", {
+                            type: 'success',
+                            animate: {
+                                enter: 'animated fadeInRight',
+                                exit: 'animated fadeOutRight'
+                            },
+                            offset: 20,
+                            spacing: 10,
+                            newest_on_top: true
+                        });
                     }
                 });
             }
@@ -910,9 +1207,27 @@
             });
             let list_of_groups = selectGroupIDs();
             if (list_of_groups.length === 0) {
-                alert("Please select at least one group for attachment.");
+                $.notify("Please select at least one group for attachment.", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else if (main_plats.length === 0) {
-                alert("Must select at least one platform!")
+                $.notify("Must select at least one platform!", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 for (let i in list_of_groups) {
                     $.ajax({
@@ -930,6 +1245,16 @@
                         },
                         complete: function () {
                             reload_groups();
+                            $.notify("Attachment successful!", {
+                                type: 'success',
+                                animate: {
+                                    enter: 'animated fadeInRight',
+                                    exit: 'animated fadeOutRight'
+                                },
+                                offset: 20,
+                                spacing: 10,
+                                newest_on_top: true
+                            });
                         }
                     });
                 }
@@ -974,7 +1299,16 @@
         $('#btnDelUsr').click(function () {
             let list_of_users = selectUserIDs();
             if (list_of_users.length === 0) {
-                alert("Please select at least one user for deletion.");
+                $.notify("Please select at least one user for deletion.", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 $.ajax({
                     type: "DELETE",
@@ -986,6 +1320,16 @@
                     }),
                     success: function () {
                         reload_groups();
+                        $.notify("Successfully deleted " + list_of_users.length + " user(s)", {
+                            type: 'success',
+                            animate: {
+                                enter: 'animated fadeInRight',
+                                exit: 'animated fadeOutRight'
+                            },
+                            offset: 20,
+                            spacing: 10,
+                            newest_on_top: true
+                        });
                     },
                 });
             }
@@ -997,7 +1341,16 @@
         $('#groupDelBtn').click(function () {
             let list_of_groups = selectGroupIDs();
             if (list_of_groups.length === 0) {
-                alert("Please select at least one user for deletion.");
+                $.notify("Please select at least one group for deletion.", {
+                    type: 'danger',
+                    animate: {
+                        enter: 'animated fadeInRight',
+                        exit: 'animated fadeOutRight'
+                    },
+                    offset: 20,
+                    spacing: 10,
+                    newest_on_top: true
+                });
             } else {
                 $.ajax({
                     type: "DELETE",
@@ -1009,6 +1362,16 @@
                     }),
                     complete: function () {
                         reload_groups();
+                        $.notify("Successfully deleted " + list_of_groups.length + " group(s)", {
+                            type: 'success',
+                            animate: {
+                                enter: 'animated fadeInRight',
+                                exit: 'animated fadeOutRight'
+                            },
+                            offset: 20,
+                            spacing: 10,
+                            newest_on_top: true
+                        });
                     }
                 });
             }

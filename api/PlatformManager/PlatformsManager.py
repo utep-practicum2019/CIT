@@ -1,5 +1,7 @@
+import datetime
 import os
 import random
+import requests
 import socket
 import subprocess
 import threading
@@ -33,6 +35,52 @@ class PlatformsManager:
         self.PlatformTree = PlatformTreeManager()
         self.plugin_manager = PluginManager()
         self.PlatformTracker = {}
+        self.CITURL = 'http://127.0.0.1:5001'
+        self.PlatformsURL = "/api/v2/resources/platform?all=True"
+        self.getPlatformsURL = self.CITURL + self.PlatformsURL
+        self.reinstantiated = False
+        self.reinstantiateThread()
+
+
+    def reinstantiateThread(self):
+        try:
+            thread = threading.Thread(target=self.reinstantiate, args=())
+            thread.daemon = True
+            thread.start()
+            return
+        except Exception as ex:
+            print(ex)
+            return "Failure"
+
+    def reinstantiate(self):
+        time.sleep(1)
+        response = requests.get(self.getPlatformsURL)
+        print("RESPONSE " + str(response.json()))
+        platformList = response.json()
+        a = input()
+        for x in range(0, len(platformList)):
+            # response[x] platform number x
+            resp = platformList[x]
+            Main_Platform = self.plugin_manager.loadPlatform(resp["main"]["name"])
+            Main_Platform.setPlatformID(int(resp["main"]["id"]))
+            ip, port = resp["main"]["ip_port"].split(":")
+            Main_Platform.setIpPort(ip, port)
+            Main_Platform.setPlatformAlias(resp["main"]["alias"])
+            Main_Platform.setPlatformNote(resp["main"]["note"])
+            subs = {}
+            for x in range(0, len(resp["subplatforms"])):
+                subplatform = resp["subplatforms"][x]
+                subPlatform = self.plugin_manager.loadPlatform(subplatform["name"])
+                subPlatform.setPlatformID(subplatform["id"])
+                ip, port = subplatform["ip_port"].split(":")
+                subPlatform.setIpPort(ip, port)
+                Main_Platform.setPlatformAlias(subplatform["alias"])
+                Main_Platform.setPlatformNote(subplatform["note"])
+                subs[subPlatform.getPlatformName()] = subPlatform
+            Main_Platform.set_sub_platforms(subs)
+            self.PlatformTree.reAdd(Main_Platform)
+            print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
+            Main_Platform.get_sub_platforms()))
 
     def createPlatform(self, platform, sub_platforms):
         try:
@@ -43,11 +91,17 @@ class PlatformsManager:
                 return "Failure"
             subplatforms = {}
             Main_Platform = self.plugin_manager.loadPlatform(platform)
+
+            date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            Main_Platform.setPlatformDateCreated(date)
+
             for x in sub_platforms:
                 if x not in available_plugins['sub_platforms']:
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 subplatforms[x] = self.plugin_manager.loadPlatform(x)
+                # date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                # subplatforms[x].setPlatformDateCreated(date)
 
             Main_Platform.set_sub_platforms(subplatforms)
 
@@ -69,14 +123,17 @@ class PlatformsManager:
 
             subplatforms = Main_Platform.get_sub_platforms()
             sub_platformIDs = {}
-
             for x in sub_platforms:
-                if (x not in available_plugins):
+                if (x not in available_plugins["sub_platforms"]):
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 id = self.PlatformTree.generate_sub_ID(Main_Platform)
                 sPlatform = self.plugin_manager.loadPlatform(x)
                 sPlatform.setPlatformID(id)
+
+                date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                sPlatform.setPlatformDateCreated(date)
+
                 sub_platformIDs[x] = id
                 subplatforms[x] = sPlatform
 
@@ -135,7 +192,9 @@ class PlatformsManager:
             main_id = Main_Platform.getPlatformID()
             subplatforms = Main_Platform.get_sub_platforms()
             platformTracker = self.PlatformTracker.keys()
+            # checking if platform is not already running
             if main_id not in platformTracker:
+                # check if platform IP is available, if not re assign IP
                 if not self.check_service(Main_Platform):
                     self.PlatformTracker[main_id] = []
                     self.startPlatformThread(Main_Platform)
@@ -145,6 +204,7 @@ class PlatformsManager:
                     Main_Platform.setIpPort(newIP, str(newPort))
                     self.startPlatformThread(Main_Platform)
             subTracker = self.PlatformTracker[main_id]
+            # instantiate all subplatforms if it is an empty list
             if subplatformsIDs == []:
                 time.sleep(3)
                 for x in subplatforms:
@@ -160,7 +220,7 @@ class PlatformsManager:
                             subTracker.append(sub_id)
                             self.startPlatformThread(Main_Platform)
                             time.sleep(3)
-            else:
+            else:  # Instantiate Specific Platforms
                 for x in subplatforms:
                     sub_id = subplatforms[x].getPlatformID()
                     if sub_id in subplatformsIDs:
@@ -196,7 +256,10 @@ class PlatformsManager:
 
     def start(self, platform):
         try:
+            # keep track of processID
             process = subprocess.Popen([platform.get_start_command()], shell=True)
+            # any other processes that are executed in child process is process id + the number of extra processes.
+            # Since specific platforms produce an extra thread under the child process, the process ID for that platform is child process id + 1
             platform.setProcessID(process.pid + 1)
         except Exception as ex:
             print(ex)
@@ -204,40 +267,44 @@ class PlatformsManager:
             return "Failure"
 
     def stopPlatforms(self, platformID, subplatformIDs):
-        try:
-            Main_Platform = self.PlatformTree.getPlatform(platformID)
-            if (Main_Platform is None):
-                print("No such Platform with ID: " + str(platformID))
-                return (None, "Failure")
-            subplatforms = Main_Platform.get_sub_platforms()
-            platformTracker = self.PlatformTracker.keys()
-            if not subplatformIDs:
-                for x in subplatforms:
-                    if self.check_service(subplatforms[x]):
+        # try:
+        Main_Platform = self.PlatformTree.getPlatform(platformID)
+        if (Main_Platform is None):
+            print("No such Platform with ID: " + str(platformID))
+            return (None, "Failure")
+        subplatforms = Main_Platform.get_sub_platforms()
+        platformTracker = self.PlatformTracker.keys()
+        if not subplatformIDs:
+            for x in subplatforms:
+                if self.check_service(subplatforms[x]):
+                    self.stop(subplatforms[x])
+                    time.sleep(3)
+
+            if self.check_service(Main_Platform) or platformID in platformTracker:
+                del self.PlatformTracker[platformID]
+
+                self.stop(Main_Platform)
+                time.sleep(3)
+        else:
+            subTracker = self.PlatformTracker[platformID]
+            print(str(subTracker))
+            for x in subplatforms:
+                subplatformID = subplatforms[x].getPlatformID()
+                if subplatforms[x].getPlatformID() in subplatformIDs:
+                    if self.check_service(subplatforms[x]) or subplatformID in subTracker:
+                        indx = subTracker.index(subplatformID)
+                        del self.PlatformTracker[platformID][indx]
+
                         self.stop(subplatforms[x])
                         time.sleep(3)
 
-                if self.check_service(Main_Platform) or platformID in platformTracker:
-                    del self.PlatformTracker[platformID]
-
-                    self.stop(Main_Platform)
-                    time.sleep(3)
-            else:
-                subTracker = self.PlatformTracker[platformID]
-                for x in subplatforms:
-                    subplatformID = subplatforms[x].getPlatformID()
-                    if subplatforms[x].getPlatformID() in subplatformIDs:
-                        if self.check_service(subplatforms[x]) or subplatformID in subTracker[platformID]:
-                            del self.PlatformTracker[platformID][subplatformID]
-
-                            self.stop(subplatforms[x])
-                            time.sleep(3)
-
-            return (Main_Platform, "Success")
-        except Exception as ex:
-            print(ex)
-            print("Platform:" + str(platformID) + " Thread failed")
-            return (None, "Failure")
+        return (Main_Platform, "Success")
+        '''
+    except Exception as ex:
+        print(ex)
+        print("Platform:" + str(platformID) + " Thread failed")
+        return (None, "Failure")
+        '''
 
     def stop(self, platform):
         try:
@@ -334,23 +401,9 @@ class PlatformsManager:
             print("         " + subplatforms[x].getPlatformName() + " id: " + str(subplatforms[x].getPlatformID()))
 
 # A = PlatformsManager()
-# Main_Platform = A.createPlatform("FilesUpload", ["Rocketchat", "TiddlyWiki"])
-# MainID = Main_Platform.getPlatformID()
-# Main_Platform.requestHandler({"command":"addFile", "parameters": {"filePath": "./Platforms/Read/Albert.txt"}})
-# Main_Platform.requestHandler({"command":"delFile", "parameters": {"file": "Albert.txt"}})
-# # sub_platforms = Main_Platform.get_sub_platforms()
-# # subIDs = []
-# # for x in sub_platforms:
-# #     subIDs.append(sub_platforms[x].getPlatformID())
-# # C = A.startPlatforms(MainID, subIDs)
-# # input("whenever bruh")
-# # status = A.checkPlatformStatus(MainID, [])
-# # B = A.addPlatform(MainID, {"TiddlyWiki"})
-# # C = A.startPlatforms(MainID, [])
-# # input("whenever bruh")
-# # status = A.checkPlatformStatus(MainID, [])
-# # print("status" + str(status))
-# # input("whenever bruh")
-# # time.sleep(5)
-# A.stopPlatforms(MainID, [] )
-# input("whenever bruh")
+# a = input()
+# A.startPlatforms(8000, [])
+# a = input()
+# A.stopPlatforms(8000, [9090])
+# a = input()
+# A.stopPlatforms(8000,[])

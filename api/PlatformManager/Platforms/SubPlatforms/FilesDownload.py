@@ -18,6 +18,7 @@ class FilesDownload(Platform):
     platform_name = "FilesDownload"
     platform_alias = ""
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
@@ -56,6 +57,10 @@ class FilesDownload(Platform):
     #returns platform note
     def getPlatformNote(self):
         return self.platform_note
+
+    #get platform creation date
+    def getPlatformDateCreated(self):
+        return self.platform_date_created
     
     #returns where the platforms installation path
     def getPlatformInstallation(self):
@@ -105,6 +110,10 @@ class FilesDownload(Platform):
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note 
+
+    #set platform creation date
+    def setPlatformDateCreated(self, date):
+        self.platform_date_created = date
     
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

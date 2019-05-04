@@ -1,7 +1,7 @@
 import unittest
-from ChappieEditor import PPTP_ConnectionsSublcass
-from IkesEditor import IKE_ConnectionsSublcass
-from Connections import Connections
+from .ChappieEditor import PPTP_ConnectionsSublcass
+from .IkesEditor import IKE_ConnectionsSublcass
+from .Connections import Connections
 import Configure
 
 #For all test cases need to uncomment test files in all four classes and comment out filepaths 

@@ -1,5 +1,6 @@
-import requests
 import time
+
+import requests
 
 from .PlatformsManager import PlatformsManager
 from .PluginManager import PluginManager
@@ -20,7 +21,7 @@ class PlatformInterface():
     def __init__(self):
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        self.cit_url = 'http://127.0.0.1:5001'
+        self.cit_url = 'http://0.0.0.0:5001'
         self.database_path = '/api/v2/resources/database'
         self.database_url = self.cit_url + self.database_path
 
@@ -156,16 +157,14 @@ class PlatformInterface():
         else:
             return {"Status": status, "Response": {}}
 
-    def getPlatformStatus(self, platform_ID):
-        Main_Platform = self.platformManager.getPlatform(platform_ID)
-        
-        if (Main_Platform.getPlatformID() == platform_ID):
+    def getPlatformStatus(self, main_ID, subplatform_ID=0):
+        Main_Platform = self.platformManager.getPlatform(main_ID)
+        if (subplatform_ID == 0):
             status = self.platformManager.check_service(Main_Platform)
         else:
             Subplatforms = Main_Platform.get_sub_platforms()
-
             for x in Subplatforms:
-                if (Subplatforms[x].getPlatformID() == platform_ID):
+                if (Subplatforms[x].getPlatformID() == subplatform_ID):
                     status = self.platformManager.check_service(Subplatforms[x])
                     break
 
@@ -286,7 +285,8 @@ class PlatformInterface():
                                   "ip_port": Main_Platform.getIpPort(),
                                   "name": Main_Platform.getPlatformName(),
                                   "alias": Main_Platform.getPlatformAlias(),
-                                  "note": Main_Platform.getPlatformNote()},
+                                  "note": Main_Platform.getPlatformNote(),
+                                  "date_created": Main_Platform.getPlatformDateCreated()},
                          "subplatforms": []
                          }
 
@@ -295,7 +295,8 @@ class PlatformInterface():
                                                   "ip_port": Subplatforms[x].getIpPort(),
                                                   "name": Subplatforms[x].getPlatformName(),
                                                   "alias": Subplatforms[x].getPlatformAlias(),
-                                                  "note": Subplatforms[x].getPlatformNote()
+                                                  "note": Subplatforms[x].getPlatformNote(),
+                                                  "date_created": Subplatforms[x].getPlatformDateCreated()
                                                   })
 
         request_data = {"collection_name": "platforms",

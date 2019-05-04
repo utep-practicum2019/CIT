@@ -5,6 +5,23 @@ from flask_restful import Resource
 from Schemas.Platform_Schema import *
 
 
+def format_status(platform):
+    results = "Stopped"
+    if len(platform["subplatforms"]) == 0:
+        if PlatformAPI.platform_interface.getPlatformStatus(platform["main"]["id"]):
+            results = "Running"
+    elif len(platform["subplatforms"]) == 1:
+        if PlatformAPI.platform_interface.getPlatformStatus(platform["main"]["id"]):
+            results = "Running"
+    else:
+        at_least_one = 0
+        for plat in platform["subplatforms"]:
+            if PlatformAPI.platform_interface.getPlatformStatus(platform["main"]["id"], plat["id"]):
+                at_least_one += 1
+        results = str(at_least_one) + " Running"
+    return results
+
+
 class PlatformAPI(Resource):
     from .PlatformManagerInstance import PlatformManagerInstance
     platform_interface = PlatformManagerInstance.get_instance().platform_interface
@@ -19,9 +36,15 @@ class PlatformAPI(Resource):
         data, errors = platform_get_request_schema.load(json_data)
         if errors:
             return errors, 422
-        results = {"success: false"}
+        results = {"success": False}
+
         if "all" in data:
             if data["all"]:
+                # from Database.database_handler import DatabaseHandler
+                # results = DatabaseHandler.find_all("platforms")
+                # for plat in results:
+                #     plat["status"] = format_status(plat)
+                # return results
                 from Database.database_handler import DatabaseHandler
                 return DatabaseHandler.find_all("platforms")
             else:
@@ -29,7 +52,25 @@ class PlatformAPI(Resource):
                 if results is None:
                     results = {"success": False}
         elif "status" in data:
-            results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])
+            if "sub" in data:
+                from Database.database_handler import DatabaseHandler
+                results = DatabaseHandler.find("platforms", data["platform_ID"])
+                for plat in results["subplatforms"]:
+                    plat["status"] = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"], plat["id"])
+            else:
+                from Database.database_handler import DatabaseHandler
+                results = DatabaseHandler.find("platforms", data["platform_ID"])
+                results = format_status(results)
+                # if len(results["subplatforms"]) == 0:
+                #     results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])
+                # elif len(results["subplatforms"]) == 1:
+                #     results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])
+                # else:
+                #     at_least_one = False
+                #     for plat in results["subplatforms"]:
+                #         at_least_one = at_least_one or PlatformAPI.platform_interface.getPlatformStatus(
+                #             data["platform_ID"], plat["id"])
+                #     results = at_least_one
         elif "alias" in data:
             from Database.database_handler import DatabaseHandler
             results = DatabaseHandler.find("platforms", data["platform_ID"])

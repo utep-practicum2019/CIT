@@ -16,6 +16,7 @@ class Platform(abc.ABC):
     platform_name = ""
     platform_alias = ""
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = ""
     platform_end_command = ""
     platform_version = ""
@@ -48,6 +49,10 @@ class Platform(abc.ABC):
 
     @abc.abstractmethod
     def getPlatformNote(self):
+        pass
+
+    @abc.abstractmethod
+    def getPlatformDateCreated(self):
         pass
     
     @abc.abstractmethod
@@ -96,6 +101,10 @@ class Platform(abc.ABC):
 
     @abc.abstractmethod
     def setPlatformNote(self, note):
+        pass
+
+    @abc.abstractmethod
+    def setPlatformDateCreated(self, date):
         pass
     
     @abc.abstractmethod

@@ -165,6 +165,10 @@ class PlatformTreeManager():
         self.root = self.PlatformTree.addNode(self.root, platform)
         return (main_id, subplatform_ids)
     
+    def reAdd(self, platform):
+        self.root = self.PlatformTree.addNode(self.root, platform)
+        return 
+    
     def remove(self, platformID):
         self.root = self.PlatformTree.deleteNode(self.root, platformID)
         return self.root 

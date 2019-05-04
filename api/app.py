@@ -166,6 +166,7 @@ def check_file_status():
     repeat = True
 
     while repeat:
+        from PlatformManager.Platforms.SubPlatforms.Results import Results
         status = Results.getStatus(session['group_id'])
         time.sleep(60)
         if status:

@@ -15,6 +15,7 @@ class VirtualMachine(Platform):
     platform_name = "VirtualMachine"
     platform_alias = "IDS Virtual Machine"
     platform_note = ""
+    platform_date_created = ""
     platform_start_command = "sudo su - practicum -c 'VBoxManage startvm Ubuntu16 --type headless'"
     platform_end_command = "sudo su - practicum -c 'VBoxManage controlvm Ubuntu16 poweroff'"
     platform_version = ""
@@ -52,6 +53,10 @@ class VirtualMachine(Platform):
     #returns platform note
     def getPlatformNote(self):
         return self.platform_note
+
+    #get platform creation date
+    def getPlatformDateCreated(self):
+        return self.platform_date_created
 
     #returns where the platforms installation path
     def getPlatformInstallation(self):
@@ -108,6 +113,10 @@ class VirtualMachine(Platform):
     #set platform note
     def setPlatformNote(self, note):
         self.platform_note = note
+
+    #set platform creation date
+    def setPlatformDateCreated(self, date):
+        self.platform_date_created = date
 
     #set where the platforms installation path
     def setPlatformInstallation(self, platformInstallation):

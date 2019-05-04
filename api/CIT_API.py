@@ -1,12 +1,11 @@
 from flask import Flask, send_file
 # client gui
 from flask import render_template, request, redirect
+# User GUI
+from flask import session, url_for, flash, send_from_directory
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
-
-# User GUI
-from flask import session, url_for, flash, send_from_directory
 from werkzeug.utils import secure_filename
 import glob
 import os
@@ -14,9 +13,7 @@ import time
 import datetime
 from pprint import pprint
 
-
 from Database.database_handler import DatabaseHandler
-from PlatformManager.PlatformInterface import  PlatformInterface
 from Resources.ConnectionResource import ConnectionAPI
 from Resources.DatabaseResource import DatabaseAPI
 from Resources.GroupResource import GroupAPI
@@ -33,7 +30,6 @@ app.secret_key = "turtles are the best!"
 api = Api(app)
 CORS(app)
 
-
 api.add_resource(DatabaseAPI, '/api/v2/resources/database')
 api.add_resource(ConnectionAPI, '/api/v2/resources/connection')
 api.add_resource(UserAPI, '/api/v2/resources/user')
@@ -42,7 +38,6 @@ api.add_resource(PlatformAPI, '/api/v2/resources/platform')
 api.add_resource(RocketChatAPI, '/api/v2/resources/platform/rocketchat')
 
 api.add_resource(LoginAPI, '/api/v2/resources/login')
-
 
 """
     =========================================================================================
@@ -332,4 +327,5 @@ def formexample():
 
 
 if __name__ == '__main__':
+    app.debug = True
     app.run(host="0.0.0.0", port=5001)

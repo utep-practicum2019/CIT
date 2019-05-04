@@ -5,20 +5,20 @@ function SortTable() {
     var sortColumn = parseInt(arguments[0]);
     let type = arguments.length > 1 ? arguments[1] : 'T';
     let dateformat = '';
-    let TableIDvalue = '';
+    let TableIDvalue;
     let resort = false;
-    if (type === 'D') {
-        dateformat = arguments.length > 2 ? arguments[2] : '';
-        TableIDvalue = arguments[3];
-        if (arguments.length === 5) {
-            resort = arguments[4];
-        }
-    } else {
+    // if (type === 'D') {
+    //     dateformat = arguments.length > 2 ? arguments[2] : '';
+    //     TableIDvalue = arguments[3];
+    //     if (arguments.length === 5) {
+    //         resort = arguments[4];
+    //     }
+    // } else {
         TableIDvalue = arguments[2];
         if (arguments.length === 4) {
             resort = arguments[3];
         }
-    }
+    // }
     var table = document.getElementById(TableIDvalue);
     var tbody = table.getElementsByTagName("tbody")[0];
     var rows = tbody.getElementsByTagName("tr");
@@ -30,7 +30,7 @@ function SortTable() {
         arrayOfRows[i].oldIndex = i;
         var celltext = rows[i].getElementsByTagName("td")[sortColumn].innerHTML.replace(/<[^>]*>/g, "");
         if (type === 'D') {
-            arrayOfRows[i].value = GetDateSortingKey(dateformat, celltext);
+            //arrayOfRows[i].value = GetDateSortingKey(dateformat, celltext);
         } else {
             var re = type === "N" ? /[^.\-+\d]/g : /[^a-zA-Z0-9]/g;
             arrayOfRows[i].value = celltext.replace(re, "").substr(0, 25).toLowerCase();
@@ -48,7 +48,12 @@ function SortTable() {
                 arrayOfRows.sort(CompareRowOfNumbers);
                 break;
             case "D" :
-                arrayOfRows.sort(CompareRowOfNumbers);
+                arrayOfRows.sort(function(a,b){
+                    // Turn your strings into dates, and then subtract them
+                    // to get a value that is either negative, positive, or zero.
+                    return new Date(a) - new Date(b);
+                });
+                // arrayOfRows.sort(CompareRowOfNumbers);
                 break;
             default  :
                 arrayOfRows.sort(CompareRowOfText);
@@ -82,6 +87,9 @@ function CompareRowOfNumbers(a, b) {
     var bval = /\d/.test(b.value) ? parseFloat(b.value) : 0;
     return (aval == bval ? 0 : (aval > bval ? 1 : -1));
 } // function CompareRowOfNumbers()
+
+
+
 
 /**
  * @return {string}
