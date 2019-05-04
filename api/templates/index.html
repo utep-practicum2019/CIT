@@ -4,7 +4,7 @@
         <title>Collaborative Innovation Testbed</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href = "{{ url_for('static', filename='css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     </head>
 
@@ -12,14 +12,13 @@
 
         <div class="container-fluid">
             <nav class="navbar navbar-light bg-white">
-                <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+                <img id="logo" src="{{ url_for('static', filename='ARL.jpg') }}">
                 <div class="col-3" id="displayMessages">
 
                 </div>
                 <div class="col-4">
                     <div id="userDisplay">
                         <h5 id="user">Username: {{ username }}</h5>
-                        <h6>Remote IP: {{ remote_ip }}</h6>
                         <h6>Group {{ group_id }}</h6>
                     <h6>
                     Team Members:
@@ -216,10 +215,7 @@
                                         {% elif v[0] == "Results" %}
                                             <span title="{{id}},{{v[2]}}" style="display: none" id="ResultIDs">{{id}},{{v[2]}}</span>
                                             <div id="showResults">
-                                                <button class="btn btn-primary" type="button" disabled>
-                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                    Loading Results...
-                                                </button>
+                                                Please upload a file in the Challenges Platform to get your results
                                             </div>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
@@ -269,13 +265,11 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-                crossorigin="anonymous"></script>
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>-->
+        <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+        <script src = "{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <script src = "{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
         <script>
 
             let repeat = 44;
@@ -326,11 +320,15 @@
                         } else if (tmp == "done" && response['done']) {
                             console.log("status: " + response["done"]);
                             showResults(ids)
+                        } else if (repeat >= 0){
+                            setTimeout(getStatus, 2000);  // calling every 2 seconds
+                            repeat--;
                         } else {
-                            if (repeat >= 0){
-                                setTimeout(getStatus, 2000);  // calling every 2 seconds
-                                repeat--;
-                            }
+                            alert('request did not succeed: request timed out');
+                            document.getElementById("showResults").innerHTML = '<p>' +
+                                'Please upload a file in the Challenges Platform to get your results' +
+                                '</p>'
+                            repeat = 44;
                         }
 
                     }
@@ -422,6 +420,12 @@
             var scrollmem = $('body').scrollTop() || $('html').scrollTop();
             window.location.hash = this.hash;
             $('html, body').scrollTop(scrollmem);
+
+            document.getElementById("showResults").innerHTML = '\
+                    <button class="btn btn-primary" type="button" disabled> \
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
+                        Loading Results... \
+                    </button>'
         });
 
         </script>
