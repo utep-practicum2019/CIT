@@ -9,7 +9,8 @@ from pymongo import MongoClient
 
 
 class Database:
-    __client = MongoClient('localhost', 27017)
+    cit_url = os.environ.get('HOST')
+    __client = MongoClient(cit_url, 27017)
     __db = __client['cit']
     __users = __db['users']
     __groups = __db['groups']
