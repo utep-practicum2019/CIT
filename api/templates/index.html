@@ -273,6 +273,7 @@
         <script>
 
             let repeat = 44;
+            let filename = 'nofileyet.txt'
 
             // $(function(){
             //     var hash = window.location.hash;
@@ -307,7 +308,7 @@
                         "configuration": {
                             "command": "getStatus",
                             "param": {
-                                "filename": '{{ filename }}'
+                                "filename": filename
                             }
                         }
                     }),
@@ -348,7 +349,7 @@
                         "configuration": {
                             "command": "getResults",
                             "param": {
-                                "filename": '{{ filename }}'
+                                "filename": filename
                             }
                         }
                     }),
@@ -394,6 +395,7 @@
                     cache: false,
                     processData: false,
                     success: function(data) {
+                        filename = data
                         console.log('Success!');
                         var hash = window.location.hash;
 

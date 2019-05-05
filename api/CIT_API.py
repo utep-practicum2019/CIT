@@ -134,7 +134,7 @@ def fileUpload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             send_from_directory(app.config['UPLOAD_FOLDER'], filename)
             session['filename'] = file.filename[:-5] + "txt"
-            return "yay"
+            return session['filename']
 
 
 @app.route('/<path>/<file_name>')
