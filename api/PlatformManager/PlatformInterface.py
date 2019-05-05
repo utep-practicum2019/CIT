@@ -19,7 +19,7 @@ from .PluginManager import PluginManager
 class PlatformInterface():
 
     def __init__(self):
-        self.cit_url = os.environ.get('HOST')
+        self.cit_url = 'http://'+os.environ.get('HOST')
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
         #self.cit_url = 'http://0.0.0.0:5001'
