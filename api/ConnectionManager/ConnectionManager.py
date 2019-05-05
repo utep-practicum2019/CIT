@@ -1,7 +1,7 @@
-import pyinotify
 import subprocess
-from .Session import Session
-import time
+
+import pyinotify
+
 from . import Configure
 
 
@@ -102,26 +102,27 @@ class ConnectionManager():
         usersArr = Configure.addUsers(numberOfUsers)
         usersDictionary = {}
         for x in range(numberOfUsers):
-            usersDictionary[x] = {"username":usersArr[x].username,
-            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+            usersDictionary[x] = {"username": usersArr[x].username,
+                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
         return usersDictionary
 
-    def deleteUsers(self,listOfUsers):
-        deleteResult=Configure.deleteUsers(listOfUsers)
+    def deleteUsers(self, listOfUsers):
+        deleteResult = Configure.deleteUsers(listOfUsers)
         return deleteResult
 
-    def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
-        updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
+    def updateUserConnection(self, currUsername, newUsername, newPassword, newIP):
+        updateResult = Configure.modifyUser(currUsername, newUsername, newPassword, newIP)
         return updateResult
 
     def fileAddUsers(self, userList):
-        usersArr=[]
-        usersArr=Configure.fileAddUsers(userList)
-        usersDictionary={}
+        usersArr = []
+        usersArr = Configure.fileAddUsers(userList)
+        usersDictionary = {}
         for x in range(len(userList)):
-            usersDictionary[x] = {"username":usersArr[x].username,
-            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+            usersDictionary[x] = {"username": usersArr[x].username,
+                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
         return usersDictionary
+
 
 """
 if __name__ == "__main__":

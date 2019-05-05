@@ -6,15 +6,15 @@
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <style>
-        .container {
-            padding: 10px;
-            text-align: center;
-        }
+        /*.container {*/
+        /*    padding: 10px;*/
+        /*    text-align: center;*/
+        /*}*/
 
-        .left-element {
-            display: inline-block;
-            padding: 10px;
-        }
+        /*.left-element {*/
+        /*    display: inline-block;*/
+        /*    padding: 10px;*/
+        /*}*/
 
         .spinner-border.text-primary {
             display: none;
@@ -29,6 +29,15 @@
         .nav-link.dropdown-toggle {
             font-weight: bold;
             color: #007bff !important;
+        }
+
+        .nav-link {
+            cursor: pointer
+        }
+
+        .dropdown-item {
+            color: #007bff !important;
+            cursor: pointer
         }
 
     </style>
@@ -106,20 +115,24 @@
 <!--        -->
 <!--    </div>-->
 <!--</div>-->
-<table class="table table-hover" id="connectionsTable">
-    <thead>
-    <tr>
-        <th><a href="javascript:SortTable(0,'T', 'connectionsTable');">Connection Type</a></th>
-        <th>Public IP</th>
-        <th><a href="javascript:SortTable(2,'T', 'connectionsTable');">Username</a></th>
-        <th><a href="javascript:SortTable(3,'T', 'connectionsTable');">Start Time</a></th>
-        <th><a href="javascript:SortTable(4,'T', 'connectionsTable');">End Time</a></th>
-        <th><a href="javascript:SortTable(5,'T', 'connectionsTable');">Status</a></th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="container-fluid">
+    <table class="table table-hover" id="connectionsTable">
+        <thead>
+        <tr>
+            <th><a href="javascript:SortTable(0,'T', 'connectionsTable');">Connection Type</a></th>
+            <th>Public IP</th>
+            <th><a href="javascript:SortTable(2,'T', 'connectionsTable');">Username</a></th>
+            <th><a href="javascript:SortTable(3,'T', 'connectionsTable');">Start Time</a></th>
+            <th><a href="javascript:SortTable(4,'T', 'connectionsTable');">End Time</a></th>
+            <th><a href="javascript:SortTable(5,'T', 'connectionsTable');">Status</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script crossorigin="anonymous"
         integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
