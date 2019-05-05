@@ -2,6 +2,7 @@ import json
 import requests
 from pprint import pprint
 from .Platform import Platform
+import os
 
 from rocketchat_API.rocketchat import RocketChat
 
@@ -17,6 +18,7 @@ from rocketchat_API.rocketchat import RocketChat
 
 
 class Rocketchat(Platform):
+    cit_url = os.environ.get('HOST')
     # fill the values here for your specific platform
     platform_name = "Rocketchat"
     platform_start_command = "kdesudo service snap.rocketchat-server.rocketchat-server start"
@@ -36,8 +38,8 @@ class Rocketchat(Platform):
 
     def __init__(self):
         self.proxy_dict = {
-            "http": "http://localhost:3000",
-            "https": "https://localhost:3001",
+            "http": "http://"+cit_url+":3000",
+            "https": "https://"+cit_url+":3001",
         }
 
     def requestHandler(self, command):
