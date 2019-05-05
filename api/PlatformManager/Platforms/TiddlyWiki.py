@@ -12,9 +12,11 @@ from .Platform import Platform
 """
 
 class TiddlyWiki(Platform):
+    PATH = os.environ.get('CITPATH')
+    PATH = 'http-server '+PATH    
     # fill the values here for your specific platform
     platform_name = "TiddlyWiki"
-    platform_start_command = "http-server /var/www/cit/wiki/genericWiki/output/"
+    platform_start_command = PATH+"/wiki/genericWiki/output/"
     platform_end_command = "kill "
     platform_version = "5.1.20-prerelease"
     platformInstallation = "/installation"
