@@ -1163,7 +1163,7 @@
             }
             $.ajax({
                 type: "PUT",
-                url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                url: "http://{{ cit_url }}/api/v2/resources/platform",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify(platform_object),
