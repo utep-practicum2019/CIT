@@ -270,7 +270,7 @@ class PlatformInterface():
                          }
         else:
             response1 = {"Status": status,
-                         "Response": {platform.getPlatformName(): {platform.getPlatformID(), platform.getIpPort()}}
+                         "Response": {platform.getPlatformName(): [platform.getPlatformID(), platform.getIpPort()]}
                          }
 
         for x in Subplatforms:
@@ -279,7 +279,7 @@ class PlatformInterface():
             if (type == 0):
                 response0["Response"]["Subplatforms"][name] = Subplatforms[x].getPlatformID()
             else:
-                response1["Response"][name] = {Subplatforms[x].getPlatformID(), Subplatforms[x].getIpPort()}
+                response1["Response"][name] = [Subplatforms[x].getPlatformID(), Subplatforms[x].getIpPort()]
 
         if (type == 0):
             return response0
@@ -456,7 +456,7 @@ class PlatformInterface():
             status, channelID = Main_Platform.createChannel(channel_name)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     status, channelID = Subplatforms[sub_keys[x]].createChannel(channel_name)
@@ -474,7 +474,7 @@ class PlatformInterface():
             result = Main_Platform.deleteChannel(channel_ID)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     result = Subplatforms[sub_keys[x]].deleteChannel(channel_ID)
@@ -495,7 +495,7 @@ class PlatformInterface():
             status, roomID = Main_Platform.createPrivateGroup(group_name)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     status, roomID = Subplatforms[sub_keys[x]].createPrivateGroup(group_name)
@@ -513,7 +513,7 @@ class PlatformInterface():
             result = Main_Platform.deletePrivateGroup(room_ID)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     result = Subplatforms[sub_keys[x]].deletePrivateGroup(room_ID)
@@ -534,7 +534,7 @@ class PlatformInterface():
             status, message = Main_Platform.postNewMessage(room_ID, announcement)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     status, message = Subplatforms[sub_keys[x]].postNewMessage(room_ID, announcement)
@@ -552,7 +552,7 @@ class PlatformInterface():
             status, room_ID = Main_Platform.addUserGroup(roomID, userID)
         else:
             for x in range(0, len(sub_keys)):
-                print(Subplatforms[sub_keys[x]].getPlatformID())
+                # print(Subplatforms[sub_keys[x]].getPlatformID())
 
                 if (Subplatforms[sub_keys[x]].getPlatformName() == "Rocketchat"):
                     status, room_ID = Subplatforms[sub_keys[x]].postNewMessage(roomID, userID)

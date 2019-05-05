@@ -72,14 +72,14 @@ def home():
     remote_ip = session['remote_ip']
 
     group_info = DatabaseHandler.find('groups', group_id)
-    print('Group Info -> {}'.format(group_info))
+    # print('Group Info -> {}'.format(group_info))
 
     try:
         platforms = group_info['platforms']
     except KeyError as e:
         print("No platform for user: ", username)
         return 'You currently do not have access to any platforms bruh. Please contact us via the link provided <a href="https://searchengineland.com/guide/how-to-use-google-to-search">support@cit.com</a> >.<'
-    print('Group platforms available -> {}'.format(platforms))
+    # print('Group platforms available -> {}'.format(platforms))
 
     # platform_data = DatabaseHandler.find('platforms', platforms[0])
     # print('Subplatforms from database -> {}'.format(platform_data))
@@ -105,8 +105,8 @@ def home():
         ogList.append(result)
 
 
-    pprint(ogList)
-    print("^^^ogList")
+    # pprint(ogList)
+    # print("^^^ogList")
     """
     [
         {
@@ -244,17 +244,17 @@ def get_downloadable_files(read_directory):
 def test_get_downloadables(main_directory):
     root = "/home/practicum/Desktop/latest/integration/api/{}".format(main_directory)
     #path = os.path.join(root, "{}".format(main_directory))
-    print("The following files are contained in the {}".format(main_directory))
+    # print("The following files are contained in the {}".format(main_directory))
     downloadable_files = {}
     for path, subdirs, files in os.walk(root):
-        print(subdirs)
+        # print(subdirs)
         for sd in subdirs:
-            print(sd)
+            # print(sd)
             if sd != 'css' or sd != 'js:':
                 f = []
                 os.chdir('{}/{}'.format(main_directory, sd))
                 for file in glob.glob("*"):
-                    print(sd+"/"+file)
+                    # print(sd+"/"+file)
                     f.append(file)
                 downloadable_files.update( {sd : f} )
                 os.chdir('../../')
@@ -336,5 +336,5 @@ def formexample():
 
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     app.run(host="0.0.0.0", port=5001)
