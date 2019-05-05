@@ -1,7 +1,7 @@
-import pyinotify
 import subprocess
-from .Session import Session
-import time
+
+import pyinotify
+
 from . import Configure
 
 
@@ -24,11 +24,11 @@ class EventHandler(pyinotify.ProcessEvent):
 
     def write_PPTPcmd_out(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '"/ppp/{print $1,$3,$7,$9,$10,$11}"', '/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '"/ppp/{print $1,$3,$7,$9,$10,$11}"', 'PPTP_session_output.txt']
 
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt', "w") as outfile:
+        with open('PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "w") as outfile:
+        with open('PPTP_session.txt', "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
 
 
@@ -39,11 +39,11 @@ class ConnectionManager():
 
     def __init__(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', '/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', 'PPTP_session_output.txt']
 
-        with open('/PPTP_session_output.txt', "w") as outfile:
+        with open('PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('/PPTP_session.txt', "w") as outfile:
+        with open('PPTP_session.txt', "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
         pass
 
@@ -64,7 +64,7 @@ class ConnectionManager():
         seen = []
         result = []
         index = 0
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "r") as outfile:
+        with open('PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
                 # print(s)
@@ -102,26 +102,27 @@ class ConnectionManager():
         usersArr = Configure.addUsers(numberOfUsers)
         usersDictionary = {}
         for x in range(numberOfUsers):
-            usersDictionary[x] = {"username":usersArr[x].username,
-            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+            usersDictionary[x] = {"username": usersArr[x].username,
+                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
         return usersDictionary
 
-    def deleteUsers(self,listOfUsers):
-        deleteResult=Configure.deleteUsers(listOfUsers)
+    def deleteUsers(self, listOfUsers):
+        deleteResult = Configure.deleteUsers(listOfUsers)
         return deleteResult
 
-    def updateUserConnection(self, currUsername,newUsername,newPassword,newIP):
-        updateResult=Configure.modifyUser(currUsername,newUsername,newPassword,newIP)
+    def updateUserConnection(self, currUsername, newUsername, newPassword, newIP):
+        updateResult = Configure.modifyUser(currUsername, newUsername, newPassword, newIP)
         return updateResult
 
     def fileAddUsers(self, userList):
-        usersArr=[]
-        usersArr=Configure.fileAddUsers(userList)
-        usersDictionary={}
+        usersArr = []
+        usersArr = Configure.fileAddUsers(userList)
+        usersDictionary = {}
         for x in range(len(userList)):
-            usersDictionary[x] = {"username":usersArr[x].username,
-            "password":usersArr[x].password,"pptpIP":usersArr[x].pptpIP}
+            usersDictionary[x] = {"username": usersArr[x].username,
+                                  "password": usersArr[x].password, "pptpIP": usersArr[x].pptpIP}
         return usersDictionary
+
 
 """
 if __name__ == "__main__":
