@@ -11,7 +11,7 @@ cit_url = os.environ.get('HOST')
 database_path = '/api/v2/resources/database'
 database_url = 'http://'+cit_url + database_path
 connection_path = '/api/v2/resources/connection'
-connection_url = cit_url + connection_path
+connection_url = 'http://'+cit_url + connection_path
 # TODO: set to an absolute path
 id_filepath = 'next_group_id.txt'
 
