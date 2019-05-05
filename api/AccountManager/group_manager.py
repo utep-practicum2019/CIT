@@ -41,7 +41,7 @@ def create_group(group_id, users, **kwargs):
         group.members = []
     for user in users:
         group.members.append(user["username"])
-        print(user["username"])
+        # print(user["username"])
         created = create_user(user['username'], user['password'], remote_ip=user['pptpIP'], group_id=group_id)
         if not created:
             print('Unable to create user ', user['username'])

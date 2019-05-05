@@ -12,7 +12,7 @@ class PluginManager():
 
     def getAvailablePlugins(self):
         original_wd = os.getcwd()
-        print(original_wd)
+        # print(original_wd)
         # os.chdir("Platforms/MainPlatforms")
         os.chdir("PlatformManager/Platforms/MainPlatforms")
         main_platforms = []
@@ -47,7 +47,7 @@ class PluginManager():
         os.system("rm " + pluginFile)
 
     def loadPlatform(self, platform):
-        print(platform)
+        # print(platform)
         try:
             module = importlib.import_module("PlatformManager.Platforms.MainPlatforms." + platform, "./")
             # module = importlib.import_module("Platforms.MainPlatforms." + platform, "./")

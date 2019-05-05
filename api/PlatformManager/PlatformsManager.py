@@ -55,7 +55,7 @@ class PlatformsManager:
     def reinstantiate(self):
         time.sleep(1)
         response = requests.get(self.getPlatformsURL)
-        print("RESPONSE " + str(response.json()))
+        # print("RESPONSE " + str(response.json()))
         platformList = response.json()
         a = input()
         for x in range(0, len(platformList)):
@@ -79,13 +79,13 @@ class PlatformsManager:
                 subs[subPlatform.getPlatformName()] = subPlatform
             Main_Platform.set_sub_platforms(subs)
             self.PlatformTree.reAdd(Main_Platform)
-            print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
-            Main_Platform.get_sub_platforms()))
+            # print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
+            # Main_Platform.get_sub_platforms()))
 
     def createPlatform(self, platform, sub_platforms):
         try:
             available_plugins = self.plugin_manager.getAvailablePlugins()
-            print("available plugins" + str(available_plugins))
+            # print("available plugins" + str(available_plugins))
             if platform not in available_plugins['main_platforms']:
                 print("Failure: No Such Plugin: " + platform)
                 return "Failure"
@@ -287,7 +287,7 @@ class PlatformsManager:
                 time.sleep(3)
         else:
             subTracker = self.PlatformTracker[platformID]
-            print(str(subTracker))
+            # print(str(subTracker))
             for x in subplatforms:
                 subplatformID = subplatforms[x].getPlatformID()
                 if subplatforms[x].getPlatformID() in subplatformIDs:

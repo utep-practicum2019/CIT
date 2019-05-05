@@ -75,7 +75,7 @@ def home():
     remote_ip = session['remote_ip']
 
     group_info = DatabaseHandler.find('groups', group_id)
-    print('Group Info -> {}'.format(group_info))
+    # print('Group Info -> {}'.format(group_info))
 
     try:
         platforms = group_info['platforms']
@@ -83,11 +83,11 @@ def home():
         print("No platform for user: ", username)
         return 'You currently do not have access to any platforms bruh. Please contact us via the link provided ' \
                '<a href="https://bongo.cat/">support@cit.com</a> >.<'
-    print('Group platforms available -> {}'.format(platforms))
+    # print('Group platforms available -> {}'.format(platforms))
 
     ogList = create_ogList(platforms)
-    pprint(ogList)
-    print("^^^ogList")
+    # pprint(ogList)
+    # print("^^^ogList")
 
     team = group_info['members']
 
@@ -198,15 +198,14 @@ def get_downloadables(main_directory):
     for root, dirs, files in os.walk(main_directory):
         cpy_root = root
         path = root.split(os.sep)
-        print(os.path.basename(root), "Level = " + str(len(path) - 1))
+        # print(os.path.basename(root), "Level = " + str(len(path) - 1))
         f = []
         for file in files:
             f.append(file)
             cpy_root = cpy_root.replace('/', '-')
             downloadable_files.update( { cpy_root : f} )
 
-    pprint(downloadable_files)
-
+    # pprint(downloadable_files)
     return downloadable_files
 
 def create_ogList(platforms):
@@ -325,5 +324,5 @@ def formexample():
 
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     app.run(host="0.0.0.0", port=5001)
