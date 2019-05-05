@@ -37,16 +37,18 @@ class ConnectionManager():
     path_to_file = "/var/log"
     notifier = ""
     isPolling = False
-    PPTPPATH = os.environ['CITPATH']+'/PPTP_session_output.txt'
+    
     
 
     def __init__(self):
+        PATH = os.environ.get('CITPATH')
+        PATH = PATH + '/PPTP_session_output.txt'
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', PPTPPATH]
+        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', PATH]
 
-        with open('/home/practicum/Desktop/latest/CIT/api/PPTP_session_output.txt', "w") as outfile:
+        with open(PATH, "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('/home/practicum/Desktop/latest/CIT/api/PPTP_session.txt', "w") as outfile:
+        with open(PATH, "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
         pass
 
@@ -63,11 +65,13 @@ class ConnectionManager():
             print("Error: polling is already on...")
 
     def update_session_list(self):
+        PATH = os.environ.get('CITPATH')
+        PATH = PATH + '/PPTP_session_output.txt'
         list_of_sessions = []
         seen = []
         result = []
         index = 0
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "r") as outfile:
+        with open(PATH, "r") as outfile:
             for line in outfile:
                 s = line.split()
                 # print(s)
