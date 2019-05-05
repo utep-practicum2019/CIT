@@ -137,9 +137,10 @@ def fileUpload():
             return "yay"
 
 
-@app.route('/<main_dir>/<directory>/<file_name>')
-def download_file(main_dir, directory, file_name):
-    return send_file(main_dir+'/'+directory+'/'+file_name, as_attachment=True)
+@app.route('/<path>/<file_name>')
+def download_file(path, file_name):
+    path = path.replace('-', '/')
+    return send_file(path + '/' + file_name, as_attachment=True)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -191,25 +192,22 @@ def get_downloadable_files(read_directory):
              and their corresponding files 
 """
 def get_downloadables(main_directory):
-    root = "/home/practicum/Desktop/latest/CIT/api/{}".format(main_directory)
-    #path = os.path.join(root, "{}".format(main_directory))
-    print("The following files are contained in the {}".format(main_directory))
+    cpy_root = ""
     downloadable_files = {}
-    for path, subdirs, files in os.walk(root):
-        print(subdirs)
-        for sd in subdirs:
-            print(sd)
-            if sd != 'css' or sd != 'js:':
-                f = []
-                os.chdir('{}/{}'.format(main_directory, sd))
-                for file in glob.glob("*"):
-                    print(sd+"/"+file)
-                    f.append(file)
-                downloadable_files.update( {sd : f} )
-                os.chdir('../../')
+    # traverse root directory, and list directories as dirs and files as files
+    for root, dirs, files in os.walk(main_directory):
+        cpy_root = root
+        path = root.split(os.sep)
+        print(os.path.basename(root), "Level = " + str(len(path) - 1))
+        f = []
+        for file in files:
+            f.append(file)
+            cpy_root = cpy_root.replace('/', '-')
+            downloadable_files.update( { cpy_root : f} )
+
+    pprint(downloadable_files)
 
     return downloadable_files
-
 
 def create_ogList(platforms):
     ogList = []

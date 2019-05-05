@@ -221,20 +221,20 @@
                                             <div class="container-fluid">
                                                 <h3>Below are the files available for download</h3><br>
                                                 <div class="accordion" id="accordionExample">
-                                                    {% for dir, files in downloadable_files.items() %}
+                                                    {% for path, files in downloadable_files.items() %}
                                                     <div class="card">
-                                                        <div class="card-header" id="'{}{}'.format(key, dir) }}">
+                                                        <div class="card-header" id="'{}{}'.format(key, path) }}">
                                                             <h2 class="mb-0">
-                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(dir)}}" aria-expanded="false" aria-controls="{{'#{}'.format(dir)}}">
-                                                                    {{ dir }}
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(path)}}" aria-expanded="false" aria-controls="{{'#{}'.format(path)}}">
+                                                                    {{ path.replace('-', '/') }}
                                                                 </button>
                                                             </h2>
                                                         </div>
 
-                                                        <div id="{{'{}'.format(dir)}}" class="collapse" aria-labelledby="'{}{}'.format(key, dir) }}" data-parent="#accordionExample">
+                                                        <div id="{{'{}'.format(path)}}" class="collapse" aria-labelledby="'{}{}'.format(key, path) }}" data-parent="#accordionExample">
                                                             <div class="card-body">
                                                                     {% for file in files %}
-                                                                        <a class="fileLinks" href="{{ '/{}/{}/{}'.format(main_directory, dir, file) }}" download>{{ file }}</a><br>
+                                                                        <a class="fileLinks" href="{{ '/{}/{}'.format(path,file) }}" download>{{ file }}</a><br>
                                                                     {% endfor %}
                                                             </div>
                                                         </div>

@@ -24,11 +24,11 @@ class EventHandler(pyinotify.ProcessEvent):
 
     def write_PPTPcmd_out(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '"/ppp/{print $1,$3,$7,$9,$10,$11}"', '/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '"/ppp/{print $1,$3,$7,$9,$10,$11}"', 'PPTP_session_output.txt']
 
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session_output.txt', "w") as outfile:
+        with open('PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "w") as outfile:
+        with open('PPTP_session.txt', "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
 
 
@@ -39,11 +39,11 @@ class ConnectionManager():
 
     def __init__(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', '/home/practicum/Desktop/latest/CIT/api/PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', 'PPTP_session_output.txt']
 
-        with open('/home/practicum/Desktop/latest/CIT/api/PPTP_session_output.txt', "w") as outfile:
+        with open('PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
-        with open('/home/practicum/Desktop/latest/CIT/api/PPTP_session.txt', "w") as outfile:
+        with open('PPTP_session.txt', "w") as outfile:
             subprocess.call(cmd_out_parser, stdout=outfile)
         pass
 
@@ -64,7 +64,7 @@ class ConnectionManager():
         seen = []
         result = []
         index = 0
-        with open('/home/practicum/Desktop/latest/integration/api/PPTP_session.txt', "r") as outfile:
+        with open('PPTP_session.txt', "r") as outfile:
             for line in outfile:
                 s = line.split()
                 # print(s)
