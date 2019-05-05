@@ -1,5 +1,6 @@
 import requests
 from AccountManager.user import User
+import os
 
 cit_url = os.environ.get('HOST')
 # cit_url = 'http://citsystem.com'
