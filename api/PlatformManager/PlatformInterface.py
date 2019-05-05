@@ -60,18 +60,26 @@ class PlatformInterface():
             return {"Status": status, "Response": {}}
 
     def deletePlatform(self, platform_ID, subplatform_IDs):
-        Main_Platform = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
         deletions = []
+        
+        if (subplatform_IDs == []):
+            Main_Platform_Before = self.platformManager.getPlatform(platform_ID)
+            Subplatforms = Main_Platform_Before.get_sub_platforms()
+            for i in Subplatforms:
+                deletions.append(Subplatforms[i].getPlatformID())
 
-        if (Main_Platform != False or Main_Platform[0] != None):
-            status = Main_Platform[1]
+        Main_Platform_After = self.platformManager.deletePlatform(platform_ID, subplatform_IDs)
+
+        if (Main_Platform_After != False or Main_Platform_After[0] != None):
+            status = Main_Platform_After[1]
             if (subplatform_IDs == []):
                 deletions.append(platform_ID)
                 self.formatDeleteRequest(platform_ID, deletions)
             else:
                 for x in subplatform_IDs:
                     deletions.append(x)
-                    self.formatDeleteRequest(platform_ID, deletions)
+                    
+                self.formatDeleteRequest(platform_ID, deletions)
         else:
             status = "Failure"
 
