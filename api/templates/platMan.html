@@ -350,7 +350,7 @@
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
             type: "GET",
-            url: "http://localhost:5001/api/v2/resources/platform",
+            url: "http://{{ cit_url }}/api/v2/resources/platform",
             contentType: "application/json",
             dataType: "json",
             data: {
@@ -442,7 +442,7 @@
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
             type: "GET",
-            url: "http://localhost:5001/api/v2/resources/platform",
+            url: "http://{{ cit_url }}/api/v2/resources/platform",
             contentType: "application/json",
             dataType: "json",
             data: {
@@ -502,7 +502,7 @@
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
             type: "GET",
-            url: "http://localhost:5001/api/v2/resources/platform",
+            url: "http://{{ cit_url }}/api/v2/resources/platform",
             contentType: "application/json",
             dataType: "json",
             data: {
@@ -569,7 +569,7 @@
         $('#createNewPlatBtn').click(function () {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:5001/api/v2/resources/platform",
+                url: "http://{{ cit_url }}/api/v2/resources/platform",
                 contentType: "application/json",
                 dataType: "json",
                 data: {
@@ -638,7 +638,7 @@
             };
             $.ajax({
                 type: "POST",
-                url: "http://localhost:5001/api/v2/resources/platform",
+                url: "http://{{ cit_url }}/api/v2/resources/platform",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify(request),
@@ -760,7 +760,7 @@
         let subplats = await new Promise((resolve) =>
             $.ajax({
                 type: "GET",
-                url: "http://localhost:5001/api/v2/resources/platform",
+                url: "http://{{ cit_url }}/api/v2/resources/platform",
                 contentType: "application/json",
                 dataType: "json",
                 data: {
@@ -899,7 +899,7 @@
                 case "Delete":
                     $.ajax({
                         type: "DELETE",
-                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        url: "http://{{ cit_url }}/api/v2/resources/platform",
                         contentType: "application/json",
                         dataType: "json",
                         data: JSON.stringify({
@@ -917,7 +917,7 @@
                 case "Start":
                     $.ajax({
                         type: "PUT",
-                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        url: "http://{{ cit_url }}/api/v2/resources/platform",
                         contentType: "application/json",
                         dataType: "json",
                         data: JSON.stringify({
@@ -936,7 +936,7 @@
                 case "Stop":
                     $.ajax({
                         type: "PUT",
-                        url: "http://0.0.0.0:5001/api/v2/resources/platform",
+                        url: "http://{{ cit_url }}/api/v2/resources/platform",
                         contentType: "application/json",
                         dataType: "json",
                         data: JSON.stringify({
@@ -955,7 +955,7 @@
                 case "Status":
                     $.ajax({
                         type: "GET",
-                        url: "http://localhost:5001/api/v2/resources/platform",
+                        url: "http://{{ cit_url }}/api/v2/resources/platform",
                         contentType: "application/json",
                         dataType: "json",
                         data: {
@@ -1190,7 +1190,7 @@
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
             type: "GET",
-            url: "http://localhost:5001/api/v2/resources/platform",
+            url: "http://{{ cit_url }}/api/v2/resources/platform",
             contentType: "application/json",
             dataType: "json",
             data: {
@@ -1214,7 +1214,7 @@
         // noinspection JSUnusedGlobalSymbols
         $.ajax({
             type: "GET",
-            url: "http://localhost:5001/api/v2/resources/platform",
+            url: "http://{{ cit_url }}/api/v2/resources/platform",
             contentType: "application/json",
             dataType: "json",
             data: {
