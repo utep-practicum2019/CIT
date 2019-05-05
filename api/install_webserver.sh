@@ -115,6 +115,9 @@ sudo sysctl -p
 #sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
 #sudo service pptpd restart
 
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
+
 sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
