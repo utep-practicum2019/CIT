@@ -3,6 +3,7 @@ import subprocess
 from .Session import Session
 import time
 from . import Configure
+import os
 
 
 class EventHandler(pyinotify.ProcessEvent):
@@ -36,10 +37,12 @@ class ConnectionManager():
     path_to_file = "/var/log"
     notifier = ""
     isPolling = False
+    PPTPPATH = os.environ['CITPATH']+'/PPTP_session_output.txt'
+    
 
     def __init__(self):
         my_cmd = ['last']
-        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', '/home/practicum/Desktop/latest/CIT/api/PPTP_session_output.txt']
+        cmd_out_parser = ['awk', '/ppp/{print $1,$3,$7,$9,$10,$11}', PPTPPATH]
 
         with open('/home/practicum/Desktop/latest/CIT/api/PPTP_session_output.txt', "w") as outfile:
             subprocess.call(my_cmd, stdout=outfile)
