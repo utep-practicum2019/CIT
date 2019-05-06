@@ -114,8 +114,8 @@ class ConnectionAPI(Resource):
         data, errors = connection_put_request_schema.load(json_data)
         if errors:
             return errors, 422
-        print(json_data)
-        print(data)
+        # print(json_data)
+        # print(data)
         if "command" in data:
             results = True
             if data["command"] == "start":
