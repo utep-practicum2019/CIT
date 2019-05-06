@@ -1,2 +1,6 @@
+fresh    tty7         :0               Sun May  5 22:52    gone - no logout
+reboot   system boot  4.15.0-47-generi Sun May  5 22:52   still running
+fresh    tty7         :0               Sun May  5 17:37 - crash  (05:14)
+reboot   system boot  4.15.0-47-generi Sun May  5 17:37   still running
 
-wtmp begins Sat May  4 18:00:06 2019
+wtmp begins Sun May  5 17:37:25 2019
