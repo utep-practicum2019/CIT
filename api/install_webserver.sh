@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+if [ -z "$CIT_IP" ]; then
+    echo "CIT_IP must be set with the server ip address."
+    echo "Use: export CIT_IP=<ip address>"
+    exit 1
+fi
+
 sudo apt-get install -f #for those vanilla versions without apt-get.  If installed it should simply move forward
 sudo add-apt-repository universe # enable community software
 sudo apt-get update -y
@@ -79,8 +85,8 @@ sudo chmod 777 /var/www/cit/PPTP_session.txt
 
 
 #configuring the VPN
-sudo echo localip 192.168.0.1  >> /etc/pptpd.conf
-sudo echo remoteip 192.168.0.2-254 >> /etc/pptpd.conf
+sudo su -c "localip 192.168.0.1  >> /etc/pptpd.conf"
+sudo su -c "remoteip 192.168.0.2-254 >> /etc/pptpd.conf"
 sudo sed -i -e 's/#\?net.ipv4.ip_forward=[0,1]/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 sudo service pptpd restart
 
@@ -91,7 +97,8 @@ sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
 sudo su -c "echo export HOST=citsystem.com >> /etc/apache2/envvars"
 sudo su -c "echo export HOST=citsystem.com >> /etc/environment"
 
-sudo su -c "echo 127.0.0.1 citsystem.com >> /etc/hosts"
+sudo su -c "echo "$CIT_IP citsystem.com" >> /etc/hosts"
+sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"'/' citsystem.com.conf
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
