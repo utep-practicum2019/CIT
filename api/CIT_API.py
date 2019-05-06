@@ -271,20 +271,23 @@ def main():
 def accountsMan():
     if request.method == 'POST':
         return redirect("api/v2/resources/group", code=307)
+    cit_url = os.environ.get('HOST')
     users = DatabaseHandler.find('users', None)
     groups = DatabaseHandler.find('groups', None)
     return render_template('accountsMan.html', username='Sara', group_num='2', users_group='4', group_id='1',
-                           users=users, groups=groups)
+                           users=users, groups=groups,cit_url=cit_url)
 
 
 @app.route('/connectionMan.html')
 def addUsers():
-    return render_template('connectionMan.html')
+    cit_url = os.environ.get('HOST')        
+    return render_template('connectionMan.html', cit_url=cit_url)
 
 
 @app.route('/platMan.html')
 def platMan():
-    return render_template('platMan.html')
+    cit_url = os.environ.get('HOST')
+    return render_template('platMan.html',cit_url=cit_url)
 
 
 @app.route('/indexAdmin.html')
@@ -325,5 +328,7 @@ def formexample():
 
 
 if __name__ == '__main__':
-    # app.debug = True
-    app.run(host="0.0.0.0", port=5001)
+    app.debug = True
+    app.run()
+    #app.run(host="0.0.0.0", port=5001)
+

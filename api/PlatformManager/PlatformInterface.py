@@ -1,5 +1,5 @@
 import time
-
+import os
 import requests
 
 from .PlatformsManager import PlatformsManager
@@ -19,9 +19,10 @@ from .PluginManager import PluginManager
 class PlatformInterface():
 
     def __init__(self):
+        self.cit_url = 'http://'+os.environ.get('HOST')
         self.platformManager = PlatformsManager()
         self.pluginManager = PluginManager()
-        self.cit_url = 'http://0.0.0.0:5001'
+        #self.cit_url = 'http://0.0.0.0:5001'
         self.database_path = '/api/v2/resources/database'
         self.database_url = self.cit_url + self.database_path
 

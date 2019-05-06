@@ -14,6 +14,7 @@ from .Platform import Platform
     """
 
 class FilesUpload(Platform):
+    PATH = os.environ.get('CITPATH')
     # fill the values here for your specific platform
     platform_name = "FilesUpload"
     platform_alias = ""
@@ -22,7 +23,7 @@ class FilesUpload(Platform):
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
-    platformInstallation = "../CIT/api/static/download_files"
+    platformInstallation = PATH+"/static/download_files"
     port = "0"
     ip = "0.0.0.0"
     link = ""
@@ -31,7 +32,7 @@ class FilesUpload(Platform):
     processID = 0
     platform_id = 0
     subplatforms = { }
-    uploads_path = '/home/practicum/Desktop'
+    uploads_path = PATH
     staticPlatform = True
 
     #return process ID

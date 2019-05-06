@@ -14,12 +14,14 @@ from .Platform import Platform
     """
 
 class FilesDownload(Platform):
+    PATH = os.environ.get('CITPATH')
+     
     # fill the values here for your specific platform
     platform_name = "FilesDownload"
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
-    platformInstallation = "/cit/api/static/download_files"
+    platformInstallation = PATH+"/static/download_files"
     port = "0"
     ip = "0.0.0.0.0"
     link = ""
@@ -28,7 +30,7 @@ class FilesDownload(Platform):
     platform_id = 0
     subplatforms = {}
 
-    downloads_path = "/home/practicum/Desktop/file_testing/to"
+    downloads_path = PATH+"/file_testing/to"
 
     #return process ID 
     def getProcessID(self):

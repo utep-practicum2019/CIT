@@ -155,7 +155,7 @@
         $('#startBtn').click(function () {
             $.ajax({
                 type: "PUT",
-                url: "http://localhost:5001/api/v2/resources/connection",
+                url: "http://{{ cit_url }}/api/v2/resources/connection",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
@@ -175,7 +175,7 @@
         $('#stopBtn').click(function () {
             $.ajax({
                 type: "PUT",
-                url: "http://localhost:5001/api/v2/resources/connection",
+                url: "http://{{ cit_url }}/api/v2/resources/connection",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
@@ -195,7 +195,7 @@
             // noinspection JSUnusedGlobalSymbols
             $.ajax({
                 type: "GET",
-                url: "http://localhost:5001/api/v2/resources/connection",
+                url: "http://{{ cit_url }}/api/v2/resources/connection",
                 contentType: "application/json",
                 dataType: "json",
                 data: {

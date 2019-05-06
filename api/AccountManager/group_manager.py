@@ -1,16 +1,17 @@
 import re
+import os
 import requests
 
 from AccountManager.group import Group
 from AccountManager.user_manager import UserManager, get_user, create_user
 
-
+cit_url = os.environ.get('HOST')
 # cit_url = 'http://citsystem.com'
-cit_url = 'http://0.0.0.0:5001'
+#cit_url = 'http://0.0.0.0:5001'
 database_path = '/api/v2/resources/database'
-database_url = cit_url + database_path
+database_url = 'http://'+cit_url + database_path
 connection_path = '/api/v2/resources/connection'
-connection_url = cit_url + connection_path
+connection_url = 'http://'+cit_url + connection_path
 # TODO: set to an absolute path
 id_filepath = 'next_group_id.txt'
 

@@ -15,6 +15,8 @@ from .Platform import Platform
 
 class FilesDownload(Platform):
     # fill the values here for your specific platform
+    PATH = os.environ.get('CITPATH')
+    
     platform_name = "FilesDownload"
     platform_alias = ""
     platform_note = ""
@@ -22,7 +24,7 @@ class FilesDownload(Platform):
     platform_start_command = " "
     platform_end_command = " "
     platform_version = " "
-    platformInstallation = "../CIT/api/static/download_files"
+    platformInstallation = PATH+"/static/download_files"
     port = "0"
     ip = "0.0.0.0.0"
     link = ""
@@ -31,7 +33,7 @@ class FilesDownload(Platform):
     processID = 0
     platform_id = 0
     subplatforms = {}
-    downloads_path = "/home/practicum/Desktop/file_testing/to"
+    downloads_path = PATH+"/file_testing/to"
     staticPlatform = True
     
     #return process ID 

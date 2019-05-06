@@ -35,7 +35,8 @@ class PlatformsManager:
         self.PlatformTree = PlatformTreeManager()
         self.plugin_manager = PluginManager()
         self.PlatformTracker = {}
-        self.CITURL = 'http://127.0.0.1:5001'
+        self.CITURL = os.environ.get('HOST')
+        #self.CITURL = 'http://127.0.0.1:5001'
         self.PlatformsURL = "/api/v2/resources/platform?all=True"
         self.getPlatformsURL = self.CITURL + self.PlatformsURL
         self.reinstantiated = False
