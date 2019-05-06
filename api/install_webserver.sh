@@ -7,6 +7,7 @@ sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
 sudo apt-get install curl -y 
+sudo apt install kdesudo -y
 sudo snap install rocketchat-server
 
 sudo mkdir /var/www/cit
@@ -31,7 +32,7 @@ cd TiddlyWiki5
 
 sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - 
 sudo apt-get install -y nodejs
-sudo npm install http-server
+sudo npm install -g http-server
 sudo npm i http-server
 cd /var/www/cit
 
@@ -77,43 +78,12 @@ sudo chmod 777 /var/www/cit/PPTP_session_output.txt
 sudo chmod 777 /var/www/cit/PPTP_session.txt
 
 
-
 #configuring the VPN
-sudo su -c" cat >> /etc/pptpd.conf<< END
-localip 10.10.0.1
-remoteip 10.10.0.2-100
-END"
+sudo echo localip 192.168.0.1  >> /etc/pptpd.conf
+sudo echo remoteip 192.168.0.2-254 >> /etc/pptpd.conf
+sudo sed -i -e 's/#\?net.ipv4.ip_forward=[0,1]/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+sudo service pptpd restart
 
-sudo su -c " cat >> /etc/ppp/pptpd-options<< END
-name pptpd
- refuse-pap
- refuse-chap
- refuse-mschap
- require-mschap-v2
- require-mppe-128
- ms-dns 8.8.8.8
- #ms-dns 8.8.4.4
- proxyarp
- nodefaultroute
- lock
- nobsdcomp
- mu 1490
- mru 1490
-END"
-
-sudo -c " cat >> /etc/ppp/chap-secrets << END
-tempusr pptpd temppass *
-END"
-#*allows for all IP
-sudo -c " cat >> /etc/sysctl.conf << END
-net.ipv4.ip_forward=1
-END"
-sudo sysctl -p
-
-#sudo iptables -t nat -A POSTROUTING -o etho0 -j MASQUERADE
-#sudo iptables -A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-#sudo iptables -A FORWARD -i ppp0 -o eth0 -j ACCEPT
-#sudo service pptpd restart
 
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
@@ -140,7 +110,3 @@ sudo apt-get update -y
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
 echo "please close terminal once pptpd connection is verified"
-
-sudo systemctl enable pptpd
-sudo systemctl start pptpd
-sudo systemctl status pptpd
