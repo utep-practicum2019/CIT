@@ -1,0 +1,35 @@
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
+
+sudo su -c "echo export HOST=citsystem.com >> /etc/apache2/envvars"
+sudo su -c "echo export HOST=citsystem.com >> /etc/environment"
+
+
+
+In order to change the path, you change after the CITPATH=/make/changes/here
+In order to change the host, you change after the HOST=changehere
+
+
+If you wanted to add another environment variable, simply add another line below "SetEnv HOST ${HOST}" i.e. "SetEnv NEW ${NEW}"
+
+If adding another env variable after install then either add to the files /etc/apache2/envvars and /etc/environment.  Or you can enter these lines into the terminal:
+
+
+
+sudo su -c "echo export NEW=new/env/var >> /etc/apache2/envvars"
+sudo su -c "echo export NEW=newenvvar >> /etc/environment"
+
+
+if before installer: add these lines below those lines:
+
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
+sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
+
+sudo su -c "echo export HOST=citsystem.com >> /etc/apache2/envvars"
+sudo su -c "echo export HOST=citsystem.com >> /etc/environment
+sudo su -c "echo export NEW=new/env/var >> /etc/apache2/envvars"
+sudo su -c "echo export NEW=newenvvarhost >> /etc/environment"
+
+
+
+
