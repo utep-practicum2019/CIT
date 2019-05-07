@@ -98,7 +98,7 @@ sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
 sudo su -c "echo export HOST=citsystem.com >> /etc/apache2/envvars"
 sudo su -c "echo export HOST=citsystem.com >> /etc/environment"
 
-sudo su -c "echo "$CIT_IP citsystem.com" >> /etc/hosts"
+sudo su -c "echo '$CIT_IP citsystem.com' >> /etc/hosts"
 sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"'/' citsystem.com.conf
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
