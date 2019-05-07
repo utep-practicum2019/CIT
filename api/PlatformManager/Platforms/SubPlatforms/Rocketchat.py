@@ -38,8 +38,8 @@ class Rocketchat(Platform):
 
     def __init__(self):
         self.proxy_dict = {
-            "http": "http://"+cit_url+":3000",
-            "https": "https://"+cit_url+":3001",
+            "http": "http://"+self.cit_url+":3000",
+            "https": "https://"+self.cit_url+":3001",
         }
 
         self.uname = 'Admin'
