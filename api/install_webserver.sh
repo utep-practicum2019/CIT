@@ -72,6 +72,7 @@ sudo apt-get update -y
 
 sudo apt-get install -y mongodb-org
 sudo sed -i -e 's/port: 27017/port: 27018/g' /etc/mongod.conf
+sudo sed -i -e 's/bindIp: 127.0.0.1/bindIp: '"$CIT_IP"'/g' /etc/mongod.conf
 #sudo apt-get install -y mongodb-org --allow-unauthenticated
 sudo service mongod start
 
