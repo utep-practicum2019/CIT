@@ -259,16 +259,26 @@ def create_ogList(platforms):
     return ogList
 
 
-"""------- ADMIN WEB APP -------"""
-
+"""
+    =========================================================================================
+                                            ADMIN GUI    
+    =========================================================================================
+"""
+allowed_ips = ["127.0.0.1"]
 
 @app.route('/admin')
 def main():
+    print(request.environ['REMOTE_ADDR'])
+    if request.environ['REMOTE_ADDR'] not in allowed_ips:
+        return render_template('thouShallNotPass.html')
     return render_template('platMan.html')
 
 
 @app.route('/accountsMan.html', methods=['GET', 'POST'])
 def accountsMan():
+    if request.environ['REMOTE_ADDR'] not in allowed_ips:
+        return render_template('thouShallNotPass.html')
+
     if request.method == 'POST':
         return redirect("api/v2/resources/group", code=307)
     users = DatabaseHandler.find('users', None)
@@ -279,17 +289,16 @@ def accountsMan():
 
 @app.route('/connectionMan.html')
 def addUsers():
+    if request.environ['REMOTE_ADDR'] not in allowed_ips:
+        return render_template('thouShallNotPass.html')
     return render_template('connectionMan.html')
 
 
 @app.route('/platMan.html')
 def platMan():
+    if request.environ['REMOTE_ADDR'] not in allowed_ips:
+        return render_template('thouShallNotPass.html')
     return render_template('platMan.html')
-
-
-@app.route('/indexAdmin.html')
-def index_admin():
-    return render_template('indexAdmin.html')
 
 
 @app.route('/json-example')
