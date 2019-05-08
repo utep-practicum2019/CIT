@@ -268,7 +268,6 @@ allowed_ips = ["127.0.0.1"]
 
 @app.route('/admin')
 def main():
-    print(request.environ['REMOTE_ADDR'])
     if request.environ['REMOTE_ADDR'] not in allowed_ips:
         return render_template('thouShallNotPass.html')
     return render_template('platMan.html')
