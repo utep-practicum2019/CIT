@@ -95,8 +95,8 @@ sudo service pptpd restart
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
 
-sudo su -c "echo export HOST=citsystem.com >> /etc/apache2/envvars"
-sudo su -c "echo export HOST=citsystem.com >> /etc/environment"
+sudo su -c "echo export HOST=$CIT_IP >> /etc/apache2/envvars"
+sudo su -c "echo export HOST=$CIT_IP >> /etc/environment"
 
 sudo su -c "echo '$CIT_IP citsystem.com' >> /etc/hosts"
 sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"':80/' citsystem.com.conf
