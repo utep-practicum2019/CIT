@@ -108,7 +108,7 @@ sudo /etc/init.d/apache2 restart
 sudo a2enmod proxy proxy_http rewrite
 
 pip install rocketchat_API
-sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"':80/' Rocket.Chat.conf
+sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"'/' Rocket.Chat.conf
 sudo mv Rocket.Chat.conf /etc/apache2/sites-available
 sudo chmod 644 /etc/apache2/sites-available/Rocket.Chat.conf
 sudo a2ensite Rocket.Chat
