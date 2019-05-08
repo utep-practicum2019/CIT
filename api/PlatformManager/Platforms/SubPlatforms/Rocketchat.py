@@ -33,7 +33,7 @@ class Rocketchat(Platform):
     processID = 0
     subplatforms = {}
     port = "3000"
-    ip = "0.0.0.0"
+    ip = os.environ['HOST']
     link = "http://www.chat.service"
 
     def __init__(self):
