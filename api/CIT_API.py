@@ -60,7 +60,7 @@ def rocketchat_api():
           "window.parent.postMessage({" \
           "event: 'login-with-token'," \
           "loginToken: '" + session['authToken'] + "'" \
-          "}, 'http://0.0.0.0:3000');" \
+          "}, 'http://" + os.environ['HOST'] + ":3000');" \
           "</script>"
     return str
 
