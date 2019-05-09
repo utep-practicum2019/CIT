@@ -118,4 +118,4 @@ sudo apt-get update -y
 
 echo "CIT_server setup complete."
 echo "Please type citsystem.com in your URL."
-echo "please close terminal once pptpd connection is verified"
+
