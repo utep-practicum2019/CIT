@@ -21,8 +21,8 @@ class Rocketchat(Platform):
     cit_url = os.environ.get('HOST')
     # fill the values here for your specific platform
     platform_name = "Rocketchat"
-    platform_start_command = "kdesudo service snap.rocketchat-server.rocketchat-server start"
-    platform_end_command = "kdesudo service snap.rocketchat-server.rocketchat-server stop"
+    platform_start_command = "sudo -A service snap.rocketchat-server.rocketchat-server start"
+    platform_end_command = "sudo -A service snap.rocketchat-server.rocketchat-server stop"
     platform_alias = ""
     platform_note = ""
     platform_date_created = ""

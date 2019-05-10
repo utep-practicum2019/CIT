@@ -91,15 +91,21 @@ sudo su -c "remoteip 192.168.0.2-254 >> /etc/pptpd.conf"
 sudo sed -i -e 's/#\?net.ipv4.ip_forward=[0,1]/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 sudo service pptpd restart
 
+# Sudo gui prompt setup
+sudo su -c 'echo #!/bin/sh >> /usr/local/bin/zenity_passphrase'
+sudo su -c 'echo zenity --password --title="CIT sudo request" --timeout=10 >> /usr/local/bin/zenity_passphrase'
+sudo su -c 'echo Path askpass /usr/local/bin/zenity_passphrase >> /etc/sudo.conf'
 
+# Apache configuration
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/apache2/envvars"
 sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
-
 sudo su -c "echo export HOST=$CIT_IP >> /etc/apache2/envvars"
 sudo su -c "echo export HOST=$CIT_IP >> /etc/environment"
+sudo su -c "echo export DISPLAY=$DISPLAY>> /etc/apache2/envvars"
 
 sudo su -c "echo '$CIT_IP citsystem.com' >> /etc/hosts"
 sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"':80/' citsystem.com.conf
+sudo sed -i -e 's/INSERT_USER_HERE/'"$SUDO_USER"'/' citsystem.com.conf
 sudo mv citsystem.com.conf /etc/apache2/sites-available
 sudo a2ensite citsystem.com.conf
 sudo /etc/init.d/apache2 restart
