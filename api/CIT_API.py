@@ -263,7 +263,7 @@ def create_ogList(platforms):
                                             ADMIN GUI    
     =========================================================================================
 """
-allowed_ips = ["127.0.0.1"]
+allowed_ips = ["127.0.0.1", os.environ['HOST']]
 
 def isAdminOnly(f):
     """
