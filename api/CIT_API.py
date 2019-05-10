@@ -1,8 +1,7 @@
 from flask import Flask, send_file
-# client gui
 from flask import render_template, request, redirect
-# User GUI
-from flask import session, url_for, flash, send_from_directory
+from functools import wraps
+from flask import session, url_for, flash, send_from_directory, Response
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
@@ -259,15 +258,33 @@ def create_ogList(platforms):
     return ogList
 
 
-"""------- ADMIN WEB APP -------"""
+"""
+    =========================================================================================
+                                            ADMIN GUI    
+    =========================================================================================
+"""
+allowed_ips = ["127.0.0.1"]
 
+def isAdminOnly(f):
+    """
+    Wrapper for admin methods to prevent them from being accessed by
+    any ip not in allowed_ips
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if request.environ['REMOTE_ADDR'] not in allowed_ips:
+            return render_template('thouShallNotPass.html')
+        return f(*args, **kwargs)
+    return decorated
 
 @app.route('/admin')
+@isAdminOnly
 def main():
     return render_template('platMan.html')
 
 
 @app.route('/accountsMan.html', methods=['GET', 'POST'])
+@isAdminOnly
 def accountsMan():
     if request.method == 'POST':
         return redirect("api/v2/resources/group", code=307)
@@ -279,23 +296,20 @@ def accountsMan():
 
 
 @app.route('/connectionMan.html')
+@isAdminOnly
 def addUsers():
     cit_url = os.environ.get('HOST')        
     return render_template('connectionMan.html', cit_url=cit_url)
 
 
 @app.route('/platMan.html')
+@isAdminOnly
 def platMan():
     cit_url = os.environ.get('HOST')
     return render_template('platMan.html',cit_url=cit_url)
 
 
-@app.route('/indexAdmin.html')
-def index_admin():
-    return render_template('indexAdmin.html')
-
-
-@app.route('/json-example')
+@app.route('/json-example', methods=['GET'])
 def jsonexample():
     return 'Todo...'
 
@@ -325,6 +339,7 @@ def formexample():
                 Framework: <input type="text" name"framework"><br>
                 <input type="submit" value="Submit"><br>
             </form>'''
+
 
 
 if __name__ == '__main__':

@@ -6,6 +6,8 @@ import socket
 import subprocess
 import threading
 import time
+import atexit
+
 
 from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
@@ -42,6 +44,21 @@ class PlatformsManager:
         self.reinstantiated = False
         self.reinstantiateThread()
 
+        def closePlatforms():
+            root = self.PlatformTree.getRoot()
+            closingPlatforms(root)
+
+        def closingPlatforms(node):
+            if (node == None):
+                return
+            else:
+                self.stopPlatforms(node.platformID, [])
+                closingPlatforms(node.rightNode)
+                closingPlatforms(node.leftNode)
+
+        atexit.register(closePlatforms)
+
+
 
     def reinstantiateThread(self):
         try:
@@ -58,7 +75,6 @@ class PlatformsManager:
         response = requests.get(self.getPlatformsURL)
         # print("RESPONSE " + str(response.json()))
         platformList = response.json()
-        a = input()
         for x in range(0, len(platformList)):
             # response[x] platform number x
             resp = platformList[x]
@@ -82,6 +98,9 @@ class PlatformsManager:
             self.PlatformTree.reAdd(Main_Platform)
             # print("Main Platform: " + Main_Platform.getPlatformName() + " subplatforms: " + str(
             # Main_Platform.get_sub_platforms()))
+
+
+
 
     def createPlatform(self, platform, sub_platforms):
         try:
@@ -198,12 +217,12 @@ class PlatformsManager:
                 # check if platform IP is available, if not re assign IP
                 if not self.check_service(Main_Platform):
                     self.PlatformTracker[main_id] = []
-                    self.startPlatformThread(Main_Platform)
+                    self.start(Main_Platform)
                 else:
                     newIP, newPort = self.getPort(Main_Platform)
                     self.PlatformTracker[main_id] = []
                     Main_Platform.setIpPort(newIP, str(newPort))
-                    self.startPlatformThread(Main_Platform)
+                    self.start(Main_Platform)
             subTracker = self.PlatformTracker[main_id]
             # instantiate all subplatforms if it is an empty list
             if subplatformsIDs == []:
@@ -213,13 +232,13 @@ class PlatformsManager:
                     if sub_id not in subTracker:
                         if not self.check_service(subplatforms[x]):
                             subTracker.append(sub_id)
-                            self.startPlatformThread(subplatforms[x])
+                            self.start(subplatforms[x])
                             time.sleep(3)
                         else:
                             newIP, newPort = self.getPort(subplatforms[x])
                             subplatforms[x].setIpPort(newIP, newPort)
                             subTracker.append(sub_id)
-                            self.startPlatformThread(Main_Platform)
+                            self.start(Main_Platform)
                             time.sleep(3)
             else:  # Instantiate Specific Platforms
                 for x in subplatforms:
@@ -229,30 +248,18 @@ class PlatformsManager:
                         if sub_id not in subTracker:
                             if not self.check_service(subplatforms[x]):
                                 subTracker.append(sub_id)
-                                self.startPlatformThread(subplatforms[x])
+                                self.start(subplatforms[x])
                                 time.sleep(3)
                             else:
                                 newIP, newPort = self.getPort(subplatforms[x])
                                 subTracker.append(sub_id)
                                 subplatforms[x].setIpPort(newIP, newPort)
-                                self.startPlatformThread(Main_Platform)
+                                self.start(Main_Platform)
                                 time.sleep(3)
             return Main_Platform, "Success"
         except Exception as ex:
             print(ex)
             print("Platforms startup failed for Platform" + Main_Platform.getPlatformName() + " " + str(platformID))
-            return "Failure"
-
-    # start thread to continue execution
-    def startPlatformThread(self, platform):
-        try:
-            thread = threading.Thread(target=self.start, args=(platform,))
-            thread.daemon = True
-            thread.start()
-            return thread
-        except Exception as ex:
-            print(ex)
-            print("Platform:" + platform.getPlatformName() + " Thread failed")
             return "Failure"
 
     def start(self, platform):
