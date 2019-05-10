@@ -40,7 +40,7 @@ class PlatformsManager:
         self.CITURL = os.environ.get('HOST')
         #self.CITURL = 'http://127.0.0.1:5001'
         self.PlatformsURL = "/api/v2/resources/platform?all=True"
-        self.getPlatformsURL = self.CITURL + self.PlatformsURL
+        self.getPlatformsURL = "http://" + self.CITURL + self.PlatformsURL
         self.reinstantiated = False
         self.reinstantiateThread()
 
