@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export CIT_IP=$(ifconfig | grep -A 1 'e' | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
+export CIT_IP=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
 #export CIT_IP=$(ifconfig enp0s3 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
 if [ -z "$CIT_IP" ]; then
     echo "CIT_IP must be set with the server ip address."
