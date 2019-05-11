@@ -93,6 +93,13 @@ sudo su -c "remoteip 192.168.0.2-254 >> /etc/pptpd.conf"
 sudo sed -i -e 's/#\?net.ipv4.ip_forward=[0,1]/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 sudo service pptpd restart
 
+#L2TP
+sudo add-apt repository ppa:nm-12tp/network-manager-l2tp
+sudo apt-get update
+sudo apt -y install network-manager-l2tp
+sudo apt-get install network-manager-l2tp-gnome
+sudo apt-get update
+
 # Sudo gui prompt setup
 sudo su -c 'echo "#!/usr/bin/env bash" >> /usr/local/bin/zenity_passphrase'
 sudo su -c 'echo zenity --password --title="CIT sudo request" --timeout=10 >> /usr/local/bin/zenity_passphrase'
