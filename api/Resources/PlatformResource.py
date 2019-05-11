@@ -3,6 +3,8 @@ from flask import request
 from flask_restful import Resource
 
 from Schemas.Platform_Schema import *
+from AccountManager.account_manager import AccountManager
+from Database.database_handler import DatabaseHandler
 
 
 def format_status(platform):
@@ -140,6 +142,11 @@ class PlatformAPI(Resource):
         if errors:
             return errors, 422
         results = PlatformAPI.platform_interface.deletePlatform(data["platform_ID"], data["subplatforms_IDS"])
+        if results == 'Success':
+            group = DatabaseHandler.groupCheck(data["platform_ID"])
+            while group is not None:
+                AccountManager.detach_platform(group['group_id'], data["platform_ID"])
+                group = DatabaseHandler.groupCheck(data["platform_ID"])
         if results is None:
             results = {"success": False}
         return results
