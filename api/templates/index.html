@@ -386,48 +386,54 @@
             e.preventDefault();
                 var form_data = new FormData($('#file-form')[0]);
                 var formInput = document.getElementById("file-select");
+                console.log(form_data);
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/fileUpload',
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        filename = data
-                        console.log('Success!');
-                        var hash = window.location.hash;
+                if( document.getElementById("file-select").files.length == 0 ){
+                    document.getElementById('file-select').value='';
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/fileUpload',
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(data) {
+                            filename = data
+                            console.log('Success!');
+                            var hash = window.location.hash;
 
-                        document.getElementById('file-select').value='';
+                            document.getElementById('file-select').value='';
 
-                        hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-                        hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+                            hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                            hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
 
-                        repeat = 44;
-                        setTimeout(getStatus, 2000);  // calling in 2 seconds
-                        console.log("first getStatus scheduled");
+                            repeat = 44;
+                            setTimeout(getStatus, 2000);  // calling in 2 seconds
+                            console.log("first getStatus scheduled");
 
-                        // $(this).tab('show');
-                        var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-                        window.location.hash = this.hash;
-                        $('html, body').scrollTop(scrollmem);
-                    },
-            });
-            var hash = window.location.hash;
-            hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-            hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+                            // $(this).tab('show');
+                            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                            window.location.hash = this.hash;
+                            $('html, body').scrollTop(scrollmem);
+                        },
+                });
 
-            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-            window.location.hash = this.hash;
-            $('html, body').scrollTop(scrollmem);
+                var hash = window.location.hash;
+                hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
-            document.getElementById("showResults").innerHTML = '\
-                    <button class="btn btn-primary" type="button" disabled> \
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
-                        Loading Results... \
-                    </button>'
+                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                window.location.hash = this.hash;
+                $('html, body').scrollTop(scrollmem);
+
+                document.getElementById("showResults").innerHTML = '\
+                        <button class="btn btn-primary" type="button" disabled> \
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
+                            Loading Results... \
+                        </button>'
+            }
         });
 
         </script>

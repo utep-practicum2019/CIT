@@ -55,13 +55,17 @@ def index():
 
 @app.route('/rocketchat_api')
 def rocketchat_api():
-    str = "<script> " \
+    try:
+        str = "<script> " \
           "window.parent.postMessage({" \
           "event: 'login-with-token'," \
           "loginToken: '" + session['authToken'] + "'" \
-          "}, 'http://0.0.0.0:3000');" \
+          "}, 'http://129.108.7.29:3000/');" \
           "</script>"
-    return str
+        return str
+    except KeyError as e:
+        print("Request from: ", request.environ['REMOTE_ADDR'])
+        print(e)
 
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -336,7 +340,6 @@ def formexample():
                 Framework: <input type="text" name"framework"><br>
                 <input type="submit" value="Submit"><br>
             </form>'''
-
 
 
 if __name__ == '__main__':
