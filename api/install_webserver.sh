@@ -94,8 +94,9 @@ sudo sed -i -e 's/#\?net.ipv4.ip_forward=[0,1]/net.ipv4.ip_forward=1/' /etc/sysc
 sudo service pptpd restart
 
 # Sudo gui prompt setup
-sudo su -c 'echo #!/bin/sh >> /usr/local/bin/zenity_passphrase'
+sudo su -c 'echo "#!/usr/bin/env bash" >> /usr/local/bin/zenity_passphrase'
 sudo su -c 'echo zenity --password --title="CIT sudo request" --timeout=10 >> /usr/local/bin/zenity_passphrase'
+sudo chmod +x /usr/local/bin/zenity_passphrase
 sudo su -c 'echo Path askpass /usr/local/bin/zenity_passphrase >> /etc/sudo.conf'
 
 # Apache configuration
