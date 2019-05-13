@@ -4,7 +4,7 @@
         <title>Collaborative Innovation Testbed</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href = "{{ url_for('static', filename='css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     </head>
 
@@ -12,11 +12,14 @@
 
         <div class="container-fluid">
             <nav class="navbar navbar-light bg-white">
-                <img id="logo" src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+                <img id="logo" src="{{ url_for('static', filename='ARL.jpg') }}">
+                <div class="col-3" id="displayMessages">
+
+                </div>
                 <div class="col-4">
                     <div id="userDisplay">
                         <h5 id="user">Username: {{ username }}</h5>
-                        <h6>Remote IP: {{ remote_ip }}</h6>
+                        <h6>Group {{ group_id }}</h6>
                     <h6>
                     Team Members:
                         {% for member in team %}
@@ -104,7 +107,7 @@
                         <div class="col-2">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     {% for  v in values %}
-                                        {% if v[0] != "IDS Virtual Machine" %}
+                                        {% if v[0] != "IDS Virtual Machine" and v[0] != "VirtualMachine" %}
 
                                             <a class="nav-link" data-toggle="pill" href="{{'#{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" role="tab" aria-controls="{{ 'v-pills-{}-{}'.format(key.replace(' ', ''), v[0].replace(' ', '')) }}" aria-selected="true">
                                                 {% if v[0] == 'FilesUpload' %}
@@ -145,8 +148,8 @@
                                                                     cupidatat prosciutto culpa pork corned beef cupim.<br><br>
                                                                 </p>
                                                                 <h6>Upload File</h6>
-                                                                <form id="formStuff" method=post enctype=multipart/form-data>
-                                                                    <p><input id='uploaded_file' type=file name=file>
+                                                                <form id="file-form" method=post enctype=multipart/form-data>
+                                                                    <input id='file-select' type=file name=file>
                                                                         <button type="submit" id="uploadBtn" class="btnDisable">Upload</button>
                                                                 </form>
                                                             </div>
@@ -212,29 +215,26 @@
                                         {% elif v[0] == "Results" %}
                                             <span title="{{id}},{{v[2]}}" style="display: none" id="ResultIDs">{{id}},{{v[2]}}</span>
                                             <div id="showResults">
-                                                <button class="btn btn-primary" type="button" disabled>
-                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                    Loading Results...
-                                                </button>
+                                                Please upload a file in the Challenges Platform to get your results
                                             </div>
                                         {% elif v[0] == "FilesDownload" %}
                                             <div class="container-fluid">
                                                 <h3>Below are the files available for download</h3><br>
                                                 <div class="accordion" id="accordionExample">
-                                                    {% for dir, files in downloadable_files.items() %}
+                                                    {% for path, files in downloadable_files.items() %}
                                                     <div class="card">
-                                                        <div class="card-header" id="'{}{}'.format(key, dir) }}">
+                                                        <div class="card-header" id="'{}{}'.format(key, path) }}">
                                                             <h2 class="mb-0">
-                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(dir)}}" aria-expanded="false" aria-controls="{{'#{}'.format(dir)}}">
-                                                                    {{ dir }}
+                                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="{{'#{}'.format(path)}}" aria-expanded="false" aria-controls="{{'#{}'.format(path)}}">
+                                                                    {{ path.replace('-', '/') }}
                                                                 </button>
                                                             </h2>
                                                         </div>
 
-                                                        <div id="{{'{}'.format(dir)}}" class="collapse" aria-labelledby="'{}{}'.format(key, dir) }}" data-parent="#accordionExample">
+                                                        <div id="{{'{}'.format(path)}}" class="collapse" aria-labelledby="'{}{}'.format(key, path) }}" data-parent="#accordionExample">
                                                             <div class="card-body">
                                                                     {% for file in files %}
-                                                                        <a class="fileLinks" href="{{ '/{}/{}/{}'.format(main_directory, dir, file) }}" download>{{ file }}</a><br>
+                                                                        <a class="fileLinks" href="{{ '/{}/{}'.format(path,file) }}" download>{{ file }}</a><br>
                                                                     {% endfor %}
                                                             </div>
                                                         </div>
@@ -265,32 +265,31 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-                crossorigin="anonymous"></script>
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>-->
+        <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}" ></script>
+        <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+        <script src = "{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <script src = "{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
         <script>
 
             let repeat = 44;
+            let filename = 'nofileyet.txt'
 
-            $(function(){
-                var hash = window.location.hash;
-                hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-                hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
-
-                setTimeout(getStatus, 2000);  // calling in 2 seconds
-                console.log("first getStatus scheduled");
-
-                $('#uploadBtn').click(function(e){
-                      $(this).tab('show');
-                      var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-                      window.location.hash = this.hash;
-                      $('html, body').scrollTop(scrollmem);
-                });
-            });
+            // $(function(){
+            //     var hash = window.location.hash;
+            //     hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+            //     hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+            //
+            //     setTimeout(getStatus, 2000);  // calling in 2 seconds
+            //     console.log("first getStatus scheduled");
+            //
+            //     $('#uploadBtn').click(function(e){
+            //           $(this).tab('show');
+            //           var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+            //           window.location.hash = this.hash;
+            //           $('html, body').scrollTop(scrollmem);
+            //     });
+            // });
 
             function getStatus() {
                 console.log('getting status...');
@@ -309,7 +308,7 @@
                         "configuration": {
                             "command": "getStatus",
                             "param": {
-                                "filename": '{{ filename }}'
+                                "filename": filename
                             }
                         }
                     }),
@@ -322,11 +321,15 @@
                         } else if (tmp == "done" && response['done']) {
                             console.log("status: " + response["done"]);
                             showResults(ids)
+                        } else if (repeat >= 0){
+                            setTimeout(getStatus, 2000);  // calling every 2 seconds
+                            repeat--;
                         } else {
-                            if (repeat >= 0){
-                                setTimeout(getStatus, 2000);  // calling every 2 seconds
-                                repeat--;
-                            }
+                            alert('request did not succeed: request timed out');
+                            document.getElementById("showResults").innerHTML = '<p>' +
+                                'Please upload a file in the Challenges Platform to get your results' +
+                                '</p>'
+                            repeat = 44;
                         }
 
                     }
@@ -346,7 +349,7 @@
                         "configuration": {
                             "command": "getResults",
                             "param": {
-                                "filename": '{{ filename }}'
+                                "filename": filename
                             }
                         }
                     }),
@@ -378,6 +381,60 @@
 
             }
 
+        $('#file-form').submit( function(e) {
+            console.log('file-method');
+            e.preventDefault();
+                var form_data = new FormData($('#file-form')[0]);
+                var formInput = document.getElementById("file-select");
+                console.log(form_data);
+
+                if( document.getElementById("file-select").files.length == 0 ){
+                    document.getElementById('file-select').value='';
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/fileUpload',
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(data) {
+                            filename = data
+                            console.log('Success!');
+                            var hash = window.location.hash;
+
+                            document.getElementById('file-select').value='';
+
+                            hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                            hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+
+
+                            repeat = 44;
+                            setTimeout(getStatus, 2000);  // calling in 2 seconds
+                            console.log("first getStatus scheduled");
+
+                            // $(this).tab('show');
+                            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                            window.location.hash = this.hash;
+                            $('html, body').scrollTop(scrollmem);
+                        },
+                });
+
+                var hash = window.location.hash;
+                hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+
+                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                window.location.hash = this.hash;
+                $('html, body').scrollTop(scrollmem);
+
+                document.getElementById("showResults").innerHTML = '\
+                        <button class="btn btn-primary" type="button" disabled> \
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
+                            Loading Results... \
+                        </button>'
+            }
+        });
 
         </script>
     </body>

@@ -32,7 +32,10 @@ class UserAPI(Resource):
             for result in results:
                 group = result['group_id']
                 group_object = DatabaseHandler.find("groups", group)
-                alias = group_object["alias"]
+                try:
+                    alias = group_object["alias"]
+                except TypeError:
+                    alias = ''
                 if alias is not None and alias != "":
                     formatted_group = " " + alias + " (" + str(group) + ")"
                 else:
