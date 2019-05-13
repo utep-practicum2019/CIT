@@ -281,7 +281,7 @@ def isAdminOnly(f):
 @isAdminOnly
 def main():
     cit_url = os.environ.get('HOST')
-    return redirect(url_for('platMan'), cit_url=cit_url)
+    return redirect(url_for('platMan'))
   
 
 
