@@ -2,9 +2,9 @@
 from flask import request
 from flask_restful import Resource
 
-from Schemas.Platform_Schema import *
 from AccountManager.account_manager import AccountManager
 from Database.database_handler import DatabaseHandler
+from Schemas.Platform_Schema import *
 
 
 def format_status(platform):
@@ -27,8 +27,10 @@ def format_status(platform):
 class PlatformAPI(Resource):
     from .PlatformManagerInstance import PlatformManagerInstance
     platform_interface = PlatformManagerInstance.get_instance().platform_interface
+    from Resources import AuthResource
 
     @staticmethod
+    @AuthResource.is_admin_only
     def get():
 
         json_data = request.args.to_dict()
@@ -81,6 +83,7 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
+    @AuthResource.is_admin_only
     def post():
         json_data = request.get_json(force=True)
         if not json_data:
@@ -94,6 +97,7 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
+    @AuthResource.is_admin_only
     def put():
         json_data = request.get_json(force=True)
         if not json_data:
@@ -134,6 +138,7 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
+    @AuthResource.is_admin_only
     def delete():
         json_data = request.get_json(force=True)
         if not json_data:

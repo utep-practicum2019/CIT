@@ -134,9 +134,19 @@
                             <span class="sr-only">Loading...</span>
                         </div>
                     </li>
+                    <!--                    <li class="nav-item active">-->
+                    <!--                        <a class="dropdown-item" data-target="#platformStartLoadModal" data-toggle="modal"-->
+                    <!--                           id="btnStart" onclick="start_platform()">Start Platform(s)</a>-->
+                    <!--                    </li>-->
                     <li class="nav-item active">
-                        <a class="dropdown-item" data-target="#platformStartLoadModal" data-toggle="modal"
-                           id="btnStart" onclick="start_platform()">Start Platform(s)</a>
+                        <a class="dropdown-item" id="btnStart" onclick="start_platform()">
+                            Start Platform(s)
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <div class="spinner-border spinner-border-sm" id="start_spinner" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </li>
                     <li class="nav-item active">
                         <a class="dropdown-item" id="btnStop">Stop Platform(s)</a>
@@ -421,7 +431,8 @@
             },
             complete: function () {
                 SortTable(7, 'D', 'platformsTable');
-                SortTable(7, 'D', 'platformsTable');
+                // SortTable(7, 'D', 'platformsTable');
+                load_platform_status();
             }
         });
     })();
@@ -454,6 +465,17 @@
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = false;
         }
+    }
+
+    function load_platform_status() {
+        let list = [];
+        $('#platformsTable input[type=checkbox]').each(function () {
+            let data = $(this).parents('tr:eq(0)');
+            list.push({
+                'platform_ID': $(data).find('td:eq(3)').text()
+            });
+        });
+        actionOnPlatforms(list, 0, "Status");
     }
 
     function reload_platforms() {
@@ -511,7 +533,7 @@
             },
             complete: function () {
                 SortTable(7, 'D', 'platformsTable');
-                // SortTable(7, 'D', 'platformsTable', true);
+                load_platform_status();
             }
         });
     }
@@ -673,19 +695,34 @@
                 data: JSON.stringify(request),
                 success: function (response) {
                     console.log(JSON.stringify(response));
-                    reload_platforms();
-                    $.notify("Platform Added Successfully!", {
-                        type: 'success',
-                        animate: {
-                            enter: 'animated fadeInRight',
-                            exit: 'animated fadeOutRight'
-                        },
-                        offset: 20,
-                        spacing: 10,
-                        newest_on_top: true
-                    });
-
+                    if (response["Status"] === "Success") {
+                        $.notify("Platform Added Successfully!", {
+                            type: 'success',
+                            animate: {
+                                enter: 'animated fadeInRight',
+                                exit: 'animated fadeOutRight'
+                            },
+                            offset: 20,
+                            spacing: 10,
+                            newest_on_top: true
+                        });
+                    } else {
+                        $.notify("Couldn't create platform!", {
+                            type: 'danger',
+                            animate: {
+                                enter: 'animated fadeInRight',
+                                exit: 'animated fadeOutRight'
+                            },
+                            offset: 20,
+                            spacing: 10,
+                            newest_on_top: true
+                        });
+                    }
                 },
+                complete: function () {
+                    reload_platforms();
+                    load_platform_status();
+                }
             });
         });
     });
@@ -781,6 +818,17 @@
                 newest_on_top: true
             });
         } else {
+            $.notify(list_of_platforms.length + " platform(s) are being started!", {
+                type: 'info',
+                animate: {
+                    enter: 'animated fadeInRight',
+                    exit: 'animated fadeOutRight'
+                },
+                offset: 20,
+                spacing: 10,
+                newest_on_top: true
+            });
+            $("#start_spinner").css("display", "inline-block");
             actionOnPlatforms(list_of_platforms, 0, "Start");
         }
     }
@@ -933,7 +981,6 @@
         });
     });
 
-
     function actionOnPlatforms(platforms, index, action) {
         if (index < platforms.length) {
             switch (action) {
@@ -968,6 +1015,30 @@
                         }),
                         success: function (response) {
                             console.log(JSON.stringify(response));
+                            let plat_status = response["Status"];
+                            if (plat_status === "Success") {
+                                $.notify("Succesfully started platform " + platforms[index]["platform_ID"], {
+                                    type: 'success',
+                                    animate: {
+                                        enter: 'animated fadeInRight',
+                                        exit: 'animated fadeOutRight'
+                                    },
+                                    offset: 20,
+                                    spacing: 10,
+                                    newest_on_top: true
+                                });
+                            } else {
+                                $.notify("There were issues starting platform " + platforms[index]["platform_ID"], {
+                                    type: 'danger',
+                                    animate: {
+                                        enter: 'animated fadeInRight',
+                                        exit: 'animated fadeOutRight'
+                                    },
+                                    offset: 20,
+                                    spacing: 10,
+                                    newest_on_top: true
+                                });
+                            }
                         },
                         complete: function () {
                             actionOnPlatforms(platforms, index + 1, action)
@@ -1035,7 +1106,7 @@
                     $("#delete_spinner").css("display", "none");
                     break;
                 case "Start":
-                    $.notify("Successfully started " + platforms.length + " platform(s)", {
+                    $.notify("Completed start command", {
                         type: 'success',
                         animate: {
                             enter: 'animated fadeInRight',
@@ -1045,6 +1116,8 @@
                         spacing: 10,
                         newest_on_top: true
                     });
+                    $("#start_spinner").css("display", "none");
+                    actionOnPlatforms(platforms, 0, "Status");
                     break;
                 case "Stop":
                     $.notify("Successfully stopped " + platforms.length + " platform(s)", {
@@ -1057,6 +1130,7 @@
                         spacing: 10,
                         newest_on_top: true
                     });
+                    actionOnPlatforms(platforms, 0, "Status");
                     break;
                 case "Status":
                     break;

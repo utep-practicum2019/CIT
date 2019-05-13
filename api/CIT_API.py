@@ -1,26 +1,24 @@
-from flask import Flask, send_file
-from flask import render_template, request, redirect
+import datetime
+import glob
+import os
+import time
 from functools import wraps
-from flask import session, url_for, flash, send_from_directory, Response
+
+from flask import Flask, send_file, render_template, request, redirect, session, url_for, flash, send_from_directory
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
 from werkzeug.utils import secure_filename
-import glob
-import os
-import time
-import datetime
-from pprint import pprint
 
 from Database.database_handler import DatabaseHandler
 from Resources.ConnectionResource import ConnectionAPI
 from Resources.DatabaseResource import DatabaseAPI
 from Resources.GroupResource import GroupAPI
 from Resources.LoginResource import LoginAPI
+from Resources.PlatformManagerInstance import PlatformManagerInstance
 from Resources.PlatformResource import PlatformAPI
 from Resources.RocketChatResource import RocketChatAPI
 from Resources.UserResource import UserAPI
-from Resources.PlatformManagerInstance import PlatformManagerInstance
 
 ma = Marshmallow()
 app = Flask(__name__, static_folder='static',
@@ -57,11 +55,11 @@ def index():
 def rocketchat_api():
     try:
         str = "<script> " \
-          "window.parent.postMessage({" \
-          "event: 'login-with-token'," \
-          "loginToken: '" + session['authToken'] + "'" \
-          "}, 'http://129.108.7.29:3000/');" \
-          "</script>"
+              "window.parent.postMessage({" \
+              "event: 'login-with-token'," \
+              "loginToken: '" + session['authToken'] + "'" \
+                                                       "}, 'http://129.108.7.29:3000/');" \
+                                                       "</script>"
         return str
     except KeyError as e:
         print("Request from: ", request.environ['REMOTE_ADDR'])
@@ -194,6 +192,8 @@ def get_downloadable_files(read_directory):
     @return: Returns a dictionary that contains all the subdirectories 
              and their corresponding files 
 """
+
+
 def get_downloadables(main_directory):
     cpy_root = ""
     downloadable_files = {}
@@ -206,11 +206,12 @@ def get_downloadables(main_directory):
         for file in files:
             f.append(file)
             cpy_root = cpy_root.replace('/', '-')
-            downloadable_files.update( { cpy_root : f} )
+            downloadable_files.update({cpy_root: f})
 
     # pprint(downloadable_files)
 
     return downloadable_files
+
 
 def create_ogList(platforms):
     ogList = []
@@ -269,17 +270,21 @@ def create_ogList(platforms):
 """
 allowed_ips = ["127.0.0.1"]
 
+
 def isAdminOnly(f):
     """
     Wrapper for admin methods to prevent them from being accessed by
     any ip not in allowed_ips
     """
+
     @wraps(f)
     def decorated(*args, **kwargs):
         if request.environ['REMOTE_ADDR'] not in allowed_ips:
             return render_template('thouShallNotPass.html')
         return f(*args, **kwargs)
+
     return decorated
+
 
 @app.route('/admin')
 @isAdminOnly
