@@ -23,6 +23,7 @@ class PlatformGETRequestSchema(Schema):
     status = fields.Boolean()
     alias = fields.Boolean()
     sub = fields.Boolean()
+    wait = fields.Integer()
     platform_ID = fields.Integer()
 
 
