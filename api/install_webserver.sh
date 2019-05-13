@@ -2,7 +2,7 @@
 
 if ["$(id -u)" == "0" ];
 then 
-    echo "install_webserver.sh should be ran as regular user, not sudo."
+    echo "install_webserver.sh should be ran as regular user, not sudo." 1>&2
     exit 1
 fi
 
