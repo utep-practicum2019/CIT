@@ -280,7 +280,9 @@ def isAdminOnly(f):
 @app.route('/admin')
 @isAdminOnly
 def main():
-    return render_template('platMan.html')
+    cit_url = os.environ.get('HOST')
+    return redirect(url_for('platMan'), cit_url=cit_url)
+  
 
 
 @app.route('/accountsMan.html', methods=['GET', 'POST'])
