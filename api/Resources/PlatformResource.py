@@ -64,6 +64,9 @@ class PlatformAPI(Resource):
             else:
                 from Database.database_handler import DatabaseHandler
                 results = DatabaseHandler.find("platforms", data["platform_ID"])
+                if "wait" in data:
+                    import time
+                    time.sleep(data["wait"])
                 results = format_status(results)
                 # if len(results["subplatforms"]) == 0:
                 #     results = PlatformAPI.platform_interface.getPlatformStatus(data["platform_ID"])

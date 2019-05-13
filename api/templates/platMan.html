@@ -724,7 +724,7 @@
                     load_platform_status();
                 }
             });
-        });
+        })
     });
 
     // // Start Platform
@@ -740,47 +740,47 @@
     //     });
     // });
 
-    function isSiteOnline(url, callback) {
-        // try to load favicon
-        let timer = setTimeout(function () {
-            // timeout after 5 seconds
-            callback(false);
-        }, 5000);
-        let img = document.createElement("img");
-        img.onload = function () {
-            clearTimeout(timer);
-            callback(true);
-        };
-        img.onerror = function () {
-            clearTimeout(timer);
-            callback(false);
-        };
-        img.src = url + "/favicon.ico";
-    }
+    // function isSiteOnline(url, callback) {
+    //     // try to load favicon
+    //     let timer = setTimeout(function () {
+    //         // timeout after 5 seconds
+    //         callback(false);
+    //     }, 5000);
+    //     let img = document.createElement("img");
+    //     img.onload = function () {
+    //         clearTimeout(timer);
+    //         callback(true);
+    //     };
+    //     img.onerror = function () {
+    //         clearTimeout(timer);
+    //         callback(false);
+    //     };
+    //     img.src = url + "/favicon.ico";
+    // }
 
     let wait = ms => new Promise((r) => setTimeout(r, ms));
 
-    async function is_rocket_chat_online() {
-        let counter = 0;
-        while (counter < 20) {
-            let rocket_on = await new Promise((resolve) =>
-                isSiteOnline("http://0.0.0.0:3000", function (found) {
-                    if (found) {
-                        console.log("Rocket Chat Is Up");
-                        resolve(true);
-                    } else {
-                        console.log("Rocket Chat Is Down");
-                        resolve(false);
-                    }
-                }));
-            if (rocket_on) {
-                return Promise.resolve(true);
-            }
-            await wait(1000);
-            counter++;
-        }
-        return Promise.resolve(false);
-    }
+    // async function is_rocket_chat_online() {
+    //     let counter = 0;
+    //     while (counter < 20) {
+    //         let rocket_on = await new Promise((resolve) =>
+    //             isSiteOnline("http://0.0.0.0:3000", function (found) {
+    //                 if (found) {
+    //                     console.log("Rocket Chat Is Up");
+    //                     resolve(true);
+    //                 } else {
+    //                     console.log("Rocket Chat Is Down");
+    //                     resolve(false);
+    //                 }
+    //             }));
+    //         if (rocket_on) {
+    //             return Promise.resolve(true);
+    //         }
+    //         await wait(1000);
+    //         counter++;
+    //     }
+    //     return Promise.resolve(false);
+    // }
 
     // async function is_tiddly_wiki_online() {
     //     let counter = 0;
@@ -833,91 +833,91 @@
         }
     }
 
-    async function get_subplatforms(list_of_platforms) {
-        let subplats = await new Promise((resolve) =>
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:5001/api/v2/resources/platform",
-                contentType: "application/json",
-                dataType: "json",
-                data: {
-                    'all': 'True'
-                },
-                success: function (response) {
-                    //Print results
-                    console.log("Accessed Database at " + new Date().toUTCString());
-                    let array = response;
-                    let to_return = [];
-                    for (let plat in list_of_platforms) {
-                        for (let i in array) {
-                            if (parseInt(list_of_platforms[plat]["platform_ID"]) === array[i]["main"]["id"]) {
-                                let subplats = array[i]["subplatforms"];
-                                let to_insert = [];
-                                for (let j in subplats) {
-                                    to_insert.push(array[i]["subplatforms"][j]["name"]);
-                                }
-                                to_return.push(to_insert);
-                            }
-                        }
-                    }
-                    resolve(to_return);
-                }
-            }));
-        return Promise.resolve(subplats);
-    }
+    // async function get_subplatforms(list_of_platforms) {
+    //     let subplats = await new Promise((resolve) =>
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "http://localhost:5001/api/v2/resources/platform",
+    //             contentType: "application/json",
+    //             dataType: "json",
+    //             data: {
+    //                 'all': 'True'
+    //             },
+    //             success: function (response) {
+    //                 //Print results
+    //                 console.log("Accessed Database at " + new Date().toUTCString());
+    //                 let array = response;
+    //                 let to_return = [];
+    //                 for (let plat in list_of_platforms) {
+    //                     for (let i in array) {
+    //                         if (parseInt(list_of_platforms[plat]["platform_ID"]) === array[i]["main"]["id"]) {
+    //                             let subplats = array[i]["subplatforms"];
+    //                             let to_insert = [];
+    //                             for (let j in subplats) {
+    //                                 to_insert.push(array[i]["subplatforms"][j]["name"]);
+    //                             }
+    //                             to_return.push(to_insert);
+    //                         }
+    //                     }
+    //                 }
+    //                 resolve(to_return);
+    //             }
+    //         }));
+    //     return Promise.resolve(subplats);
+    // }
 
-    $('#platformStartLoadModal').on('shown.bs.modal', function () {
-        let list_of_platforms = select_platforms();
-        let subplats = get_subplatforms(list_of_platforms);
-        subplats.then(function (subplatforms) {
-            for (let plat in subplatforms) {
-                if (subplatforms[plat].includes("Rocketchat")) {
-                    let rocket_status = is_rocket_chat_online();
-                    rocket_status.then(function (rocket_online) {
-                        if (rocket_online) {
-                            $.notify("Platforms Sucesfully Started!", {
-                                type: 'success',
-                                animate: {
-                                    enter: 'animated fadeInRight',
-                                    exit: 'animated fadeOutRight'
-                                },
-                                offset: 20,
-                                spacing: 10,
-                                newest_on_top: true
-                            });
-                        } else {
-                            $.notify("Couldn't Start Platforms!", {
-                                type: 'danger',
-                                animate: {
-                                    enter: 'animated fadeInRight',
-                                    exit: 'animated fadeOutRight'
-                                },
-                                offset: 20,
-                                spacing: 10,
-                                newest_on_top: true
-                            });
-                        }
-                        $('#platformStartLoadModal').modal('hide');
-                    });
-                }
-                <!--                else if (subplatforms[plat].includes("TiddlyWiki")){-->
-                <!--                    let tiddly_status = is_tiddly_wiki_online();-->
-                <!--                    tiddly_status.then(function (tiddly_online) {-->
-                <!--                        if (tiddly_online) {-->
-                <!--                            alert("Platforms Sucesfully Started!");-->
-                <!--                        } else {-->
-                <!--                            alert("Couldn't Start Platforms!");-->
-                <!--                        }-->
-                <!--                        $('#platformStartLoadModal').modal('hide');-->
-                <!--                    });-->
-                <!--                }-->
-                else {
-                    $('#platformStartLoadModal').modal('hide');
-                }
-            }
-        });
-        actionOnPlatforms(list_of_platforms, 0, "Status");
-    });
+    // $('#platformStartLoadModal').on('shown.bs.modal', function () {
+    //     let list_of_platforms = select_platforms();
+    //     let subplats = get_subplatforms(list_of_platforms);
+    //     subplats.then(function (subplatforms) {
+    //         for (let plat in subplatforms) {
+    //             if (subplatforms[plat].includes("Rocketchat")) {
+    //                 let rocket_status = is_rocket_chat_online();
+    //                 rocket_status.then(function (rocket_online) {
+    //                     if (rocket_online) {
+    //                         $.notify("Platforms Sucesfully Started!", {
+    //                             type: 'success',
+    //                             animate: {
+    //                                 enter: 'animated fadeInRight',
+    //                                 exit: 'animated fadeOutRight'
+    //                             },
+    //                             offset: 20,
+    //                             spacing: 10,
+    //                             newest_on_top: true
+    //                         });
+    //                     } else {
+    //                         $.notify("Couldn't Start Platforms!", {
+    //                             type: 'danger',
+    //                             animate: {
+    //                                 enter: 'animated fadeInRight',
+    //                                 exit: 'animated fadeOutRight'
+    //                             },
+    //                             offset: 20,
+    //                             spacing: 10,
+    //                             newest_on_top: true
+    //                         });
+    //                     }
+    //                     $('#platformStartLoadModal').modal('hide');
+    //                 });
+    //             }
+    //             <!--                else if (subplatforms[plat].includes("TiddlyWiki")){-->
+    //             <!--                    let tiddly_status = is_tiddly_wiki_online();-->
+    //             <!--                    tiddly_status.then(function (tiddly_online) {-->
+    //             <!--                        if (tiddly_online) {-->
+    //             <!--                            alert("Platforms Sucesfully Started!");-->
+    //             <!--                        } else {-->
+    //             <!--                            alert("Couldn't Start Platforms!");-->
+    //             <!--                        }-->
+    //             <!--                        $('#platformStartLoadModal').modal('hide');-->
+    //             <!--                    });-->
+    //             <!--                }-->
+    //             else {
+    //                 $('#platformStartLoadModal').modal('hide');
+    //             }
+    //         }
+    //     });
+    //     actionOnPlatforms(list_of_platforms, 0, "Status");
+    // });
 
     // Stop Platform
     $(document).ready(function () {
@@ -950,6 +950,7 @@
         });
     });
 
+    // Delete platforms
     $(document).ready(function () {
         $('#btnDelPlat').click(function () {
             let list_of_platforms = select_platforms();
@@ -981,7 +982,7 @@
         });
     });
 
-    function actionOnPlatforms(platforms, index, action) {
+    function actionOnPlatforms(platforms, index, action, wait = 0) {
         if (index < platforms.length) {
             switch (action) {
                 case "Delete":
@@ -994,6 +995,20 @@
                             "platform_ID": platforms[index]["platform_ID"],
                             "subplatforms_IDS": []
                         }),
+                        statusCode: {
+                            500: function () {
+                                $.notify("Could not delete platform " + platforms[index]["platform_ID"], {
+                                    type: 'danger',
+                                    animate: {
+                                        enter: 'animated fadeInRight',
+                                        exit: 'animated fadeOutRight'
+                                    },
+                                    offset: 20,
+                                    spacing: 10,
+                                    newest_on_top: true
+                                });
+                            }
+                        },
                         success: function (response) {
                             console.log(JSON.stringify(response));
                         },
@@ -1013,6 +1028,20 @@
                             "platform_ID": platforms[index]["platform_ID"],
                             "subplatforms_IDS": []
                         }),
+                        statusCode: {
+                            500: function () {
+                                $.notify("Could not start platform " + platforms[index]["platform_ID"], {
+                                    type: 'danger',
+                                    animate: {
+                                        enter: 'animated fadeInRight',
+                                        exit: 'animated fadeOutRight'
+                                    },
+                                    offset: 20,
+                                    spacing: 10,
+                                    newest_on_top: true
+                                });
+                            }
+                        },
                         success: function (response) {
                             console.log(JSON.stringify(response));
                             let plat_status = response["Status"];
@@ -1056,6 +1085,20 @@
                             "platform_ID": platforms[index]["platform_ID"],
                             "subplatforms_IDS": []
                         }),
+                        statusCode: {
+                            500: function () {
+                                $.notify("Could not stop platform " + platforms[index]["platform_ID"], {
+                                    type: 'danger',
+                                    animate: {
+                                        enter: 'animated fadeInRight',
+                                        exit: 'animated fadeOutRight'
+                                    },
+                                    offset: 20,
+                                    spacing: 10,
+                                    newest_on_top: true
+                                });
+                            }
+                        },
                         success: function (response) {
                             console.log(JSON.stringify(response));
                         },
@@ -1072,15 +1115,12 @@
                         dataType: "json",
                         data: {
                             'status': 'True',
-                            'platform_ID': platforms[index]["platform_ID"]
+                            'platform_ID': platforms[index]["platform_ID"],
+                            'wait': wait
                         },
                         success: function (response) {
-                            // let status = "Stopped!";
-                            // if (response) {
-                            //     status = "Running!"
-                            // }
-                            status = response;
-                            console.log("Status: " + status);
+                            let status = response;
+                            console.log(response);
                             $('#platformsTable > tbody ').find('tr:eq(' + index + ')').find('td:eq(6)').replaceWith(`<td>${status}</td>`);
                         },
                         complete: function () {
@@ -1093,7 +1133,7 @@
             switch (action) {
                 case "Delete":
                     reload_platforms();
-                    $.notify("Successfully deleted " + platforms.length + " platform(s)", {
+                    $.notify("Completed delete command", {
                         type: 'success',
                         animate: {
                             enter: 'animated fadeInRight',
@@ -1106,7 +1146,7 @@
                     $("#delete_spinner").css("display", "none");
                     break;
                 case "Start":
-                    $.notify("Completed start command", {
+                    $.notify("Completed start command, platform status will be updated shortly", {
                         type: 'success',
                         animate: {
                             enter: 'animated fadeInRight',
@@ -1116,11 +1156,10 @@
                         spacing: 10,
                         newest_on_top: true
                     });
-                    $("#start_spinner").css("display", "none");
-                    actionOnPlatforms(platforms, 0, "Status");
+                    actionOnPlatforms(platforms, 0, "Status", 4);
                     break;
                 case "Stop":
-                    $.notify("Successfully stopped " + platforms.length + " platform(s)", {
+                    $.notify("Completed stop command", {
                         type: 'success',
                         animate: {
                             enter: 'animated fadeInRight',
@@ -1133,6 +1172,7 @@
                     actionOnPlatforms(platforms, 0, "Status");
                     break;
                 case "Status":
+                    $("#start_spinner").css("display", "none");
                     break;
             }
         }
