@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+
+if ["$(id -u)" == "0" ];
+then 
+    echo "install_webserver.sh should be ran as regular user, not sudo."
+    exit 1
+fi
+
 export CIT_IP=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
 #export CIT_IP=$(ifconfig enp0s3 | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}')
 if [ -z "$CIT_IP" ]; then
