@@ -15,7 +15,6 @@ from .PluginManager import PluginManager
             The platform interface provides callable functions within the platform manager subsystem.
 """
 
-
 class PlatformInterface():
 
     def __init__(self):
@@ -27,6 +26,11 @@ class PlatformInterface():
 
     ##### Platform Manager #####
 
+    """
+    Function Comment: Create a platform by specifying the main platform and optionally 
+    the subplatforms associated with this main platform. Platforms should be specified 
+    by their names.
+    """
     def createPlatform(self, main_platform, subplatforms):
         Main_Platform = self.platformManager.createPlatform(main_platform, subplatforms)
         status = "Failure"
@@ -59,6 +63,11 @@ class PlatformInterface():
         else:
             return {"Status": status, "Response": {}}
 
+    """
+    Function Comment: Used to delete the entire platform container construct or specific 
+    platforms. If no subplatform IDs are listed the entire platform container will be deleted.
+    If subplatforms IDs are specified they will be deleted. 
+    """
     def deletePlatform(self, platform_ID, subplatform_IDs):
         deletions = []
         
@@ -85,6 +94,10 @@ class PlatformInterface():
 
         return status
 
+    """
+    Function Comment: Used to add platforms to an existing main platform. Subplatforms
+    to be added should be specified by their names.
+    """
     def addPlatform(self, platform_ID, subplatforms):
         Main_Platform = self.platformManager.addPlatform(platform_ID, subplatforms)
         status = "Failure"
@@ -112,33 +125,44 @@ class PlatformInterface():
         else:
             return {"Status": status, "Response": {}}
 
+    """
+    Function Comment: Used to start platforms that have already been created. Takes the main 
+    platform ID along with the subplatform IDs belonging to the platforms to be started as 
+    arguments.
+    """
     def startPlatform(self, platform_ID, subplatform_IDs):
         Main_Platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
         status = "Failure"
 
         if (Main_Platform != "Failure"):
             Subplatforms = Main_Platform[0].get_sub_platforms()
+            platform_start_statuses = Main_Platform[2]
 
             if (Main_Platform[1] == "Success"):
                 status = "Success"
-                time.sleep(5)
+                # time.sleep(5)
 
             if (self.platformManager.check_service(Main_Platform[0]) == True):
                 for x in Subplatforms:
-                    time.sleep(5)
+                    # time.sleep(5)
                     if (self.platformManager.check_service(Subplatforms[x]) == False):
                         status = "Failure"
                         break
 
             if (status != "Failure"):
-                response = self.createResponse(Main_Platform[0], status, 1)
+                response = self.createResponse(Main_Platform[0], status, 1, platform_start_statuses)
 
                 return response
             else:
                 return {"Status": status, "Response": {}}
         else:
-            return {"Status": status, "Response": {}}
+            return {"Status": status, "Response": {}, "Platforms": None}
 
+    """
+    Function Comment: Used to stop platforms that are running. Takes the main 
+    platform ID along with the subplatform IDs belonging to the platforms to be stopped as 
+    arguments.
+    """
     def stopPlatform(self, platform_ID, subplatform_IDs):
         Main_Platform = self.platformManager.stopPlatforms(platform_ID, subplatform_IDs)
         status = "Failure"
@@ -165,6 +189,12 @@ class PlatformInterface():
         else:
             return {"Status": status, "Response": {}}
 
+    """
+    Function Comment: Returns the running status of a specified platform. To retrieve
+    the status of a subplatform the main platform's ID and subplatform's ID should be 
+    specified. To retrieve the status of the main platform only the main platform's ID 
+    is needed.
+    """
     def getPlatformStatus(self, main_ID, subplatform_ID=0):
         Main_Platform = self.platformManager.getPlatform(main_ID)
         if (subplatform_ID == 0):
@@ -178,6 +208,11 @@ class PlatformInterface():
 
         return status
 
+    """
+    Function Comment: Allows external subsystems to call platform-specific 
+    functions. Not all platform functions can be called externally only a set
+    of functions are available for each platform.
+    """
     def requestHandler(self, main_ID, subplatform_ID, command):
         Main_Platform = self.platformManager.getPlatform(main_ID)
 
@@ -201,6 +236,12 @@ class PlatformInterface():
             else:
                 return subplatform.requestHandler(command)
 
+    """
+    Function Comment: Used to edit the alias of a specific platform.
+    If no subplatform is specified the main platform's alias will be 
+    edited. To edit the alias of a subplatform, its subplatform
+    ID along with the main platform's ID should be specified.
+    """
     def editPlatformAlias(self, main_ID, alias, subplatform_ID=0):
         Main_Platform = self.platformManager.getPlatform(main_ID)
 
@@ -228,6 +269,12 @@ class PlatformInterface():
                 self.formatCreateUpdateRequest(Main_Platform, 1)
                 return {"success": True}
 
+    """
+    Function Comment: Used to edit the note field of a specific platform.
+    If no subplatform is specified the main platform's note field will be 
+    edited. To edit the note field of a subplatform, its subplatform
+    ID along with the main platform's ID should be specified.
+    """
     def editPlatformNote(self, main_ID, note, subplatform_ID=0):
         Main_Platform = self.platformManager.getPlatform(main_ID)
 
@@ -259,7 +306,10 @@ class PlatformInterface():
 
     ##### Utility #####
 
-    def createResponse(self, Main_Platform, status, type):
+    """
+    Function Comments: Used internally to format the responses to request handler requests. 
+    """
+    def createResponse(self, Main_Platform, status, type, platform_statuses=None):
         platform = Main_Platform
         Subplatforms = platform.get_sub_platforms()
 
@@ -269,9 +319,15 @@ class PlatformInterface():
                                       "Subplatforms": {}}
                          }
         else:
-            response1 = {"Status": status,
-                         "Response": {platform.getPlatformName(): [platform.getPlatformID(), platform.getIpPort()]}
-                         }
+            if (platform_statuses is not None):
+                response1 = {"Status": status,
+                            "Response": {platform.getPlatformName(): [platform.getPlatformID(), platform.getIpPort()]},
+                            "Platforms": platform_statuses
+                            }
+            else:
+                response1 = {"Status": status,
+                            "Response": {platform.getPlatformName(): [platform.getPlatformID(), platform.getIpPort()]}
+                            }
 
         for x in Subplatforms:
             name = Subplatforms[x].getPlatformName()
@@ -286,6 +342,10 @@ class PlatformInterface():
         else:
             return response1
 
+    """
+    Function Comment: Used internally to format the database request associated with
+    the creation of platforms.
+    """
     def formatCreateUpdateRequest(self, Main_Platform, type):
         Subplatforms = Main_Platform.get_sub_platforms()
 
@@ -322,6 +382,10 @@ class PlatformInterface():
 
         return False
 
+    """
+    Function Comment: Used internally to format the database request associated with
+    the deletion of platforms.
+    """
     def formatDeleteRequest(self, main_ID, deletions):
         if (len(deletions) == 0):
             request_data = {
@@ -345,6 +409,10 @@ class PlatformInterface():
                     return False
             return True
 
+    """
+    Function Comment: Used internally to retrieve all of the IDs associated with
+    a main platform object.
+    """
     def getIDs(self, main_platform_ID):
         ids = []
         Main_Platform = self.platformManager.getPlatform(main_platform_ID)
@@ -363,10 +431,18 @@ class PlatformInterface():
     def addPlugin(self, path):
         pass
 
+    """
+    Function Comment: Calls on the plugin manager to delete a specified 
+    plugin.
+    """
     def deletePlugin(self, plugin_name):
         self.pluginManager.deletePlatform(plugin_name)
         return True
 
+    """
+    Function Comment: Calls on the plugin manager to retrieve the list of 
+    available plugins.
+    """
     def getAvailablePlugins(self):
         available_plugins = self.pluginManager.getAvailablePlugins()
         return available_plugins

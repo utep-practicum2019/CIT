@@ -119,8 +119,8 @@ class PlatformsManager:
                     print("Failure: No Such Plugin: " + x)
                     return "Failure"
                 subplatforms[x] = self.plugin_manager.loadPlatform(x)
-                # date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                # subplatforms[x].setPlatformDateCreated(date)
+                date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                subplatforms[x].setPlatformDateCreated(date)
 
             Main_Platform.set_sub_platforms(subplatforms)
 
@@ -202,6 +202,9 @@ class PlatformsManager:
 
     # This method will start up the specific services
     def startPlatforms(self, platformID, subplatformsIDs):
+        start_statuses = {}
+        start_result = ""
+
         try:
             Main_Platform = self.PlatformTree.getPlatform(platformID)
             if (Main_Platform is None):
@@ -216,12 +219,14 @@ class PlatformsManager:
                 # check if platform IP is available, if not re assign IP
                 if not self.check_service(Main_Platform):
                     self.PlatformTracker[main_id] = []
-                    self.start(Main_Platform)
+                    start_result = self.start(Main_Platform) ###
+                    start_statuses[Main_Platform.getPlatformID()] = start_result ###
                 else:
                     newIP, newPort = self.getPort(Main_Platform)
                     self.PlatformTracker[main_id] = []
                     Main_Platform.setIpPort(newIP, str(newPort))
-                    self.start(Main_Platform)
+                    start_result = self.start(Main_Platform) ###
+                    start_statuses[Main_Platform.getPlatformID()] = start_result ###
             subTracker = self.PlatformTracker[main_id]
             # instantiate all subplatforms if it is an empty list
             if subplatformsIDs == []:
@@ -231,13 +236,15 @@ class PlatformsManager:
                     if sub_id not in subTracker:
                         if not self.check_service(subplatforms[x]):
                             subTracker.append(sub_id)
-                            self.start(subplatforms[x])
+                            start_result = self.start(subplatforms[x]) ###
+                            start_statuses[subplatforms[x].getPlatformID()] = start_result ###
                             time.sleep(3)
                         else:
                             newIP, newPort = self.getPort(subplatforms[x])
                             subplatforms[x].setIpPort(newIP, newPort)
                             subTracker.append(sub_id)
-                            self.start(Main_Platform)
+                            start_result = self.start(Main_Platform) ###
+                            start_statuses[Main_Platform.getPlatformID()] = start_result ###
                             time.sleep(3)
             else:  # Instantiate Specific Platforms
                 for x in subplatforms:
@@ -247,15 +254,17 @@ class PlatformsManager:
                         if sub_id not in subTracker:
                             if not self.check_service(subplatforms[x]):
                                 subTracker.append(sub_id)
-                                self.start(subplatforms[x])
+                                start_result = self.start(subplatforms[x]) ###
+                                start_statuses[subplatforms[x].getPlatformID()] = start_result ###
                                 time.sleep(3)
                             else:
                                 newIP, newPort = self.getPort(subplatforms[x])
                                 subTracker.append(sub_id)
                                 subplatforms[x].setIpPort(newIP, newPort)
-                                self.start(Main_Platform)
+                                start_result = self.start(Main_Platform) ###
+                                start_statuses[Main_Platform.getPlatformID()] = start_result ###
                                 time.sleep(3)
-            return Main_Platform, "Success"
+            return Main_Platform, "Success", start_statuses
         except Exception as ex:
             print(ex)
             print("Platforms startup failed for Platform" + Main_Platform.getPlatformName() + " " + str(platformID))
@@ -263,11 +272,38 @@ class PlatformsManager:
 
     def start(self, platform):
         try:
+            
+            # with Popen()
             # keep track of processID
             process = subprocess.Popen([platform.get_start_command()], shell=True)
-            # any other processes that are executed in child process is process id + the number of extra processes.
-            # Since specific platforms produce an extra thread under the child process, the process ID for that platform is child process id + 1
-            platform.setProcessID(process.pid + 1)
+            count = 0
+
+            while ((process.poll is None) and (count < 90)):
+                print("Starting "+ platform.getPlatformName())
+                time.sleep(1)
+
+            if (count == 90):
+                print("Platform startup failed")
+                return False
+            else:
+                # any other processes that are executed in child process is process id + the number of extra processes.
+                # Since specific platforms produce an extra thread under the child process, the process ID for that platform is child process id + 1
+                print(platform.getPlatformName()+" started")
+                platform.setProcessID(process.pid + 1)
+                return True
+            
+            #######################################################################################################################
+
+            # with call()
+            # process = subprocess.call([platform.get_start_command()], shell=True)
+
+            # if (process != 0):
+            #     return False
+            # else:
+            #     print(platform.getPlatformName()+" started")
+            #     platform.setProcessID(process.pid + 1)
+            #     return True
+        
         except Exception as ex:
             print(ex)
             print("Platform:" + platform.getPlatformName() + " Startup Failed")
