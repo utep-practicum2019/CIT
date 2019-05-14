@@ -26,7 +26,7 @@ sudo snap install rocketchat-server
 
 #virtual box
 sudo apt-get install virtualbox
-sudo apt install virtualbox-ext-pack
+sudo apt-get install virtualbox-ext-pack
 
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
