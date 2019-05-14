@@ -25,8 +25,8 @@ sudo apt install kdesudo -y
 sudo snap install rocketchat-server
 
 #virtual box
-sudo apt-get install virtualbox
-sudo apt-get install virtualbox-ext-pack
+sudo apt-get install virtualbox -y
+sudo apt-get install virtualbox-ext-pack -y
 
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
