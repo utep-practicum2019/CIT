@@ -29,6 +29,7 @@ sudo apt-get install virtualbox -y
 sudo apt-get install virtualbox-ext-pack -y
 
 mkdir ~/Desktop/hackathon_results
+mkdir ~/Desktop/hackathon_results/stats
 mkdir ~/Desktop/hackathon_submissions
 
 sudo mkdir /var/www/cit
