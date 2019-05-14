@@ -28,6 +28,8 @@ sudo snap install rocketchat-server
 sudo apt-get install virtualbox -y
 sudo apt-get install virtualbox-ext-pack -y
 
+sudo mkdir ~/Desktop/hackathon_results
+
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
 cd /var/www/cit
@@ -122,6 +124,7 @@ sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
 sudo su -c "echo export HOST=$CIT_IP >> /etc/apache2/envvars"
 sudo su -c "echo export HOST=$CIT_IP >> /etc/environment"
 sudo su -c "echo export DISPLAY=$DISPLAY>> /etc/apache2/envvars"
+
 
 sudo su -c "echo '$CIT_IP citsystem.com' >> /etc/hosts"
 sudo sed -i -e 's/INSERT_IP_HERE/'"$CIT_IP"':80/' citsystem.com.conf
