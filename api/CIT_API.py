@@ -43,7 +43,8 @@ api.add_resource(LoginAPI, '/api/v2/resources/login')
                                             USER GUI    
     =========================================================================================
 """
-UPLOAD_FOLDER = '/home/practicum/Desktop/hackathon_submissions'
+
+UPLOAD_FOLDER = '/home/'+os.environ.get('USER')+'/Desktop/hackathon_submissions'
 ALLOWED_EXTENSIONS = set(['rules', 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'pcap'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
