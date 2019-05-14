@@ -21,7 +21,7 @@ sudo apt-get install apache2 -y
 sudo apt-get install libapache2-mod-wsgi-py3 -y
 sudo apt-get install pptpd -y
 sudo apt-get install curl -y 
-sudo apt install kdesudo -y
+
 sudo snap install rocketchat-server
 
 #virtual box
