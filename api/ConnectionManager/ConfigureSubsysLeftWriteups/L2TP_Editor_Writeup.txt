@@ -1,0 +1,4 @@
+Kristian Villanueva
+L2TP_Editor.py write-up
+
+Deiscription: L2TP_Editor adds passwords to the list in the ipsec.secret file.The password is an seven to eight digit randomly generated password.
