@@ -67,6 +67,7 @@ def rocketchat_api():
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    cit_url = os.environ.get('HOST')
     if session.get('logged_in') is None:
         return redirect(url_for('login'))
 
@@ -106,7 +107,7 @@ def home():
 
     return render_template('index.html', username=username, platforms=platform_names, main_directory=main_directory,
                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
-                           time=time, platforms_id=platforms, group_id=group_id, filename=session['filename'])
+                           time=time, platforms_id=platforms, group_id=group_id, filename=session['filename'],cit_url=cit_url)
 
 
 @app.route('/fileUpload', methods=['GET', 'POST'])
