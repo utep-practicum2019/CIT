@@ -8,7 +8,6 @@ import threading
 import time
 import atexit
 
-
 from .PlatformTreeManager import PlatformTreeManager
 # Need to import entire platforms package
 from .PluginManager import PluginManager
@@ -43,19 +42,19 @@ class PlatformsManager:
         self.reinstantiated = False
         self.reinstantiateThread()
 
-        def closePlatforms():
-            root = self.PlatformTree.getRoot()
-            closingPlatforms(root)
-
-        def closingPlatforms(node):
-            if (node == None):
-                return
-            else:
-                self.stopPlatforms(node.platformID, [])
-                closingPlatforms(node.rightNode)
-                closingPlatforms(node.leftNode)
-
-        atexit.register(closePlatforms)
+        # def closePlatforms():
+        #     root = self.PlatformTree.getRoot()
+        #     closingPlatforms(root)
+        #
+        # def closingPlatforms(node):
+        #     if (node == None):
+        #         return
+        #     else:
+        #         self.stopPlatforms(node.platformID, [])
+        #         closingPlatforms(node.rightNode)
+        #         closingPlatforms(node.leftNode)
+        #
+        # atexit.register(closePlatforms)
 
 
 
@@ -169,7 +168,9 @@ class PlatformsManager:
                 if (Main_Platform is None):
                     print("No such Platform with ID:" + str(platformID))
                     return "Failure"
-                self.stopPlatforms(platformID, [])
+                if(platformID in self.PlatformTracker):
+                    self.stopPlatforms(platformID, [])
+                print("stopped platforms")
                 self.PlatformTree.remove(platformID)
                 return (None, "Success")
             else:
@@ -317,11 +318,13 @@ class PlatformsManager:
             return (None, "Failure")
         subplatforms = Main_Platform.get_sub_platforms()
         platformTracker = self.PlatformTracker.keys()
+        subTracker = self.PlatformTracker[platformID]
         if not subplatformIDs:
             for x in subplatforms:
-                if self.check_service(subplatforms[x]):
+                subplatformID = subplatforms[x].getPlatformID()
+                if (self.check_service(subplatforms[x])):
                     self.stop(subplatforms[x])
-                    time.sleep(3)
+                    time.sleep(1)
 
             if self.check_service(Main_Platform) or platformID in platformTracker:
                 del self.PlatformTracker[platformID]
@@ -334,7 +337,8 @@ class PlatformsManager:
             for x in subplatforms:
                 subplatformID = subplatforms[x].getPlatformID()
                 if subplatforms[x].getPlatformID() in subplatformIDs:
-                    if self.check_service(subplatforms[x]) or subplatformID in subTracker:
+                    if self.check_service(subplatforms[x]) and subplatformID in subTracker:
+                        print("shutting down" + subplatforms[x].getPlatformName())
                         indx = subTracker.index(subplatformID)
                         del self.PlatformTracker[platformID][indx]
 
@@ -342,12 +346,12 @@ class PlatformsManager:
                         time.sleep(3)
 
         return (Main_Platform, "Success")
-        '''
-    except Exception as ex:
-        print(ex)
-        print("Platform:" + str(platformID) + " Thread failed")
-        return (None, "Failure")
-        '''
+    #     '''
+    # except Exception as ex:
+    #     print(ex)
+    #     print("Platform:" + str(platformID) + " Thread failed")
+    #     return (None, "Failure")
+    #     '''
 
     def stop(self, platform):
         try:
