@@ -125,6 +125,8 @@ sudo su -c "echo export CITPATH=/var/www/cit >> /etc/environment"
 sudo su -c "echo export HOST=$CIT_IP >> /etc/apache2/envvars"
 sudo su -c "echo export HOST=$CIT_IP >> /etc/environment"
 sudo su -c "echo export DISPLAY=$DISPLAY>> /etc/apache2/envvars"
+sudo su -c "echo export USER=$USER>> /etc/apache2/envvars"
+
 
 
 sudo su -c "echo '$CIT_IP citsystem.com' >> /etc/hosts"
