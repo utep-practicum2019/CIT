@@ -114,6 +114,7 @@ class PlatformInterface():
 
     def startPlatform(self, platform_ID, subplatform_IDs):
         Main_Platform = self.platformManager.startPlatforms(platform_ID, subplatform_IDs)
+        self.formatCreateUpdateRequest(Main_Platform[0], 1)
         status = "Failure"
 
         if (Main_Platform != "Failure"):

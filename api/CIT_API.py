@@ -97,6 +97,8 @@ def home():
     # Gets the downloadable files from the Downloads Directory
     main_directory = 'Downloads'
     downloadable_files = get_downloadables(main_directory)
+    # pprint(downloadable_files)
+    session['main_directory'] = main_directory
 
     platform_names = []
     for plat in platforms:
@@ -120,7 +122,7 @@ def fileUpload():
             print('No file part')
             return redirect(request.url)
 
-        # Gets the file and renames it to "Data_Time_GroupId.extensionType
+        # Gets the file and renames it to "GroupId.Data_Time_.extensionType
         file = request.files['file']
         user_file = file.filename
         temp = user_file.split('.')
@@ -142,8 +144,15 @@ def fileUpload():
 
 @app.route('/<path>/<file_name>')
 def download_file(path, file_name):
-    path = path.replace('-', '/')
-    return send_file(path + '/' + file_name, as_attachment=True)
+    path_check = path
+    path_check = path_check.split('-')
+    if 'main_directory' not in session:
+        return render_template('thouShallNotPass.html')
+    if path_check[0] == session['main_directory']:
+        path = path.replace('-', '/')
+        return send_file(path + '/' + file_name, as_attachment=True)
+
+    return render_template('thouShallNotPass.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -211,6 +220,7 @@ def get_downloadables(main_directory):
     # pprint(downloadable_files)
 
     return downloadable_files
+
 
 def create_ogList(platforms):
     ogList = []
