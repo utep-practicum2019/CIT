@@ -12,7 +12,3 @@ checkCurUsers(secretsFile)-checCurUsers is called from the varying VPN subclasse
 deleteUser(currUser,fileName)-This function opens a temp file where all users minus the user to be delted is written to. Once this is completed the temp file contents are written back to the correct secrets files.
 
 modifyUser(self, currUsername,newUsername,newPassword,newIP)-Calls deleteUser for the current username, then writes directly to both secrets files with the current user information.
-
-Things to add:
-1. Make sure number of users does not exceed max amount of available IP addresses.
-2. Fill in gaps instead of adding next max user.

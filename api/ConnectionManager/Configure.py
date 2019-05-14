@@ -1,5 +1,5 @@
 from .ChappieEditor import PPTP_ConnectionsSublcass
-from .IkesEditor import IKE_ConnectionsSublcass
+from .L2TP_Editor import L2TP_ConnectionsSublcass
 from .Connections import Connections
 #Input number of users to add
 def addUsers(numberOfUsersInput):
@@ -17,9 +17,9 @@ def addUsers(numberOfUsersInput):
                 currUserChappie.pptpAddUser(currUserChappie.password,True)
                 addedUsersArr.append(currUserChappie)
                 # Call IkesEditor.py
-                currUserIKE=IKE_ConnectionsSublcass()
-                currUserIKE.password=currUserChappie.password
-                currUserIKE.ikesAddUser(currUserIKE.password,True)
+                currUserL2TP=L2TP_ConnectionsSublcass()
+                currUserL2TP.password=currUserChappie.password
+                currUserL2TP.l2tpAddUser(currUserL2TP.password,True)
             # for x in range(numberOfUsers):
             #     print(str(addedUsersArr[x].username) +" "+ 
             #     str(addedUsersArr[x].password)+" " + str(addedUsersArr[x].pptpIP))
@@ -33,7 +33,7 @@ def deleteUsers(users):
         # emptyConn.deleteUser(users[x],"ChappieTest.txt")
         emptyConn.deleteUser(users[x],"/etc/ppp/chap-secrets")
         # emptyConn.deleteUser(users[x],"IkesTest.txt")
-        emptyConn.deleteUser(users[x],"/etc/ipsec.secrets")
+        # emptyConn.deleteUser(users[x],"/etc/ipsec.secrets")
     return True
 def modifyUser(currUsername,newUsername,newPassword,newIP):
     emptyConn=Connections()
@@ -49,10 +49,10 @@ def fileAddUsers(userList):
         currUserChappie.pptpAddUser(currUserChappie.password,False)
         addedUsersArr.append(currUserChappie)
         # Call IkesEditor.py
-        currUserIKE=IKE_ConnectionsSublcass()
-        currUserIKE.username=userList[x]
-        currUserIKE.password=currUserChappie.password
-        currUserIKE.ikesAddUser(currUserIKE.password,False)
+        # currUserL2TP=IKE_ConnectionsSublcass()
+#         currUserL2TP.username=userList[x]
+#         currUserL2TP.password=currUserChappie.password
+#         currUserL2TP.ikesAddUser(currUserL2TP.password,False)
     return addedUsersArr
 
 # addUsers(10)

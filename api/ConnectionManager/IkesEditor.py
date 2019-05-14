@@ -1,8 +1,8 @@
 from random import randint
 from .Connections import Connections
 
-class IKE_ConnectionsSublcass(Connections):
-        def ikesAddUser(self,randomPassword,typeOfAdd):
+class L2TP_ConnectionsSublcass(Connections):
+        def l2tpAddUser(self,randomPassword,typeOfAdd):
                 # ipsec=open("IkesTest.txt","a")
                 ipsec=open("/etc/ipsec.secrets","a")
                 # nextAvailableUser=super().checkCurUsers("IkesTest.txt")
@@ -10,11 +10,11 @@ class IKE_ConnectionsSublcass(Connections):
                 userNumVar=nextAvailableUser[0]
                 # ipEND=nextAvailableUser[1]
                 if(typeOfAdd==True):
-                        ipsec.write("user"+str(userNumVar)+"_"+" %any%"+ " : "+ "EAP "+str(randomPassword)+"\n")
+                        ipsec.write("SERVER_IP_ADDRESS " + " %any%"+ " : "+ "PSK "+str(randomPassword)+"\n")
                         userNumVar += 1
                         ipsec.close()
                 else:
-                        ipsec.write(self.username + " %any%"+ " : "+ "EAP "+str(randomPassword)+"\n")
+                        ipsec.write("SERVER_IP_ADDRESS " + " %any%"+ " : "+ "PSK "+str(randomPassword)+"\n")
                         userNumVar += 1
                         ipsec.close()
 
