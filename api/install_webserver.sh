@@ -24,6 +24,10 @@ sudo apt-get install curl -y
 sudo apt install kdesudo -y
 sudo snap install rocketchat-server
 
+#virtual box
+sudo apt-get install virtualbox
+sudo apt install virtualbox-ext-pack
+
 sudo mkdir /var/www/cit
 sudo mv * /var/www/cit
 cd /var/www/cit
@@ -53,7 +57,7 @@ cd /var/www/cit
 pip install --upgrade pip 
 pip install flask
 
-#export FLASK_APP=CIT_API
+
 
 pip install flask-restful
 pip install flask-marshmallow
@@ -70,7 +74,7 @@ pip install jsonify
 pip install resource
 pip install schemas
 pip install mechanize
-#flask run
+
 
 
 pip install pymongo
@@ -140,6 +144,6 @@ sudo service apache2 reload
 
 sudo apt-get update -y
 
-echo "CIT_server setup complete."
+echo "install_webserver.sh setup complete."
 echo "Please type citsystem.com in your URL."
 
