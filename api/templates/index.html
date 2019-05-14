@@ -298,7 +298,7 @@
                 console.log(ids);
                 $.ajax({
                     type: "PUT",
-                    url: "http://129.108.7.29:5001/api/v2/resources/platform",  // ???
+                    url: "http://{{ cit_url }}/api/v2/resources/platform",  // ???
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify({
@@ -339,7 +339,7 @@
             function showResults(ids) {
                 $.ajax({
                     type: "PUT",
-                    url: "http://129.108.7.29:5001/api/v2/resources/platform",  // ???
+                    url: "http://{{ cit_url }}/api/v2/resources/platform",  // ???
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify({
