@@ -12,7 +12,7 @@
 
         <div class="container-fluid">
             <nav class="navbar navbar-light bg-white">
-                <img id="logo" src="{{ url_for('static', filename='ARL.jpg') }}">
+                <img id="logo" src="{{ url_for('static', filename='CCDC_RGB_Positive_RLB.lg.png') }}">
                 <div class="col-3" id="displayMessages">
 
                 </div>
@@ -350,10 +350,14 @@
             console.log('file-method');
             e.preventDefault();
                 var form_data = new FormData($('#file-form')[0]);
-                var formInput = document.getElementById("file-select");
-                console.log(form_data);
+                var formInput = document.getElementById("file-select").value;
+                var check_extension = formInput.split(".");
 
-                if( document.getElementById("file-select").files.length == 0 ){
+
+                if (check_extension[1] != "rules"){
+                    document.getElementById('file-select').value = '';
+                    alert("Please upload a .rules file")
+                } else if( document.getElementById("file-select").files.length == 0 ){
                     document.getElementById('file-select').value='';
                 } else {
                     $.ajax({

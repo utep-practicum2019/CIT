@@ -7,3 +7,9 @@
 .inputUsername {
      margin-bottom: 15px;
 }
+
+#loginLogo {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 25px;
+}

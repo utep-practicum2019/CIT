@@ -43,7 +43,7 @@ api.add_resource(LoginAPI, '/api/v2/resources/login')
 """
 
 UPLOAD_FOLDER = '/home/'+os.environ.get('USER')+'/Desktop/hackathon_submissions'
-ALLOWED_EXTENSIONS = set(['rules', 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'pcap'])
+ALLOWED_EXTENSIONS = set(['rules'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -111,7 +111,7 @@ def home():
 
     return render_template('index.html', username=username, platforms=platform_names, main_directory=main_directory,
                            downloadable_files=downloadable_files, ogList=ogList, remote_ip=remote_ip, team=team,
-                           time=time, platforms_id=platforms, group_id=group_id, filename=session['filename'],cit_url=cit_url)
+                           time=time, platforms_id=platforms, group_id=group_id, filename=session['filename'], cit_url=cit_url)
 
 
 @app.route('/fileUpload', methods=['GET', 'POST'])

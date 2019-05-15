@@ -39,13 +39,14 @@
     <!-- Bootstrap core CSS -->
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
 </head>
 
 <body>
 
 <div class="container-fluid">
     <img alt="Responsive image" class="class=rounded mx-auto d-block"
-         src="http://www.teamorlando.org/wp-content/uploads/2012/11/ARL-2016.jpg">
+         id="logo" src="{{ url_for('static', filename='CCDC_RGB_Positive_RLB.lg.png') }}">
 </div>
 
 
