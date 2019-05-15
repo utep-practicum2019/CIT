@@ -115,9 +115,9 @@ class Connections():
         # chapFile="ChappieTest.txt"
         chapFile="/etc/ppp/chap-secrets"
         # ikeFile="IkesTest.txt"
-        ikeFile="/etc/ipsec.secrets"
+        # ikeFile="/etc/ipsec.secrets"
         self.deleteUser(currUsername,chapFile)
-        self.deleteUser(currUsername,ikeFile)
+        # self.deleteUser(currUsername,ikeFile)
 
         # chapSec=open("ChappieTest.txt","a")
         chapSec=open("/etc/ppp/chap-secrets","a")
@@ -125,9 +125,9 @@ class Connections():
         chapSec.close()
 
         # ipsec=open("IkesTest.txt","a")
-        ipsec=open("/etc/ipsec.secrets","a")
-        ipsec.write(newUsername+ " %any%"+ " : "+ "EAP "+newPassword+"\n")
-        ipsec.close()
+        # ipsec=open("/etc/ipsec.secrets","a")
+        # ipsec.write("SERVER_IP_ADDRESS " + " %any%"+ " : "+ "PSK "+newPassword+"\n")
+        # ipsec.close()
 
     def fileAddUsers(self, userList):
         pass
