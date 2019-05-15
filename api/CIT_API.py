@@ -65,6 +65,7 @@ def rocketchat_api():
     except KeyError as e:
         print("Request from: ", request.environ['REMOTE_ADDR'])
         print(e)
+        return ""
 
 
 @app.route('/home', methods=['GET', 'POST'])
