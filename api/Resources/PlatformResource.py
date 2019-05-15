@@ -30,7 +30,6 @@ class PlatformAPI(Resource):
     from Resources import AuthResource
 
     @staticmethod
-    @AuthResource.is_admin_only
     def get():
 
         json_data = request.args.to_dict()
@@ -86,7 +85,6 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
-    @AuthResource.is_admin_only
     def post():
         json_data = request.get_json(force=True)
         if not json_data:
@@ -100,7 +98,6 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
-    @AuthResource.is_admin_only
     def put():
         json_data = request.get_json(force=True)
         if not json_data:
@@ -141,7 +138,6 @@ class PlatformAPI(Resource):
         return results
 
     @staticmethod
-    @AuthResource.is_admin_only
     def delete():
         json_data = request.get_json(force=True)
         if not json_data:
