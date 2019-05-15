@@ -132,7 +132,7 @@
                                                     <div class="card-header" id="headingOne">
                                                         <h2 class="mb-0">
                                                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                                Hackathon Challenge #1
+                                                                {{ key }} Challenge #1
                                                             </button>
                                                         </h2>
                                                     </div>
@@ -151,61 +151,6 @@
                                                                 <form id="file-form" method=post enctype=multipart/form-data>
                                                                     <input id='file-select' type=file name=file>
                                                                         <button type="submit" id="uploadBtn" class="btnDisable">Upload</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header" id="headingTwo">
-                                                        <h2 class="mb-0">
-                                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                Hackathon Challege #2
-                                                            </button>
-                                                        </h2>
-                                                    </div>
-                                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                                        <div class="card-body">
-                                                            <div>
-                                                                <p>
-                                                                    Venison laboris dolor, labore eiusmod non tail. Et sausage nostrud, non landjaeger
-                                                                    ut kielbasa picanha ullamco pig dolor filet mignon beef deserunt. Officia landjaeger
-                                                                    corned beef, tongue reprehenderit flank duis non frankfurter. Id ad anim shankle,
-                                                                    turducken elit porchetta short loin picanha nulla meatball pariatur. Excepteur
-                                                                    laboris venison, sunt brisket tongue ham hock. Nisi aliquip tri-tip pastrami
-                                                                    dolore kevin ex irure voluptate venison.<br><br>
-                                                                </p>
-                                                                <h6>Upload File</h6>
-                                                                <form method=post enctype=multipart/form-data>
-                                                                    <p><input type=file name=file>
-                                                                        <button type="submit" class="btnDisable">Upload</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header" id="headingThree">
-                                                        <h2 class="mb-0">
-                                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                                Hackathon Challenge #3
-                                                            </button>
-                                                        </h2>
-                                                    </div>
-                                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                                        <div class="card-body">
-                                                            <div>
-                                                                <p>
-                                                                    Ham reprehenderit ex capicola frankfurter adipisicing prosciutto quis venison
-                                                                    nostrud sint corned beef meatball aliqua. Dolore pork chop corned beef sed
-                                                                    turducken ullamco. Ham jerky ut, in sunt quis frankfurter fugiat chicken aute
-                                                                    sed velit. Ipsum t-bone fugiat incididunt mollit ad. Kevin sirloin sint, boudin
-                                                                    chicken commodo minim. Ut ad frankfurter flank shoulder.<br><br>
-                                                                </p>
-                                                                <h6>Upload File</h6>
-                                                                <form method=post enctype=multipart/form-data>
-                                                                    <p><input type=file name=file>
-                                                                        <button type="submit" class="btnDisable">Upload</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -243,6 +188,7 @@
                                                 </div>
                                             </div>
                                         {% elif v[0] == "Rocketchat" %}
+<!--                                            <span title="{{id}},{{v[2]}}" style="display: none" id="RocketChatStatus">{{id}},{{v[2]}}</span>-->
                                             <iframe id="rocketchat" src="{{ 'http://{}'.format(v[1]) }}"></iframe>
 <!--                                        {% for file in downloadable_files %}-->
 <!--                                        <a class="fileLinks" href="{{ url_for('static', filename='{}/{}'.format(read_directory, file)) }}" download>{{ file }}</a><br>-->
@@ -290,6 +236,25 @@
             //           $('html, body').scrollTop(scrollmem);
             //     });
             // });
+
+<!--            window.onload = function() {-->
+<!--                var ids = document.getElementById("RocketChatStatus").innerText;-->
+<!--                ids = ids.split(",")-->
+<!--                    $.ajax({-->
+<!--                        type: "GET",-->
+<!--                        url: "http://localhost:5001/api/v2/resources/platform",-->
+<!--                        contentType: "application/json",-->
+<!--                        dataType: "json",-->
+<!--                        data: {-->
+<!--                            'status': 'True',-->
+<!--                            'platform_ID': ids[0]-->
+<!--                        },-->
+<!--                        success: function (response) {-->
+<!--                            status = response;-->
+<!--                            alert("Status: " + status);-->
+<!--                        }-->
+<!--                    });-->
+<!--            };-->
 
             function getStatus() {
                 console.log('getting status...');
@@ -386,48 +351,59 @@
             e.preventDefault();
                 var form_data = new FormData($('#file-form')[0]);
                 var formInput = document.getElementById("file-select");
+                console.log(form_data);
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/fileUpload',
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        filename = data
-                        console.log('Success!');
-                        var hash = window.location.hash;
+                if( document.getElementById("file-select").files.length == 0 ){
+                    document.getElementById('file-select').value='';
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/fileUpload',
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(data) {
+                            filename = data
+                            console.log('Success!');
+                            var hash = window.location.hash;
 
-                        document.getElementById('file-select').value='';
+                            document.getElementById('file-select').value='';
 
-                        hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-                        hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+                            hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                            hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
+                            hash && $('ul.nav a[href="' + '#RapidCyber' + '"]').tab('show');
+                            hash && $('#RapidCyber a[href="' + '#RapidCyber-Results' + '"]').tab('show');
 
-                        repeat = 44;
-                        setTimeout(getStatus, 2000);  // calling in 2 seconds
-                        console.log("first getStatus scheduled");
+                            repeat = 44;
+                            setTimeout(getStatus, 2000);  // calling in 2 seconds
+                            console.log("first getStatus scheduled");
 
-                        // $(this).tab('show');
-                        var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-                        window.location.hash = this.hash;
-                        $('html, body').scrollTop(scrollmem);
-                    },
-            });
-            var hash = window.location.hash;
-            hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
-            hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
+                            // $(this).tab('show');
+                            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                            window.location.hash = this.hash;
+                            $('html, body').scrollTop(scrollmem);
+                        },
+                });
 
-            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-            window.location.hash = this.hash;
-            $('html, body').scrollTop(scrollmem);
+                var hash = window.location.hash;
+                hash && $('ul.nav a[href="' + '#Hackathon' + '"]').tab('show');
+                hash && $('#Hackathon a[href="' + '#Hackathon-Results' + '"]').tab('show');
 
-            document.getElementById("showResults").innerHTML = '\
-                    <button class="btn btn-primary" type="button" disabled> \
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
-                        Loading Results... \
-                    </button>'
+                hash && $('ul.nav a[href="' + '#RapidCyber' + '"]').tab('show');
+                hash && $('#RapidCyber a[href="' + '#RapidCyber-Results' + '"]').tab('show');
+
+                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+                window.location.hash = this.hash;
+                $('html, body').scrollTop(scrollmem);
+
+                document.getElementById("showResults").innerHTML = '\
+                        <button class="btn btn-primary" type="button" disabled> \
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> \
+                            Loading Results... \
+                        </button>'
+            }
         });
 
         </script>

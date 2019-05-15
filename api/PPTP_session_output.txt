@@ -1,21 +1,14 @@
-user2_   ppp0         129.108.7.24     Mon May  6 00:57 - 00:58  (00:01)
-user2_   ppp1         129.108.7.140    Sun May  5 20:56 - 22:56  (01:59)
-user1_   ppp0         129.108.7.124    Sun May  5 20:50 - 22:49  (01:58)
-user5_   ppp0         129.108.7.24     Sun May  5 17:40 - 17:40  (00:00)
-user3_   ppp0         129.108.7.24     Sat May  4 23:00 - 23:02  (00:02)
-user1_   ppp0         129.108.7.24     Sat May  4 22:56 - 22:58  (00:01)
-user1_   ppp0         129.108.7.24     Sat May  4 22:55 - 22:55  (00:00)
-user1_   ppp0         129.108.7.24     Sat May  4 22:48 - 22:51  (00:02)
-practicu tty7         :0               Sat May  4 22:04    gone - no logout
-reboot   system boot  4.15.0-47-generi Sat May  4 22:03   still running
-user1_   ppp0         129.108.7.135    Sat May  4 20:32 - 20:53  (00:20)
-user1_   ppp0         129.108.7.135    Sat May  4 20:23 - 20:32  (00:08)
-user1_   ppp0         129.108.7.135    Sat May  4 20:21 - 20:21  (00:00)
-user1_   ppp0         129.108.7.135    Sat May  4 20:20 - 20:21  (00:00)
-user1_   ppp0         129.108.7.135    Sat May  4 20:18 - 20:19  (00:00)
-user1_   ppp0         129.108.7.135    Sat May  4 19:30 - 19:32  (00:02)
-user1_   ppp0         129.108.7.135    Sat May  4 15:27 - 19:26  (03:58)
-user1_   ppp0         129.108.7.135    Sat May  4 14:56 - 14:56  (00:00)
-user4_   ppp0         129.108.7.10     Fri May  3 12:05 - 12:05  (00:00)
+practicu tty7         :0               Fri May 10 23:27    gone - no logout
+practicu tty7         :0               Thu May  9 17:15 - 22:02  (04:46)
+practicu tty7         :0               Mon May  6 18:30 - 14:50 (2+20:19)
+reboot   system boot  4.15.0-48-generi Mon May  6 18:29   still running
+practicu tty7         :0               Sun May  5 18:18 - crash (1+00:10)
+reboot   system boot  4.15.0-48-generi Sun May  5 18:18   still running
+practicu tty7         :0               Sun May  5 17:33 - down   (00:44)
+reboot   system boot  4.15.0-48-generi Sun May  5 17:33 - 18:17  (00:44)
+practicu tty7         :0               Sat May  4 19:29 - down   (03:08)
+reboot   system boot  4.15.0-48-generi Sat May  4 19:29 - 22:38  (03:08)
+practicu tty7         :0               Thu May  2 17:39 - crash (2+01:50)
+practicu tty7         :0               Thu May  2 16:17 - 17:38  (01:20)
 
-wtmp begins Fri May  3 12:05:01 2019
+wtmp begins Thu May  2 16:17:54 2019

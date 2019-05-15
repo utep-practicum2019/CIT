@@ -16,7 +16,6 @@ from rocketchat_API.rocketchat import RocketChat
             The plugin manager will be able to start, stop, and configure Chat platform.
     """
 
-
 class Rocketchat(Platform):
     cit_url = os.environ.get('HOST')
     # fill the values here for your specific platform

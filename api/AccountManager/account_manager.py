@@ -27,5 +27,5 @@ class AccountManager:
         return GroupManager.attach_platform(group_id, platform_name)
 
     @staticmethod
-    def detach_platform(platform_name):
-        return GroupManager.detach_platform(platform_name)
+    def detach_platform(group_id, platform_id):
+        return GroupManager.detach_platform(group_id, platform_id)

@@ -1,26 +1,24 @@
-from flask import Flask, send_file
-from flask import render_template, request, redirect
+import datetime
+import glob
+import os
+import time
 from functools import wraps
-from flask import session, url_for, flash, send_from_directory, Response
+
+from flask import Flask, send_file, render_template, request, redirect, session, url_for, flash, send_from_directory
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
 from werkzeug.utils import secure_filename
-import glob
-import os
-import time
-import datetime
-from pprint import pprint
 
 from Database.database_handler import DatabaseHandler
 from Resources.ConnectionResource import ConnectionAPI
 from Resources.DatabaseResource import DatabaseAPI
 from Resources.GroupResource import GroupAPI
 from Resources.LoginResource import LoginAPI
+from Resources.PlatformManagerInstance import PlatformManagerInstance
 from Resources.PlatformResource import PlatformAPI
 from Resources.RocketChatResource import RocketChatAPI
 from Resources.UserResource import UserAPI
-from Resources.PlatformManagerInstance import PlatformManagerInstance
 
 ma = Marshmallow()
 app = Flask(__name__, static_folder='static',
@@ -56,13 +54,17 @@ def index():
 
 @app.route('/rocketchat_api')
 def rocketchat_api():
-    str = "<script> " \
-          "window.parent.postMessage({" \
-          "event: 'login-with-token'," \
-          "loginToken: '" + session['authToken'] + "'" \
-          "}, 'http://" + os.environ['HOST'] + ":3000');" \
-          "</script>"
-    return str
+    try:
+        str = "<script> " \
+              "window.parent.postMessage({" \
+              "event: 'login-with-token'," \
+              "loginToken: '" + session['authToken'] + "'" \
+              "}, 'http://" + os.environ['HOST'] + ":3000');" \
+              "</script>"
+        return str
+    except KeyError as e:
+        print("Request from: ", request.environ['REMOTE_ADDR'])
+        print(e)
 
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -95,6 +97,8 @@ def home():
     # Gets the downloadable files from the Downloads Directory
     main_directory = 'Downloads'
     downloadable_files = get_downloadables(main_directory)
+    # pprint(downloadable_files)
+    session['main_directory'] = main_directory
 
     platform_names = []
     for plat in platforms:
@@ -118,7 +122,7 @@ def fileUpload():
             print('No file part')
             return redirect(request.url)
 
-        # Gets the file and renames it to "Data_Time_GroupId.extensionType
+        # Gets the file and renames it to "GroupId.Data_Time_.extensionType
         file = request.files['file']
         user_file = file.filename
         temp = user_file.split('.')
@@ -140,8 +144,15 @@ def fileUpload():
 
 @app.route('/<path>/<file_name>')
 def download_file(path, file_name):
-    path = path.replace('-', '/')
-    return send_file(path + '/' + file_name, as_attachment=True)
+    path_check = path
+    path_check = path_check.split('-')
+    if 'main_directory' not in session:
+        return render_template('thouShallNotPass.html')
+    if path_check[0] == session['main_directory']:
+        path = path.replace('-', '/')
+        return send_file(path + '/' + file_name, as_attachment=True)
+
+    return render_template('thouShallNotPass.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -192,6 +203,8 @@ def get_downloadable_files(read_directory):
     @return: Returns a dictionary that contains all the subdirectories 
              and their corresponding files 
 """
+
+
 def get_downloadables(main_directory):
     cpy_root = ""
     downloadable_files = {}
@@ -204,11 +217,12 @@ def get_downloadables(main_directory):
         for file in files:
             f.append(file)
             cpy_root = cpy_root.replace('/', '-')
-            downloadable_files.update( { cpy_root : f} )
+            downloadable_files.update({cpy_root: f})
 
     # pprint(downloadable_files)
 
     return downloadable_files
+
 
 def create_ogList(platforms):
     ogList = []
@@ -267,17 +281,21 @@ def create_ogList(platforms):
 """
 allowed_ips = ["127.0.0.1", os.environ['HOST']]
 
+
 def isAdminOnly(f):
     """
     Wrapper for admin methods to prevent them from being accessed by
     any ip not in allowed_ips
     """
+
     @wraps(f)
     def decorated(*args, **kwargs):
         if request.environ['REMOTE_ADDR'] not in allowed_ips:
             return render_template('thouShallNotPass.html')
         return f(*args, **kwargs)
+
     return decorated
+
 
 @app.route('/admin')
 @isAdminOnly
@@ -345,9 +363,8 @@ def formexample():
             </form>'''
 
 
-
 if __name__ == '__main__':
     app.debug = True
-    app.run()
-    #app.run(host="0.0.0.0", port=5001)
+    # app.run()
+    app.run(host=os.environ.get('HOST'), port=80)
 

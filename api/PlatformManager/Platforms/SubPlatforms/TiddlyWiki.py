@@ -49,7 +49,7 @@ class TiddlyWiki(Platform):
 
     #returns ip and port to connect to website
     def getIpPort(self):
-        return self.ip + ":" + self.port
+        return self.ip + ":" + str(self.port)
 
     #returns platform name
     def getPlatformName(self):
@@ -102,7 +102,7 @@ class TiddlyWiki(Platform):
     #set ip and port to connect to website
     def setIpPort(self, ip, port):
         self.ip = ip 
-        self.port = port
+        self.port = str(port)
     
     #set platform name
     def setPlatformName(self, platform_name):
